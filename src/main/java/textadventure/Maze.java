@@ -5,7 +5,7 @@ public class Maze
 	/**
 	 * The rooms in the {@link Maze}.
 	 */
-	private RoomConnectionTracker roomConnections;
+	private RoomTracker roomConnections;
 
 	/**
 	 * The {@link StartingRoom} of the {@link Maze}. This room is the {@link Room} where the {@link Player}(s) start
@@ -26,7 +26,7 @@ public class Maze
 	 * @param startingRoom    The {@link Room} that the {@link Player}(s) starts in.
 	 * @param endingRoom      The {@link Room} that the {@link Player}(s) ends in.
 	 */
-	public Maze(RoomConnectionTracker roomConnections, StartingRoom startingRoom, EndingRoom endingRoom)
+	public Maze(RoomTracker roomConnections, StartingRoom startingRoom, EndingRoom endingRoom)
 	{
 		this.roomConnections = roomConnections;
 		this.startingRoom = startingRoom;
@@ -34,13 +34,13 @@ public class Maze
 	}
 
 	/**
-	 * Returns the {@link RoomConnectionTracker} tracking the connections between the {@link Room}s in the
+	 * Returns the {@link RoomTracker} tracking the connections between the {@link Room}s in the
 	 * {@link Maze}.
 	 *
-	 * @return The {@link RoomConnectionTracker} tracking the connections between the {@link Room}s in the
+	 * @return The {@link RoomTracker} tracking the connections between the {@link Room}s in the
 	 * {@link Maze}.
 	 */
-	public RoomConnectionTracker getRoomConnections()
+	public RoomTracker getRoomConnections()
 	{
 		return this.roomConnections;
 	}

@@ -17,10 +17,10 @@ public class MoveWestAction implements Action
 
 	@Override public void perform(GameController controller, Player player, Room currentLocation) throws ActionException
 	{
-		RoomConnectionTracker roomConnectionTracker = controller.getMaze().getRoomConnections();
+		RoomTracker roomTracker = controller.getMaze().getRoomConnections();
 		PlayerLocationTracker playerLocationTracker = controller.getLocationTracker();
-		if (roomConnectionTracker.hasConnection(currentLocation, Direction.WEST)) {
-			playerLocationTracker.setLocation(player, roomConnectionTracker.getRoom(currentLocation, Direction.WEST));
+		if (roomTracker.hasConnection(currentLocation, Direction.WEST)) {
+			playerLocationTracker.setLocation(player, roomTracker.getRoom(currentLocation, Direction.WEST));
 			return;
 		}
 

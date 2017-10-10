@@ -8,20 +8,20 @@ import java.util.Map;
 /**
  * Object that tracks connections between {@link Room}s.
  */
-public class RoomConnectionTracker
+public class RoomTracker
 {
 
 	/**
-	 * The connections defined in the {@link RoomConnectionTracker}. The map contains a {@link Room} and its
+	 * The connections defined in the {@link RoomTracker}. The map contains a {@link Room} and its
 	 * connections. The connections of the {@link Room} is represented as a {@link HashMap} where a {@link Room} is
 	 * mapped to the {@link Direction} needed to arrive at the connection.
 	 */
 	private HashMap<Room, HashMap<Direction, Room>> connections = new HashMap<Room, HashMap<Direction, Room>>();
 
 	/**
-	 * Adds a new {@link Room} to the {@link RoomConnectionTracker} collection.
+	 * Adds a new {@link Room} to the {@link RoomTracker} collection.
 	 *
-	 * @param room The {@link Room} to add to the {@link RoomConnectionTracker}.
+	 * @param room The {@link Room} to add to the {@link RoomTracker}.
 	 */
 	public void addRoom(Room room)
 	{
@@ -29,9 +29,9 @@ public class RoomConnectionTracker
 	}
 
 	/**
-	 * Returns the number of {@link Room}s in the {@link RoomConnectionTracker}.
+	 * Returns the number of {@link Room}s in the {@link RoomTracker}.
 	 *
-	 * @return The number of {@link Room}s in the {@link RoomConnectionTracker}.
+	 * @return The number of {@link Room}s in the {@link RoomTracker}.
 	 */
 	public int getRoomCount()
 	{

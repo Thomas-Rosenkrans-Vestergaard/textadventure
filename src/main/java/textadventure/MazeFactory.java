@@ -9,7 +9,7 @@ public class MazeFactory
 	{
 
 		// Create connection tracker
-		RoomConnectionTracker connections = new RoomConnectionTracker();
+		RoomTracker connections = new RoomTracker();
 
 		// Create rooms
 		StartingRoom startingRoom = new StartingRoom();

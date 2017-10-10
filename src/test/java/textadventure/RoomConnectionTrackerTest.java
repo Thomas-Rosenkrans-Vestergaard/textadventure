@@ -10,109 +10,109 @@ class RoomConnectionTrackerTest
 	@Test
 	void addRoom()
 	{
-		RoomConnectionTracker roomConnectionTracker = new RoomConnectionTracker();
-		roomConnectionTracker.addRoom(new MockRoom());
-		assertEquals(1, roomConnectionTracker.getRoomCount());
-		roomConnectionTracker.addRoom(new MockRoom());
-		assertEquals(2, roomConnectionTracker.getRoomCount());
+		RoomTracker roomTracker = new RoomTracker();
+		roomTracker.addRoom(new MockRoom());
+		assertEquals(1, roomTracker.getRoomCount());
+		roomTracker.addRoom(new MockRoom());
+		assertEquals(2, roomTracker.getRoomCount());
 	}
 
 	@Test
 	void getRoomCount()
 	{
-		RoomConnectionTracker roomConnectionTracker = new RoomConnectionTracker();
-		roomConnectionTracker.addRoom(new MockRoom());
-		assertEquals(1, roomConnectionTracker.getRoomCount());
-		roomConnectionTracker.addRoom(new MockRoom());
-		assertEquals(2, roomConnectionTracker.getRoomCount());
+		RoomTracker roomTracker = new RoomTracker();
+		roomTracker.addRoom(new MockRoom());
+		assertEquals(1, roomTracker.getRoomCount());
+		roomTracker.addRoom(new MockRoom());
+		assertEquals(2, roomTracker.getRoomCount());
 	}
 
 	@Test
 	void getRoom() throws UnknownRoomException
 	{
-		RoomConnectionTracker roomConnectionTracker = new RoomConnectionTracker();
+		RoomTracker roomTracker = new RoomTracker();
 
 		MockRoom a = new MockRoom();
 		MockRoom b = new MockRoom();
 
-		roomConnectionTracker.addRoom(a);
-		roomConnectionTracker.addRoom(b);
+		roomTracker.addRoom(a);
+		roomTracker.addRoom(b);
 
-		roomConnectionTracker.addMutualConnection(a, b, Direction.NORTH);
+		roomTracker.addMutualConnection(a, b, Direction.NORTH);
 
-		assertSame(b, roomConnectionTracker.getRoom(a, Direction.NORTH));
-		assertSame(a, roomConnectionTracker.getRoom(b, Direction.SOUTH));
-		assertNull(roomConnectionTracker.getRoom(a, Direction.EAST));
+		assertSame(b, roomTracker.getRoom(a, Direction.NORTH));
+		assertSame(a, roomTracker.getRoom(b, Direction.SOUTH));
+		assertNull(roomTracker.getRoom(a, Direction.EAST));
 	}
 
 	@Test
 	void hasConnection() throws UnknownRoomException
 	{
-		RoomConnectionTracker roomConnectionTracker = new RoomConnectionTracker();
+		RoomTracker roomTracker = new RoomTracker();
 
 		MockRoom a = new MockRoom();
 		MockRoom b = new MockRoom();
 
-		roomConnectionTracker.addRoom(a);
-		roomConnectionTracker.addRoom(b);
+		roomTracker.addRoom(a);
+		roomTracker.addRoom(b);
 
-		roomConnectionTracker.addMutualConnection(a, b, Direction.NORTH);
+		roomTracker.addMutualConnection(a, b, Direction.NORTH);
 
-		assertTrue(roomConnectionTracker.hasConnection(a, Direction.NORTH));
-		assertTrue(roomConnectionTracker.hasConnection(b, Direction.SOUTH));
-		assertFalse(roomConnectionTracker.hasConnection(a, Direction.EAST));
+		assertTrue(roomTracker.hasConnection(a, Direction.NORTH));
+		assertTrue(roomTracker.hasConnection(b, Direction.SOUTH));
+		assertFalse(roomTracker.hasConnection(a, Direction.EAST));
 	}
 
 	@Test
 	void getDirection() throws UnknownRoomException
 	{
-		RoomConnectionTracker roomConnectionTracker = new RoomConnectionTracker();
+		RoomTracker roomTracker = new RoomTracker();
 
 		MockRoom a = new MockRoom();
 		MockRoom b = new MockRoom();
 		MockRoom c = new MockRoom();
 
-		roomConnectionTracker.addRoom(a);
-		roomConnectionTracker.addRoom(b);
+		roomTracker.addRoom(a);
+		roomTracker.addRoom(b);
 
-		roomConnectionTracker.addMutualConnection(a, b, Direction.NORTH);
+		roomTracker.addMutualConnection(a, b, Direction.NORTH);
 
-		assertEquals(Direction.NORTH, roomConnectionTracker.getDirection(a, b));
-		assertEquals(Direction.SOUTH, roomConnectionTracker.getDirection(b, a));
-		assertNull(roomConnectionTracker.getDirection(a, c));
+		assertEquals(Direction.NORTH, roomTracker.getDirection(a, b));
+		assertEquals(Direction.SOUTH, roomTracker.getDirection(b, a));
+		assertNull(roomTracker.getDirection(a, c));
 	}
 
 	@Test
 	void addConnection() throws UnknownRoomException
 	{
-		RoomConnectionTracker roomConnectionTracker = new RoomConnectionTracker();
+		RoomTracker roomTracker = new RoomTracker();
 
 		MockRoom a = new MockRoom();
 		MockRoom b = new MockRoom();
 
-		roomConnectionTracker.addRoom(a);
-		roomConnectionTracker.addRoom(b);
+		roomTracker.addRoom(a);
+		roomTracker.addRoom(b);
 
-		assertNull(roomConnectionTracker.getDirection(a, b));
-		roomConnectionTracker.addConnection(a, b, Direction.NORTH);
-		assertEquals(Direction.NORTH, roomConnectionTracker.getDirection(a, b));
-		assertNull(roomConnectionTracker.getDirection(b, a));
+		assertNull(roomTracker.getDirection(a, b));
+		roomTracker.addConnection(a, b, Direction.NORTH);
+		assertEquals(Direction.NORTH, roomTracker.getDirection(a, b));
+		assertNull(roomTracker.getDirection(b, a));
 	}
 
 	@Test
 	void addMutualConnection() throws UnknownRoomException
 	{
-		RoomConnectionTracker roomConnectionTracker = new RoomConnectionTracker();
+		RoomTracker roomTracker = new RoomTracker();
 
 		MockRoom a = new MockRoom();
 		MockRoom b = new MockRoom();
 
-		roomConnectionTracker.addRoom(a);
-		roomConnectionTracker.addRoom(b);
+		roomTracker.addRoom(a);
+		roomTracker.addRoom(b);
 
-		assertNull(roomConnectionTracker.getDirection(a, b));
-		roomConnectionTracker.addMutualConnection(a, b, Direction.NORTH);
-		assertEquals(Direction.NORTH, roomConnectionTracker.getDirection(a, b));
-		assertEquals(Direction.SOUTH, roomConnectionTracker.getDirection(b, a));
+		assertNull(roomTracker.getDirection(a, b));
+		roomTracker.addMutualConnection(a, b, Direction.NORTH);
+		assertEquals(Direction.NORTH, roomTracker.getDirection(a, b));
+		assertEquals(Direction.SOUTH, roomTracker.getDirection(b, a));
 	}
 }
