@@ -4,10 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-class DirectionTest
+public class DirectionTest
 {
 	@Test
-	void getInverse()
+	public void getInverse()
 	{
 		assertEquals(Direction.NORTH.getInverse(), Direction.SOUTH);
 		assertEquals(Direction.SOUTH.getInverse(), Direction.NORTH);

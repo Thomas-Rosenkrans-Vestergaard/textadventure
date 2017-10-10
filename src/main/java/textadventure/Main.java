@@ -1,17 +1,16 @@
 package textadventure;
 
-import textadventure.exception.UnknownPlayerException;
-import textadventure.exception.UnknownRoomException;
+import textadventure.console.ConsoleGameInterface;
 
 public class Main
 {
 
-	public static void main(String[] args) throws UnknownRoomException, UnknownPlayerException
+	public static void main(String[] args) throws UnknownRoomException
 	{
-        StartingRoom firstRoom = new StartingRoom();
 		GameInterface gameInterface = new ConsoleGameInterface();
+		Maze          maze          = MazeFactory.generate();
 		GameController gameController = new GameController(gameInterface, MazeFactory.generate(), new
-				HumanPlayer("George", firstRoom, 100));
+				HumanPlayer("George", maze.getStartingRoom()));
 
 		gameController.start();
 	}

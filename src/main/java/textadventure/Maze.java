@@ -1,11 +1,16 @@
 package textadventure;
 
+import textadventure.rooms.EndingRoom;
+import textadventure.rooms.Room;
+import textadventure.rooms.RoomController;
+import textadventure.rooms.StartingRoom;
+
 public class Maze
 {
 	/**
 	 * The rooms in the {@link Maze}.
 	 */
-	private RoomTracker roomConnections;
+	private RoomController roomConnections;
 
 	/**
 	 * The {@link StartingRoom} of the {@link Maze}. This room is the {@link Room} where the {@link Player}(s) start
@@ -26,7 +31,7 @@ public class Maze
 	 * @param startingRoom    The {@link Room} that the {@link Player}(s) starts in.
 	 * @param endingRoom      The {@link Room} that the {@link Player}(s) ends in.
 	 */
-	public Maze(RoomTracker roomConnections, StartingRoom startingRoom, EndingRoom endingRoom)
+	public Maze(RoomController roomConnections, StartingRoom startingRoom, EndingRoom endingRoom)
 	{
 		this.roomConnections = roomConnections;
 		this.startingRoom = startingRoom;
@@ -34,13 +39,13 @@ public class Maze
 	}
 
 	/**
-	 * Returns the {@link RoomTracker} tracking the connections between the {@link Room}s in the
+	 * Returns the {@link RoomController} tracking the connections between the {@link Room}s in the
 	 * {@link Maze}.
 	 *
-	 * @return The {@link RoomTracker} tracking the connections between the {@link Room}s in the
+	 * @return The {@link RoomController} tracking the connections between the {@link Room}s in the
 	 * {@link Maze}.
 	 */
-	public RoomTracker getRoomConnections()
+	public RoomController getRoomConnections()
 	{
 		return this.roomConnections;
 	}

@@ -1,8 +1,9 @@
 package textadventure;
 
+import textadventure.rooms.Room;
 import textadventure.scenario.Scenario;
 
-public interface Player extends LivingBeing
+public interface Player extends Person
 {
 
 	/**
@@ -12,17 +13,19 @@ public interface Player extends LivingBeing
 	 */
 	String getName();
 
-    /**
-     * Returns the {@link Player}'s current location.
-     * @return currentLocation of the {@link Player}.
-     */
-    public Room getCurrentLocation();
+	/**
+	 * Returns the {@link Player}'s current location.
+	 *
+	 * @return currentLocation of the {@link Player}.
+	 */
+	public Room getCurrentLocation();
 
-    /**
-     * Sets the {@link Player's}'s current location.
-     * @param currentLocation The current location of the {@link Player}.
-     */
-    public void setCurrentLocation(Room currentLocation);
+	/**
+	 * Sets the {@link Player's}'s current location.
+	 *
+	 * @param currentLocation The current location of the {@link Player}.
+	 */
+	public void setCurrentLocation(Room currentLocation);
 
 	/**
 	 * Delegates a game decision to the {@link Player}.

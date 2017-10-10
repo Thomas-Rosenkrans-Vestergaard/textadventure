@@ -1,11 +1,9 @@
 package textadventure.scenario;
 
-import com.sun.javafx.collections.UnmodifiableListSet;
-import textadventure.Room;
+import textadventure.rooms.Room;
 import textadventure.actions.Action;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public interface Scenario
 {
@@ -18,13 +16,11 @@ public interface Scenario
 	Room getRoom();
 
 	/**
-	 * Checks if the provided {@link Action} can be performed in the {@link Scenario}.
+	 * Returns the description of the {@link Scenario}.
 	 *
-	 * @param action The {@link Action}.
-	 * @return <code>True</code> if the {@link Action} can be performed on the {@link Scenario}, otherwise
-	 * <code>false</code>.
+	 * @return The description of the {@link Scenario}.
 	 */
-	boolean canPerform(Action action);
+	String getDescription();
 
 	/**
 	 * Returns a {@link List} of the actions that can be performed in the {@link Scenario}.

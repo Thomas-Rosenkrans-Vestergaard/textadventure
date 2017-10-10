@@ -2,6 +2,7 @@ package textadventure;
 
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
+import textadventure.rooms.Room;
 import textadventure.scenario.Scenario;
 
 public interface GameInterface

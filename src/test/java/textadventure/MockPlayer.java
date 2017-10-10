@@ -10,7 +10,7 @@ public class MockPlayer extends AbstractPlayer
 	 */
 	public MockPlayer()
 	{
-		super(0, "MockPlayer");
+		super("MockPlayer", new MockRoom());
 	}
 
 	/**

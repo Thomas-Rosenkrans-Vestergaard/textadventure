@@ -1,5 +1,7 @@
 package textadventure;
 
+import textadventure.rooms.Room;
+
 /**
  * Represents the directions a player can travel between {@link Room}s.
  */

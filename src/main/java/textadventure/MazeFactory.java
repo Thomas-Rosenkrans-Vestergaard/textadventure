@@ -1,6 +1,12 @@
 package textadventure;
 
-import textadventure.exception.UnknownRoomException;
+import textadventure.rooms.BaseRoom;
+import textadventure.rooms.EndingRoom;
+import textadventure.rooms.RoomController;
+import textadventure.rooms.StartingRoom;
+import textadventure.rooms.features.doors.BaseDoor;
+import textadventure.rooms.features.doors.Door;
+import textadventure.rooms.features.doors.Lock;
 
 public class MazeFactory
 {
@@ -9,14 +15,18 @@ public class MazeFactory
 	{
 
 		// Create connection tracker
-		RoomTracker connections = new RoomTracker();
+		RoomController connections = new RoomController();
 
 		// Create rooms
 		StartingRoom startingRoom = new StartingRoom();
 		EndingRoom   endingRoom   = new EndingRoom();
 		BaseRoom     westRoom     = new BaseRoom("West room", "This is the west room");
-		BaseRoom     centerRoom   = new BaseRoom("Center room", "This is the center room");
-		BaseRoom     eastRoom     = new BaseRoom("East room", "This is a east room");
+		BaseRoom centerRoom = new BaseRoom(
+				"Center room",
+				"This is the center room",
+				new BaseDoor("center " + "door", new Lock(10, Lock.State.LOCKED), Door.State.CLOSED)
+		);
+		BaseRoom eastRoom = new BaseRoom("East room", "This is the east room");
 
 		// Add rooms to connection tracker
 		connections.addRoom(startingRoom);
@@ -26,10 +36,10 @@ public class MazeFactory
 		connections.addRoom(eastRoom);
 
 		// Add connections
-		connections.addMutualConnection(centerRoom, westRoom, Direction.WEST);
-		connections.addMutualConnection(centerRoom, eastRoom, Direction.EAST);
-		connections.addMutualConnection(centerRoom, startingRoom, Direction.SOUTH);
-		connections.addMutualConnection(centerRoom, endingRoom, Direction.NORTH);
+		connections.addConnection(centerRoom, westRoom, Direction.WEST);
+		connections.addConnection(centerRoom, eastRoom, Direction.EAST);
+		connections.addConnection(centerRoom, startingRoom, Direction.SOUTH);
+		connections.addConnection(centerRoom, endingRoom, Direction.NORTH);
 
 		// Return the created maze
 		return new Maze(connections, startingRoom, endingRoom);

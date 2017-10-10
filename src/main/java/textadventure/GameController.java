@@ -2,7 +2,7 @@ package textadventure;
 
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
-import textadventure.exception.UnknownPlayerException;
+import textadventure.rooms.EndingRoom;
 import textadventure.scenario.EmptyRoomScenario;
 import textadventure.scenario.Scenario;
 
@@ -41,7 +41,7 @@ public class GameController
 		gameInterface.onInit(this);
 	}
 
-	public void start() throws UnknownPlayerException
+	public void start()
 	{
 		gameInterface.onStart(this);
 		while (!hasEnd()) {
@@ -51,33 +51,34 @@ public class GameController
 		}
 	}
 
-	private boolean hasEnd(){
-	    for(Player player : players.values()){
-	        if(player.getCurrentLocation() instanceof EndingRoom){
-	            return true;
-            }
-        }
+	private boolean hasEnd()
+	{
+		for (Player player : players.values()) {
+			if (player.getCurrentLocation() instanceof EndingRoom) {
+				return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
 	/**
 	 * Handles the turn of the provided {@link Player}.
 	 *
 	 * @param player The {@link Player}
 	 */
-	private void handleTurn(Player player) throws UnknownPlayerException
+	private void handleTurn(Player player)
 	{
 		gameInterface.onTurnStart(this, player);
 		player.takeTurn(this, gameInterface, new EmptyRoomScenario(player.getCurrentLocation()));
 		gameInterface.onTurnEnd(this, player);
 	}
 
-	public void respond(Player player, Scenario scenario, Action action) throws ActionException {
-        if (scenario.canPerform(action)) {
-            action.perform(this, player);
-        }
-    }
+	public void respond(Player player, Scenario scenario, Action action) throws ActionException
+	{
+		System.out.println();
+		action.perform(this, player);
+	}
 
 	public Maze getMaze()
 	{
