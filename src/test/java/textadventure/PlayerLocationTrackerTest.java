@@ -1,9 +1,9 @@
 package textadventure;
 
-import org.junit.jupiter.api.Test;
-import textadventure.exception.UnknownPlayerException;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import textadventure.exception.UnknownPlayerException;
 
 class PlayerLocationTrackerTest
 {

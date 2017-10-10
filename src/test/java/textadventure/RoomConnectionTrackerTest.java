@@ -1,9 +1,9 @@
 package textadventure;
 
-import org.junit.jupiter.api.Test;
-import textadventure.exception.UnknownRoomException;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import textadventure.exception.UnknownRoomException;
 
 class RoomConnectionTrackerTest
 {
