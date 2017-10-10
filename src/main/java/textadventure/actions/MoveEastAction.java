@@ -2,7 +2,7 @@ package textadventure.actions;
 
 import textadventure.*;
 
-public class MoveEastAction implements Action
+public class MoveEastAction extends MoveAction
 {
 
 	@Override public String getName()
@@ -17,13 +17,6 @@ public class MoveEastAction implements Action
 
 	@Override public void perform(GameController controller, Player player, Room currentLocation) throws ActionException
 	{
-		RoomTracker roomTracker = controller.getMaze().getRoomConnections();
-		PlayerLocationTracker playerLocationTracker = controller.getLocationTracker();
-		if (roomTracker.hasConnection(currentLocation, Direction.EAST)) {
-			playerLocationTracker.setLocation(player, roomTracker.getRoom(currentLocation, Direction.EAST));
-			return;
-		}
-
-		throw new MoveActionException();
+		move(controller, player, currentLocation, Direction.EAST);
 	}
 }
