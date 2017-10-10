@@ -11,9 +11,9 @@ public class HumanPlayer extends AbstractPlayer
 	 *
 	 * @param name The name of the {@link HumanPlayer}.
 	 */
-	public HumanPlayer(int maxHealth, String name)
+	public HumanPlayer(String name, Room currentLocation, int maxHealth)
 	{
-		super(maxHealth, name);
+		super(name, currentLocation, maxHealth);
 	}
 
 	@Override public void takeTurn(GameController gameController, GameInterface gameInterface, Scenario scenario)

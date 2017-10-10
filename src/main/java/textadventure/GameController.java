@@ -23,11 +23,6 @@ public class GameController
 	private Map<String, Player> players;
 
 	/**
-	 * Tracks the location of the {@link Player}s in the {@link GameController}.
-	 */
-	private PlayerLocationTracker locationTracker = new PlayerLocationTracker();
-
-	/**
 	 * The {@link Maze}.
 	 */
 	private Maze maze;
@@ -43,19 +38,28 @@ public class GameController
 		this.maze = maze;
 		this.players = new HashMap<>();
 		this.players.put(player.getName(), player);
-		this.locationTracker.setLocation(player, maze.getStartingRoom());
 		gameInterface.onInit(this);
 	}
 
 	public void start() throws UnknownPlayerException
 	{
 		gameInterface.onStart(this);
-		while (!locationTracker.hasEnd()) {
+		while (!hasEnd()) {
 			for (Player player : players.values()) {
 				handleTurn(player);
 			}
 		}
 	}
+
+	private boolean hasEnd(){
+	    for(Player player : players.values()){
+	        if(player.getCurrentLocation() instanceof EndingRoom){
+	            return true;
+            }
+        }
+
+        return false;
+    }
 
 	/**
 	 * Handles the turn of the provided {@link Player}.
@@ -64,28 +68,16 @@ public class GameController
 	 */
 	private void handleTurn(Player player) throws UnknownPlayerException
 	{
-		Room currentLocation = locationTracker.getLocation(player);
 		gameInterface.onTurnStart(this, player);
-		player.takeTurn(this, gameInterface, new EmptyRoomScenario(currentLocation));
+		player.takeTurn(this, gameInterface, new EmptyRoomScenario(player.getCurrentLocation()));
 		gameInterface.onTurnEnd(this, player);
 	}
 
-	public void respond(Player player, Scenario scenario, Action action) throws ActionException
-	{
-		try {
-			Room currentLocation = locationTracker.getLocation(player);
-			if (scenario.canPerform(action)) {
-				action.perform(this, player, currentLocation);
-			}
-		} catch (UnknownPlayerException e) {
-			throw new IllegalStateException();
-		}
-	}
-
-	public PlayerLocationTracker getLocationTracker()
-	{
-		return this.locationTracker;
-	}
+	public void respond(Player player, Scenario scenario, Action action) throws ActionException {
+        if (scenario.canPerform(action)) {
+            action.perform(this, player);
+        }
+    }
 
 	public Maze getMaze()
 	{

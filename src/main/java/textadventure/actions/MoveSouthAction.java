@@ -15,8 +15,8 @@ public class MoveSouthAction extends MoveAction
 		return "Moves to the room to the south.";
 	}
 
-	@Override public void perform(GameController controller, Player player, Room currentLocation) throws ActionException
+	@Override public void perform(GameController controller, Player player) throws ActionException
 	{
-		move(controller, player, currentLocation, Direction.SOUTH);
+		move(controller, player, Direction.SOUTH);
 	}
 }

@@ -10,19 +10,17 @@ public abstract class MoveAction implements Action
 	 *
 	 * @param controller      The {@link GameController}.
 	 * @param player          The {@link Player} to move.
-	 * @param currentLocation The current location of the {@link Player}.
 	 * @param direction       The {@link Direction} to move in.
 	 * @throws MoveActionException
 	 */
-	public void move(GameController controller, Player player, Room currentLocation, Direction direction) throws MoveActionException
+	public void move(GameController controller, Player player, Direction direction) throws MoveActionException
 	{
 		RoomTracker           roomTracker           = controller.getMaze().getRoomConnections();
-		PlayerLocationTracker playerLocationTracker = controller.getLocationTracker();
-		if (roomTracker.hasConnection(currentLocation, direction)) {
-			playerLocationTracker.setLocation(player, roomTracker.getRoom(currentLocation, direction));
+		if (roomTracker.hasConnection(player.getCurrentLocation(), direction)) {
+			player.setCurrentLocation(roomTracker.getRoom(player.getCurrentLocation(), direction));
 			return;
 		}
 
-		throw new MoveActionException(currentLocation, direction);
+		throw new MoveActionException(player.getCurrentLocation(), direction);
 	}
 }

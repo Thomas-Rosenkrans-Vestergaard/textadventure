@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import textadventure.exception.UnknownRoomException;
 
-class RoomConnectionTrackerTest
+class RoomTrackerTest
 {
 	@Test
 	void addRoom()

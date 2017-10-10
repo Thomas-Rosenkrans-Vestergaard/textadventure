@@ -12,6 +12,18 @@ public interface Player extends LivingBeing
 	 */
 	String getName();
 
+    /**
+     * Returns the {@link Player}'s current location.
+     * @return currentLocation of the {@link Player}.
+     */
+    public Room getCurrentLocation();
+
+    /**
+     * Sets the {@link Player's}'s current location.
+     * @param currentLocation The current location of the {@link Player}.
+     */
+    public void setCurrentLocation(Room currentLocation);
+
 	/**
 	 * Delegates a game decision to the {@link Player}.
 	 *
