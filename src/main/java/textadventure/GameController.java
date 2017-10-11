@@ -49,6 +49,7 @@ public class GameController
 				handleTurn(player);
 			}
 		}
+		gameInterface.onEnd(this);
 	}
 
 	private boolean hasEnd()

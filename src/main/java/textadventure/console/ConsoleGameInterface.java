@@ -19,17 +19,20 @@ public class ConsoleGameInterface implements GameInterface
 
 	@Override public void onInit(GameController controller)
 	{
-		io.put("onInit");
+		io.put("");
 	}
 
 	@Override public void onStart(GameController controller)
 	{
-		io.put("onStart");
+		io.put(controller.getMaze().getStartingRoom().getStartingMessage());
 	}
 
 	@Override public void onEnd(GameController controller)
 	{
-		io.put("onEnd");
+		io.put("You enter the " + controller.getMaze().getEndingRoom().getName() + "\n" + controller.getMaze()
+																									.getEndingRoom()
+																									.getEndingMessage
+																											());
 	}
 
 	@Override public void onQuit(GameController controller)
@@ -39,12 +42,13 @@ public class ConsoleGameInterface implements GameInterface
 
 	@Override public void onTurnStart(GameController controller, Player player)
 	{
-		io.put("onTurnStart " + player.getName());
+		io.put("It's " + player.getName() + "'s turn. \n");
 	}
 
 	@Override public void onTurnEnd(GameController controller, Player player)
 	{
-		io.put("onTurnEnd " + player.getName());
+		io.put(player.getName() + "'s turn " +
+			   "is over.\n" + "------------------------------------------------------------\n");
 	}
 
 	@Override public void onEnter(GameController controller, Player player, Room room)
@@ -60,13 +64,22 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onActionRequest(
 			GameController controller, Player player, Scenario scenario) throws ActionException
 	{
-		System.out.println("Current scenario " + scenario.getClass().getSimpleName() + " in room " + scenario.getRoom
-				().getName());
+		System.out.println(scenario.getDescription());
 
 		List<Action> actions = scenario.getActions();
 		List<String> choices = actions.stream().map(action -> action.getName()).collect(Collectors.toList());
-		int          choice  = io.select("What action do you wish to perform?", choices, "");
-		controller.respond(player, scenario, actions.get(choice));
+		io.put("What would you like to do?");
+
+		String choice = io.get();
+		int    index  = choices.indexOf(choice);
+
+		while (index == -1) {
+			io.put("You cant do that.");
+			choice = io.get();
+			index = choices.indexOf(choice);
+		}
+
+		controller.respond(player, scenario, actions.get(choices.indexOf(choice)));
 	}
 
 	@Override public void onActionResponse(GameController controller, Player player, Action action)

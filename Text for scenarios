@@ -1,0 +1,60 @@
+//meetGuardInstance
+"You go through the door and look around. " 
+ + "By the the door heading to the east you see a man standing guard with his back turned against the door. "
+ + "If you walk into the room you will surely be spotted. What will you do?"
+
+//guardSurpiseAttackInstance
+"You open the door to the " + getDirection(); + " and to your suprise, there's a guard standing on the other side!" 
+ + " The guard has a flashlight clipped to his chest, it's turned on."
+ + " The guard see's you and attack you and your family!"
+ + " He gets ahold of one of your kids and holds him at gunpoint, threatening his live!"
+ + " You look around the room, searching for something you can kill the guard with."
+ + " You spot a plastic fork by the north side door, a metal spoon by the south side door, and a small rock right by your feet."
+ + " What are you going to do?"
+    
+    //pickUpPlasticForkInstance
+    "You run towards the door heading to the north and pick up the plastic fork."
+    + " You're now standing a few feet away, in front of the gaurd holding a plastic fork. The guard starts laughing profusely and mocking you in Korean."
+    + " While the guard is laughing, your wife thinks quickly and picks up the small rock and starts bashing in the guards skull."
+    + " The guard lets go of your kid and falls to the ground while your wife is continually bashing him."
+    + " The guard is now laying lifeless on the ground with you panting wife on top of him, still beating him."
+    + " You pull your wife off of him and hold her close."
+    + " You calm her down, telling her it's done, but you need to keep moving."
+    + " What will you do?"
+    
+    //pickUpMetalSpoonInstance
+    "You run towards the door heading to the south and pick up the metal spoon."
+    + " The spoon surprisingly clean considering how dirty this tunnel is."
+    + " The guards light bounces off the metal spoon, reflecting back into his eyes."
+    + " He thinks it's a knife and shoots you kid in the face!"
+    + " Your kid drops to the ground. Your wife starts screaming. The guard now turns to her, pointing the gun at her."
+    + " But before he managed to pull the trigger you run towards him and gouge out his eye with the metal spoon!"
+    + " He falls to the floor screaming! Your wife now runs to the door heading to the north and picks up the plastic fork."
+    + " She runs back to the screaming guard and starts stabbing him in the face repeatedly with the plastic fork."
+    + " The guard is now laying lifeless on the ground with you panting wife on top of him, still stabbing him, with now a tiny shard of plastic fork."
+    + " You pull your wife off of him and hold her close."
+    + " You calm her down, telling her it's done, but you need to keep moving."
+    + " What will you do?"
+    
+    
+    //pickUpRockInstance
+    "You look down at the rock in front of you. The guard see's this and also looks at the rock."
+    + " You quickly bend over to pick up the rock, but as soon as you do the guard shoots your child in the head, and then turns the gun towards you."
+    + " Your wife is crying and screaming uncontrollably. He turns the gun towards her and shoots her to shut her up."
+    + " Now it's just you and your other kid."
+    + " The guard once again turns the gun towards you."
+    + " You hold up your hands and tell the guard to relax, but as soon as you open your mouth he fires towards you."
+    + " You take a bullet to the arm. *Loose 25 HP*"
+    + " To your surprise, your kid runs screaming towards the guard, trying to protect you. The guard then turns the gun towards your child"
+    + " Before the guard can fire, you pick up the rock and throws it at the guards head. He falls down."
+    + " While he lies on the ground you throw yourself on top of him and starts chocking him out while your kid is kicking him in the face." 
+    + " After a few minutes the guard stops breathing."
+    + " You stand up and pick up you kid."
+    + " What will you do now?"
+    
+    //leaveKidAndRun
+    "You take your wife and other kid and runs towards the door heading to the north, leaving your first kid behind."
+    + " The guard starts firing towards you, but misses because it's too dark."
+    + " Once you get through the door, you hear single final shot. You now know your kid is dead."
+
+    
