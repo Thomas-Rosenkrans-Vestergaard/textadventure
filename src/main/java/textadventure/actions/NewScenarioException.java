@@ -1,6 +1,7 @@
 package textadventure.actions;
 
 import textadventure.Player;
+import textadventure.rooms.Room;
 import textadventure.scenario.Scenario;
 
 /**
@@ -22,9 +23,9 @@ public class NewScenarioException extends ActionException
 	 * @param player      The {@link Player} who attempted the {@link Action}.
 	 * @param newScenario The new {@link Scenario}.
 	 */
-	public NewScenarioException(Scenario scenario, Action action, Player player, Scenario newScenario)
+	public NewScenarioException(Scenario scenario, Action action, Player player, Room room, Scenario newScenario)
 	{
-		super(newScenario, action, player);
+		super(newScenario, action, player, room);
 		this.newScenario = newScenario;
 	}
 

@@ -1,4 +1,4 @@
-package textadventure.actions.move;
+package textadventure.actions.movement;
 
 import textadventure.Direction;
 import textadventure.Player;
@@ -8,13 +8,14 @@ import textadventure.rooms.features.doors.Door;
 import textadventure.scenario.Scenario;
 
 /**
- * Thrown when a {@link textadventure.Player} attempts to interact with a {@link Door} that doesn't exist.
+ * Thrown when a {@link textadventure.Player} attempts to perform {@link MoveToDoorAction} to a {@link Door} that
+ * doesn't exist.
  */
-public class NoDoorException extends MoveActionException
+public class NoDoorException extends MoveToDoorException
 {
 
 	/**
-	 * Creates a new {@link MoveActionException}.
+	 * Creates a new {@link MoveToDoorException}.
 	 *
 	 * @param scenario  The {@link Scenario} the {@link Action} is a response to.
 	 * @param action    The {@link Action} that was attempted.

@@ -1,8 +1,11 @@
 package textadventure.actions;
 
+import textadventure.Game;
 import textadventure.Player;
-import textadventure.scenario.LockedDoorScenario;
+import textadventure.rooms.features.doors.Lock;
 import textadventure.scenario.Scenario;
+import textadventure.ui.UI;
+import textadventure.ui.UIMessage;
 
 /**
  * Inspects the {@link textadventure.rooms.features.doors.Lock} on a {@link textadventure.rooms.features.doors.Door}
@@ -10,38 +13,58 @@ import textadventure.scenario.Scenario;
  */
 public class InspectLockAction implements Action
 {
+
 	/**
-	 * Returns the name of the {@link Action}.
-	 *
-	 * @return The name of the {@link Action}.
+	 * The {@link Lock} to inspect.
 	 */
-	@Override public String getName()
+	private Lock lock;
+
+	/**
+	 * Creates a new {@link InspectLockAction}.
+	 *
+	 * @param lock The {@link Lock} to inspect.
+	 */
+	public InspectLockAction(Lock lock)
+	{
+		this.lock = lock;
+	}
+
+	/**
+	 * Returns the name of the {@link InspectLockAction}.
+	 *
+	 * @return The name of the {@link InspectLockAction}.
+	 */
+	@Override public String getIdentifier()
 	{
 		return "inspect_lock";
 	}
 
 	/**
-	 * Returns the description of the {@link Action}.
+	 * Returns the description of the {@link InspectLockAction}.
 	 *
-	 * @return The description of the {@link Action}.
+	 * @return The description of the {@link InspectLockAction}.
 	 */
 	@Override public String getDescription()
 	{
-		return "Inspects the lock of the door.";
+		return "Inspect the lock of the door.";
 	}
 
 	/**
-	 * Performs the {@link Action} using the provided parameters.
+	 * Performs the {@link InspectLockAction} using the provided parameters.
 	 *
-	 * @param scenario The {@link Scenario} that the {@link Action} is a response to.
-	 * @param player   The {@link Player} performing the {@link Action}.
+	 * @param game     The {@link Game} instance.
+	 * @param scenario The {@link Scenario} that the {@link InspectLockAction} responds to.
+	 * @param player   The {@link Player} performing the {@link InspectLockAction}.
 	 */
-	@Override public void perform(Scenario scenario, Player player) throws ActionException
+	@Override public void perform(Game game, Scenario scenario, Player player) throws ActionException
 	{
-		if (scenario instanceof LockedDoorScenario) {
+		UI ui = game.getUI();
+		String message = String.format(
+				"You notice that the lock is %s. On the lock is written the number %d.",
+				lock.getState().name().toLowerCase(),
+				lock.getCode()
+		);
 
-		}
-
-		throw new UnknownActionException(scenario, this, player);
+		ui.onMessage(message, UIMessage.INFORMATION, player);
 	}
 }

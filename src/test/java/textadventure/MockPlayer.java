@@ -1,6 +1,7 @@
 package textadventure;
 
 import textadventure.scenario.Scenario;
+import textadventure.ui.UI;
 
 public class MockPlayer extends AbstractPlayer
 {
@@ -16,11 +17,11 @@ public class MockPlayer extends AbstractPlayer
 	/**
 	 * Delegates a game decision to the {@link Player}.
 	 *
-	 * @param gameController The {@link GameController} to return any decisions to.
+	 * @param gameController The {@link Game} to return any decisions to.
 	 * @param gameInterface
 	 * @param scenario       The scenario the {@link Player} is in.
 	 */
-	@Override public void takeTurn(GameController gameController, GameInterface gameInterface, Scenario scenario)
+	@Override public void takeTurn(Game gameController, UI gameInterface, Scenario scenario)
 	{
 		throw new UnsupportedOperationException();
 	}

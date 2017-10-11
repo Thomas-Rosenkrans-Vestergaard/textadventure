@@ -50,10 +50,6 @@ public class BaseDoor implements Door
 	 */
 	public BaseDoor(String description, Lock lock, State state, Room a, Room b, Direction direction)
 	{
-		if (state == State.LOCKED) {
-			throw new IllegalArgumentException("Cannot initiate door in the LOCKED state. Use a locked Lock.");
-		}
-
 		this.description = description;
 		this.lock = lock;
 		this.state = state;
@@ -89,21 +85,7 @@ public class BaseDoor implements Door
 	 */
 	@Override public State getState()
 	{
-		if (state == State.OPEN) {
-			return state;
-		}
-
-		Lock.State lockState = lock.getState();
-
-		if (lockState == Lock.State.LOCKED) {
-			return State.LOCKED;
-		}
-
-		if (lockState == Lock.State.UNLOCKED) {
-			return State.CLOSED;
-		}
-
-		throw new IllegalStateException();
+		return state;
 	}
 
 	/**
@@ -138,6 +120,26 @@ public class BaseDoor implements Door
 			return a;
 
 		return null;
+	}
+
+	/**
+	 * Returns one of the {@link Room}s.
+	 *
+	 * @return One of the {@link Room}s.
+	 */
+	@Override public Room getSideA()
+	{
+		return a;
+	}
+
+	/**
+	 * Returns the other {@link Room}.
+	 *
+	 * @return The other {@link Room}.
+	 */
+	@Override public Room getSideB()
+	{
+		return b;
 	}
 
 	/**

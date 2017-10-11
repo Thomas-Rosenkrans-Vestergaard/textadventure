@@ -1,9 +1,10 @@
 package textadventure.scenario;
 
+import textadventure.actions.ActionException;
 import textadventure.rooms.Room;
 import textadventure.actions.Action;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public interface Scenario
 {
@@ -23,9 +24,9 @@ public interface Scenario
 	String getDescription();
 
 	/**
-	 * Returns a {@link List} of the actions that can be performed in the {@link Scenario}.
+	 * Returns a {@link Stream} of the actions that can be performed in the {@link Scenario}.
 	 *
-	 * @return The {@link List} of the actions that can be performed in the {@link Scenario}.
+	 * @return The {@link Stream} of the actions that can be performed in the {@link Scenario}.
 	 */
-	List<Action> getActions();
+	Stream<Action> getActions();
 }

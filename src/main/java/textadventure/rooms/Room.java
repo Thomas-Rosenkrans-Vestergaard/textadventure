@@ -1,9 +1,8 @@
 package textadventure.rooms;
 
 import textadventure.rooms.features.RoomFeature;
-import textadventure.rooms.features.doors.Door;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public interface Room
 {
@@ -27,7 +26,7 @@ public interface Room
 	 *
 	 * @return The {@link RoomFeature}s of the {@link Room}.
 	 */
-	List<RoomFeature> getFeatures();
+	Stream<RoomFeature> getFeatures();
 
 	/**
 	 * Adds the provided {@link RoomFeature} to the {@link Room}.

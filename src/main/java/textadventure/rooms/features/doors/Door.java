@@ -55,6 +55,20 @@ public interface Door extends RoomFeature
 	boolean setState(State state);
 
 	/**
+	 * Returns one of the {@link Room}s.
+	 *
+	 * @return One of the {@link Room}s.
+	 */
+	Room getSideA();
+
+	/**
+	 * Returns the other {@link Room}.
+	 *
+	 * @return The other {@link Room}.
+	 */
+	Room getSideB();
+
+	/**
 	 * Returns the {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}.
 	 *
 	 * @param room The opposite {@link Room}.

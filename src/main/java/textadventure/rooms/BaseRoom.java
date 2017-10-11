@@ -1,11 +1,12 @@
 package textadventure.rooms;
 
+import com.sun.javafx.UnmodifiableArrayList;
 import textadventure.rooms.features.RoomFeature;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * An implementation of the {@link Room} interface.
@@ -74,9 +75,9 @@ public class BaseRoom implements Room
 	 *
 	 * @return The {@link RoomFeature}s of the {@link Room}.
 	 */
-	@Override public List<RoomFeature> getFeatures()
+	@Override public Stream<RoomFeature> getFeatures()
 	{
-		return Collections.unmodifiableList(features);
+		return features.stream();
 	}
 
 	/**

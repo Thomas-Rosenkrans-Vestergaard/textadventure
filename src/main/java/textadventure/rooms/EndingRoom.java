@@ -18,7 +18,7 @@ public class EndingRoom extends BaseRoom
 	 */
 	public String getEndingMessage()
 	{
-		return "After a challenging jouney through a North Korean hell, you finally " +
+		return "After a challenging journey through a North Korean hell, you finally " +
 			   "see the end of the tunnel, and the light of day shines upon you.";
 	}
 }

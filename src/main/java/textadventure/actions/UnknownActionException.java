@@ -19,6 +19,6 @@ public class UnknownActionException extends ActionException
 	 */
 	public UnknownActionException(Scenario scenario, Action action, Player player)
 	{
-		super(scenario, action, player);
+		super(scenario, action, player, player.getCurrentLocation());
 	}
 }

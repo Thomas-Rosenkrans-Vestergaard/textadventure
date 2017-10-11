@@ -1,6 +1,6 @@
 package textadventure.actions;
 
-import textadventure.GameController;
+import textadventure.Game;
 import textadventure.Player;
 import textadventure.scenario.Scenario;
 
@@ -12,7 +12,7 @@ public interface Action
 	 *
 	 * @return The name of the {@link Action}.
 	 */
-	String getName();
+	String getIdentifier();
 
 	/**
 	 * Returns the description of the {@link Action}.
@@ -24,8 +24,9 @@ public interface Action
 	/**
 	 * Performs the {@link Action} using the provided parameters.
 	 *
-	 * @param scenario The {@link Scenario} that the {@link Action} is a response to.
+	 * @param game     The {@link Game} instance.
+	 * @param scenario The {@link Scenario} that the {@link Action} responds to.
 	 * @param player   The {@link Player} performing the {@link Action}.
 	 */
-	void perform(Scenario scenario, Player player) throws ActionException;
+	void perform(Game game, Scenario scenario, Player player) throws ActionException;
 }
