@@ -24,5 +24,5 @@ public interface Item
 	 *
 	 * @throws ItemException When something goes wrong while using the {@link Item}.
 	 */
-	void use(Object object) throws ItemException;
+	void use(Object object) throws UseItemException;
 }
