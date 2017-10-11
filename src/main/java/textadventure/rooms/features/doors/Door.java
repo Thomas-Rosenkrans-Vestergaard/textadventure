@@ -1,5 +1,7 @@
 package textadventure.rooms.features.doors;
 
+import textadventure.Direction;
+import textadventure.rooms.Room;
 import textadventure.rooms.features.RoomFeature;
 
 /**
@@ -7,17 +9,6 @@ import textadventure.rooms.features.RoomFeature;
  */
 public interface Door extends RoomFeature
 {
-
-	/**
-	 * The {@link Location} of the {@link Door} in the {@link textadventure.rooms.Room}.
-	 */
-	enum Location
-	{
-		NORTH,
-		SOUTH,
-		EAST,
-		WEST,
-	}
 
 	/**
 	 * The state of the {@link Door}. The {@link Door} can only have <code>4</code> states.
@@ -60,4 +51,24 @@ public interface Door extends RoomFeature
 	 * @return The {@link State} of the {@link Door}.
 	 */
 	State getState();
+
+	/**
+	 * Returns the {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}.
+	 *
+	 * @param room The opposite {@link Room}.
+	 *
+	 * @return The {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}. Returns
+	 * <code>null</code> if the provided room is unknown.
+	 */
+	Room getOtherSide(Room room);
+
+	/**
+	 * Returns the {@link Direction} of the {@link Door} in the provided {@link Room}.
+	 *
+	 * @param room The {@link Room} to use as perspective.
+	 *
+	 * @return The {@link Direction} of the {@link Door} in the provided {@link Room}. Returns <code>null</code> when
+	 * the {@link Direction} could not be found, or the provided {@link Room} is unknown to the {@link Door}.
+	 */
+	Direction getDirection(Room room);
 }

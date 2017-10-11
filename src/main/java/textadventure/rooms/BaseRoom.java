@@ -2,6 +2,7 @@ package textadventure.rooms;
 
 import textadventure.rooms.features.RoomFeature;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,25 +33,12 @@ public class BaseRoom implements Room
 	 *
 	 * @param name        The name of the {@link Room}.
 	 * @param description The description of the {@link Room}.
-	 * @param features    The {@link RoomFeature}s of the {@link Room}.
 	 */
-	public BaseRoom(String name, String description, RoomFeature... features)
-	{
-		this(name, description, Arrays.asList(features));
-	}
-
-	/**
-	 * Creates a new {@link BaseRoom}.
-	 *
-	 * @param name        The name of the {@link Room}.
-	 * @param description The description of the {@link Room}.
-	 * @param features    The {@link RoomFeature}s of the {@link Room}.
-	 */
-	public BaseRoom(String name, String description, List<RoomFeature> features)
+	public BaseRoom(String name, String description)
 	{
 		this.name = name;
 		this.description = description;
-		this.features = features;
+		this.features = new ArrayList<>();
 	}
 
 	/**
@@ -89,5 +77,15 @@ public class BaseRoom implements Room
 	@Override public List<RoomFeature> getFeatures()
 	{
 		return Collections.unmodifiableList(features);
+	}
+
+	/**
+	 * Adds the provided {@link RoomFeature} to the {@link Room}.
+	 *
+	 * @param feature The {@link RoomFeature} to add to the {@link Room}.
+	 */
+	@Override public void addFeature(RoomFeature feature)
+	{
+		this.features.add(feature);
 	}
 }

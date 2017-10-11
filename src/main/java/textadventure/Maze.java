@@ -27,13 +27,12 @@ public class Maze
 	/**
 	 * Creates a new {@link Maze}.
 	 *
-	 * @param roomConnections The connections between the {@link Room}s in the {@link Maze}.
-	 * @param startingRoom    The {@link Room} that the {@link Player}(s) starts in.
-	 * @param endingRoom      The {@link Room} that the {@link Player}(s) ends in.
+	 * @param rooms        The {@link Room}s in the {@link Maze}.
+	 * @param startingRoom The {@link Room} that the {@link Player}(s) starts in.
+	 * @param endingRoom   The {@link Room} that the {@link Player}(s) ends in.
 	 */
-	public Maze(RoomController roomConnections, StartingRoom startingRoom, EndingRoom endingRoom)
+	public Maze(StartingRoom startingRoom, EndingRoom endingRoom, Room... rooms)
 	{
-		this.roomConnections = roomConnections;
 		this.startingRoom = startingRoom;
 		this.endingRoom = endingRoom;
 	}

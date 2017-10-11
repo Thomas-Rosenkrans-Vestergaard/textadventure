@@ -2,7 +2,7 @@ package textadventure.actions.move;
 
 import textadventure.*;
 import textadventure.actions.Action;
-import textadventure.rooms.RoomController;
+import textadventure.rooms.Room;
 import textadventure.rooms.features.RoomFeature;
 import textadventure.rooms.features.doors.Door;
 
@@ -25,12 +25,29 @@ public abstract class MoveAction implements Action
 	 */
 	public void move(GameController controller, Player player, Direction direction) throws MoveActionException
 	{
-		RoomController roomTracker = controller.getMaze().getRoomConnections();
-		if (roomTracker.hasConnection(player.getCurrentLocation(), direction)) {
-			player.setCurrentLocation(roomTracker.getRoom(player.getCurrentLocation(), direction));
-			return;
-		}
+		Room              room     = player.getCurrentLocation();
+		List<RoomFeature> features = room.getFeatures();
+		for (RoomFeature feature : features) {
+			if (feature instanceof Door) {
+				Door door = (Door) feature;
+				if (door.getDirection(room) == direction) {
 
-		throw new MoveActionException(player.getCurrentLocation(), direction);
+					if (door.getState() == Door.State.LOCKED) {
+						throw new UnsupportedOperationException("Locked door");
+					}
+
+					if (door.getState() == Door.State.CLOSED) {
+						throw new UnsupportedOperationException("Closed door");
+					}
+
+					if (door.getState() == Door.State.OPEN) {
+						player.setCurrentLocation(door.getOtherSide(room));
+						return;
+					}
+
+					throw new IllegalStateException();
+				}
+			}
+		}
 	}
 }
