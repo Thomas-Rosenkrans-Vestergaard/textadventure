@@ -24,11 +24,6 @@ public interface Door extends RoomFeature
 		 * The {@link Door} is closed and must first be opened before it can be used.
 		 */
 		CLOSED,
-
-		/**
-		 * The {@link Door} is locked and must first be unlocked and opened before it can be used.
-		 */
-		LOCKED,
 	}
 
 	/**
@@ -51,6 +46,13 @@ public interface Door extends RoomFeature
 	 * @return The {@link State} of the {@link Door}.
 	 */
 	State getState();
+
+	/**
+	 * Sets the {@link State} of the {@link Door}.
+	 *
+	 * @param state The {@link State} to set.
+	 */
+	boolean setState(State state);
 
 	/**
 	 * Returns the {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}.

@@ -107,6 +107,21 @@ public class BaseDoor implements Door
 	}
 
 	/**
+	 * Sets the {@link State} of the {@link Door}.
+	 *
+	 * @param state The {@link State} to set.
+	 */
+	@Override public boolean setState(State state)
+	{
+		if (lock.getState() == Lock.State.LOCKED) {
+			return false;
+		}
+
+		this.state = state;
+		return true;
+	}
+
+	/**
 	 * Returns the {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}.
 	 *
 	 * @param room The opposite {@link Room}.

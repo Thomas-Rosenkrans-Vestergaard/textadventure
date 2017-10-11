@@ -2,7 +2,7 @@ package textadventure.actions.move;
 
 import textadventure.*;
 import textadventure.actions.Action;
-import textadventure.actions.ActionException;
+import textadventure.scenario.Scenario;
 
 /**
  * Represents an {@link Action} that moves the {@link Player} one {@link textadventure.rooms.Room} north.
@@ -21,15 +21,15 @@ public class MoveNorthAction extends MoveAction
 	}
 
 	/**
-	 * Performs the {@link Action} using the provided parameters.
+	 * Attempts to move the provided {@link Player} in the provided {@link Direction}.
 	 *
-	 * @param controller The {@link GameController}.
-	 * @param player     The {@link Player} performing the {@link Action}.
+	 * @param scenario The {@link Scenario} that the {@link Action} is a response to.
+	 * @param player   The {@link Player} to move.
 	 *
-	 * @throws ActionException When something goes wrong while performing the {@link Action}.
+	 * @throws MoveActionException When something goes wrong while moving the {@link Player}.
 	 */
-	@Override public void perform(GameController controller, Player player) throws ActionException
+	@Override public void perform(Scenario scenario, Player player) throws MoveActionException
 	{
-		move(controller, player, Direction.NORTH);
+		move(scenario, player, Direction.NORTH);
 	}
 }

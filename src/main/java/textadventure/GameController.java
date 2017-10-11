@@ -76,8 +76,7 @@ public class GameController
 
 	public void respond(Player player, Scenario scenario, Action action) throws ActionException
 	{
-		System.out.println();
-		action.perform(this, player);
+		action.perform(scenario, player);
 	}
 
 	public Maze getMaze()

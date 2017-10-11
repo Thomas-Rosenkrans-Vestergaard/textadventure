@@ -1,13 +1,40 @@
 package textadventure.scenario;
 
+import textadventure.actions.Action;
 import textadventure.rooms.Room;
-import textadventure.rooms.features.doors.Door;
 
-public class LockedDoorScenario extends AbstractScenario
+import java.util.List;
+
+public class LockedDoorScenario implements Scenario
 {
-	public LockedDoorScenario(Room room, Door door)
+
+	/**
+	 * Returns the {@link Room} the {@link Scenario} plays out in.
+	 *
+	 * @return The {@link Room} the {@link Scenario} plays out in.
+	 */
+	@Override public Room getRoom()
 	{
-		super(room, "The door you tried to open is locked. To open the door you first need to unlock the door with a" +
-					" key with the code " + door.getLock().getCode() + ".");
+		return null;
+	}
+
+	/**
+	 * Returns the description of the {@link Scenario}.
+	 *
+	 * @return The description of the {@link Scenario}.
+	 */
+	@Override public String getDescription()
+	{
+		return null;
+	}
+
+	/**
+	 * Returns a {@link List} of the actions that can be performed in the {@link Scenario}.
+	 *
+	 * @return The {@link List} of the actions that can be performed in the {@link Scenario}.
+	 */
+	@Override public List<Action> getActions()
+	{
+		return null;
 	}
 }
