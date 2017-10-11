@@ -2,15 +2,14 @@ package textadventure;
 
 import textadventure.rooms.EndingRoom;
 import textadventure.rooms.Room;
-import textadventure.rooms.RoomController;
 import textadventure.rooms.StartingRoom;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class Maze
 {
-	/**
-	 * The rooms in the {@link Maze}.
-	 */
-	private RoomController roomConnections;
 
 	/**
 	 * The {@link StartingRoom} of the {@link Maze}. This room is the {@link Room} where the {@link Player}(s) start
@@ -25,6 +24,11 @@ public class Maze
 	private EndingRoom endingRoom;
 
 	/**
+	 * The {@link Room}s in the {@link Maze}, not including the {@link StartingRoom} and {@link EndingRoom}.
+	 */
+	private List<Room> rooms = new ArrayList<>();
+
+	/**
 	 * Creates a new {@link Maze}.
 	 *
 	 * @param rooms        The {@link Room}s in the {@link Maze}.
@@ -35,18 +39,9 @@ public class Maze
 	{
 		this.startingRoom = startingRoom;
 		this.endingRoom = endingRoom;
-	}
-
-	/**
-	 * Returns the {@link RoomController} tracking the connections between the {@link Room}s in the
-	 * {@link Maze}.
-	 *
-	 * @return The {@link RoomController} tracking the connections between the {@link Room}s in the
-	 * {@link Maze}.
-	 */
-	public RoomController getRoomConnections()
-	{
-		return this.roomConnections;
+		for (Room room : rooms) {
+			this.rooms.add(room);
+		}
 	}
 
 	/**
@@ -67,5 +62,15 @@ public class Maze
 	public EndingRoom getEndingRoom()
 	{
 		return this.endingRoom;
+	}
+
+	/**
+	 * Returns a {@link Stream} of the {@link Room}s in the {@link Maze}.
+	 *
+	 * @return The {@link Stream} of the {@link Room}s in the {@link Maze}.
+	 */
+	public Stream<Room> getRooms()
+	{
+		return rooms.stream();
 	}
 }
