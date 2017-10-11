@@ -1,5 +1,8 @@
 package textadventure.rooms.features.doors;
 
+import textadventure.Direction;
+import textadventure.rooms.Room;
+
 /**
  * Represents a {@link Door} that is blocked by some {@link Obstruction}. Before being able
  * to pass the {@link BlockedDoor}, the {@link Obstruction} blocking the door must first be removed.
@@ -19,10 +22,14 @@ public class BlockedDoor extends BaseDoor
 	 * @param lock        The {@link Lock} on the {@link BlockedDoor}.
 	 * @param state       The {@link textadventure.rooms.features.doors.Door.State} of the {@link BlockedDoor}.
 	 * @param obstruction The {@link Obstruction} blocking the {@link BlockedDoor}.
+	 * @param a           The {@link Room} on one side of the {@link Door}.
+	 * @param b           The {@link Room} on the other side of the {@link Door}.
 	 */
-	public BlockedDoor(String description, Lock lock, State state, Obstruction obstruction)
+	public BlockedDoor(
+			String description, Lock lock, State state, Obstruction obstruction, Room a, Room b, Direction
+			direction)
 	{
-		super(description, lock, state);
+		super(description, lock, state, a, b, direction);
 		this.obstruction = obstruction;
 	}
 

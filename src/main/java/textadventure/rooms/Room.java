@@ -1,6 +1,7 @@
 package textadventure.rooms;
 
 import textadventure.rooms.features.RoomFeature;
+import textadventure.rooms.features.doors.Door;
 
 import java.util.List;
 
@@ -27,4 +28,11 @@ public interface Room
 	 * @return The {@link RoomFeature}s of the {@link Room}.
 	 */
 	List<RoomFeature> getFeatures();
+
+	/**
+	 * Adds the provided {@link RoomFeature} to the {@link Room}.
+	 *
+	 * @param feature The {@link RoomFeature} to add to the {@link Room}.
+	 */
+	void addFeature(RoomFeature feature);
 }

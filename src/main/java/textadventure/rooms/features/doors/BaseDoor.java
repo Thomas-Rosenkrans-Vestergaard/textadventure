@@ -1,5 +1,8 @@
 package textadventure.rooms.features.doors;
 
+import textadventure.Direction;
+import textadventure.rooms.Room;
+
 /**
  * The default implementation of the {@link Door} interface.
  */
@@ -22,21 +25,41 @@ public class BaseDoor implements Door
 	private State state;
 
 	/**
+	 * The {@link Room} on one side of the {@link Door}.
+	 */
+	private Room a;
+
+	/**
+	 * The {@link Room} on the other side of the {@link Door}.
+	 */
+	private Room b;
+
+	/**
+	 * The {@link Direction} of the {@link Door} in the path <code>a</code> -> <code>b</code>.
+	 */
+	private Direction direction;
+
+	/**
 	 * Creates a new {@link BaseDoor}.
 	 *
 	 * @param description The description of the {@link Door}.
 	 * @param lock        The {@link Lock} on the {@link Door}.
 	 * @param state       The {@link textadventure.rooms.features.doors.Door.State} of the {@link Door}.
+	 * @param a           The {@link Room} on one side of the {@link Door}.
+	 * @param b           The {@link Room} on the other side of the {@link Door}.
 	 */
-	public BaseDoor(String description, Lock lock, State state)
+	public BaseDoor(String description, Lock lock, State state, Room a, Room b, Direction direction)
 	{
 		if (state == State.LOCKED) {
-			throw new IllegalArgumentException("The lock must decide whether or not the door is locked.");
+			throw new IllegalArgumentException("Cannot initiate door in the LOCKED state. Use a locked Lock.");
 		}
 
 		this.description = description;
 		this.lock = lock;
 		this.state = state;
+		this.a = a;
+		this.b = b;
+		this.direction = direction;
 	}
 
 	/**
@@ -81,5 +104,43 @@ public class BaseDoor implements Door
 		}
 
 		throw new IllegalStateException();
+	}
+
+	/**
+	 * Returns the {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}.
+	 *
+	 * @param room The opposite {@link Room}.
+	 *
+	 * @return The {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}. Returns
+	 * <code>null</code> if the provided room is unknown.
+	 */
+	@Override public Room getOtherSide(Room room)
+	{
+		if (room == a)
+			return b;
+
+		if (room == b)
+			return a;
+
+		return null;
+	}
+
+	/**
+	 * Returns the {@link Direction} of the {@link Door} in the provided {@link Room}.
+	 *
+	 * @param room The {@link Room} to use as perspective.
+	 *
+	 * @return The {@link Direction} of the {@link Door} in the provided {@link Room}. Returns <code>null</code> when
+	 * the {@link Direction} could not be found, or the provided {@link Room} is unknown to the {@link Door}.
+	 */
+	@Override public Direction getDirection(Room room)
+	{
+		if (room == a)
+			return direction;
+
+		if (room == b)
+			return direction.getInverse();
+
+		return null;
 	}
 }
