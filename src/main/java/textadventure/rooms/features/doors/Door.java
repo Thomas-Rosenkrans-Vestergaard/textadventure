@@ -1,13 +1,14 @@
 package textadventure.rooms.features.doors;
 
 import textadventure.Direction;
+import textadventure.actions.Focusable;
 import textadventure.rooms.Room;
 import textadventure.rooms.features.RoomFeature;
 
 /**
  * The {@link Door} represents an entrance to a new room.
  */
-public interface Door extends RoomFeature
+public interface Door extends RoomFeature, Focusable
 {
 
 	/**

@@ -2,9 +2,7 @@ package textadventure;
 
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
-import textadventure.actions.NewScenarioException;
 import textadventure.rooms.EndingRoom;
-import textadventure.scenario.EnteredRoomScenario;
 import textadventure.scenario.Scenario;
 import textadventure.ui.UI;
 
@@ -79,7 +77,6 @@ public class Game
 	{
 		players.add(player);
 		names.put(player.getName(), player);
-		scenarios.put(player, new EnteredRoomScenario(maze.getStartingRoom()));
 		ui.onPlayer(this, player);
 	}
 
@@ -160,14 +157,11 @@ public class Game
 	private void handleActionResponse(Action action)
 	{
 		try {
-			action.perform(this, scenarios.get(this.currentPlayer), this.currentPlayer);
+			action.perform(this, this.currentPlayer.getFocus(), this.currentPlayer);
 			this.currentPlayerMoves++;
 			if (this.currentPlayerMoves > movesPerTurn) {
 				handleNext();
 			}
-		} catch (NewScenarioException e) {
-			scenarios.put(this.currentPlayer, e.getNewScenario());
-			handleActionRequest(this.currentPlayer);
 		} catch (ActionException e) {
 			ui.onException(e);
 			handleActionRequest(this.currentPlayer);

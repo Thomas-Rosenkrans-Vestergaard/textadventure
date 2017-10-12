@@ -2,6 +2,7 @@ package textadventure;
 
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
+import textadventure.actions.Focusable;
 import textadventure.rooms.Room;
 import textadventure.scenario.Scenario;
 
@@ -30,6 +31,20 @@ public interface Player extends Person
 	 * @param currentLocation The current location of the {@link Player}.
 	 */
 	void setCurrentLocation(Room currentLocation);
+
+	/**
+	 * Returns the current focus of the {@link Player}.
+	 *
+	 * @return The current focus of the {@link Player}.
+	 */
+	Focusable getFocus();
+
+	/**
+	 * Sets the focus of the {@link Player} on the provided {@link Focusable} object.
+	 *
+	 * @param focus The {@link Focusable} object.
+	 */
+	void setFocus(Focusable focus);
 
 	/**
 	 * Requests an {@link Action} to the provided {@link Scenario}.

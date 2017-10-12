@@ -1,12 +1,17 @@
 package textadventure.rooms.features.doors;
 
 import textadventure.Direction;
+import textadventure.actions.*;
+import textadventure.actions.doors.CloseDoorAction;
+import textadventure.actions.doors.LockDoorAction;
+import textadventure.actions.doors.OpenDoorAction;
+import textadventure.actions.doors.UnlockDoorAction;
 import textadventure.rooms.Room;
 
 /**
  * The default implementation of the {@link Door} interface.
  */
-public class BaseDoor implements Door
+public class BaseDoor extends AbstractFocusable implements Door
 {
 
 	/**
@@ -56,6 +61,11 @@ public class BaseDoor implements Door
 		this.a = a;
 		this.b = b;
 		this.direction = direction;
+
+		addAction(new OpenDoorAction());
+		addAction(new CloseDoorAction());
+		addAction(new UnlockDoorAction());
+		addAction(new LockDoorAction());
 	}
 
 	/**
@@ -159,5 +169,17 @@ public class BaseDoor implements Door
 			return direction.getInverse();
 
 		return null;
+	}
+
+	/**
+	 * Returns the identifier use the identify the {@link Focusable} object. This identifier used to focus on the
+	 * {@link Focusable} object using the <code>focus</code> command.
+	 *
+	 * @return The identifier use the identify the {@link Focusable} object. This identifier used to focus on the
+	 * {@link Focusable} object using the <code>focus</code> command.
+	 */
+	@Override public String getIdentifier()
+	{
+		return state.name().toLowerCase() + "_door";
 	}
 }

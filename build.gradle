@@ -7,6 +7,7 @@ repositories {
 }
 
 dependencies {
+    compile group: 'com.google.guava', name: 'guava', version: '19.0'
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile files('lib/TextIO.jar')
     testCompile 'junit:junit:4.12'

@@ -1,16 +1,16 @@
 package textadventure.ui;
 
+import com.google.common.collect.ImmutableMap;
 import textadventure.Game;
 import textadventure.GameException;
 import textadventure.Player;
 import textadventure.actions.Action;
+import textadventure.actions.Focusable;
 import textadventure.scenario.Scenario;
 import textio.SysTextIO;
 import textio.TextIO;
 
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class ConsoleUI implements UI
 {
@@ -72,21 +72,19 @@ public class ConsoleUI implements UI
 			Game game, Player player, Scenario scenario, Consumer<Action> callback)
 	{
 		System.out.println(scenario.getDescription());
+		Focusable focus = player.getFocus();
+		if (focus == null)
+			throw new IllegalStateException();
 
-		List<Action> actions = scenario.getActions().collect(Collectors.toList());
-		List<String> choices = actions.stream().map(action -> action.getIdentifier()).collect(Collectors.toList());
+		ImmutableMap<String, Action> actions = focus.getActions();
 		io.put("What would you like to do?");
-
 		String choice = io.get();
-		int    index  = choices.indexOf(choice);
-
-		while (index == -1) {
+		while (!actions.containsKey(choice)) {
 			io.put("You cant do that.");
 			choice = io.get();
-			index = choices.indexOf(choice);
 		}
 
-		callback.accept(actions.get(choices.indexOf(choice)));
+		callback.accept(actions.get(choice));
 	}
 
 	@Override public void onActionResponse(Game game, Player player, Action action)
@@ -94,6 +92,11 @@ public class ConsoleUI implements UI
 		System.out.println(player.getName() + " chose to" + action.getIdentifier());
 	}
 
+	/**
+	 * Called when a {@link GameException} occurs.
+	 *
+	 * @param e The {@link GameException} to pass to the {@link UI}.
+	 */
 	@Override public void onException(GameException e)
 	{
 		e.printStackTrace();

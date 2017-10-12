@@ -13,12 +13,12 @@ public class UnknownActionException extends ActionException
 	/**
 	 * Creates a new {@link UnknownActionException}.
 	 *
-	 * @param scenario The {@link Scenario} the {@link Action} is a response to.
-	 * @param action   The {@link Action} that was attempted.
-	 * @param player   The {@link Player} who attempted the {@link Action}.
+	 * @param focus  The {@link Focusable} object that the {@link Action} was performed on.
+	 * @param action The {@link Action} that was attempted.
+	 * @param player The {@link Player} who attempted the {@link Action}.
 	 */
-	public UnknownActionException(Scenario scenario, Action action, Player player)
+	public UnknownActionException(Focusable focus, Action action, Player player)
 	{
-		super(scenario, action, player, player.getCurrentLocation());
+		super(focus, action, player, player.getCurrentLocation());
 	}
 }

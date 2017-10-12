@@ -3,7 +3,6 @@ package textadventure.actions;
 import textadventure.GameException;
 import textadventure.Player;
 import textadventure.rooms.Room;
-import textadventure.scenario.Scenario;
 
 /**
  * Thrown when an error occurs while performing an {@link Action}.
@@ -12,9 +11,9 @@ public class ActionException extends GameException
 {
 
 	/**
-	 * The {@link Scenario} the {@link Action} is a response to.
+	 * The {@link Focusable} object that the {@link Action} was performed on.
 	 */
-	private Scenario scenario;
+	private Focusable focusable;
 
 	/**
 	 * The {@link Action} that was attempted.
@@ -34,27 +33,27 @@ public class ActionException extends GameException
 	/**
 	 * Creates a new {@link ActionException}.
 	 *
-	 * @param scenario The {@link Scenario} the {@link Action} is a response to.
-	 * @param action   The {@link Action} that was attempted.
-	 * @param player   The {@link Player} who attempted the {@link Action}.
-	 * @param room     The {@link Room} the {@link Action} was performed in.
+	 * @param focusable The {@link Focusable} object that the {@link Action} was performed on.
+	 * @param action    The {@link Action} that was attempted.
+	 * @param player    The {@link Player} who attempted the {@link Action}.
+	 * @param room      The {@link Room} the {@link Action} was performed in.
 	 */
-	public ActionException(Scenario scenario, Action action, Player player, Room room)
+	public ActionException(Focusable focusable, Action action, Player player, Room room)
 	{
-		this.scenario = scenario;
+		this.focusable = focusable;
 		this.action = action;
 		this.player = player;
 		this.room = room;
 	}
 
 	/**
-	 * Returns the {@link Scenario} the {@link Action} is a response to.
+	 * Returns the {@link Focusable} object that the {@link Action} was performed on.
 	 *
-	 * @return The {@link Scenario} the {@link Action} is a response to.
+	 * @return The {@link Focusable} object that the {@link Action} was performed on.
 	 */
-	public Scenario getScenario()
+	public Focusable getFocusable()
 	{
-		return this.scenario;
+		return this.focusable;
 	}
 
 	/**

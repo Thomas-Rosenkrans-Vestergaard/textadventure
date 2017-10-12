@@ -1,10 +1,11 @@
-package textadventure.actions;
+package textadventure.actions.doors;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.movement.MoveToEasternDoorAction;
+import textadventure.actions.Action;
+import textadventure.actions.ActionException;
+import textadventure.actions.Focusable;
 import textadventure.rooms.features.doors.Door;
-import textadventure.scenario.Scenario;
 import textadventure.ui.UI;
 import textadventure.ui.UIMessage;
 
@@ -27,9 +28,9 @@ public class InspectDoorAction implements Action
 	}
 
 	/**
-	 * Returns the name of the {@link InspectDoorAction}.
+	 * Returns the identifier of the {@link InspectDoorAction}.
 	 *
-	 * @return The name of the {@link InspectDoorAction}.
+	 * @return The identifier of the {@link InspectDoorAction}.
 	 */
 	@Override public String getIdentifier()
 	{
@@ -49,11 +50,11 @@ public class InspectDoorAction implements Action
 	/**
 	 * Performs the {@link InspectDoorAction} using the provided parameters.
 	 *
-	 * @param game     The {@link Game} instance.
-	 * @param scenario The {@link Scenario} that the {@link InspectDoorAction} responds to.
-	 * @param player   The {@link Player} performing the {@link InspectDoorAction}.
+	 * @param game   The {@link Game} instance.
+	 * @param focus  The {@link Focusable} object.
+	 * @param player The {@link Player} performing the {@link InspectDoorAction}.
 	 */
-	@Override public void perform(Game game, Scenario scenario, Player player) throws ActionException
+	@Override public void perform(Game game, Focusable focus, Player player) throws ActionException
 	{
 		UI     ui      = game.getUI();
 		String message = String.format("You notice that the door is %s.", door.getState().name().toLowerCase());

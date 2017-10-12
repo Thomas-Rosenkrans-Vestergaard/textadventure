@@ -1,6 +1,8 @@
 package textadventure;
 
 import textadventure.actions.Action;
+import textadventure.actions.ActionException;
+import textadventure.actions.Focusable;
 import textadventure.rooms.Room;
 import textadventure.scenario.Scenario;
 import textadventure.ui.UI;
@@ -14,6 +16,11 @@ public class HumanPlayer extends AbstractPlayer
 	 * The callback to use when reporting back to the {@link Game} instance.
 	 */
 	private Consumer<Action> callback;
+
+	/**
+	 * The {@link Game} instance.
+	 */
+	private Game game;
 
 	/**
 	 * Creates a new human controlled player.
@@ -36,6 +43,7 @@ public class HumanPlayer extends AbstractPlayer
 	@Override public void takeTurn(Game game, Scenario scenario, Consumer<Action> callback)
 	{
 		this.callback = callback;
+		this.game = game;
 		game.getUI().onActionRequest(game, this, scenario, this::handleAction);
 	}
 
