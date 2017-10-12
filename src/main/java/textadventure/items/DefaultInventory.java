@@ -18,7 +18,7 @@ public class DefaultInventory implements Inventory {
             slots[i] = new ArrayList<Item>();
         }
     }
-
+//
     @Override
     public Item getItem(int slotNumber) {
         return slots[slotNumber].get(0);
