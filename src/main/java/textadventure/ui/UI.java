@@ -4,9 +4,6 @@ import textadventure.Game;
 import textadventure.GameException;
 import textadventure.Player;
 import textadventure.actions.Action;
-import textadventure.scenario.Scenario;
-
-import java.util.function.Consumer;
 
 public interface UI
 {
@@ -58,12 +55,11 @@ public interface UI
 	/**
 	 * Called when a {@link Player} requests an {@link Action} from the {@link UI}.
 	 *
-	 * @param game     The {@link Game} instance.
-	 * @param player   The {@link Player} who requests the {@link Action}.
-	 * @param scenario The {@link Scenario} to respond to.
-	 * @param callback The callback to respond with.
+	 * @param game      The {@link Game} instance.
+	 * @param UIRequest The {@link UIRequest} to respond to.
+	 * @param player    The {@link Player} who requests the {@link Action}.
 	 */
-	void onActionRequest(Game game, Player player, Scenario scenario, Consumer<Action> callback);
+	void onActionRequest(Game game, UIRequest UIRequest, Player player);
 
 	/**
 	 * Called when a {@link Player} responds to a request for {@link Action}.
