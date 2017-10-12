@@ -1,5 +1,6 @@
 package textadventure.actions.doors;
 
+import com.sun.scenario.effect.LockableResource;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.Action;
@@ -60,7 +61,8 @@ public class InspectLockAction implements Action
 	 */
 	@Override public void perform(Game game, Focusable focus, Player player) throws ActionException
 	{
-		UI ui = game.getUI();
+		if(!(focus instanceof Lockable))
+
 		String message = String.format(
 				"You notice that the lock is %s. On the lock is written the number %d.",
 				lock.getState().name().toLowerCase(),

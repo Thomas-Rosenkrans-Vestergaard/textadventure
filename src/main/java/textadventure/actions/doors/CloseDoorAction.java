@@ -5,9 +5,8 @@ import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
 import textadventure.actions.Focusable;
-import textadventure.actions.UnknownActionException;
+import textadventure.actions.ActionFocusMismatchException;
 import textadventure.rooms.features.doors.Door;
-import textadventure.ui.UIMessage;
 
 public class CloseDoorAction implements Action
 {
@@ -51,13 +50,13 @@ public class CloseDoorAction implements Action
 
 			if (state == Door.State.OPEN) {
 				door.setState(Door.State.OPEN);
-				game.getUI().onMessage("You closed the door.", UIMessage.INFORMATION, player);
+				game.getUI().onCloseDoor(door, player);
 				return;
 			}
 
 			throw new IllegalStateException();
 		}
 
-		throw new UnknownActionException(focus, this, player);
+		throw new ActionFocusMismatchException(focus, this, player);
 	}
 }

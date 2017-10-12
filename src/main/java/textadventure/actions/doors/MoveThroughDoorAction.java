@@ -5,7 +5,7 @@ import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
 import textadventure.actions.Focusable;
-import textadventure.actions.UnknownActionException;
+import textadventure.actions.ActionFocusMismatchException;
 import textadventure.rooms.Room;
 import textadventure.rooms.features.doors.Door;
 import textadventure.ui.UIMessage;
@@ -60,6 +60,6 @@ public class MoveThroughDoorAction implements Action
 			game.getUI().onMessage("You moved through the door.", UIMessage.INFORMATION, player);
 		}
 
-		throw new UnknownActionException(focus, this, player);
+		throw new ActionFocusMismatchException(focus, this, player);
 	}
 }

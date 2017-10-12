@@ -5,7 +5,7 @@ import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
 import textadventure.actions.Focusable;
-import textadventure.actions.UnknownActionException;
+import textadventure.actions.ActionFocusMismatchException;
 import textadventure.rooms.features.doors.Door;
 import textadventure.rooms.features.doors.Lock;
 import textadventure.ui.UIMessage;
@@ -67,6 +67,6 @@ public class OpenDoorAction implements Action
 			throw new IllegalStateException();
 		}
 
-		throw new UnknownActionException(focus, this, player);
+		throw new ActionFocusMismatchException(focus, this, player);
 	}
 }

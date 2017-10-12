@@ -2,7 +2,5 @@ package textadventure.ui;
 
 public enum UIMessage
 {
-	INFORMATION,
-	WARNING,
-	ERROR,
+	CLOSED_DOOR
 }

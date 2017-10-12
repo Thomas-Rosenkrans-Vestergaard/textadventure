@@ -1,23 +1,22 @@
 package textadventure.actions;
 
 import textadventure.Player;
-import textadventure.scenario.Scenario;
 
 /**
  * Thrown when some {@link textadventure.actions.Action} could not be performed on some
- * {@link textadventure.scenario.Scenario}.
+ * {@link Focusable} object.
  */
-public class UnknownActionException extends ActionException
+public class ActionFocusMismatchException extends ActionException
 {
 
 	/**
-	 * Creates a new {@link UnknownActionException}.
+	 * Creates a new {@link ActionFocusMismatchException}.
 	 *
-	 * @param focus  The {@link Focusable} object that the {@link Action} was performed on.
+	 * @param focus  The {@link Focusable} object that the {@link Action} could not be performed on.
 	 * @param action The {@link Action} that was attempted.
 	 * @param player The {@link Player} who attempted the {@link Action}.
 	 */
-	public UnknownActionException(Focusable focus, Action action, Player player)
+	public ActionFocusMismatchException(Focusable focus, Action action, Player player)
 	{
 		super(focus, action, player, player.getCurrentLocation());
 	}
