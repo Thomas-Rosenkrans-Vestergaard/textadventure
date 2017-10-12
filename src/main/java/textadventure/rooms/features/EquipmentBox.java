@@ -13,10 +13,11 @@ public class EquipmentBox
 
 	/**
 	 * Creates a new {@link EquipmentBox} with an empty {@link Inventory}.
+	 * @param numberOfSlots number of slots in EquipmentBox.
 	 */
-	public EquipmentBox()
+	public EquipmentBox(int numberOfSlots)
 	{
-		this(new DefaultInventory());
+		this(new DefaultInventory(numberOfSlots));
 	}
 
 	/**
