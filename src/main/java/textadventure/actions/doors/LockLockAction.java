@@ -5,14 +5,17 @@ import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
 import textadventure.actions.Focusable;
+import textadventure.actions.UnknownActionException;
+import textadventure.rooms.features.lock.Lock;
+import textadventure.rooms.features.lock.Lockable;
 
-public class LockDoorAction implements Action
+public class LockLockAction implements Action
 {
 
 	/**
-	 * Returns the identifier of the {@link LockDoorAction}.
+	 * Returns the identifier of the {@link LockLockAction}.
 	 *
-	 * @return The identifier of the {@link LockDoorAction}.
+	 * @return The identifier of the {@link LockLockAction}.
 	 */
 	@Override public String getIdentifier()
 	{
@@ -20,9 +23,9 @@ public class LockDoorAction implements Action
 	}
 
 	/**
-	 * Returns the description of the {@link LockDoorAction}.
+	 * Returns the description of the {@link LockLockAction}.
 	 *
-	 * @return The description of the {@link LockDoorAction}.
+	 * @return The description of the {@link LockLockAction}.
 	 */
 	@Override public String getDescription()
 	{
@@ -38,6 +41,12 @@ public class LockDoorAction implements Action
 	 */
 	@Override public void perform(Game game, Focusable focus, Player player) throws ActionException
 	{
-		throw new UnsupportedOperationException();
+		if (!(focus instanceof Lockable)) {
+			throw new UnknownActionException(focus, this, player);
+		}
+
+		Lockable lockable = (Lockable) focus;
+		Lock     lock     = lockable.getLock();
+
 	}
 }

@@ -2,17 +2,3 @@ Character object
     stats
     
 Game start exceptions
-
-Focus.
-
-        The 'focus' command focuses on some feature in the room. Specialized commands can then be called on these
-        features.
-
-        An example of opening a door:
-
-                focus northern_door
-                goto
-                open
-                move_through
-                close_door
-

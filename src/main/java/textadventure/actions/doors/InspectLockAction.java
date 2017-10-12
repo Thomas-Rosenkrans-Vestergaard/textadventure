@@ -5,31 +5,18 @@ import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
 import textadventure.actions.Focusable;
-import textadventure.rooms.features.doors.Lock;
+import textadventure.actions.UnknownActionException;
+import textadventure.rooms.features.lock.Lock;
+import textadventure.rooms.features.lock.Lockable;
 import textadventure.ui.UI;
 import textadventure.ui.UIMessage;
 
 /**
- * Inspects the {@link textadventure.rooms.features.doors.Lock} on a {@link textadventure.rooms.features.doors.Door}
+ * Inspects the {@link Lock} on a {@link textadventure.rooms.features.doors.Door}
  * revealing its <code>code</code>.
  */
 public class InspectLockAction implements Action
 {
-
-	/**
-	 * The {@link Lock} to inspect.
-	 */
-	private Lock lock;
-
-	/**
-	 * Creates a new {@link InspectLockAction}.
-	 *
-	 * @param lock The {@link Lock} to inspect.
-	 */
-	public InspectLockAction(Lock lock)
-	{
-		this.lock = lock;
-	}
 
 	/**
 	 * Returns the identifier of the {@link InspectLockAction}.
@@ -60,11 +47,16 @@ public class InspectLockAction implements Action
 	 */
 	@Override public void perform(Game game, Focusable focus, Player player) throws ActionException
 	{
-		UI ui = game.getUI();
+		if (!(focus instanceof Lockable)) {
+			throw new UnknownActionException(focus, this, player);
+		}
+
+		UI       ui       = game.getUI();
+		Lockable lockable = (Lockable) focus;
 		String message = String.format(
 				"You notice that the lock is %s. On the lock is written the number %d.",
-				lock.getState().name().toLowerCase(),
-				lock.getCode()
+				lockable.getLock().getState().name().toLowerCase(),
+				lockable.getLock().getCode()
 		);
 
 		ui.onMessage(message, UIMessage.INFORMATION, player);

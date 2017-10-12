@@ -5,27 +5,13 @@ import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
 import textadventure.actions.Focusable;
+import textadventure.actions.UnknownActionException;
 import textadventure.rooms.features.doors.Door;
 import textadventure.ui.UI;
 import textadventure.ui.UIMessage;
 
 public class InspectDoorAction implements Action
 {
-
-	/**
-	 * The {@link Door} to inspect.
-	 */
-	private Door door;
-
-	/**
-	 * Creates a new {@link InspectDoorAction}.
-	 *
-	 * @param door The {@link Door} to inspect.
-	 */
-	public InspectDoorAction(Door door)
-	{
-		this.door = door;
-	}
 
 	/**
 	 * Returns the identifier of the {@link InspectDoorAction}.
@@ -56,6 +42,11 @@ public class InspectDoorAction implements Action
 	 */
 	@Override public void perform(Game game, Focusable focus, Player player) throws ActionException
 	{
+		if (!(focus instanceof Door)) {
+			throw new UnknownActionException(focus, this, player);
+		}
+
+		Door   door    = (Door) focus;
 		UI     ui      = game.getUI();
 		String message = String.format("You notice that the door is %s.", door.getState().name().toLowerCase());
 		ui.onMessage(message, UIMessage.INFORMATION, player);

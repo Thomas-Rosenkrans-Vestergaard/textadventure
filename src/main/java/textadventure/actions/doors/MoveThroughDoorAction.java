@@ -9,6 +9,8 @@ import textadventure.actions.UnknownActionException;
 import textadventure.rooms.Room;
 import textadventure.rooms.features.doors.Door;
 import textadventure.ui.UIMessage;
+import textio.SysTextIO;
+import textio.TextIO;
 
 /**
  * {@link Action} that lets the {@link Player} move through an {@link textadventure.rooms.features.doors.Door}. The
@@ -17,6 +19,8 @@ import textadventure.ui.UIMessage;
  */
 public class MoveThroughDoorAction implements Action
 {
+
+	private TextIO io = new TextIO(new SysTextIO());
 
 	/**
 	 * Returns the identifier of the {@link MoveThroughDoorAction}.
@@ -63,6 +67,7 @@ public class MoveThroughDoorAction implements Action
 
 			player.setCurrentLocation(targetRoom);
 			game.getUI().onMessage("You moved through the door.", UIMessage.INFORMATION, player);
+			io.put("You are now in " + player.getCurrentLocation().getName() + "\n");
 			return;
 		}
 

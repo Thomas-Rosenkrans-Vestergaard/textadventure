@@ -1,4 +1,4 @@
-package textadventure.rooms.features.doors;
+package textadventure.rooms.features.lock;
 
 public class Lock
 {
@@ -63,7 +63,7 @@ public class Lock
 	 *
 	 * @return The updated {@link State} of the {@link Lock}.
 	 */
-	public State unlock(Key key)
+	public State unlock(Key key) throws IncorrectKeyException
 	{
 		if (code == key.getCode()) {
 			this.state = State.UNLOCKED;

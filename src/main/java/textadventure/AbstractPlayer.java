@@ -102,6 +102,7 @@ public abstract class AbstractPlayer extends AbstractPerson implements Player
 		return currentLocation;
 	}
 
+
 	/**
 	 * Sets the {@link Player's}'s current location.
 	 *

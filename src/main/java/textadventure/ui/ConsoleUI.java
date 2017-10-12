@@ -69,8 +69,7 @@ public class ConsoleUI implements UI
 	 * @param scenario The {@link Scenario} to respond to.
 	 * @param callback The callback to respond with.
 	 */
-	@Override public void onActionRequest(
-			Game game, Player player, Scenario scenario, Consumer<Action> callback)
+	@Override public void onActionRequest(Game game, Player player, Scenario scenario, Consumer<Action> callback)
 	{
 		ImmutableMap<String, Focusable> focusable = player.getCurrentLocation().getFocusable();
 
@@ -82,8 +81,8 @@ public class ConsoleUI implements UI
 			if (choice.startsWith("focus")) {
 				choice = choice.substring(choice.indexOf(" ")).trim();
 				player.setFocus(focusable.get(choice));
-				System.out.println(focusable.get(choice));
-				io.put("You focused " + focusable.get(choice).getIdentifier());
+				//System.out.println(focusable.get(choice));
+				io.put("You focused on " + focusable.get(choice).getIdentifier() + "\n");
 				continue;
 			}
 

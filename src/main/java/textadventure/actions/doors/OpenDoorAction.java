@@ -7,13 +7,13 @@ import textadventure.actions.ActionException;
 import textadventure.actions.Focusable;
 import textadventure.actions.UnknownActionException;
 import textadventure.rooms.features.doors.Door;
-import textadventure.rooms.features.doors.Lock;
+import textadventure.rooms.features.lock.Lock;
 import textadventure.ui.UIMessage;
 
 /**
  * {@link Action} that opens a closed {@link Door}. The {@link Door} can only be opened when the {@link Door} has
  * {@link textadventure.rooms.features.doors.Door.State} CLOSED and the {@link Lock} has state
- * {@link textadventure.rooms.features.doors.Lock.State} UNLOCKED.
+ * {@link Lock.State} UNLOCKED.
  */
 public class OpenDoorAction implements Action
 {
@@ -50,6 +50,11 @@ public class OpenDoorAction implements Action
 		if (focus instanceof Door) {
 			Door       door  = (Door) focus;
 			Lock.State state = door.getLock().getState();
+
+			if (door.getState() == Door.State.OPEN) {
+				game.getUI().onMessage("The door is already open.", UIMessage.INFORMATION, player);
+				return;
+			}
 
 			if (state == Lock.State.LOCKED) {
 				String message = "The door you attempted to open is locked. You must first unlock it with a " +
