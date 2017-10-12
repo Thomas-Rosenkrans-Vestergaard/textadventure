@@ -50,16 +50,9 @@ public class ConsoleUI implements UI
 		io.put("onQuit");
 	}
 
-	@Override public void onTurnStart(Game game, Player player)
-	{
-		io.put("It's " + player.getName() + "'s turn. \n");
-	}
+	@Override public void onTurnStart(Game game, Player player){}
 
-	@Override public void onTurnEnd(Game game, Player player)
-	{
-		io.put(player.getName() + "'s turn " +
-			   "is over.\n" + "------------------------------------------------------------\n");
-	}
+	@Override public void onTurnEnd(Game game, Player player){}
 
 	/**
 	 * Called when a {@link Player} requests an {@link Action} from the {@link UI}.
@@ -80,21 +73,24 @@ public class ConsoleUI implements UI
 
 			if (choice.startsWith("focus")) {
 				choice = choice.substring(choice.indexOf(" ")).trim();
+				if(!focusable.containsKey(choice)){
+					io.put("Invalid action.\n");
+					continue;
+				}
 				player.setFocus(focusable.get(choice));
-				//System.out.println(focusable.get(choice));
 				io.put("You focused on " + focusable.get(choice).getIdentifier() + "\n");
 				continue;
 			}
 
 			if (focus == null) {
-				io.put("You must first focus something.");
+				io.put("You must first focus something.\n");
 				continue;
 			}
 
 			ImmutableMap<String, Action> actions = focus.getActions();
 
 			if (!actions.containsKey(choice)) {
-				io.put("You cant do that!");
+				io.put("You cant do that!\n");
 				continue;
 			}
 
