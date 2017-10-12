@@ -24,16 +24,6 @@ public class EquipmentBox extends AbstractFocusable implements Lockable
 	private Lock lock;
 
 	/**
-	 * Creates a new {@link EquipmentBox} with an empty {@link Inventory}.
-	 *
-	 * @param lock The {@link Lock} on the {@link EquipmentBox}.
-	 */
-	public EquipmentBox(Lock lock)
-	{
-		this(new DefaultInventory(), lock);
-	}
-
-	/**
 	 * Creates a new {@link EquipmentBox} with the provided {@link Inventory}.
 	 *
 	 * @param inventory The {@link Inventory} of the {@link EquipmentBox}.

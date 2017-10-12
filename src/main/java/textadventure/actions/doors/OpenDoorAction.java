@@ -51,6 +51,11 @@ public class OpenDoorAction implements Action
 			Door       door  = (Door) focus;
 			Lock.State state = door.getLock().getState();
 
+			if (door.getState() == Door.State.OPEN) {
+				game.getUI().onMessage("The door is already open.", UIMessage.INFORMATION, player);
+				return;
+			}
+
 			if (state == Lock.State.LOCKED) {
 				String message = "The door you attempted to open is locked. You must first unlock it with a " +
 								 "matching key.";

@@ -81,8 +81,8 @@ public class ConsoleUI implements UI
 			if (choice.startsWith("focus")) {
 				choice = choice.substring(choice.indexOf(" ")).trim();
 				player.setFocus(focusable.get(choice));
-				System.out.println(focusable.get(choice));
-				io.put("You focused " + focusable.get(choice).getIdentifier());
+				//System.out.println(focusable.get(choice));
+				io.put("You focused on " + focusable.get(choice).getIdentifier() + "\n");
 				continue;
 			}
 
