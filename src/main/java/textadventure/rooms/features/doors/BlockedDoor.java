@@ -2,6 +2,7 @@ package textadventure.rooms.features.doors;
 
 import textadventure.Direction;
 import textadventure.rooms.Room;
+import textadventure.rooms.features.lock.Lock;
 
 /**
  * Represents a {@link Door} that is blocked by some {@link Obstruction}. Before being able

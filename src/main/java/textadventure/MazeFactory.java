@@ -3,17 +3,13 @@ package textadventure;
 import textadventure.rooms.*;
 import textadventure.rooms.features.doors.BaseDoor;
 import textadventure.rooms.features.doors.Door;
-import textadventure.rooms.features.doors.Lock;
+import textadventure.rooms.features.lock.Lock;
 
 public class MazeFactory
 {
 
 	public static Maze generate() throws UnknownRoomException
 	{
-
-		// Create connection tracker
-		/*RoomController connections = new RoomController();*/
-
 		// Create rooms
 		StartingRoom startingRoom = new StartingRoom();
 		EndingRoom   endingRoom   = new EndingRoom();

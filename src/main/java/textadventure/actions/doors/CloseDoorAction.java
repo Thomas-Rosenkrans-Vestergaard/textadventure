@@ -46,6 +46,7 @@ public class CloseDoorAction implements Action
 			Door.State state = door.getState();
 
 			if (state == Door.State.CLOSED) {
+				game.getUI().onMessage("The door is already closed", UIMessage.INFORMATION, player);
 				return;
 			}
 
