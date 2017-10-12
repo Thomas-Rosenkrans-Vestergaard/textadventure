@@ -50,7 +50,7 @@ public class CloseDoorAction implements Action
 			}
 
 			if (state == Door.State.OPEN) {
-				door.setState(Door.State.OPEN);
+				door.setState(Door.State.CLOSED);
 				game.getUI().onMessage("You closed the door.", UIMessage.INFORMATION, player);
 				return;
 			}

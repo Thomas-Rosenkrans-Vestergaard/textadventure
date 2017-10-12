@@ -56,8 +56,14 @@ public class MoveThroughDoorAction implements Action
 				throw new IllegalStateException();
 			}
 
+			if (door.getState() == Door.State.CLOSED) {
+				game.getUI().onMessage("You cannot move through a closed door.", UIMessage.INFORMATION, player);
+				return;
+			}
+
 			player.setCurrentLocation(targetRoom);
 			game.getUI().onMessage("You moved through the door.", UIMessage.INFORMATION, player);
+			return;
 		}
 
 		throw new UnknownActionException(focus, this, player);

@@ -2,10 +2,7 @@ package textadventure.rooms.features.doors;
 
 import textadventure.Direction;
 import textadventure.actions.*;
-import textadventure.actions.doors.CloseDoorAction;
-import textadventure.actions.doors.LockDoorAction;
-import textadventure.actions.doors.OpenDoorAction;
-import textadventure.actions.doors.UnlockDoorAction;
+import textadventure.actions.doors.*;
 import textadventure.rooms.Room;
 
 /**
@@ -66,6 +63,7 @@ public class BaseDoor extends AbstractFocusable implements Door
 		addAction(new CloseDoorAction());
 		addAction(new UnlockDoorAction());
 		addAction(new LockDoorAction());
+		addAction(new MoveThroughDoorAction());
 	}
 
 	/**
@@ -180,6 +178,6 @@ public class BaseDoor extends AbstractFocusable implements Door
 	 */
 	@Override public String getIdentifier()
 	{
-		return state.name().toLowerCase() + "_door";
+		return direction.name().toLowerCase() + "_door";
 	}
 }

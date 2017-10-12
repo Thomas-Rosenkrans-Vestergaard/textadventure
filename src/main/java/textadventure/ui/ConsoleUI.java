@@ -10,6 +10,7 @@ import textadventure.scenario.Scenario;
 import textio.SysTextIO;
 import textio.TextIO;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class ConsoleUI implements UI
@@ -71,20 +72,36 @@ public class ConsoleUI implements UI
 	@Override public void onActionRequest(
 			Game game, Player player, Scenario scenario, Consumer<Action> callback)
 	{
-		System.out.println(scenario.getDescription());
-		Focusable focus = player.getFocus();
-		if (focus == null)
-			throw new IllegalStateException();
+		ImmutableMap<String, Focusable> focusable = player.getCurrentLocation().getFocusable();
 
-		ImmutableMap<String, Action> actions = focus.getActions();
-		io.put("What would you like to do?");
-		String choice = io.get();
-		while (!actions.containsKey(choice)) {
-			io.put("You cant do that.");
-			choice = io.get();
+		while (true) {
+			Focusable focus = player.getFocus();
+			io.put("What would you like to do?");
+			String choice = io.get();
+
+			if (choice.startsWith("focus")) {
+				choice = choice.substring(choice.indexOf(" ")).trim();
+				player.setFocus(focusable.get(choice));
+				System.out.println(focusable.get(choice));
+				io.put("You focused " + focusable.get(choice).getIdentifier());
+				continue;
+			}
+
+			if (focus == null) {
+				io.put("You must first focus something.");
+				continue;
+			}
+
+			ImmutableMap<String, Action> actions = focus.getActions();
+
+			if (!actions.containsKey(choice)) {
+				io.put("You cant do that!");
+				continue;
+			}
+
+			callback.accept(actions.get(choice));
+			break;
 		}
-
-		callback.accept(actions.get(choice));
 	}
 
 	@Override public void onActionResponse(Game game, Player player, Action action)
