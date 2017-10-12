@@ -5,7 +5,7 @@ import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
 import textadventure.actions.Focusable;
-import textadventure.actions.UnknownActionException;
+import textadventure.actions.ActionFocusMismatchException;
 import textadventure.rooms.Room;
 import textadventure.rooms.features.doors.Door;
 import textadventure.ui.UIMessage;
@@ -51,26 +51,32 @@ public class MoveThroughDoorAction implements Action
 	 */
 	@Override public void perform(Game game, Focusable focus, Player player) throws ActionException
 	{
-		if (focus instanceof Door) {
-			Door door        = (Door) focus;
-			Room currentRoom = player.getCurrentLocation();
-			Room targetRoom  = door.getOtherSide(currentRoom);
+		if (!(focus instanceof Door)) {
+			throw new ActionFocusMismatchException(focus, this, player);
+		}
 
-			if (targetRoom == null) {
-				throw new IllegalStateException();
-			}
+		Door door = (Door) focus;
 
-			if (door.getState() == Door.State.CLOSED) {
-				game.getUI().onMessage("You cannot move through a closed door.", UIMessage.INFORMATION, player);
-				return;
-			}
+		if (door.getState() == Door.State.OPEN) {
+			
+		}
 
-			player.setCurrentLocation(targetRoom);
-			game.getUI().onMessage("You moved through the door.", UIMessage.INFORMATION, player);
-			io.put("You are now in " + player.getCurrentLocation().getName() + "\n");
+		Room currentRoom = player.getCurrentLocation();
+		Room targetRoom  = door.getOtherSide(currentRoom);
+
+		if (targetRoom == null) {
+			throw new IllegalStateException();
+		}
+
+		if (door.getState() == Door.State.CLOSED) {
+			game.getUI().onMessage("You cannot move through a closed door.", UIMessage.INFORMATION, player);
 			return;
 		}
 
-		throw new UnknownActionException(focus, this, player);
+		player.setCurrentLocation(targetRoom);
+		game.getUI().onMessage("You moved through the door.", UIMessage.INFORMATION, player);
+		io.put("You are now in " + player.getCurrentLocation().getName() + "\n");
+		return;
 	}
+}
 }

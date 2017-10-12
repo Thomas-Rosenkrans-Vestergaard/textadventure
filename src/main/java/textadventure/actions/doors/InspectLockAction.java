@@ -4,12 +4,10 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
+import textadventure.actions.ActionFocusMismatchException;
 import textadventure.actions.Focusable;
-import textadventure.actions.UnknownActionException;
 import textadventure.rooms.features.lock.Lock;
 import textadventure.rooms.features.lock.Lockable;
-import textadventure.ui.UI;
-import textadventure.ui.UIMessage;
 
 /**
  * Inspects the {@link Lock} on a {@link textadventure.rooms.features.doors.Door}
@@ -48,17 +46,10 @@ public class InspectLockAction implements Action
 	@Override public void perform(Game game, Focusable focus, Player player) throws ActionException
 	{
 		if (!(focus instanceof Lockable)) {
-			throw new UnknownActionException(focus, this, player);
+			throw new ActionFocusMismatchException(focus, this, player);
 		}
 
-		UI       ui       = game.getUI();
 		Lockable lockable = (Lockable) focus;
-		String message = String.format(
-				"You notice that the lock is %s. On the lock is written the number %d.",
-				lockable.getLock().getState().name().toLowerCase(),
-				lockable.getLock().getCode()
-		);
-
-		ui.onMessage(message, UIMessage.INFORMATION, player);
+		game.getUI().onLockableInspect(game, lockable, player);
 	}
 }

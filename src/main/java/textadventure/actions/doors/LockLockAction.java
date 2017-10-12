@@ -4,8 +4,8 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
+import textadventure.actions.ActionFocusMismatchException;
 import textadventure.actions.Focusable;
-import textadventure.actions.UnknownActionException;
 import textadventure.rooms.features.lock.Lock;
 import textadventure.rooms.features.lock.Lockable;
 
@@ -42,11 +42,14 @@ public class LockLockAction implements Action
 	@Override public void perform(Game game, Focusable focus, Player player) throws ActionException
 	{
 		if (!(focus instanceof Lockable)) {
-			throw new UnknownActionException(focus, this, player);
+			throw new ActionFocusMismatchException(focus, this, player);
 		}
 
-		Lockable lockable = (Lockable) focus;
-		Lock     lock     = lockable.getLock();
+		//Lockable lockable = (Lockable) focus;
+		//Lock     lock     = lockable.getLock();
 
+		throw new UnsupportedOperationException();
+
+		//game.getUI().onLockableLock(game, lockable, player);
 	}
 }
