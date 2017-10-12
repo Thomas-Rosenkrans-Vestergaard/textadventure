@@ -39,15 +39,17 @@ public class UnlockLockAction implements Action
 	 */
 	@Override public void perform(Game game, Focusable focus, Player player) throws ActionException
 	{
-		UIRequest request = action -> {
+		/*UIRequest request = action -> {
 			callback(action);
 		};
 
-		game.getUI().onActionRequest(game, request, player);
+		game.getUI().onActionRequest(game, request, player);*/
+
+		throw new UnsupportedOperationException();
 	}
 
 	private void callback(Action action)
 	{
-		if(!(action instanceof ))
+		if (!(action instanceof))
 	}
 }
