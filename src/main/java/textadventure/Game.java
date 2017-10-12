@@ -1,9 +1,6 @@
 package textadventure;
 
-import textadventure.actions.Action;
-import textadventure.actions.ActionException;
 import textadventure.rooms.EndingRoom;
-import textadventure.scenario.Scenario;
 import textadventure.ui.UI;
 
 import java.util.ArrayList;
@@ -28,11 +25,6 @@ public class Game
 	 * The {@link Player}s in the {@link Game} mapped by their name.
 	 */
 	private Map<String, Player> names = new HashMap<>();
-
-	/**
-	 * The {@link Player} in the {@link Game} mapped to their current {@link Scenario}s.
-	 */
-	private Map<Player, Scenario> scenarios = new HashMap<>();
 
 	/**
 	 * The {@link Maze} the {@link Game} is played within.
@@ -76,7 +68,7 @@ public class Game
 	public void addPlayer(Player player)
 	{
 		players.add(player);
-		names.put(player.getName(), player);
+		names.put(player.getCharacter().getName(), player);
 		ui.onPlayer(this, player);
 	}
 
@@ -118,7 +110,7 @@ public class Game
 	private boolean hasWinner()
 	{
 		for (Player player : players) {
-			if (player.getCurrentLocation() instanceof EndingRoom) {
+			if (player.getCharacter().getCurrentLocation() instanceof EndingRoom) {
 				return true;
 			}
 		}
@@ -146,7 +138,7 @@ public class Game
 	private void handleActionRequest(Player player)
 	{
 		this.currentPlayer = player;
-		player.takeTurn(this, scenarios.get(player), this::handleActionResponse);
+		player.takeTurn(this, this::handleActionResponse);
 	}
 
 	/**
@@ -157,13 +149,12 @@ public class Game
 	private void handleActionResponse(Action action)
 	{
 		try {
-			action.perform(this, this.currentPlayer.getFocus(), this.currentPlayer);
+			action.perform(this, this.currentPlayer);
 			this.currentPlayerMoves++;
 			if (this.currentPlayerMoves > movesPerTurn) {
 				handleNext();
 			}
 		} catch (ActionException e) {
-			ui.onException(e);
 			handleActionRequest(this.currentPlayer);
 		}
 	}

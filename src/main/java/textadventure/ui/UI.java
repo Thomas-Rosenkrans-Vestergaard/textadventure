@@ -1,11 +1,10 @@
 package textadventure.ui;
 
-import com.google.common.collect.ImmutableMap;
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.Action;
-import textadventure.rooms.features.doors.Door;
-import textadventure.rooms.features.lock.Lockable;
+import textadventure.Action;
+import textadventure.doors.Door;
+import textadventure.lock.Lock;
 
 import java.util.function.Consumer;
 
@@ -67,11 +66,11 @@ public interface UI
 	/**
 	 * Called when a {@link Player} requests an {@link Action} from the {@link UI}.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param UIRequest The {@link UIRequest} to respond to.
-	 * @param player    The {@link Player} who requests the {@link Action}.
+	 * @param game     The {@link Game} instance.
+	 * @param player   The {@link Player} who requests the {@link Action}.
+	 * @param callback The callback to respond with.
 	 */
-	void onActionRequest(Game game, UIRequest UIRequest, Player player);
+	void onActionRequest(Game game, Player player, Consumer<Action> callback);
 
 	/**
 	 * Called when a {@link Player} responds to a request for {@link Action}.
@@ -83,14 +82,13 @@ public interface UI
 	void onActionResponse(Game game, Player player, Action action);
 
 	/**
-	 * Requests a {@link Selectable} option from the {@link UI}.
+	 * Requests a {@link Option} option from the {@link UI}.
 	 *
-	 * @param selectable The {@link Selectable} options.
-	 * @param player     The {@link Player} to request a {@link Selectable} element from.
-	 * @param callback   The callback to use when responding to the select request.
-	 * @param <T>        The {@link Selectable} element.
+	 * @param select   The {@link Select} to select the {@link Option}s from.
+	 * @param player   The {@link Player} to request a {@link Option} element from.
+	 * @param callback The callback to use when responding to the select request.
 	 */
-	<T extends Selectable> void select(ImmutableMap<String, T> selectable, Player player, Consumer<T> callback);
+	/*<T extends Option>*/ void select(Select select, Player player, Consumer<Option> callback);
 
 	/**
 	 * Called when the provided {@link Player} closes the provided {@link Door}.
@@ -110,6 +108,10 @@ public interface UI
 	 */
 	void onOpenDoor(Game game, Door door, Player player);
 
+	void onDoorAlreadyClosed(Game game, Door door, Player player);
+
+	void onDoorAlreadyOpen(Game game, Door door, Player player);
+
 	/**
 	 * Called when the provided {@link Player} inspects the provided {@link Door}.
 	 *
@@ -119,17 +121,34 @@ public interface UI
 	 */
 	void onDoorInspect(Game game, Door door, Player player);
 
-	void onLockableInspect(Game game, Lockable lockable, Player player);
-
-	void onLockableLock(Game game, Lockable lockable, Player player);
-
-	void onLockableUnlock(Game game, Lockable lockable, Player player);
+	/**
+	 * Called when the provided {@link Player} inspects the provided {@link Lock}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param lock   The {@link Lock}.
+	 * @param player The {@link Player} who inspected the {@link Lock}.
+	 */
+	void onLockInspect(Game game, Lock lock, Player player);
 
 	/**
-	 * Sends a message to the {@link Player}s in the {@link Game}.
+	 * Called when the provided {@link Player} locks the provided {@link Lock}.
 	 *
-	 * @param message The {@link UIMessage} to send.
-	 * @param player  The {@link Player} to send the {@link UIMessage} to.
+	 * @param game   The {@link Game} instance.
+	 * @param lock   The {@link Lock}.
+	 * @param player The {@link Player} who locked the lock.
 	 */
-	void onMessage(UIMessage message, Player player);
+	void onLockLock(Game game, Lock lock, Player player);
+
+	/**
+	 * Called when the provided {@link Player} unlocks the provided {@link Lock}.
+	 *
+	 * @param game
+	 * @param lock
+	 * @param player
+	 */
+	void onLockUnlock(Game game, Lock lock, Player player);
+
+	void onLockAlreadyLocked(Game game, Lock lock, Player player);
+
+	void onLockAlreadyUnlocked(Game game, Lock lock, Player player);
 }

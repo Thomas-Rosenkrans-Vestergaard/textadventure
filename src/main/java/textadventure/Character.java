@@ -1,54 +1,98 @@
 package textadventure;
 
-import textadventure.combat.DamageSource;
-import textadventure.combat.HealthSource;
+import textadventure.items.Inventory;
+import textadventure.rooms.Landmine;
+import textadventure.rooms.Room;
 
 public interface Character
 {
 
-
 	/**
-	 * The {@link Person.State}s that a {@link Person} can be in.
-	 */
-	public enum State
-	{
-		ALIVE,
-		DEAD,
-	}
-
-	/**
-	 * Returns the current amount of HP the {@link Person} has.
+	 * Returns the name of the {@link Character}.
 	 *
-	 * @return The current amount of HP the {@link Person} has.
+	 * @return The name of the {@link Character}.
+	 */
+	String getName();
+
+	/**
+	 * Returns the {@link Inventory} of the {@link Character}.
+	 *
+	 * @return The {@link Inventory} of the {@link Character}.
+	 */
+	Inventory getInventory();
+
+	/**
+	 * Returns the {@link Room} the {@link Character} is currently in.
+	 *
+	 * @return The {@link Room} the {@link Character} is currently in.
+	 */
+	Room getCurrentLocation();
+
+	/**
+	 * Updates the {@link Room} the {@link Character} is currently in.
+	 *
+	 * @param room The {@link Room} to update to.
+	 */
+	void setCurrentLocation(Room room);
+
+	/**
+	 * Returns the current number of hit points that the {@link Character} has.
+	 *
+	 * @return The current number of hit points that the {@link Character} has.
 	 */
 	int getCurrentHP();
 
 	/**
-	 * Returns the largest amount of HP the {@link Person} can have.
+	 * Returns the maximum number of hit points that the {@link Character} can has.
 	 *
-	 * @return The largest amount of HP the {@link Person} can have.
+	 * @return The maximum number of hit points that the {@link Character} can has.
 	 */
 	int getMaxHP();
 
 	/**
-	 * Damages the {@link Person} for the provided number of health points.
+	 * Returns the level of the {@link Character}.
 	 *
-	 * @param source The source of the damage.
+	 * @return The level of the {@link Character}.
 	 */
-	void damage(DamageSource source);
+	int getLevel();
 
 	/**
-	 * Heals the {@link Person} for the provided number of health points.
+	 * Returns the strength level of the {@link Character}. Determines the damage done by the {@link Character} and the
+	 * carry capacity of the {@link Character}.
 	 *
-	 * @param source The source of the healing.
+	 * @return The strength level of the {@link Character}. Determines the damage done by the {@link Character} and the
+	 * carry capacity of the {@link Character}.
 	 */
-	void heal(HealthSource source);
+	int getStrength();
 
 	/**
-	 * Returns the state of the {@link Person}.
+	 * Returns the dexterity level of the {@link Character}. Determines the chance to dodge incoming attacks.
 	 *
-	 * @return The state of the {@link Person}.
+	 * @return The dexterity level of the {@link Character}. Determines the chance to dodge incoming attacks.
 	 */
-	Person.State getState();
+	int getDexterity();
+
+	/**
+	 * Returns the intelligence level of the {@link Character}. Determines the chance to disarm
+	 * {@link Landmine}s.
+	 *
+	 * @return The intelligence level of the {@link Character}. Determines the chance to disarm
+	 * {@link Landmine}s.
+	 */
+	int getIntelligence();
+
+	/**
+	 * Returns the stealth level of the {@link Character}. Determines the chance to pickpocket other {@link Person}s.
+	 *
+	 * @return The stealth level of the {@link Character}. Determines the chance to pickpocket other {@link Person}s.
+	 */
+	int getStealth();
+
+	/**
+	 * Returns the amount of money the {@link Character} has.
+	 *
+	 * @return The amount of money the {@link Character} has.
+	 */
+	int getMoney();
 }
 

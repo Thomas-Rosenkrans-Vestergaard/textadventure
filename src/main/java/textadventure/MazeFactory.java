@@ -1,9 +1,9 @@
 package textadventure;
 
 import textadventure.rooms.*;
-import textadventure.rooms.features.doors.BaseDoor;
-import textadventure.rooms.features.doors.Door;
-import textadventure.rooms.features.lock.Lock;
+import textadventure.doors.DefaultDoor;
+import textadventure.doors.Door;
+import textadventure.lock.Lock;
 
 public class MazeFactory
 {
@@ -18,40 +18,32 @@ public class MazeFactory
 		BaseRoom     eastRoom     = new BaseRoom("East room", "This is the east room");
 
 		// Starting center door.
-		Lock startingCenterLock = new Lock(1, Lock.State.UNLOCKED);
-		Door startingCenterDoor = new BaseDoor("Door from starting to center room.", startingCenterLock, Door.State
-				.OPEN, startingRoom, centerRoom, Direction.NORTH
+		Lock startingCenterLock = new Lock("1", Lock.State.LOCKED);
+		Door startingCenterDoor = new DefaultDoor(Door.State.OPEN, startingCenterLock, Direction.NORTH, startingRoom,
+												  centerRoom
 		);
-
-		startingRoom.addFeature(startingCenterDoor);
-		centerRoom.addFeature(startingCenterDoor);
+		startingRoom.addProperty(startingCenterDoor);
+		centerRoom.addProperty(startingCenterDoor);
 
 		// Center west door.
-		Lock centerWestLock = new Lock(2, Lock.State.UNLOCKED);
-		Door centerWestDoor = new BaseDoor("Door from center to west room.", centerWestLock, Door.State.OPEN,
-										   centerRoom, westRoom, Direction.WEST
-		);
-
-		centerRoom.addFeature(centerWestDoor);
-		westRoom.addFeature(centerWestDoor);
+		Lock centerWestLock = new Lock("2", Lock.State.UNLOCKED);
+		Door centerWestDoor = new DefaultDoor(Door.State.OPEN, centerWestLock, Direction.WEST, centerRoom, westRoom);
+		centerRoom.addProperty(centerWestDoor);
+		westRoom.addProperty(centerWestDoor);
 
 		// Center east door.
-		Lock centerEastLock = new Lock(2, Lock.State.UNLOCKED);
-		Door centerEastDoor = new BaseDoor("Door from center to east room.", centerEastLock, Door.State.CLOSED,
-										   centerRoom, eastRoom, Direction.EAST
-		);
-
-		centerRoom.addFeature(centerEastDoor);
-		eastRoom.addFeature(centerEastDoor);
+		Lock centerEastLock = new Lock("3", Lock.State.UNLOCKED);
+		Door centerEastDoor = new DefaultDoor(Door.State.CLOSED, centerEastLock, Direction.EAST, centerRoom, eastRoom);
+		centerRoom.addProperty(centerEastDoor);
+		eastRoom.addProperty(centerEastDoor);
 
 		// Center ending door.
-		Lock centerEndingLock = new Lock(2, Lock.State.UNLOCKED);
-		Door centerEndingDoor = new BaseDoor("Door from center to ending room.", centerEndingLock, Door.State.OPEN,
-											 centerRoom, endingRoom, Direction.NORTH
+		Lock centerEndingLock = new Lock("4", Lock.State.UNLOCKED);
+		Door centerEndingDoor = new DefaultDoor(Door.State.OPEN, centerEndingLock, Direction.NORTH, centerRoom,
+												endingRoom
 		);
-
-		centerRoom.addFeature(centerEndingDoor);
-		endingRoom.addFeature(centerEndingDoor);
+		centerRoom.addProperty(centerEndingDoor);
+		endingRoom.addProperty(centerEndingDoor);
 
 		// Return the created maze
 		return new Maze(startingRoom, endingRoom, westRoom, centerRoom, eastRoom);

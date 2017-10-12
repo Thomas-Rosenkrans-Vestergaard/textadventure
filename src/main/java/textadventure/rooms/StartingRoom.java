@@ -20,16 +20,15 @@ public class StartingRoom extends BaseRoom
 	{
 		return "You're being hunted by the State Security Department of North Korea after having escaped from the " +
 			   "Hoeryong concentration camp. \nWith you is your wife and two kids. If you get caught, you will " +
-			   "surely " +
-			   "be" +
+			   "surely be" +
 			   " executed. The only acceptable outcome is escape.\n" +
 			   "Miraculously you've made it to the Demilitarized Zone without being caught. But crossing the " +
 			   "Demilitarized Zone is a much greater challenge. \nLuckily you spot the entrance to a tunnel " +
 			   "apparently" +
 			   " " +
-			   "leading under the Demilitarized Zone. \nYou decide that the tunnel provides a better chance of escape" +
+			   "leading under the Demilitarized Zone. \nYou decide that the tunnel provides a better chance of " +
+			   "escape" +
 			   " " +
-			   "and heads down the tunnel with your family.\n"
-				+ "------------------------------------------------------------\n";
+			   "and heads down the tunnel with your family.\n";
 	}
 }

@@ -1,16 +1,19 @@
 package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
-import textadventure.Game;
-import textadventure.Player;
-import textadventure.actions.Action;
-import textadventure.scenario.Scenario;
+import textadventure.*;
+import textadventure.doors.Door;
+import textadventure.lock.Lock;
+import textadventure.rooms.Room;
 
-import java.util.Arrays;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class ConsoleUI implements UI
 {
+
+	private Scanner scanner = new Scanner(System.in);
+
 	/**
 	 * Called when the {@link Game} is constructed.
 	 *
@@ -39,7 +42,7 @@ public class ConsoleUI implements UI
 	 */
 	@Override public void onGameStart(Game game)
 	{
-
+		System.out.println(game.getMaze().getStartingRoom().getStartingMessage());
 	}
 
 	/**
@@ -62,11 +65,6 @@ public class ConsoleUI implements UI
 
 	}
 
-<<<<<<< HEAD
-	@Override public void onTurnStart(Game game, Player player){}
-
-	@Override public void onTurnEnd(Game game, Player player){}
-=======
 	/**
 	 * Called when the turn rotates.
 	 *
@@ -88,56 +86,43 @@ public class ConsoleUI implements UI
 	{
 
 	}
->>>>>>> ui
 
 	/**
 	 * Called when a {@link Player} requests an {@link Action} from the {@link UI}.
 	 *
 	 * @param game     The {@link Game} instance.
 	 * @param player   The {@link Player} who requests the {@link Action}.
-	 * @param scenario The {@link Scenario} to respond to.
 	 * @param callback The callback to respond with.
 	 */
-	@Override public void onActionRequest(Game game, Player player, Scenario scenario, Consumer<Action> callback)
+	@Override public void onActionRequest(Game game, Player player, Consumer<Action> callback)
 	{
-<<<<<<< HEAD
-		ImmutableMap<String, Focusable> focusable = player.getCurrentLocation().getFocusable();
+		Room currentRoom = player.getCharacter().getCurrentLocation();
 
 		while (true) {
-			Focusable focus = player.getFocus();
-			io.put("What would you like to do?");
-			String choice = io.get();
+			System.out.println("What would you like to do?");
+			String[] sections = scanner.nextLine().split(" ");
 
-			if (choice.startsWith("focus")) {
-				choice = choice.substring(choice.indexOf(" ")).trim();
-				if(!focusable.containsKey(choice)){
-					io.put("Invalid action.\n");
-					continue;
+			if (sections.length < 2) {
+				System.out.println("Less than two sections.");
+				continue;
+			}
+
+			Property property = currentRoom.getProperty(sections[0]);
+			for (int i = 1; i < sections.length - 1; i++) {
+				if (property instanceof PropertyContainer) {
+					PropertyContainer container = (PropertyContainer) property;
+					property = container.getProperty(sections[i]);
 				}
-				player.setFocus(focusable.get(choice));
-				io.put("You focused on " + focusable.get(choice).getIdentifier() + "\n");
-				continue;
 			}
 
-			if (focus == null) {
-				io.put("You must first focus something.\n");
-				continue;
+			if (property == null) {
+				throw new Error();
 			}
 
-			ImmutableMap<String, Action> actions = focus.getActions();
-
-			if (!actions.containsKey(choice)) {
-				io.put("You cant do that!\n");
-				continue;
-			}
-
-			callback.accept(actions.get(choice));
+			Action action = property.getAction(sections[sections.length - 1]);
+			callback.accept(action);
 			break;
 		}
-	}
-=======
->>>>>>> ui
-
 	}
 
 	/**
@@ -153,26 +138,133 @@ public class ConsoleUI implements UI
 	}
 
 	/**
-	 * Requests a {@link Selectable} option from the {@link UI}.
+	 * Requests a {@link Option} option from the {@link UI}.
 	 *
-	 * @param selectable The {@link Selectable} options.
-	 * @param player     The {@link Player} to request a {@link Selectable} element from.
-	 * @param callback   The callback to use when responding to the select request.
+	 * @param select   The {@link Select} to select the {@link Option}s from.
+	 * @param player   The {@link Player} to request a {@link Option} element from.
+	 * @param callback The callback to use when responding to the select request.
 	 */
-	@Override public <T extends Selectable> void select(
-			ImmutableMap<String, T> selectable, Player player, Consumer<T> callback)
+	@Override public /*<T extends Option>*/ void select(Select select, Player player, Consumer<Option> callback)
 	{
+		System.out.println("Select");
+		ImmutableMap<String, ? extends Option> options = select.getOptions();
+		for (Map.Entry<String, ? extends Option> entry : options.entrySet()) {
+			System.out.println(entry.getKey() + ": " + entry.getValue().getName());
+		}
 
+		String choice = scanner.nextLine();
+		if (!options.containsKey(choice)) {
+			System.out.println("Unknown select.");
+			return;
+		}
+
+		callback.accept(options.get(choice));
 	}
 
 	/**
-	 * Sends a message to the {@link Player}s in the {@link Game}.
+	 * Called when the provided {@link Player} closes the provided {@link Door}.
 	 *
-	 * @param message The {@link UIMessage} to send.
-	 * @param player  The {@link Player} to send the {@link UIMessage} to.
+	 * @param game   The {@link Game} instance.
+	 * @param door   The {@link Door} that was closed.
+	 * @param player The {@link Player} who closed the {@link Door}.
 	 */
-	@Override public void onMessage(UIMessage message, Player player)
+	@Override public void onCloseDoor(Game game, Door door, Player player)
 	{
+		String message = String.format("%s closed the door.", player.getCharacter().getName());
 
+		System.out.println(message);
+	}
+
+	/**
+	 * Called when the provided {@link Player} opens the provided {@link Door}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param door   The {@link Door} that was opened.
+	 * @param player The {@link Player} who opened the {@link Door}.
+	 */
+	@Override public void onOpenDoor(Game game, Door door, Player player)
+	{
+		String message = String.format("%s opened the door", player.getCharacter().getName());
+
+		System.out.println(message);
+	}
+
+	/**
+	 * Called when the provided {@link Player} inspects the provided {@link Door}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param door   The {@link Door} that was inspected.
+	 * @param player
+	 */
+	@Override public void onDoorInspect(Game game, Door door, Player player)
+	{
+		String message = String.format("%s inspected the door. While inspecting the door %s discovers that the door " +
+									   "is %s.", player.getCharacter().getName(), player.getCharacter().getName(),
+									   door.getState().name().toLowerCase()
+		);
+
+		System.out.println(message);
+	}
+
+	@Override public void onDoorAlreadyClosed(Game game, Door door, Player player)
+	{
+		System.out.println("Door is already closed.");
+	}
+
+	@Override public void onDoorAlreadyOpen(Game game, Door door, Player player)
+	{
+		System.out.println("Door is already open.");
+	}
+
+	/**
+	 * Called when the provided {@link Player} inspects the provided {@link Lock}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param lock   The {@link Lock}.
+	 * @param player The {@link Player} who inspected the {@link Lock}.
+	 */
+	@Override public void onLockInspect(Game game, Lock lock, Player player)
+	{
+		String message = String.format("%s inspected the lock. While inspecting the lock %s descovers the the lock " +
+									   "is %s. Written on the lock is the code %d.", player.getCharacter().getName(),
+									   player.getCharacter().getName(), lock.getState().name().toLowerCase(),
+									   lock.getCode()
+		);
+
+		System.out.println(message);
+	}
+
+	/**
+	 * Called when the provided {@link Player} locks the provided {@link Lock}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param lock   The {@link Lock}.
+	 * @param player The {@link Player} who locked the lock.
+	 */
+	@Override public void onLockLock(Game game, Lock lock, Player player)
+	{
+		System.out.println("lock");
+	}
+
+	/**
+	 * Called when the provided {@link Player} unlocks the provided {@link Lock}.
+	 *
+	 * @param game
+	 * @param lock
+	 * @param player
+	 */
+	@Override public void onLockUnlock(Game game, Lock lock, Player player)
+	{
+		System.out.println("unlock");
+	}
+
+	@Override public void onLockAlreadyLocked(Game game, Lock lock, Player player)
+	{
+		System.out.println("already locked");
+	}
+
+	@Override public void onLockAlreadyUnlocked(Game game, Lock lock, Player player)
+	{
+		System.out.println("already unlocked");
 	}
 }
