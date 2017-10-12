@@ -1,13 +1,14 @@
 package textadventure.rooms.features.doors;
 
 import textadventure.Direction;
+import textadventure.actions.Focusable;
 import textadventure.rooms.Room;
 import textadventure.rooms.features.RoomFeature;
 
 /**
  * The {@link Door} represents an entrance to a new room.
  */
-public interface Door extends RoomFeature
+public interface Door extends RoomFeature, Focusable
 {
 
 	/**
@@ -24,11 +25,6 @@ public interface Door extends RoomFeature
 		 * The {@link Door} is closed and must first be opened before it can be used.
 		 */
 		CLOSED,
-
-		/**
-		 * The {@link Door} is locked and must first be unlocked and opened before it can be used.
-		 */
-		LOCKED,
 	}
 
 	/**
@@ -51,6 +47,27 @@ public interface Door extends RoomFeature
 	 * @return The {@link State} of the {@link Door}.
 	 */
 	State getState();
+
+	/**
+	 * Sets the {@link State} of the {@link Door}.
+	 *
+	 * @param state The {@link State} to set.
+	 */
+	boolean setState(State state);
+
+	/**
+	 * Returns one of the {@link Room}s.
+	 *
+	 * @return One of the {@link Room}s.
+	 */
+	Room getSideA();
+
+	/**
+	 * Returns the other {@link Room}.
+	 *
+	 * @return The other {@link Room}.
+	 */
+	Room getSideB();
 
 	/**
 	 * Returns the {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}.

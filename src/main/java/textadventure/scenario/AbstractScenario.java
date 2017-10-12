@@ -2,14 +2,10 @@ package textadventure.scenario;
 
 import textadventure.rooms.Room;
 import textadventure.actions.*;
-import textadventure.actions.move.MoveEastAction;
-import textadventure.actions.move.MoveNorthAction;
-import textadventure.actions.move.MoveSouthAction;
-import textadventure.actions.move.MoveWestAction;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class AbstractScenario implements Scenario
 {
@@ -17,12 +13,12 @@ public abstract class AbstractScenario implements Scenario
 	/**
 	 * The {@link Room} the {@link Scenario} plays out in.
 	 */
-	private Room room;
+	protected Room room;
 
 	/**
 	 * The description of the {@link Scenario}.
 	 */
-	private String description;
+	protected String description;
 
 	/**
 	 * The {@link List} of {@link Action}s that can be performed on the {@link Scenario}.
@@ -34,15 +30,22 @@ public abstract class AbstractScenario implements Scenario
 	 *
 	 * @param room The {@link Room} the {@link Scenario} plays out in.
 	 */
+	public AbstractScenario(Room room)
+	{
+		this.room = room;
+		this.description = "INIT_ABSTRACT_DESCRIPTION";
+	}
+
+	/**
+	 * Creates a new instance of {@link AbstractScenario}.
+	 *
+	 * @param room        The {@link Room} the {@link Scenario} plays out in.
+	 * @param description The description of the {@link Scenario}.
+	 */
 	public AbstractScenario(Room room, String description)
 	{
 		this.room = room;
 		this.description = description;
-
-		actions.add(new MoveNorthAction());
-		actions.add(new MoveSouthAction());
-		actions.add(new MoveEastAction());
-		actions.add(new MoveWestAction());
 	}
 
 	/**
@@ -76,12 +79,12 @@ public abstract class AbstractScenario implements Scenario
 	}
 
 	/**
-	 * Returns a {@link List} of the actions that can be performed in the {@link Scenario}.
+	 * Returns a {@link Stream} of the actions that can be performed in the {@link Scenario}.
 	 *
-	 * @return The {@link List} of the actions that can be performed in the {@link Scenario}.
+	 * @return The {@link Stream} of the actions that can be performed in the {@link Scenario}.
 	 */
-	@Override public List<Action> getActions()
+	@Override public Stream<Action> getActions()
 	{
-		return Collections.unmodifiableList(actions);
+		return actions.stream();
 	}
 }

@@ -1,7 +1,12 @@
 package textadventure;
 
+import textadventure.actions.Action;
+import textadventure.actions.ActionException;
+import textadventure.actions.Focusable;
 import textadventure.rooms.Room;
 import textadventure.scenario.Scenario;
+
+import java.util.function.Consumer;
 
 public interface Player extends Person
 {
@@ -14,24 +19,39 @@ public interface Player extends Person
 	String getName();
 
 	/**
-	 * Returns the {@link Player}'s current location.
+	 * Returns the current location of the {@link Player}.
 	 *
-	 * @return currentLocation of the {@link Player}.
+	 * @return The current location of the {@link Player}.
 	 */
-	public Room getCurrentLocation();
+	Room getCurrentLocation();
 
 	/**
-	 * Sets the {@link Player's}'s current location.
+	 * Updates the current location {@link Player}.
 	 *
 	 * @param currentLocation The current location of the {@link Player}.
 	 */
-	public void setCurrentLocation(Room currentLocation);
+	void setCurrentLocation(Room currentLocation);
 
 	/**
-	 * Delegates a game decision to the {@link Player}.
+	 * Returns the current focus of the {@link Player}.
 	 *
-	 * @param gameController The {@link GameController} to return any decisions to.
-	 * @param scenario       The scenario the {@link Player} is in.
+	 * @return The current focus of the {@link Player}.
 	 */
-	void takeTurn(GameController gameController, GameInterface gameInterface, Scenario scenario);
+	Focusable getFocus();
+
+	/**
+	 * Sets the focus of the {@link Player} on the provided {@link Focusable} object.
+	 *
+	 * @param focus The {@link Focusable} object.
+	 */
+	void setFocus(Focusable focus);
+
+	/**
+	 * Requests an {@link Action} to the provided {@link Scenario}.
+	 *
+	 * @param game     The {@link Game} instance.
+	 * @param scenario The {@link Scenario} to respond to.
+	 * @param callback The {@link Consumer} to use when responding to the request for {@link Action}.
+	 */
+	void takeTurn(Game game, Scenario scenario, Consumer<Action> callback);
 }

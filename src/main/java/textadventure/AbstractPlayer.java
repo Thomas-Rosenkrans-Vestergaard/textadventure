@@ -1,5 +1,6 @@
 package textadventure;
 
+import textadventure.actions.Focusable;
 import textadventure.rooms.Room;
 
 /**
@@ -17,6 +18,11 @@ public abstract class AbstractPlayer extends AbstractPerson implements Player
 	 * The current location of the {@link Player}.
 	 */
 	private Room currentLocation;
+
+	/**
+	 * The current focus of the {@link Player}.
+	 */
+	private Focusable focus;
 
 	/**
 	 * Creates a new {@link AbstractPlayer}.
@@ -59,5 +65,25 @@ public abstract class AbstractPlayer extends AbstractPerson implements Player
 	public void setCurrentLocation(Room currentLocation)
 	{
 		this.currentLocation = currentLocation;
+	}
+
+	/**
+	 * Returns the current focus of the {@link Player}.
+	 *
+	 * @return The current focus of the {@link Player}.
+	 */
+	@Override public Focusable getFocus()
+	{
+		return focus;
+	}
+
+	/**
+	 * Sets the focus of the {@link Player} on the provided {@link Focusable} object.
+	 *
+	 * @param focus The {@link Focusable} object.
+	 */
+	@Override public void setFocus(Focusable focus)
+	{
+		this.focus = focus;
 	}
 }

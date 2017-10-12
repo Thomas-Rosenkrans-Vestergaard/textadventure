@@ -41,7 +41,7 @@ public class MazeFactory
 
 		// Center east door.
 		Lock centerEastLock = new Lock(2, Lock.State.UNLOCKED);
-		Door centerEastDoor = new BaseDoor("Door from center to east room.", centerEastLock, Door.State.OPEN,
+		Door centerEastDoor = new BaseDoor("Door from center to east room.", centerEastLock, Door.State.CLOSED,
 										   centerRoom, eastRoom, Direction.EAST
 		);
 

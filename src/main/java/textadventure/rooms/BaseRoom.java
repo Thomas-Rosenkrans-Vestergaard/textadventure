@@ -1,11 +1,11 @@
 package textadventure.rooms;
 
+import com.google.common.collect.ImmutableMap;
+import textadventure.actions.Focusable;
 import textadventure.rooms.features.RoomFeature;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * An implementation of the {@link Room} interface.
@@ -29,6 +29,11 @@ public class BaseRoom implements Room
 	private final List<RoomFeature> features;
 
 	/**
+	 * The {@link Focusable} objects in the {@link Room}.
+	 */
+	private final Map<String, Focusable> focusable;
+
+	/**
 	 * Creates a new {@link BaseRoom}.
 	 *
 	 * @param name        The name of the {@link Room}.
@@ -39,6 +44,7 @@ public class BaseRoom implements Room
 		this.name = name;
 		this.description = description;
 		this.features = new ArrayList<>();
+		this.focusable = new HashMap<>();
 	}
 
 	/**
@@ -74,9 +80,9 @@ public class BaseRoom implements Room
 	 *
 	 * @return The {@link RoomFeature}s of the {@link Room}.
 	 */
-	@Override public List<RoomFeature> getFeatures()
+	@Override public Stream<RoomFeature> getFeatures()
 	{
-		return Collections.unmodifiableList(features);
+		return features.stream();
 	}
 
 	/**
@@ -87,5 +93,19 @@ public class BaseRoom implements Room
 	@Override public void addFeature(RoomFeature feature)
 	{
 		this.features.add(feature);
+		if (feature instanceof Focusable) {
+			Focusable focusable = (Focusable) feature;
+			this.focusable.put(focusable.getIdentifier(), focusable);
+		}
+	}
+
+	/**
+	 * Returns an {@link ImmutableMap} of the {@link Focusable} objects in the {@link Room}.
+	 *
+	 * @return The {@link ImmutableMap} of the {@link Focusable} objects in the {@link Room}.
+	 */
+	@Override public ImmutableMap<String, Focusable> getFocusable()
+	{
+		return new ImmutableMap.Builder<String, Focusable>().putAll(focusable).build();
 	}
 }

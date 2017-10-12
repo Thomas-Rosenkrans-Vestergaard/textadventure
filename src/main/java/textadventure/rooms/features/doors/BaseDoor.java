@@ -1,12 +1,14 @@
 package textadventure.rooms.features.doors;
 
 import textadventure.Direction;
+import textadventure.actions.*;
+import textadventure.actions.doors.*;
 import textadventure.rooms.Room;
 
 /**
  * The default implementation of the {@link Door} interface.
  */
-public class BaseDoor implements Door
+public class BaseDoor extends AbstractFocusable implements Door
 {
 
 	/**
@@ -50,16 +52,18 @@ public class BaseDoor implements Door
 	 */
 	public BaseDoor(String description, Lock lock, State state, Room a, Room b, Direction direction)
 	{
-		if (state == State.LOCKED) {
-			throw new IllegalArgumentException("Cannot initiate door in the LOCKED state. Use a locked Lock.");
-		}
-
 		this.description = description;
 		this.lock = lock;
 		this.state = state;
 		this.a = a;
 		this.b = b;
 		this.direction = direction;
+
+		addAction(new OpenDoorAction());
+		addAction(new CloseDoorAction());
+		addAction(new UnlockDoorAction());
+		addAction(new LockDoorAction());
+		addAction(new MoveThroughDoorAction());
 	}
 
 	/**
@@ -89,21 +93,22 @@ public class BaseDoor implements Door
 	 */
 	@Override public State getState()
 	{
-		if (state == State.OPEN) {
-			return state;
+		return state;
+	}
+
+	/**
+	 * Sets the {@link State} of the {@link Door}.
+	 *
+	 * @param state The {@link State} to set.
+	 */
+	@Override public boolean setState(State state)
+	{
+		if (lock.getState() == Lock.State.LOCKED) {
+			return false;
 		}
 
-		Lock.State lockState = lock.getState();
-
-		if (lockState == Lock.State.LOCKED) {
-			return State.LOCKED;
-		}
-
-		if (lockState == Lock.State.UNLOCKED) {
-			return State.CLOSED;
-		}
-
-		throw new IllegalStateException();
+		this.state = state;
+		return true;
 	}
 
 	/**
@@ -126,6 +131,26 @@ public class BaseDoor implements Door
 	}
 
 	/**
+	 * Returns one of the {@link Room}s.
+	 *
+	 * @return One of the {@link Room}s.
+	 */
+	@Override public Room getSideA()
+	{
+		return a;
+	}
+
+	/**
+	 * Returns the other {@link Room}.
+	 *
+	 * @return The other {@link Room}.
+	 */
+	@Override public Room getSideB()
+	{
+		return b;
+	}
+
+	/**
 	 * Returns the {@link Direction} of the {@link Door} in the provided {@link Room}.
 	 *
 	 * @param room The {@link Room} to use as perspective.
@@ -142,5 +167,17 @@ public class BaseDoor implements Door
 			return direction.getInverse();
 
 		return null;
+	}
+
+	/**
+	 * Returns the identifier use the identify the {@link Focusable} object. This identifier used to focus on the
+	 * {@link Focusable} object using the <code>focus</code> command.
+	 *
+	 * @return The identifier use the identify the {@link Focusable} object. This identifier used to focus on the
+	 * {@link Focusable} object using the <code>focus</code> command.
+	 */
+	@Override public String getIdentifier()
+	{
+		return direction.name().toLowerCase() + "_door";
 	}
 }

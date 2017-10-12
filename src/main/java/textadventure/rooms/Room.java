@@ -1,9 +1,10 @@
 package textadventure.rooms;
 
+import com.google.common.collect.ImmutableMap;
+import textadventure.actions.Focusable;
 import textadventure.rooms.features.RoomFeature;
-import textadventure.rooms.features.doors.Door;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public interface Room
 {
@@ -27,7 +28,7 @@ public interface Room
 	 *
 	 * @return The {@link RoomFeature}s of the {@link Room}.
 	 */
-	List<RoomFeature> getFeatures();
+	Stream<RoomFeature> getFeatures();
 
 	/**
 	 * Adds the provided {@link RoomFeature} to the {@link Room}.
@@ -35,4 +36,11 @@ public interface Room
 	 * @param feature The {@link RoomFeature} to add to the {@link Room}.
 	 */
 	void addFeature(RoomFeature feature);
+
+	/**
+	 * Returns an {@link ImmutableMap} of the {@link Focusable} objects in the {@link Room}.
+	 *
+	 * @return The {@link ImmutableMap} of the {@link Focusable} objects in the {@link Room}.
+	 */
+	ImmutableMap<String, Focusable> getFocusable();
 }
