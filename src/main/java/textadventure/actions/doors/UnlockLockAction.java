@@ -5,6 +5,7 @@ import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionException;
 import textadventure.actions.Focusable;
+import textadventure.ui.UIRequest;
 
 public class UnlockLockAction implements Action
 {
@@ -38,6 +39,15 @@ public class UnlockLockAction implements Action
 	 */
 	@Override public void perform(Game game, Focusable focus, Player player) throws ActionException
 	{
-		throw new UnsupportedOperationException();
+		UIRequest request = action -> {
+			callback(action);
+		};
+
+		game.getUI().onActionRequest(game, request, player);
+	}
+
+	private void callback(Action action)
+	{
+		if(!(action instanceof ))
 	}
 }
