@@ -4,6 +4,7 @@ import textadventure.Direction;
 import textadventure.actions.*;
 import textadventure.actions.doors.*;
 import textadventure.rooms.Room;
+import textadventure.rooms.features.lock.Lock;
 
 /**
  * The default implementation of the {@link Door} interface.
@@ -61,9 +62,11 @@ public class BaseDoor extends AbstractFocusable implements Door
 
 		addAction(new OpenDoorAction());
 		addAction(new CloseDoorAction());
-		addAction(new UnlockDoorAction());
-		addAction(new LockDoorAction());
+		addAction(new UnlockLockAction());
+		addAction(new LockLockAction());
 		addAction(new MoveThroughDoorAction());
+		addAction(new InspectDoorAction());
+		addAction(new InspectLockAction());
 	}
 
 	/**
@@ -77,9 +80,9 @@ public class BaseDoor extends AbstractFocusable implements Door
 	}
 
 	/**
-	 * Returns the {@link Lock} located on the {@link Door}.
+	 * Returns the {@link Lock} on the {@link Door} object.
 	 *
-	 * @return The {@link Lock} located on the {@link Door}.
+	 * @return The {@link Lock} on the {@link Door} object.
 	 */
 	@Override public Lock getLock()
 	{

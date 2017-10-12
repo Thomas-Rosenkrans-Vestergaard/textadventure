@@ -1,4 +1,6 @@
-package textadventure.rooms.features.doors;
+package textadventure.rooms.features.lock;
+
+import textadventure.rooms.features.doors.Door;
 
 /**
  * Represents a {@link Key} needed to open a locked {@link Door}.

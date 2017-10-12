@@ -4,11 +4,13 @@ import textadventure.Direction;
 import textadventure.actions.Focusable;
 import textadventure.rooms.Room;
 import textadventure.rooms.features.RoomFeature;
+import textadventure.rooms.features.lock.Lock;
+import textadventure.rooms.features.lock.Lockable;
 
 /**
  * The {@link Door} represents an entrance to a new room.
  */
-public interface Door extends RoomFeature, Focusable
+public interface Door extends RoomFeature, Focusable, Lockable
 {
 
 	/**
@@ -33,13 +35,6 @@ public interface Door extends RoomFeature, Focusable
 	 * @return The description of the {@link Door}.
 	 */
 	String getDescription();
-
-	/**
-	 * Returns the {@link Lock} located on the {@link Door}.
-	 *
-	 * @return The {@link Lock} located on the {@link Door}.
-	 */
-	Lock getLock();
 
 	/**
 	 * Returns the {@link State} of the {@link Door}.

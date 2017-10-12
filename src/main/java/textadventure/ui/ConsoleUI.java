@@ -69,8 +69,7 @@ public class ConsoleUI implements UI
 	 * @param scenario The {@link Scenario} to respond to.
 	 * @param callback The callback to respond with.
 	 */
-	@Override public void onActionRequest(
-			Game game, Player player, Scenario scenario, Consumer<Action> callback)
+	@Override public void onActionRequest(Game game, Player player, Scenario scenario, Consumer<Action> callback)
 	{
 		ImmutableMap<String, Focusable> focusable = player.getCurrentLocation().getFocusable();
 

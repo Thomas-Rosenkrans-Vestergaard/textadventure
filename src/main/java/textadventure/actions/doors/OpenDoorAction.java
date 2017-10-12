@@ -7,13 +7,13 @@ import textadventure.actions.ActionException;
 import textadventure.actions.Focusable;
 import textadventure.actions.UnknownActionException;
 import textadventure.rooms.features.doors.Door;
-import textadventure.rooms.features.doors.Lock;
+import textadventure.rooms.features.lock.Lock;
 import textadventure.ui.UIMessage;
 
 /**
  * {@link Action} that opens a closed {@link Door}. The {@link Door} can only be opened when the {@link Door} has
  * {@link textadventure.rooms.features.doors.Door.State} CLOSED and the {@link Lock} has state
- * {@link textadventure.rooms.features.doors.Lock.State} UNLOCKED.
+ * {@link Lock.State} UNLOCKED.
  */
 public class OpenDoorAction implements Action
 {
