@@ -8,7 +8,7 @@ import textadventure.items.Item;
 import textadventure.ui.SelectException;
 import textadventure.ui.UserInterface;
 
-public class LockUnlockAction implements Action
+public class UnlockAction implements Action
 {
 
 	/**
@@ -27,35 +27,13 @@ public class LockUnlockAction implements Action
 	private Game game;
 
 	/**
-	 * Creates a new {@link LockUnlockAction}.
+	 * Creates a new {@link UnlockAction}.
 	 *
 	 * @param lock The {@link Lock} to unlock.
 	 */
-	public LockUnlockAction(Lock lock)
+	public UnlockAction(Lock lock)
 	{
 		this.lock = lock;
-	}
-
-	/**
-	 * Returns the name of the {@link Action}.
-	 *
-	 * @return The name of the {@link Action}.
-	 */
-	@Override
-	public String getActionName()
-	{
-		return "unlock";
-	}
-
-	/**
-	 * Returns a description of the {@link LockUnlockAction}.
-	 *
-	 * @return The description of the {@link LockUnlockAction}.
-	 */
-	@Override
-	public String getActionDescription()
-	{
-		return "Unlock the lock.";
 	}
 
 	/**
@@ -67,22 +45,9 @@ public class LockUnlockAction implements Action
 	@Override
 	public void perform(Game game, Player player) throws ActionException
 	{
-		Lock.State state = lock.getState();
-		UserInterface userInterface = game.getUserInterface();
-
-		if (state == Lock.State.UNLOCKED) {
-			userInterface.onLockAlreadyUnlocked(game, lock, player);
-			return;
-		}
-
-		if (state == Lock.State.LOCKED) {
-			this.player = player;
-			this.game = game;
-			userInterface.select(player.getCharacter().getInventory(), player, this::callback);
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		this.game = game;
+		this.player = player;
+		game.getUserInterface().select(player.getCharacter().getInventory(), player, this::callback);
 	}
 
 	/**
@@ -101,8 +66,8 @@ public class LockUnlockAction implements Action
 		try {
 			Key key = (Key) item;
 			lock.unlock(key);
-			game.getUserInterface().write("The door is now unlocked.");
-		} catch (LockAlreadyUnlockedException e) {
+			game.getUserInterface().write("You successfully unlocked the door.");
+		} catch (AlreadyUnlockedException e) {
 			game.getUserInterface().write("The lock is already unlocked.");
 			return;
 		} catch (IncorrectKeyException e) {

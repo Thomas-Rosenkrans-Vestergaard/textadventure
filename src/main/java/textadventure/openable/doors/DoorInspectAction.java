@@ -4,6 +4,7 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.Action;
 import textadventure.ActionException;
+import textadventure.ui.UserInterface;
 
 public class DoorInspectAction implements Action
 {
@@ -24,33 +25,16 @@ public class DoorInspectAction implements Action
 	}
 
 	/**
-	 * Returns the name of the {@link Action}.
-	 *
-	 * @return The name of the {@link Action}.
-	 */
-	@Override public String getActionName()
-	{
-		return "inspect";
-	}
-
-	/**
-	 * Returns a description of the {@link Action}.
-	 *
-	 * @return The description of the {@link Action}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Inspect the door to gather information.";
-	}
-
-	/**
 	 * Performs the {@link Action} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} performing the {@link Action}.
 	 */
-	@Override public void perform(Game game, Player player) throws ActionException
+	@Override
+	public void perform(Game game, Player player) throws ActionException
 	{
-		game.getUserInterface().onDoorInspect(game, door, player);
+		UserInterface userInterface = game.getUserInterface();
+
+		userInterface.write("You inspect the door, learning that the door is " + door.getOpenableState().name() + ".");
 	}
 }

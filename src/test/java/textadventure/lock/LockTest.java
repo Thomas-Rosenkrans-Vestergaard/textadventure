@@ -39,7 +39,7 @@ public class LockTest
 		assertEquals(Lock.State.LOCKED, lock.getState());
 	}
 
-	@Test(expected = LockAlreadyLockedException.class)
+	@Test(expected = AlreadyLockedException.class)
 	public void lockAlreadyLockedException() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.LOCKED);
@@ -65,7 +65,7 @@ public class LockTest
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 	}
 
-	@Test(expected = LockAlreadyUnlockedException.class)
+	@Test(expected = AlreadyUnlockedException.class)
 	public void lockAlreadyUnlockedException() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.UNLOCKED);

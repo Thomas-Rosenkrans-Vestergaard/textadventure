@@ -37,9 +37,9 @@ public class Lock extends AbstractProperty
 		this.code = code;
 		this.state = state;
 
-		addAction(new LockLockAction(this));
-		addAction(new LockUnlockAction(this));
-		addAction(new LockInspectAction(this));
+		addAction("lock", "Attempt to lock the lock, provided you have a matching key.", new LockAction(this));
+		addAction("unlock", "Attempt to unlock the lock, provided you have a matching key.", new UnlockAction(this));
+		addAction("inspect", "Inspect the lock to gather new information.", new LockInspectAction(this));
 	}
 
 	/**
@@ -68,14 +68,13 @@ public class Lock extends AbstractProperty
 	 * Locks the {@link Lock} using the provided {@link Key}.
 	 *
 	 * @param key The {@link Key} to use to unlock the {@link Lock}.
-	 *
-	 * @throws LockAlreadyLockedException When the {@link Lock} is already locked.
-	 * @throws IncorrectKeyException      When an incorrect {@link Key} is used to lock the {@link Lock}.
+	 * @throws AlreadyLockedException When the {@link Lock} is already locked.
+	 * @throws IncorrectKeyException  When an incorrect {@link Key} is used to lock the {@link Lock}.
 	 */
-	public void lock(Key key) throws LockAlreadyLockedException, IncorrectKeyException
+	public void lock(Key key) throws AlreadyLockedException, IncorrectKeyException
 	{
 		if (state == State.LOCKED) {
-			throw new LockAlreadyLockedException(this);
+			throw new AlreadyLockedException(this);
 		}
 
 		if (!key.getCode().equals(this.code)) {
@@ -89,13 +88,12 @@ public class Lock extends AbstractProperty
 	 * Unlocks the {@link Lock} using the provided {@link Key}.
 	 *
 	 * @param key The {@link Key} to use to unlock the {@link Lock}.
-	 *
 	 * @throws IncorrectKeyException When an incorrect {@link Key} is used to unlock the {@link Lock}.
 	 */
-	public void unlock(Key key) throws IncorrectKeyException, LockAlreadyUnlockedException
+	public void unlock(Key key) throws IncorrectKeyException, AlreadyUnlockedException
 	{
 		if (state == State.UNLOCKED) {
-			throw new LockAlreadyUnlockedException(this);
+			throw new AlreadyUnlockedException(this);
 		}
 
 		if (!key.getCode().equals(this.code)) {

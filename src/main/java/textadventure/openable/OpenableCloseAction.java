@@ -25,28 +25,6 @@ public class OpenableCloseAction implements Action
 	}
 
 	/**
-	 * Returns the name of the {@link Action}.
-	 *
-	 * @return The name of the {@link Action}.
-	 */
-	@Override
-	public String getActionName()
-	{
-		return "close";
-	}
-
-	/**
-	 * Returns a description of the {@link Action}.
-	 *
-	 * @return The description of the {@link Action}.
-	 */
-	@Override
-	public String getActionDescription()
-	{
-		return "Closes the door.";
-	}
-
-	/**
 	 * Performs the {@link Action} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
@@ -58,24 +36,19 @@ public class OpenableCloseAction implements Action
 		Door.State state = door.getOpenableState();
 
 		if (state == Door.State.CLOSED) {
-			/*game.getUserInterface().onDoorAlreadyClosed(game, door, player);*/
+			game.getUserInterface().write("The door is already closed.");
 			return;
 		}
 
 		if (state == Door.State.OPEN) {
 			try {
 				door.close();
-				game.getUserInterface().onOpen(game, door, player);
-				return;
+				game.getUserInterface().write("You closed the door.");
 			} catch (OpenableAlreadyClosedException e) {
 				game.getUserInterface().write("The door is already closed.");
-				return;
 			} catch (CannotCloseException e) {
-				game.getUserInterface().write("Cannot open the door.");
-				return;
+				game.getUserInterface().write("Cannot close the door.");
 			}
 		}
-
-		throw new IllegalStateException();
 	}
 }

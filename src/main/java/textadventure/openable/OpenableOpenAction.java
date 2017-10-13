@@ -28,28 +28,6 @@ public class OpenableOpenAction implements Action
 	}
 
 	/**
-	 * Returns the name of the {@link Action}.
-	 *
-	 * @return The name of the {@link Action}.
-	 */
-	@Override
-	public String getActionName()
-	{
-		return "open";
-	}
-
-	/**
-	 * Returns a description of the {@link Action}.
-	 *
-	 * @return The description of the {@link Action}.
-	 */
-	@Override
-	public String getActionDescription()
-	{
-		return "Opens the door.";
-	}
-
-	/**
 	 * Performs the {@link OpenableOpenAction} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
@@ -62,11 +40,11 @@ public class OpenableOpenAction implements Action
 
 		try {
 			openable.open();
-			userInterface.onOpen(game, openable, player);
+			userInterface.write("The door is now open.");
 		} catch (OpenableAlreadyOpenException e) {
-
+			userInterface.write("The door is already open.");
 		} catch (CannotOpenException e) {
-			game.getUserInterface().write("Cannot open door.");
+			userInterface.write("Cannot open door.");
 		}
 	}
 }

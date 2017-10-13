@@ -2,10 +2,6 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.*;
-import textadventure.openable.Openable;
-import textadventure.openable.OpenableException;
-import textadventure.openable.doors.Door;
-import textadventure.lock.Lock;
 import textadventure.rooms.Room;
 
 import java.io.OutputStream;
@@ -160,9 +156,6 @@ public class ConsoleUserInterface implements UserInterface
 			}
 
 			Action action = property.getAction(sections[sections.length - 1]);
-
-			printer.println(action);
-
 			callback.accept(action);
 			break;
 		}
@@ -209,134 +202,5 @@ public class ConsoleUserInterface implements UserInterface
 		} catch (SelectException e) {
 			printer.println("SelectException.");
 		}
-	}
-
-	/**
-	 * Called when the provided {@link Player} closes the provided {@link Door}.
-	 *
-	 * @param game     The {@link Game} instance.
-	 * @param openable The {@link Door} that was closed.
-	 * @param player   The {@link Player} who closed the {@link Door}.
-	 */
-	@Override
-	public void onOpen(Game game, Openable openable, Player player)
-	{
-		String message = String.format("%s closed the door.", player.getCharacter().getName());
-
-		printer.println(message);
-	}
-
-	/**
-	 * Called when the provided {@link Player} inspects the provided {@link Door}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param door   The {@link Door} that was inspected.
-	 * @param player
-	 */
-	@Override
-	public void onDoorInspect(Game game, Door door, Player player)
-	{
-		String message = String.format("%s inspected the door. While inspecting the door %s discovers that the door " +
-						"is %s.", player.getCharacter().getName(), player.getCharacter().getName(),
-				door.getOpenableState().name().toLowerCase()
-		);
-
-		printer.println(message);
-	}
-
-	/**
-	 * Event when the provided {@link Player} closes an {@link Openable} object.
-	 *
-	 * @param game     The {@link Game} instance.
-	 * @param openable The {@link Openable} object.
-	 * @param player   The {@link Player} who closed the {@link Openable} object.
-	 */
-	@Override
-	public void onClose(Game game, Openable openable, Player player)
-	{
-
-	}
-
-	/**
-	 * Event when the provided {@link Player} encounters an {@link Exception} while using a {@link Openable} object.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param e      The {@link OpenableException} that was thrown.
-	 * @param player The {@link Player} who encountered the {@link OpenableException}.
-	 */
-	@Override
-	public void onOpenException(Game game, OpenableException e, Player player)
-	{
-
-	}
-
-	/**
-	 * Event when the provided {@link Player} encounters an {@link Exception} while using a {@link Openable} object.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param e      The {@link OpenableException} that was thrown.
-	 * @param player The {@link Player} who encountered the {@link OpenableException}.
-	 */
-	@Override
-	public void onCloseException(Game game, OpenableException e, Player player)
-	{
-
-	}
-
-	/**
-	 * Called when the provided {@link Player} inspects the provided {@link Lock}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param lock   The {@link Lock}.
-	 * @param player The {@link Player} who inspected the {@link Lock}.
-	 */
-	@Override
-	public void onLockInspect(Game game, Lock lock, Player player)
-	{
-		String message = String.format("%s inspected the lock. While inspecting the lock %s discovers that the lock " +
-						"is %s. Written on the lock is the code %s.", player.getCharacter().getName(),
-				player.getCharacter().getName(), lock.getState().name().toLowerCase(),
-				lock.getCode()
-		);
-
-		printer.println(message);
-	}
-
-	/**
-	 * Called when the provided {@link Player} locks the provided {@link Lock}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param lock   The {@link Lock}.
-	 * @param player The {@link Player} who locked the lock.
-	 */
-	@Override
-	public void onLockLock(Game game, Lock lock, Player player)
-	{
-		printer.println("lock");
-	}
-
-	/**
-	 * Called when the provided {@link Player} unlocks the provided {@link Lock}.
-	 *
-	 * @param game
-	 * @param lock
-	 * @param player
-	 */
-	@Override
-	public void onLockUnlock(Game game, Lock lock, Player player)
-	{
-		printer.println("unlock");
-	}
-
-	@Override
-	public void onLockAlreadyLocked(Game game, Lock lock, Player player)
-	{
-		printer.println("already locked");
-	}
-
-	@Override
-	public void onLockAlreadyUnlocked(Game game, Lock lock, Player player)
-	{
-		printer.println("already unlocked");
 	}
 }

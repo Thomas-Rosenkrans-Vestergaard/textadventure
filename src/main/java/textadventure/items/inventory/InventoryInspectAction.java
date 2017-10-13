@@ -9,28 +9,6 @@ public class InventoryInspectAction implements Action
 {
 
 	/**
-	 * Returns the name of the {@link Action}.
-	 *
-	 * @return The name of the {@link Action}.
-	 */
-	@Override
-	public String getActionName()
-	{
-		return "inspect";
-	}
-
-	/**
-	 * Returns a description of the {@link Action}.
-	 *
-	 * @return The description of the {@link Action}.
-	 */
-	@Override
-	public String getActionDescription()
-	{
-		return "description";
-	}
-
-	/**
 	 * Performs the {@link Action} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
