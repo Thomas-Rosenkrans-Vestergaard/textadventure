@@ -9,7 +9,7 @@ import textadventure.lock.Lock;
 /**
  * {@link Action} that opens a closed {@link Door}.
  */
-public class OpenDoorAction implements Action
+public class DoorOpenAction implements Action
 {
 
 	/**
@@ -18,11 +18,11 @@ public class OpenDoorAction implements Action
 	private Door door;
 
 	/**
-	 * Creates a new {@link OpenDoorAction}.
+	 * Creates a new {@link DoorOpenAction}.
 	 *
 	 * @param door The {@link Door} to open.
 	 */
-	public OpenDoorAction(Door door)
+	public DoorOpenAction(Door door)
 	{
 		this.door = door;
 	}
@@ -48,10 +48,10 @@ public class OpenDoorAction implements Action
 	}
 
 	/**
-	 * Performs the {@link OpenDoorAction} using the provided parameters.
+	 * Performs the {@link DoorOpenAction} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link OpenDoorAction}.
+	 * @param player The {@link Player} performing the {@link DoorOpenAction}.
 	 */
 	@Override public void perform(Game game, Player player) throws ActionException
 	{

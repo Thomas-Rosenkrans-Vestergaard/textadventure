@@ -5,7 +5,7 @@ import textadventure.Player;
 import textadventure.Action;
 import textadventure.ActionException;
 
-public class CloseDoorAction implements Action
+public class DoorCloseAction implements Action
 {
 
 	/**
@@ -14,11 +14,11 @@ public class CloseDoorAction implements Action
 	private Door door;
 
 	/**
-	 * Creates a new {@link CloseDoorAction}.
+	 * Creates a new {@link DoorCloseAction}.
 	 *
 	 * @param door The {@link Door} to close.
 	 */
-	public CloseDoorAction(Door door)
+	public DoorCloseAction(Door door)
 	{
 		this.door = door;
 	}

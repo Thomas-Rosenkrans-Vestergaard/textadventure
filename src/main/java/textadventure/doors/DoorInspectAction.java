@@ -5,7 +5,7 @@ import textadventure.Player;
 import textadventure.Action;
 import textadventure.ActionException;
 
-public class InspectDoorAction implements Action
+public class DoorInspectAction implements Action
 {
 
 	/**
@@ -14,11 +14,11 @@ public class InspectDoorAction implements Action
 	private Door door;
 
 	/**
-	 * Creates a new {@link InspectDoorAction}.
+	 * Creates a new {@link DoorInspectAction}.
 	 *
 	 * @param door The {@link Door} to inspect.
 	 */
-	public InspectDoorAction(Door door)
+	public DoorInspectAction(Door door)
 	{
 		this.door = door;
 	}

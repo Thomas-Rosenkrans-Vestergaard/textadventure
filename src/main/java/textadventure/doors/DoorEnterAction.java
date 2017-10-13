@@ -9,9 +9,9 @@ import textadventure.rooms.Room;
 /**
  * {@link Action} that lets the {@link Player} move through an {@link Door}. The
  * {@link Door} must have {@link Door.State}
- * OPEN before {@link EnterDoorAction} can be performed.
+ * OPEN before {@link DoorEnterAction} can be performed.
  */
-public class EnterDoorAction implements Action
+public class DoorEnterAction implements Action
 {
 
 	/**
@@ -20,11 +20,11 @@ public class EnterDoorAction implements Action
 	private Door door;
 
 	/**
-	 * Creates a new {@link EnterDoorAction}.
+	 * Creates a new {@link DoorEnterAction}.
 	 *
 	 * @param door The {@link Door} to move through.
 	 */
-	public EnterDoorAction(Door door)
+	public DoorEnterAction(Door door)
 	{
 		this.door = door;
 	}
