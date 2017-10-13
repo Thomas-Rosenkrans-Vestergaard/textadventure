@@ -226,8 +226,8 @@ public class ConsoleUI implements UI
 	 */
 	@Override public void onLockInspect(Game game, Lock lock, Player player)
 	{
-		String message = String.format("%s inspected the lock. While inspecting the lock %s descovers the the lock " +
-									   "is %s. Written on the lock is the code %d.", player.getCharacter().getName(),
+		String message = String.format("%s inspected the lock. While inspecting the lock %s discovers that the lock " +
+									   "is %s. Written on the lock is the code %s.", player.getCharacter().getName(),
 									   player.getCharacter().getName(), lock.getState().name().toLowerCase(),
 									   lock.getCode()
 		);
