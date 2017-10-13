@@ -2,13 +2,13 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
 
-public interface Select<T extends Option>
+public interface Select<T>
 {
 
 	/**
-	 * Returns the {@link Option}s available in the {@link Select}.
+	 * Returns the {@link T}s available in the {@link Select}.
 	 *
-	 * @return The {@link Option}s available in the {@link Select}.
+	 * @return The {@link T}s available in the {@link Select}.
 	 */
 	ImmutableMap<String, T> getOptions();
 }

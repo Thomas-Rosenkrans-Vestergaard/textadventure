@@ -5,6 +5,7 @@ import textadventure.Player;
 import textadventure.Action;
 import textadventure.ActionException;
 import textadventure.items.Item;
+import textadventure.ui.SelectException;
 import textadventure.ui.UI;
 
 public class LockLockAction implements Action
@@ -14,6 +15,16 @@ public class LockLockAction implements Action
 	 * The {@link Lock} to lock.
 	 */
 	private Lock lock;
+
+	/**
+	 * The {@link Player} performing the {@link Action}.
+	 */
+	private Player player;
+
+	/**
+	 * The current {@link Game} instance.
+	 */
+	private Game game;
 
 	/**
 	 * Creates a new {@link LockLockAction}.
@@ -62,6 +73,8 @@ public class LockLockAction implements Action
 		}
 
 		if (state == Lock.State.UNLOCKED) {
+			this.game = game;
+			this.player = player;
 			game.getUI().select(player.getCharacter().getInventory(), player, this::callback);
 			return;
 		}
@@ -69,13 +82,18 @@ public class LockLockAction implements Action
 		throw new IllegalStateException();
 	}
 
-	private void callback(Item item)
+	/**
+	 * Accepts the chosen {@link Item} to use when locking the {@link Lock}.
+	 *
+	 * @param item The {@link Item} to use when locking the {@link Lock}.
+	 */
+	private void callback(Item item) throws SelectException
 	{
 		if (!(item instanceof Key)) {
-			System.out.println("You must select a key.");
-			//game.getUI().select(player.getCharacter().getInventory(), player, this::callback);
+			System.out.println("Item must be a key.");
+			game.getUI().select(player.getCharacter().getInventory(), player, this::callback);
+			return;
 		}
 
-		System.out.println("Received " + item.getOptionName());
 	}
 }

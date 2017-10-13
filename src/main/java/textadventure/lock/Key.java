@@ -25,19 +25,19 @@ public class Key implements Item
 	}
 
 	/**
-	 * Returns the unique identifier of the {@link Item}.
-	 *
-	 * @return The unique identifier of the {@link Item}.
-	 */
-	@Override public int getID()
-	{
-		return code.hashCode();
-	}
-
-	/**
 	 * Returns the name of the {@link Item}.
 	 *
 	 * @return The name of the {@link Item}.
+	 */
+	@Override public String getItemName()
+	{
+		return code;
+	}
+
+	/**
+	 * Returns the name that should be displayed in the {@link Select}.
+	 *
+	 * @return The name that should be displayed in the {@link Select}.
 	 */
 	@Override public String getOptionName()
 	{

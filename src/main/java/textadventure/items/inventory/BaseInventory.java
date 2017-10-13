@@ -3,7 +3,6 @@ package textadventure.items.inventory;
 import com.google.common.collect.ImmutableMap;
 import textadventure.AbstractProperty;
 import textadventure.items.Item;
-import textadventure.ui.Option;
 
 public class BaseInventory implements Inventory
 {
@@ -126,16 +125,16 @@ public class BaseInventory implements Inventory
 	}
 
 	/**
-	 * Returns the {@link Option}s available in the {@link textadventure.ui.Select}.
+	 * Returns the {@link Item}s available in the {@link Inventory}.
 	 *
-	 * @return The {@link Option}s available in the {@link textadventure.ui.Select}.
+	 * @return The {@link Item}s available in the {@link Inventory}.
 	 */
 	@Override public ImmutableMap<String, Item> getOptions()
 	{
 		ImmutableMap.Builder<String, Item> options = new ImmutableMap.Builder<>();
 		for (Item item : items)
 			if (item != null)
-				options.put(Integer.toString(item.getID()), item);
+				options.put(item.getItemName(), item);
 
 		return options.build();
 	}

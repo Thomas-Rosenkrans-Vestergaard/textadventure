@@ -82,13 +82,13 @@ public interface UI
 	void onActionResponse(Game game, Player player, Action action);
 
 	/**
-	 * Requests a {@link Option} option from the {@link UI}.
+	 * Requests a {@link Select} option {@link UI}.
 	 *
-	 * @param select   The {@link Select} to select the {@link Option}s from.
-	 * @param player   The {@link Player} to request a {@link Option} element from.
-	 * @param callback The callback to use when responding to the select request.
+	 * @param select   The {@link Select}.
+	 * @param player   The {@link Player} selecting.
+	 * @param callback The callback to use to return the selected element.
 	 */
-	<T extends Option> void select(Select<T> select, Player player, Consumer<T> callback);
+	<T> void select(Select<T> select, Player player, SelectCallback<T> callback);
 
 	/**
 	 * Called when the provided {@link Player} closes the provided {@link Door}.
