@@ -4,7 +4,7 @@ import textadventure.Property;
 import textadventure.items.Item;
 import textadventure.ui.Select;
 
-public interface Inventory extends Select<Item>, Property
+public interface Inventory extends Select<Item>
 {
 
 	/**
