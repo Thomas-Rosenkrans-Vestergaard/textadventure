@@ -6,11 +6,13 @@ import textadventure.PropertyContainer;
 import textadventure.lock.Lock;
 import textadventure.openable.Openable;
 import textadventure.rooms.Room;
+import textadventure.rooms.RoomFeature;
 
 /**
  * The {@link Door} represents an entrance to a new room.
  */
-public interface Door extends PropertyContainer, Property, Openable {
+public interface Door extends PropertyContainer, Property, Openable
+{
 
     /**
      * Returns the {@link Lock} on the {@link Door}.
