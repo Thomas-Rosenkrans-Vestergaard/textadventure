@@ -1,6 +1,6 @@
 package textadventure;
 
-import textadventure.items.Inventory;
+import textadventure.items.backpack.Backpack;
 import textadventure.rooms.Landmine;
 import textadventure.rooms.Room;
 
@@ -15,11 +15,11 @@ public interface Character
 	String getName();
 
 	/**
-	 * Returns the {@link Inventory} of the {@link Character}.
+	 * Returns the {@link Backpack} of the {@link Character}.
 	 *
-	 * @return The {@link Inventory} of the {@link Character}.
+	 * @return The {@link Backpack} of the {@link Character}.
 	 */
-	Inventory getInventory();
+	Backpack getBackpack();
 
 	/**
 	 * Returns the {@link Room} the {@link Character} is currently in.
