@@ -4,11 +4,9 @@ public interface Option
 {
 
 	/**
-	 * Returns the name of the {@link Option} item. The name is used when {@link Select}ing the {@link Option} item
-	 * from the {@link UI}.
+	 * Returns the name that should be displayed in the {@link Select}.
 	 *
-	 * @return The name of the {@link Option} item. The name is used when {@link Select}ing the {@link Option} item
-	 * from the {@link UI}.
+	 * @return The name that should be displayed in the {@link Select}.
 	 */
 	String getOptionName();
 }

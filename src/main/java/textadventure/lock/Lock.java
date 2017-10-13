@@ -71,7 +71,7 @@ public class Lock extends AbstractProperty
 	 *
 	 * @return The {@link State} of the {@link Lock}.
 	 */
-	public State getState() throws IncorrectKeyException
+	public State getState()
 	{
 		return this.state;
 	}

@@ -138,18 +138,18 @@ public class ConsoleUI implements UI
 	}
 
 	/**
-	 * Requests a {@link Option} option from the {@link UI}.
+	 * Requests a {@link Select} option {@link UI}.
 	 *
-	 * @param select   The {@link Select} to select the {@link Option}s from.
-	 * @param player   The {@link Player} to request a {@link Option} element from.
-	 * @param callback The callback to use when responding to the select request.
+	 * @param select   The {@link Select}.
+	 * @param player   The {@link Player} selecting.
+	 * @param callback The callback to use to return the selected element.
 	 */
-	@Override public <T extends Option> void select(Select<T> select, Player player, Consumer<T> callback)
+	@Override public <T> void select(Select<T> select, Player player, SelectCallback<T> callback)
 	{
 		System.out.println("Select one of the following options.");
 		ImmutableMap<String, ? extends T> options = select.getOptions();
 		for (Map.Entry<String, ? extends T> entry : options.entrySet()) {
-			System.out.println(entry.getKey() + ": " + entry.getValue().getOptionName());
+			System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
 
 		String choice = scanner.nextLine();
@@ -159,7 +159,7 @@ public class ConsoleUI implements UI
 			return;
 		}
 
-		callback.accept(options.get(choice));
+		//callback.accept(options.get(choice));
 	}
 
 	/**
