@@ -71,8 +71,49 @@ public class Lock extends AbstractProperty
 	 *
 	 * @return The {@link State} of the {@link Lock}.
 	 */
-	public State getState()
+	public State getState() throws IncorrectKeyException
 	{
 		return this.state;
+	}
+
+	/**
+	 * Locks the {@link Lock} using the provided {@link Key}.
+	 *
+	 * @param key The {@link Key} to use to unlock the {@link Lock}.
+	 *
+	 * @throws LockAlreadyLockedException When the {@link Lock} is already locked.
+	 * @throws IncorrectKeyException      When an incorrect {@link Key} is used to lock the {@link Lock}.
+	 */
+	public void lock(Key key) throws LockAlreadyLockedException, IncorrectKeyException
+	{
+		if (state == State.LOCKED) {
+			throw new LockAlreadyLockedException(this);
+		}
+
+		if (!key.getCode().equals(this.code)) {
+			throw new IncorrectKeyException(this, key);
+		}
+
+		this.state = State.LOCKED;
+	}
+
+	/**
+	 * Unlocks the {@link Lock} using the provided {@link Key}.
+	 *
+	 * @param key The {@link Key} to use to unlock the {@link Lock}.
+	 *
+	 * @throws IncorrectKeyException When an incorrect {@link Key} is used to unlock the {@link Lock}.
+	 */
+	public void unlock(Key key) throws IncorrectKeyException, LockAlreadyUnlockedException
+	{
+		if (state == State.UNLOCKED) {
+			throw new LockAlreadyUnlockedException(this);
+		}
+
+		if (!key.getCode().equals(this.code)) {
+			throw new IncorrectKeyException(this, key);
+		}
+
+		this.state = State.UNLOCKED;
 	}
 }
