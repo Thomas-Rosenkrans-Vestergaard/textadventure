@@ -72,7 +72,8 @@ public class DoorEnterAction implements Action
 		if (door.getState() == Door.State.OPEN) {
 			player.getCharacter().setCurrentLocation(targetRoom);
 			System.out.println(player.getCharacter().getName() + " moved through the door.");
-			System.out.println("You are now in " + player.getCharacter().getCurrentLocation().getName() + "\n");
+			System.out.println("You are now in " + player.getCharacter().getCurrentLocation().getName() + "\n" +
+			player.getCharacter().getCurrentLocation().getDescription());
 			return;
 		}
 

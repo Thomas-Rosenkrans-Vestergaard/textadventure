@@ -155,4 +155,9 @@ public class DefaultDoor extends AbstractPropertyContainer implements Door
 
 		return null;
 	}
+
+	@Override
+	public String getRoomFeatureDescription() {
+		return "There is door";
+	}
 }

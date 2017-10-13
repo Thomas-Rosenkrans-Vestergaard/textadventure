@@ -46,6 +46,7 @@ public class Main
 		);
 		startingRoom.addProperty("northern_door", startingCenterDoor);
 		centerRoom.addProperty("southern_door", startingCenterDoor);
+		centerRoom.addRoomFeature(startingCenterDoor);
 
 		// Center west door.
 		Lock centerWestLock = new Lock("HQ7QSW", Lock.State.UNLOCKED);

@@ -65,4 +65,9 @@ public class BaseRoom extends AbstractPropertyContainer implements Room
 
 		return builder.toString();
 	}
+
+	@Override
+	public void addRoomFeature(RoomFeature feature) {
+		features.add(feature);
+	}
 }
