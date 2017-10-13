@@ -1,10 +1,5 @@
 package textadventure;
 
-import textadventure.actions.Action;
-import textadventure.actions.ActionException;
-import textadventure.actions.Focusable;
-import textadventure.rooms.Room;
-import textadventure.scenario.Scenario;
 import textadventure.ui.UI;
 
 import java.util.function.Consumer;
@@ -25,26 +20,24 @@ public class HumanPlayer extends AbstractPlayer
 	/**
 	 * Creates a new human controlled player.
 	 *
-	 * @param name            The name of the {@link HumanPlayer}.
-	 * @param currentLocation The {@link Room} the {@link HumanPlayer} is in.
+	 * @param character The {@link Character} that the {@link HumanPlayer} controls.
 	 */
-	public HumanPlayer(String name, Room currentLocation)
+	public HumanPlayer(Character character)
 	{
-		super(name, currentLocation);
+		super(character);
 	}
 
 	/**
-	 * Requests an {@link Action} to the provided {@link Scenario}.
+	 * Delegates a turn to the {@link Player}.
 	 *
 	 * @param game     The {@link Game} instance.
-	 * @param scenario The {@link Scenario} to respond to.
-	 * @param callback The {@link Consumer} to use when responding to the request for {@link Action}.
+	 * @param callback The callback to use for returning an appropriate {@link Action}.
 	 */
-	@Override public void takeTurn(Game game, Scenario scenario, Consumer<Action> callback)
+	@Override public void takeTurn(Game game, Consumer<Action> callback)
 	{
 		this.callback = callback;
 		this.game = game;
-		game.getUI().onActionRequest(game, this, scenario, this::handleAction);
+		game.getUI().onActionRequest(game, this, this::handleAction);
 	}
 
 	/**

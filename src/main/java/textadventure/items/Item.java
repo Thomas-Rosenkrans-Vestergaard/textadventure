@@ -1,6 +1,8 @@
 package textadventure.items;
 
-public interface Item
+import textadventure.ui.Option;
+
+public interface Item extends Option
 {
 
 	/**
@@ -15,14 +17,12 @@ public interface Item
 	 *
 	 * @return The name of the {@link Item}.
 	 */
-	int getName();
+	String getOptionName();
 
 	/**
-	 * Attempts to use the {@link Item} on some {@link Object}.
+	 * Returns a description of the {@link Item}.
 	 *
-	 * @param object The object to use the {@link Item} on.
-	 *
-	 * @throws ItemException When something goes wrong while using the {@link Item}.
+	 * @return The description of the {@link Item}.
 	 */
-	void use(Object object) throws UseItemException;
+	String getItemDescription();
 }

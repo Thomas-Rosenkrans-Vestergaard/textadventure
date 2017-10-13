@@ -1,10 +1,10 @@
 package textadventure.ui;
 
 import textadventure.Game;
-import textadventure.GameException;
 import textadventure.Player;
-import textadventure.actions.Action;
-import textadventure.scenario.Scenario;
+import textadventure.Action;
+import textadventure.doors.Door;
+import textadventure.lock.Lock;
 
 import java.util.function.Consumer;
 
@@ -56,14 +56,21 @@ public interface UI
 	void onTurnStart(Game game, Player player);
 
 	/**
+	 * Called when a {@link Player} loses their turn.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} whose turn ended.
+	 */
+	void onTurnEnd(Game game, Player player);
+
+	/**
 	 * Called when a {@link Player} requests an {@link Action} from the {@link UI}.
 	 *
 	 * @param game     The {@link Game} instance.
 	 * @param player   The {@link Player} who requests the {@link Action}.
-	 * @param scenario The {@link Scenario} to respond to.
 	 * @param callback The callback to respond with.
 	 */
-	void onActionRequest(Game game, Player player, Scenario scenario, Consumer<Action> callback);
+	void onActionRequest(Game game, Player player, Consumer<Action> callback);
 
 	/**
 	 * Called when a {@link Player} responds to a request for {@link Action}.
@@ -75,34 +82,73 @@ public interface UI
 	void onActionResponse(Game game, Player player, Action action);
 
 	/**
-	 * Called when a {@link Player} loses their turn.
+	 * Requests a {@link Option} option from the {@link UI}.
+	 *
+	 * @param select   The {@link Select} to select the {@link Option}s from.
+	 * @param player   The {@link Player} to request a {@link Option} element from.
+	 * @param callback The callback to use when responding to the select request.
+	 */
+	<T extends Option> void select(Select<T> select, Player player, Consumer<T> callback);
+
+	/**
+	 * Called when the provided {@link Player} closes the provided {@link Door}.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} whose turn ended.
+	 * @param door   The {@link Door} that was closed.
+	 * @param player The {@link Player} who closed the {@link Door}.
 	 */
-	void onTurnEnd(Game game, Player player);
+	void onCloseDoor(Game game, Door door, Player player);
 
 	/**
-	 * Called when the {@link Game} wants to pass a {@link GameException} to the {@link UI}.
+	 * Called when the provided {@link Player} opens the provided {@link Door}.
 	 *
-	 * @param e The {@link GameException} to pass to the {@link UI}.
+	 * @param game   The {@link Game} instance.
+	 * @param door   The {@link Door} that was opened.
+	 * @param player The {@link Player} who opened the {@link Door}.
 	 */
-	void onException(GameException e);
+	void onOpenDoor(Game game, Door door, Player player);
+
+	void onDoorAlreadyClosed(Game game, Door door, Player player);
+
+	void onDoorAlreadyOpen(Game game, Door door, Player player);
 
 	/**
-	 * Sends a message to the {@link Player}s in the {@link Game}.
+	 * Called when the provided {@link Player} inspects the provided {@link Door}.
 	 *
-	 * @param message The message to send.
-	 * @param type    The type of message to send.
+	 * @param game   The {@link Game} instance.
+	 * @param door   The {@link Door} that was inspected.
+	 * @param player
 	 */
-	void onMessage(String message, UIMessage type);
+	void onDoorInspect(Game game, Door door, Player player);
 
 	/**
-	 * Sends a message to the provided {@link Player}.
+	 * Called when the provided {@link Player} inspects the provided {@link Lock}.
 	 *
-	 * @param message The message to send.
-	 * @param type    The type of message to send.
-	 * @param player  The {@link Player} to send the message to.
+	 * @param game   The {@link Game} instance.
+	 * @param lock   The {@link Lock}.
+	 * @param player The {@link Player} who inspected the {@link Lock}.
 	 */
-	void onMessage(String message, UIMessage type, Player player);
+	void onLockInspect(Game game, Lock lock, Player player);
+
+	/**
+	 * Called when the provided {@link Player} locks the provided {@link Lock}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param lock   The {@link Lock}.
+	 * @param player The {@link Player} who locked the lock.
+	 */
+	void onLockLock(Game game, Lock lock, Player player);
+
+	/**
+	 * Called when the provided {@link Player} unlocks the provided {@link Lock}.
+	 *
+	 * @param game
+	 * @param lock
+	 * @param player
+	 */
+	void onLockUnlock(Game game, Lock lock, Player player);
+
+	void onLockAlreadyLocked(Game game, Lock lock, Player player);
+
+	void onLockAlreadyUnlocked(Game game, Lock lock, Player player);
 }
