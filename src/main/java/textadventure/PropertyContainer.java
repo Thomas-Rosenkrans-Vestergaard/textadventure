@@ -8,9 +8,10 @@ public interface PropertyContainer extends Property
 	/**
 	 * Adds the {@link Property} to the {@link PropertyContainer}.
 	 *
-	 * @param property The {@link Property} to add to the {@link PropertyContainer}.
+	 * @param propertyName The name of the {@link Property}.
+	 * @param property     The {@link Property} to add to the {@link PropertyContainer}.
 	 */
-	void addProperty(Property property);
+	void addProperty(String propertyName, Property property);
 
 	/**
 	 * Returns the {@link Property} with the provided <code>name</code>.

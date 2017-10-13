@@ -43,18 +43,6 @@ public class BaseInventory extends AbstractProperty implements Inventory
 	}
 
 	/**
-	 * Returns the name of the {@link textadventure.Property}. This name is used when accessing the
-	 * {@link textadventure.Property}.
-	 *
-	 * @return The name of the {@link textadventure.Property}. This name is used when accessing the
-	 * {@link textadventure.Property}.
-	 */
-	@Override public String getPropertyName()
-	{
-		return "inventory";
-	}
-
-	/**
 	 * Returns the {@link Item} in the provided slot.
 	 *
 	 * @param slot The identifier of the slot to insert.

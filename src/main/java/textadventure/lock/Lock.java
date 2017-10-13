@@ -43,18 +43,6 @@ public class Lock extends AbstractProperty
 	}
 
 	/**
-	 * Returns the name of the {@link textadventure.Property}. This name is used when accessing the
-	 * {@link textadventure.Property}.
-	 *
-	 * @return The name of the {@link textadventure.Property}. This name is used when accessing the
-	 * {@link textadventure.Property}.
-	 */
-	@Override public String getPropertyName()
-	{
-		return "lock";
-	}
-
-	/**
 	 * Returns The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with
 	 * matching codes.
 	 *

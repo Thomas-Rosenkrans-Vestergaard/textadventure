@@ -58,18 +58,9 @@ public class DefaultDoor extends AbstractPropertyContainer implements Door
 		addAction(new DoorEnterAction(this));
 		addAction(new DoorInspectAction(this));
 
-		addProperty(lock);
+		addProperty("lock", lock);
 	}
 
-	/**
-	 * Returns the name of the property.
-	 *
-	 * @return The name of the property.
-	 */
-	@Override public String getPropertyName()
-	{
-		return String.format("%sern_door", direction.name().toLowerCase());
-	}
 
 	/**
 	 * Returns the {@link State} of the {@link Door}.

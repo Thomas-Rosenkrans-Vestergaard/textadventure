@@ -5,12 +5,6 @@ import java.util.stream.Stream;
 public interface Property
 {
 
-	/**
-	 * Returns the name of the {@link Property}. This name is used when accessing the {@link Property}.
-	 *
-	 * @return The name of the {@link Property}. This name is used when accessing the {@link Property}.
-	 */
-	String getPropertyName();
 
 	/**
 	 * Adds a new {@link Action} to the {@link Property}.

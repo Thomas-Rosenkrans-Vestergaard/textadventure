@@ -52,7 +52,7 @@ public class ConsoleUI implements UI
 	 */
 	@Override public void onGameEnd(Game game)
 	{
-
+		System.out.println(game.getMaze().getEndingRoom().getEndingMessage());
 	}
 
 	/**
@@ -108,6 +108,8 @@ public class ConsoleUI implements UI
 			}
 
 			Property property = currentRoom.getProperty(sections[0]);
+
+
 			for (int i = 1; i < sections.length - 1; i++) {
 				if (property instanceof PropertyContainer) {
 					PropertyContainer container = (PropertyContainer) property;

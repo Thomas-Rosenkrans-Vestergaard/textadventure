@@ -39,18 +39,6 @@ public class BaseRoom extends AbstractPropertyContainer implements Room
 	}
 
 	/**
-	 * Returns the name of the {@link textadventure.Property}. This name is used when accessing the
-	 * {@link textadventure.Property}.
-	 *
-	 * @return The name of the {@link textadventure.Property}. This name is used when accessing the
-	 * {@link textadventure.Property}.
-	 */
-	@Override public String getPropertyName()
-	{
-		return "room";
-	}
-
-	/**
 	 * Returns the name of the {@link Room}.
 	 *
 	 * @return The name of the {@link Room}.
@@ -70,8 +58,8 @@ public class BaseRoom extends AbstractPropertyContainer implements Room
 		StringBuilder builder = new StringBuilder();
 		builder.append(description);
 		builder.append('\n');
-		getProperties().forEach((s, property) -> {
-			builder.append(property.getPropertyName());
+		features.forEach(feature -> {
+			builder.append(feature.getRoomFeatureDescription());
 			builder.append('\n');
 		});
 

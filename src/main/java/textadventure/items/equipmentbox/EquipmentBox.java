@@ -28,7 +28,7 @@ public class EquipmentBox extends AbstractPropertyContainer
 		this.inventory = inventory;
 		this.lock = lock;
 
-		addProperty(lock);
+		addProperty("lock", lock);
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class EquipmentBox extends AbstractPropertyContainer
 	 * @return The name of the {@link textadventure.Property}. This name is used when accessing the
 	 * {@link textadventure.Property}.
 	 */
-	@Override public String getPropertyName()
+	public String getPropertyName()
 	{
 		return "equipment_box";
 	}
