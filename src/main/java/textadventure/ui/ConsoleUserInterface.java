@@ -141,7 +141,8 @@ public class ConsoleUserInterface implements UserInterface
 			String[] sections = scanner.nextLine().split(" ");
 
 			if (sections.length < 2) {
-				printer.println("Less than two sections.");
+				printer.println("To interact with door write:\nnorthern/eastern/western/southern + _door. For example: northern_door open.\n"
+				+ "Door commands: open, close, enter, inspect.");
 				continue;
 			}
 

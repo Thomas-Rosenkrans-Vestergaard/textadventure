@@ -7,14 +7,6 @@ import static org.junit.Assert.*;
 public class LockTest
 {
 
-
-	@Test
-	public void getPropertyName() throws Exception
-	{
-		Lock lock = new Lock("a", Lock.State.LOCKED);
-		assertEquals("lock", lock.getPropertyName());
-	}
-
 	@Test
 	public void getCode() throws Exception
 	{
