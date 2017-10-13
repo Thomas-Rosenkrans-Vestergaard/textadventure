@@ -37,7 +37,7 @@ public class LockInspectAction implements Action
 	@Override public void perform(Game game, Player player) throws ActionException
 	{
 		String message = String.format("You inspect the lock to gather information. You discover that the lock is %s. On the lock is written the code %s.",
-				player.getCharacter().getName(), lock.getState().name(),
+				lock.getState().name(),
 				lock.getCode()
 		);
 
