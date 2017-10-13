@@ -23,29 +23,9 @@ public class LockInspectAction implements Action
 	 *
 	 * @param lock The {@link Lock} to inspect.
 	 */
-	public LockInspectAction(Lock lock)
+	LockInspectAction(Lock lock)
 	{
 		this.lock = lock;
-	}
-
-	/**
-	 * Returns the name of the {@link Action}.
-	 *
-	 * @return The name of the {@link Action}.
-	 */
-	@Override public String getActionName()
-	{
-		return "inspect";
-	}
-
-	/**
-	 * Returns a description of the {@link Action}.
-	 *
-	 * @return The description of the {@link Action}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Inspect the lock to gather information.";
 	}
 
 	/**
@@ -56,6 +36,11 @@ public class LockInspectAction implements Action
 	 */
 	@Override public void perform(Game game, Player player) throws ActionException
 	{
-		game.getUserInterface().onLockInspect(game, lock, player);
+		String message = String.format("You inspect the lock to gather information. You discover that the lock is %s. On the lock is written the code %s.",
+				lock.getState().name(),
+				lock.getCode()
+		);
+
+		game.getUserInterface().write(message);
 	}
 }

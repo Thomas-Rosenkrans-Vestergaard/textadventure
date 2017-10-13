@@ -4,20 +4,6 @@ public interface Action
 {
 
 	/**
-	 * Returns the name of the {@link Action}.
-	 *
-	 * @return The name of the {@link Action}.
-	 */
-	String getActionName();
-
-	/**
-	 * Returns a description of the {@link Action}.
-	 *
-	 * @return The description of the {@link Action}.
-	 */
-	String getActionDescription();
-
-	/**
 	 * Performs the {@link Action} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
