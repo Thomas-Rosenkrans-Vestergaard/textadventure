@@ -53,10 +53,10 @@ public class DefaultDoor extends AbstractPropertyContainer implements Door
 		this.roomB = roomB;
 		this.direction = direction;
 
-		addAction(new OpenDoorAction(this));
-		addAction(new CloseDoorAction(this));
-		addAction(new EnterDoorAction(this));
-		addAction(new InspectDoorAction(this));
+		addAction(new DoorOpenAction(this));
+		addAction(new DoorCloseAction(this));
+		addAction(new DoorEnterAction(this));
+		addAction(new DoorInspectAction(this));
 
 		addProperty(lock);
 	}

@@ -1,16 +1,16 @@
 package textadventure.items.equipmentbox;
 
 import textadventure.AbstractPropertyContainer;
-import textadventure.items.backpack.Backpack;
+import textadventure.items.inventory.Inventory;
 import textadventure.lock.Lock;
 
 public class EquipmentBox extends AbstractPropertyContainer
 {
 
 	/**
-	 * The {@link Backpack} of the {@link EquipmentBox}.
+	 * The {@link Inventory} of the {@link EquipmentBox}.
 	 */
-	private Backpack backpack;
+	private Inventory inventory;
 
 	/**
 	 * The {@link Lock} on the {@link EquipmentBox}.
@@ -18,14 +18,14 @@ public class EquipmentBox extends AbstractPropertyContainer
 	private Lock lock;
 
 	/**
-	 * Creates a new {@link EquipmentBox} with the provided {@link Backpack}.
+	 * Creates a new {@link EquipmentBox} with the provided {@link Inventory}.
 	 *
-	 * @param backpack The {@link Backpack} of the {@link EquipmentBox}.
+	 * @param inventory The {@link Inventory} of the {@link EquipmentBox}.
 	 * @param lock      The {@link Lock} on the {@link EquipmentBox}.
 	 */
-	public EquipmentBox(Backpack backpack, Lock lock)
+	public EquipmentBox(Inventory inventory, Lock lock)
 	{
-		this.backpack = backpack;
+		this.inventory = inventory;
 		this.lock = lock;
 
 		addProperty(lock);

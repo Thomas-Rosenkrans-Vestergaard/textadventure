@@ -1,46 +1,46 @@
-package textadventure.items.backpack;
+package textadventure.items.inventory;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.AbstractProperty;
 import textadventure.items.Item;
 import textadventure.ui.Option;
 
-public class BaseBackpack extends AbstractProperty implements Backpack
+public class BaseInventory extends AbstractProperty implements Inventory
 {
 
 	/**
-	 * The items in the {@link Backpack}.
+	 * The items in the {@link Inventory}.
 	 */
 	private Item[] items;
 
 	/**
-	 * The number of items in the {@link Backpack}.
+	 * The number of items in the {@link Inventory}.
 	 */
 	private int countSlots;
 
 	/**
-	 * The number of filled items in the {@link Backpack}.
+	 * The number of filled items in the {@link Inventory}.
 	 */
 	private int countFilled;
 
 	/**
-	 * The number of empty items in the {@link Backpack}.
+	 * The number of empty items in the {@link Inventory}.
 	 */
 	private int countEmpty;
 
 	/**
-	 * Creates a new {@link BaseBackpack}.
+	 * Creates a new {@link BaseInventory}.
 	 *
-	 * @param countSlots The number of items in the {@link Backpack}.
+	 * @param countSlots The number of items in the {@link Inventory}.
 	 */
-	public BaseBackpack(int countSlots)
+	public BaseInventory(int countSlots)
 	{
 		this.items = new Item[countSlots];
 		this.countSlots = countSlots;
 		this.countFilled = 0;
 		this.countEmpty = countSlots;
 
-		addAction(new BackpackInspectAction());
+		addAction(new InventoryInspectAction());
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class BaseBackpack extends AbstractProperty implements Backpack
 	 */
 	@Override public String getPropertyName()
 	{
-		return "backpack";
+		return "inventory";
 	}
 
 	/**
@@ -71,13 +71,13 @@ public class BaseBackpack extends AbstractProperty implements Backpack
 	}
 
 	/**
-	 * Returns <code>true</code> when an {@link Item} exists in the provided backpack slot. Returns
-	 * <code>false</code> when no {@link Item} was found in the provided backpack slot.
+	 * Returns <code>true</code> when an {@link Item} exists in the provided inventory slot. Returns
+	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
 	 *
-	 * @param slot The backpack slot to check for.
+	 * @param slot The inventory slot to check for.
 	 *
-	 * @return <code>True</code> when an {@link Item} exists in the provided backpack slot. Returns
-	 * <code>false</code> when no {@link Item} was found in the provided backpack slot.
+	 * @return <code>True</code> when an {@link Item} exists in the provided inventory slot. Returns
+	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
 	 */
 	@Override public boolean hasItem(int slot)
 	{
@@ -85,10 +85,10 @@ public class BaseBackpack extends AbstractProperty implements Backpack
 	}
 
 	/**
-	 * Adds a new {@link Item} to the {@link Backpack}.
+	 * Adds a new {@link Item} to the {@link Inventory}.
 	 *
 	 * @param slot The slot the add the {@link Item} to.
-	 * @param item The {@link Item} to add to the {@link Backpack}.
+	 * @param item The {@link Item} to add to the {@link Inventory}.
 	 */
 	@Override public void addItem(int slot, Item item)
 	{
@@ -96,9 +96,9 @@ public class BaseBackpack extends AbstractProperty implements Backpack
 	}
 
 	/**
-	 * Removes the {@link Item} in the provided backpack slot.
+	 * Removes the {@link Item} in the provided inventory slot.
 	 *
-	 * @param slot The backpack slot identifier.
+	 * @param slot The inventory slot identifier.
 	 */
 	@Override public void removeItem(int slot)
 	{
@@ -106,9 +106,9 @@ public class BaseBackpack extends AbstractProperty implements Backpack
 	}
 
 	/**
-	 * Returns the number of items in the {@link Backpack}.
+	 * Returns the number of items in the {@link Inventory}.
 	 *
-	 * @return The number of items in the {@link Backpack}.
+	 * @return The number of items in the {@link Inventory}.
 	 */
 	@Override public int countSlots()
 	{

@@ -1,27 +1,12 @@
-package textadventure.doors;
+package textadventure.items.inventory;
 
-import textadventure.Game;
-import textadventure.Player;
 import textadventure.Action;
 import textadventure.ActionException;
+import textadventure.Game;
+import textadventure.Player;
 
-public class InspectDoorAction implements Action
+public class InventoryInspectAction implements Action
 {
-
-	/**
-	 * The {@link Door} to inspect.
-	 */
-	private Door door;
-
-	/**
-	 * Creates a new {@link InspectDoorAction}.
-	 *
-	 * @param door The {@link Door} to inspect.
-	 */
-	public InspectDoorAction(Door door)
-	{
-		this.door = door;
-	}
 
 	/**
 	 * Returns the name of the {@link Action}.
@@ -40,7 +25,7 @@ public class InspectDoorAction implements Action
 	 */
 	@Override public String getActionDescription()
 	{
-		return "Inspect the door to gather information.";
+		return "Inspect your inventory to see a full list of items.";
 	}
 
 	/**
@@ -51,6 +36,6 @@ public class InspectDoorAction implements Action
 	 */
 	@Override public void perform(Game game, Player player) throws ActionException
 	{
-		game.getUI().onDoorInspect(game, door, player);
+		throw new UnsupportedOperationException();
 	}
 }

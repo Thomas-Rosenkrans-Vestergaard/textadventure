@@ -62,7 +62,7 @@ public class LockLockAction implements Action
 		}
 
 		if (state == Lock.State.UNLOCKED) {
-			game.getUI().select(player.getCharacter().getBackpack(), player, this::callback);
+			game.getUI().select(player.getCharacter().getInventory(), player, this::callback);
 			return;
 		}
 
@@ -73,7 +73,7 @@ public class LockLockAction implements Action
 	{
 		if (!(item instanceof Key)) {
 			System.out.println("You must select a key.");
-			//game.getUI().select(player.getCharacter().getBackpack(), player, this::callback);
+			//game.getUI().select(player.getCharacter().getInventory(), player, this::callback);
 		}
 
 		System.out.println("Received " + item.getOptionName());

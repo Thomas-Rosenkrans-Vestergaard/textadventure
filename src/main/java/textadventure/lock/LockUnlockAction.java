@@ -62,7 +62,7 @@ public class LockUnlockAction implements Action
 		}
 
 		if (state == Lock.State.LOCKED) {
-			userInterface.select(player.getCharacter().getBackpack(), player, this::callback);
+			userInterface.select(player.getCharacter().getInventory(), player, this::callback);
 			userInterface.onLockUnlock(game, lock, player);
 			return;
 		}
