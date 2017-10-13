@@ -73,7 +73,7 @@ public class LockLockAction implements Action
 	{
 		if (!(item instanceof Key)) {
 			System.out.println("You must select a key.");
-			game.getUI().select(player.getCharacter().getInventory(), player, this::callback);
+			//game.getUI().select(player.getCharacter().getInventory(), player, this::callback);
 		}
 
 		System.out.println("Received " + item.getOptionName());
