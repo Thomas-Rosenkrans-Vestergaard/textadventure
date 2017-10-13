@@ -77,6 +77,6 @@ public class LockUnlockAction implements Action
 	 */
 	private void callback(Option item)
 	{
-		System.out.println("Recieved callback: " + item.getName());
+		System.out.println("Recieved callback: " + item.getOptionName());
 	}
 }

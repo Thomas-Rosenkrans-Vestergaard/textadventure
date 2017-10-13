@@ -144,17 +144,18 @@ public class ConsoleUI implements UI
 	 * @param player   The {@link Player} to request a {@link Option} element from.
 	 * @param callback The callback to use when responding to the select request.
 	 */
-	@Override public /*<T extends Option>*/ void select(Select select, Player player, Consumer<Option> callback)
+	@Override public <T extends Option> void select(Select<T> select, Player player, Consumer<T> callback)
 	{
-		System.out.println("Select");
-		ImmutableMap<String, ? extends Option> options = select.getOptions();
-		for (Map.Entry<String, ? extends Option> entry : options.entrySet()) {
-			System.out.println(entry.getKey() + ": " + entry.getValue().getName());
+		System.out.println("Select one of the following options.");
+		ImmutableMap<String, ? extends T> options = select.getOptions();
+		for (Map.Entry<String, ? extends T> entry : options.entrySet()) {
+			System.out.println(entry.getKey() + ": " + entry.getValue().getOptionName());
 		}
 
 		String choice = scanner.nextLine();
 		if (!options.containsKey(choice)) {
 			System.out.println("Unknown select.");
+			select(select, player, callback);
 			return;
 		}
 

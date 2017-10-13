@@ -4,6 +4,7 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.Action;
 import textadventure.ActionException;
+import textadventure.items.Item;
 import textadventure.ui.UI;
 
 public class LockLockAction implements Action
@@ -41,7 +42,7 @@ public class LockLockAction implements Action
 	 */
 	@Override public String getActionDescription()
 	{
-		return "Locks the door.";
+		return "Locks the lock.";
 	}
 
 	/**
@@ -61,9 +62,20 @@ public class LockLockAction implements Action
 		}
 
 		if (state == Lock.State.UNLOCKED) {
-			throw new UnsupportedOperationException();
+			game.getUI().select(player.getCharacter().getInventory(), player, this::callback);
+			return;
 		}
 
 		throw new IllegalStateException();
+	}
+
+	private void callback(Item item)
+	{
+		if (!(item instanceof Key)) {
+			System.out.println("You must select a key.");
+			game.getUI().select(player.getCharacter().getInventory(), player, this::callback);
+		}
+
+		System.out.println("Received " + item.getOptionName());
 	}
 }

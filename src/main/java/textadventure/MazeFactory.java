@@ -18,7 +18,7 @@ public class MazeFactory
 		BaseRoom     eastRoom     = new BaseRoom("East room", "This is the east room");
 
 		// Starting center door.
-		Lock startingCenterLock = new Lock("1", Lock.State.LOCKED);
+		Lock startingCenterLock = new Lock("NKATS3", Lock.State.UNLOCKED);
 		Door startingCenterDoor = new DefaultDoor(Door.State.OPEN, startingCenterLock, Direction.NORTH, startingRoom,
 												  centerRoom
 		);
@@ -26,19 +26,19 @@ public class MazeFactory
 		centerRoom.addProperty(startingCenterDoor);
 
 		// Center west door.
-		Lock centerWestLock = new Lock("2", Lock.State.UNLOCKED);
+		Lock centerWestLock = new Lock("HQ7QSW", Lock.State.UNLOCKED);
 		Door centerWestDoor = new DefaultDoor(Door.State.OPEN, centerWestLock, Direction.WEST, centerRoom, westRoom);
 		centerRoom.addProperty(centerWestDoor);
 		westRoom.addProperty(centerWestDoor);
 
 		// Center east door.
-		Lock centerEastLock = new Lock("3", Lock.State.UNLOCKED);
+		Lock centerEastLock = new Lock("4DN9C6", Lock.State.UNLOCKED);
 		Door centerEastDoor = new DefaultDoor(Door.State.CLOSED, centerEastLock, Direction.EAST, centerRoom, eastRoom);
 		centerRoom.addProperty(centerEastDoor);
 		eastRoom.addProperty(centerEastDoor);
 
 		// Center ending door.
-		Lock centerEndingLock = new Lock("4", Lock.State.UNLOCKED);
+		Lock centerEndingLock = new Lock("IPT2QJ", Lock.State.UNLOCKED);
 		Door centerEndingDoor = new DefaultDoor(Door.State.OPEN, centerEndingLock, Direction.NORTH, centerRoom,
 												endingRoom
 		);

@@ -3,7 +3,7 @@ package textadventure.items;
 import textadventure.Property;
 import textadventure.ui.Select;
 
-public interface Inventory extends Select, Property
+public interface Inventory extends Select<Item>, Property
 {
 
 	/**

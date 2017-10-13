@@ -15,10 +15,11 @@ public class Main
 		Maze      maze          = MazeFactory.generate();
 		Game      game          = new Game(gameInterface, MazeFactory.generate(), 5);
 		Inventory inventory     = new BaseInventory(10);
-		inventory.addItem(0, new Key("1"));
+		inventory.addItem(0, new Key("NKATS3"));
 		game.addPlayer(new HumanPlayer(
 				new BaseCharacter("George", inventory, maze.getStartingRoom(), 100, 100, 0,
-														  0, 0, 0, 0, 0)
+								  0, 0, 0, 0, 0
+				)
 		));
 		game.start();
 	}

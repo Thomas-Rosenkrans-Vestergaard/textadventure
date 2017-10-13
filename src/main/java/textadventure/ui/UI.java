@@ -88,7 +88,7 @@ public interface UI
 	 * @param player   The {@link Player} to request a {@link Option} element from.
 	 * @param callback The callback to use when responding to the select request.
 	 */
-	/*<T extends Option>*/ void select(Select select, Player player, Consumer<Option> callback);
+	<T extends Option> void select(Select<T> select, Player player, Consumer<T> callback);
 
 	/**
 	 * Called when the provided {@link Player} closes the provided {@link Door}.

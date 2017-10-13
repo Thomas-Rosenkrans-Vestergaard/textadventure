@@ -17,5 +17,12 @@ public interface Item extends Option
 	 *
 	 * @return The name of the {@link Item}.
 	 */
-	String getName();
+	String getOptionName();
+
+	/**
+	 * Returns a description of the {@link Item}.
+	 *
+	 * @return The description of the {@link Item}.
+	 */
+	String getItemDescription();
 }

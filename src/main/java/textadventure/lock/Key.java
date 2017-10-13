@@ -39,9 +39,19 @@ public class Key implements Item
 	 *
 	 * @return The name of the {@link Item}.
 	 */
-	@Override public String getName()
+	@Override public String getOptionName()
 	{
 		return code;
+	}
+
+	/**
+	 * Returns a description of the {@link Item}.
+	 *
+	 * @return The description of the {@link Item}.
+	 */
+	@Override public String getItemDescription()
+	{
+		return String.format("On the key is written the code %s.", code);
 	}
 
 	/**

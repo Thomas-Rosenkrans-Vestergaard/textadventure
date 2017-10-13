@@ -10,5 +10,5 @@ public interface Option
 	 * @return The name of the {@link Option} item. The name is used when {@link Select}ing the {@link Option} item
 	 * from the {@link UI}.
 	 */
-	String getName();
+	String getOptionName();
 }
