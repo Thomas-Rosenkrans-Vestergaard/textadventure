@@ -90,13 +90,13 @@ public class BaseCharacter implements Character
 	}
 
 	/**
-	 * Returns the name of the {@link java.lang.Character}.
+	 * Returns the name of the {@link Character}.
 	 *
-	 * @return The name of the {@link java.lang.Character}.
+	 * @return The name of the {@link Character}.
 	 */
 	@Override public String getName()
 	{
-		return null;
+		return name;
 	}
 
 	/**
