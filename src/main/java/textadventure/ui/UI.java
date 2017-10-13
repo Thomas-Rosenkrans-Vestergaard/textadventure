@@ -11,6 +11,8 @@ import java.util.function.Consumer;
 public interface UI
 {
 
+	void write(String message);
+
 	/**
 	 * Called when the {@link Game} is constructed.
 	 *
