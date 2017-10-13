@@ -139,7 +139,9 @@ public class ConsoleUserInterface implements UserInterface
 			if (sections.length < 2) {
 				printer.println("To interact with door write:\nnorthern/eastern/western/southern + _door. For example: northern_door open.\n"
 				+ "Door commands: open, close, enter, inspect.\nTo interact with door lock, simply add 'lock' after 'northern_door'.\n" +
-						"Door commands: inspect, lock, unlock.");
+						"Door commands: inspect, lock, unlock.\n" +
+						"To lock/unlock a door you need the code.\n" +
+						"When you got the code, write northern_door lock lock, and afterwards enter the code.");
 				continue;
 			}
 
