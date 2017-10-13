@@ -1,4 +1,4 @@
-package textadventure.doors;
+package textadventure.openable.doors;
 
 /**
  * Represents some {@link Obstruction} blocking a {@link BlockedDoor}. This {@link Obstruction} must first be cleared

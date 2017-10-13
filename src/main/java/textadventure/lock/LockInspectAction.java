@@ -4,7 +4,7 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.Action;
 import textadventure.ActionException;
-import textadventure.doors.Door;
+import textadventure.openable.doors.Door;
 
 /**
  * Inspects the {@link Lock} on a {@link Door}
@@ -56,6 +56,6 @@ public class LockInspectAction implements Action
 	 */
 	@Override public void perform(Game game, Player player) throws ActionException
 	{
-		game.getUI().onLockInspect(game, lock, player);
+		game.getUserInterface().onLockInspect(game, lock, player);
 	}
 }

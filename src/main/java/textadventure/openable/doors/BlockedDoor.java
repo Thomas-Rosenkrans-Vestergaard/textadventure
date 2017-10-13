@@ -1,4 +1,4 @@
-package textadventure.doors;
+package textadventure.openable.doors;
 
 import textadventure.Direction;
 import textadventure.rooms.Room;

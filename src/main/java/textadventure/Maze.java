@@ -1,9 +1,5 @@
 package textadventure;
 
-import textadventure.doors.DefaultDoor;
-import textadventure.doors.Door;
-import textadventure.lock.Lock;
-import textadventure.rooms.BaseRoom;
 import textadventure.rooms.EndingRoom;
 import textadventure.rooms.Room;
 import textadventure.rooms.StartingRoom;

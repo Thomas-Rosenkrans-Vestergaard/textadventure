@@ -1,11 +1,12 @@
-package textadventure.doors;
+package textadventure.openable;
 
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.Action;
 import textadventure.ActionException;
+import textadventure.openable.doors.Door;
 
-public class DoorCloseAction implements Action
+public class OpenableCloseAction implements Action
 {
 
 	/**
@@ -14,11 +15,11 @@ public class DoorCloseAction implements Action
 	private Door door;
 
 	/**
-	 * Creates a new {@link DoorCloseAction}.
+	 * Creates a new {@link OpenableCloseAction}.
 	 *
 	 * @param door The {@link Door} to close.
 	 */
-	public DoorCloseAction(Door door)
+	public OpenableCloseAction(Door door)
 	{
 		this.door = door;
 	}
@@ -28,7 +29,8 @@ public class DoorCloseAction implements Action
 	 *
 	 * @return The name of the {@link Action}.
 	 */
-	@Override public String getActionName()
+	@Override
+	public String getActionName()
 	{
 		return "close";
 	}
@@ -38,7 +40,8 @@ public class DoorCloseAction implements Action
 	 *
 	 * @return The description of the {@link Action}.
 	 */
-	@Override public String getActionDescription()
+	@Override
+	public String getActionDescription()
 	{
 		return "Closes the door.";
 	}
@@ -49,19 +52,28 @@ public class DoorCloseAction implements Action
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} performing the {@link Action}.
 	 */
-	@Override public void perform(Game game, Player player) throws ActionException
+	@Override
+	public void perform(Game game, Player player) throws ActionException
 	{
-		Door.State state = door.getState();
+		Door.State state = door.getOpenableState();
 
 		if (state == Door.State.CLOSED) {
-			game.getUI().onDoorAlreadyClosed(game, door, player);
+			/*game.getUserInterface().onDoorAlreadyClosed(game, door, player);*/
 			return;
 		}
 
 		if (state == Door.State.OPEN) {
-			door.setState(Door.State.CLOSED);
-			game.getUI().onCloseDoor(game, door, player);
-			return;
+			try {
+				door.close();
+				game.getUserInterface().onOpen(game, door, player);
+				return;
+			} catch (OpenableAlreadyClosedException e) {
+				game.getUserInterface().write("The door is already closed.");
+				return;
+			} catch (CannotCloseException e) {
+				game.getUserInterface().write("Cannot open the door.");
+				return;
+			}
 		}
 
 		throw new IllegalStateException();

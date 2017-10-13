@@ -1,4 +1,4 @@
-package textadventure.doors;
+package textadventure.openable.doors;
 
 import textadventure.Direction;
 import textadventure.Property;
@@ -11,7 +11,7 @@ import textadventure.rooms.RoomFeature;
 /**
  * The {@link Door} represents an entrance to a new room.
  */
-public interface Door extends PropertyContainer, Property, Openable
+public interface Door extends PropertyContainer, Property, Openable, RoomFeature
 {
 
     /**

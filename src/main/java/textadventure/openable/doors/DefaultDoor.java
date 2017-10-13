@@ -1,4 +1,4 @@
-package textadventure.doors;
+package textadventure.openable.doors;
 
 import textadventure.AbstractPropertyContainer;
 import textadventure.Direction;
@@ -40,7 +40,7 @@ public class DefaultDoor extends AbstractPropertyContainer implements Door
     /**
      * Creates a new {@link DefaultDoor}.
      *
-     * @param state     The {@link textadventure.doors.Door.State} that the {@link Door} is in.
+     * @param state     The {@link textadventure.openable.doors.Door.State} that the {@link Door} is in.
      * @param lock      The {@link Lock} placed on the {@link Door}.
      * @param direction The {@link Direction} of the {@link Door} from <code>roomA</code> to <code>roomB</code>.
      * @param roomA     <code>roomA</code>.
@@ -54,8 +54,8 @@ public class DefaultDoor extends AbstractPropertyContainer implements Door
         this.roomB = roomB;
         this.direction = direction;
 
-        addAction(new DoorOpenAction(this));
-        addAction(new DoorCloseAction(this));
+        addAction(new OpenableOpenAction(this));
+        addAction(new OpenableCloseAction(this));
         addAction(new DoorEnterAction(this));
         addAction(new DoorInspectAction(this));
 
@@ -157,15 +157,15 @@ public class DefaultDoor extends AbstractPropertyContainer implements Door
     @Override
     public void open() throws OpenableAlreadyOpenException, CannotOpenException
     {
-        if(state == State.OPEN){
+        if (state == State.OPEN) {
             throw new OpenableAlreadyOpenException();
         }
 
-        if(lock.getState() == Lock.State.LOCKED){
+        if (lock.getState() == Lock.State.LOCKED) {
             throw new CannotOpenException();
         }
 
-
+        this.state = State.OPEN;
     }
 
     /**
@@ -177,6 +177,25 @@ public class DefaultDoor extends AbstractPropertyContainer implements Door
     @Override
     public void close() throws OpenableAlreadyClosedException, CannotCloseException
     {
+        if (state == State.CLOSED) {
+            throw new OpenableAlreadyClosedException();
+        }
 
+        if (lock.getState() == Lock.State.LOCKED) {
+            throw new CannotCloseException();
+        }
+
+        this.state = State.CLOSED;
+    }
+
+    /**
+     * Returns a description of the {@link textadventure.rooms.RoomFeature}.
+     *
+     * @return The description of the {@link textadventure.rooms.RoomFeature}.
+     */
+    @Override
+    public String getRoomFeatureDescription()
+    {
+        return "There is a door in the room";
     }
 }

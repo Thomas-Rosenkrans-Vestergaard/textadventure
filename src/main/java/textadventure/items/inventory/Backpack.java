@@ -1,7 +1,7 @@
 package textadventure.items.inventory;
 
 /**
- * Represents a {@link Inventory} the {@link textadventure.Player} can have.
+ * Represents a {@link Inventory} the {@link textadventure.Player} can carry.
  */
 public class Backpack extends BaseInventory
 {

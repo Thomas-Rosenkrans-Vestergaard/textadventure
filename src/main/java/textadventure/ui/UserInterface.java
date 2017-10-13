@@ -3,12 +3,14 @@ package textadventure.ui;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.Action;
-import textadventure.doors.Door;
+import textadventure.openable.Openable;
+import textadventure.openable.OpenableException;
+import textadventure.openable.doors.Door;
 import textadventure.lock.Lock;
 
 import java.util.function.Consumer;
 
-public interface UI
+public interface UserInterface
 {
 
 	void write(String message);
@@ -66,7 +68,7 @@ public interface UI
 	void onTurnEnd(Game game, Player player);
 
 	/**
-	 * Called when a {@link Player} requests an {@link Action} from the {@link UI}.
+	 * Called when a {@link Player} requests an {@link Action} from the {@link UserInterface}.
 	 *
 	 * @param game     The {@link Game} instance.
 	 * @param player   The {@link Player} who requests the {@link Action}.
@@ -84,7 +86,7 @@ public interface UI
 	void onActionResponse(Game game, Player player, Action action);
 
 	/**
-	 * Requests a {@link Select} option {@link UI}.
+	 * Requests a {@link Select} option {@link UserInterface}.
 	 *
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
@@ -93,26 +95,40 @@ public interface UI
 	<T> void select(Select<T> select, Player player, SelectCallback<T> callback);
 
 	/**
-	 * Called when the provided {@link Player} closes the provided {@link Door}.
+	 * Event when the provided {@link Player} opens an {@link Openable} object.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param door   The {@link Door} that was closed.
-	 * @param player The {@link Player} who closed the {@link Door}.
+	 * @param game     The {@link Game} instance.
+	 * @param openable The {@link Openable} object.
+	 * @param player   The {@link Player} who opened the {@link Openable} object.
 	 */
-	void onCloseDoor(Game game, Door door, Player player);
+	void onOpen(Game game, Openable openable, Player player);
 
 	/**
-	 * Called when the provided {@link Player} opens the provided {@link Door}.
+	 * Event when the provided {@link Player} closes an {@link Openable} object.
+	 *
+	 * @param game     The {@link Game} instance.
+	 * @param openable The {@link Openable} object.
+	 * @param player   The {@link Player} who closed the {@link Openable} object.
+	 */
+	void onClose(Game game, Openable openable, Player player);
+
+	/**
+	 * Event when the provided {@link Player} encounters an {@link Exception} while using a {@link Openable} object.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param door   The {@link Door} that was opened.
-	 * @param player The {@link Player} who opened the {@link Door}.
+	 * @param e      The {@link OpenableException} that was thrown.
+	 * @param player The {@link Player} who encountered the {@link OpenableException}.
 	 */
-	void onOpenDoor(Game game, Door door, Player player);
+	void onOpenException(Game game, OpenableException e, Player player);
 
-	void onDoorAlreadyClosed(Game game, Door door, Player player);
-
-	void onDoorAlreadyOpen(Game game, Door door, Player player);
+	/**
+	 * Event when the provided {@link Player} encounters an {@link Exception} while using a {@link Openable} object.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param e      The {@link OpenableException} that was thrown.
+	 * @param player The {@link Player} who encountered the {@link OpenableException}.
+	 */
+	void onCloseException(Game game, OpenableException e, Player player);
 
 	/**
 	 * Called when the provided {@link Player} inspects the provided {@link Door}.

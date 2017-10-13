@@ -1,7 +1,7 @@
 package textadventure;
 
 import textadventure.rooms.EndingRoom;
-import textadventure.ui.UI;
+import textadventure.ui.UserInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +12,9 @@ public class Game
 {
 
 	/**
-	 * The {@link UI} used for input-output.
+	 * The {@link UserInterface} used for input-output.
 	 */
-	private UI ui;
+	private UserInterface ui;
 
 	/**
 	 * The {@link Player}s in the {@link Game}.
@@ -47,12 +47,12 @@ public class Game
 	private int currentPlayerMoves;
 
 	/**
-	 * The {@link UI} to use for input-output.
+	 * The {@link UserInterface} to use for input-output.
 	 *
-	 * @param ui           The {@link UI} to use for input-output.
+	 * @param ui           The {@link UserInterface} to use for input-output.
 	 * @param movesPerTurn The amount of moves per {@link Player} before the turn ends.
 	 */
-	public Game(UI ui, Maze maze, int movesPerTurn)
+	public Game(UserInterface ui, Maze maze, int movesPerTurn)
 	{
 		this.ui = ui;
 		this.maze = maze;
@@ -170,11 +170,11 @@ public class Game
 	}
 
 	/**
-	 * Returns the {@link UI} used as input-output for the game.
+	 * Returns the {@link UserInterface} used as input-output for the game.
 	 *
-	 * @return The {@link UI} used as input-output for the game.
+	 * @return The {@link UserInterface} used as input-output for the game.
 	 */
-	public UI getUI()
+	public UserInterface getUserInterface()
 	{
 		return this.ui;
 	}

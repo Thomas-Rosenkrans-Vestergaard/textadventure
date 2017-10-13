@@ -1,6 +1,6 @@
 package textadventure;
 
-import textadventure.ui.UI;
+import textadventure.ui.UserInterface;
 
 import java.util.function.Consumer;
 
@@ -35,11 +35,11 @@ public class HumanPlayer extends AbstractPlayer {
     public void takeTurn(Game game, Consumer<Action> callback) {
         this.callback = callback;
         this.game = game;
-        game.getUI().onActionRequest(game, this, this::handleAction);
+        game.getUserInterface().onActionRequest(game, this, this::handleAction);
     }
 
     /**
-     * Handles the {@link Action} response from the {@link UI}.
+     * Handles the {@link Action} response from the {@link UserInterface}.
      *
      * @param action The {@link Action} response.
      */

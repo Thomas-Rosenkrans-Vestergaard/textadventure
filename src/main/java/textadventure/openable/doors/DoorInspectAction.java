@@ -1,4 +1,4 @@
-package textadventure.doors;
+package textadventure.openable.doors;
 
 import textadventure.Game;
 import textadventure.Player;
@@ -51,6 +51,6 @@ public class DoorInspectAction implements Action
 	 */
 	@Override public void perform(Game game, Player player) throws ActionException
 	{
-		game.getUI().onDoorInspect(game, door, player);
+		game.getUserInterface().onDoorInspect(game, door, player);
 	}
 }

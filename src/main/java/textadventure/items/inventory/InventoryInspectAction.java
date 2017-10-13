@@ -13,7 +13,8 @@ public class InventoryInspectAction implements Action
 	 *
 	 * @return The name of the {@link Action}.
 	 */
-	@Override public String getActionName()
+	@Override
+	public String getActionName()
 	{
 		return "inspect";
 	}
@@ -23,9 +24,10 @@ public class InventoryInspectAction implements Action
 	 *
 	 * @return The description of the {@link Action}.
 	 */
-	@Override public String getActionDescription()
+	@Override
+	public String getActionDescription()
 	{
-		return "Inspect your inventory to see a full list of items.";
+		return "description";
 	}
 
 	/**
@@ -34,7 +36,8 @@ public class InventoryInspectAction implements Action
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} performing the {@link Action}.
 	 */
-	@Override public void perform(Game game, Player player) throws ActionException
+	@Override
+	public void perform(Game game, Player player) throws ActionException
 	{
 		throw new UnsupportedOperationException();
 	}
