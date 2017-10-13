@@ -1,10 +1,9 @@
 package textadventure.items.inventory;
 
 import com.google.common.collect.ImmutableMap;
-import textadventure.AbstractProperty;
 import textadventure.items.Item;
 
-public class BaseInventory extends AbstractProperty implements Inventory
+public class BaseInventory implements Inventory
 {
 
 	/**
@@ -20,7 +19,7 @@ public class BaseInventory extends AbstractProperty implements Inventory
 	/**
 	 * The number of filled items in the {@link Inventory}.
 	 */
-	private int countFilled;
+	private int countNonEmpty;
 
 	/**
 	 * The number of empty items in the {@link Inventory}.
@@ -36,10 +35,8 @@ public class BaseInventory extends AbstractProperty implements Inventory
 	{
 		this.items = new Item[countSlots];
 		this.countSlots = countSlots;
-		this.countFilled = 0;
+		this.countNonEmpty = 0;
 		this.countEmpty = countSlots;
-
-		addAction(new InventoryInspectAction());
 	}
 
 	/**
@@ -80,6 +77,8 @@ public class BaseInventory extends AbstractProperty implements Inventory
 	@Override public void addItem(int slot, Item item)
 	{
 		this.items[slot] = item;
+		countNonEmpty++;
+		countEmpty--;
 	}
 
 	/**
@@ -90,6 +89,8 @@ public class BaseInventory extends AbstractProperty implements Inventory
 	@Override public void removeItem(int slot)
 	{
 		this.items[slot] = null;
+		countNonEmpty--;
+		countEmpty++;
 	}
 
 	/**
@@ -109,7 +110,7 @@ public class BaseInventory extends AbstractProperty implements Inventory
 	 */
 	@Override public int countNonEmptySlots()
 	{
-		return countFilled;
+		return countNonEmpty;
 	}
 
 	/**
