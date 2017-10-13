@@ -47,7 +47,6 @@ public class LockTest
 		lock.lock(key);
 	}
 
-
 	@Test(expected = IncorrectKeyException.class)
 	public void lockIncorrectKeyException() throws Exception
 	{
@@ -55,7 +54,6 @@ public class LockTest
 		Key key = new Key("b");
 		lock.lock(key);
 	}
-
 
 	@Test
 	public void unlock() throws Exception
@@ -76,7 +74,7 @@ public class LockTest
 	}
 
 	@Test(expected = IncorrectKeyException.class)
-	public void lockIncorrectKeyException2() throws Exception
+	public void unlockIncorrectKeyException2() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.LOCKED);
 		Key key = new Key("b");
