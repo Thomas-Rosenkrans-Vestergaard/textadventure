@@ -2,6 +2,9 @@ package textadventure.rooms;
 
 import textadventure.AbstractPropertyContainer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * An implementation of the {@link Room} interface.
  */
@@ -17,6 +20,11 @@ public class BaseRoom extends AbstractPropertyContainer implements Room
 	 * The description of the {@link Room}.
 	 */
 	private final String description;
+
+	/**
+	 * List of {@link RoomFeature}s in the {@link Room}.
+	 */
+	private final List<RoomFeature> features = new ArrayList<>();
 
 	/**
 	 * Creates a new {@link BaseRoom}.
