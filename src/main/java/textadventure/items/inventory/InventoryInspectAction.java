@@ -1,11 +1,11 @@
-package textadventure.items.backpack;
+package textadventure.items.inventory;
 
 import textadventure.Action;
 import textadventure.ActionException;
 import textadventure.Game;
 import textadventure.Player;
 
-public class BackpackInspectAction implements Action
+public class InventoryInspectAction implements Action
 {
 
 	/**
@@ -25,7 +25,7 @@ public class BackpackInspectAction implements Action
 	 */
 	@Override public String getActionDescription()
 	{
-		return "Inspect your backpack to see a full list of items.";
+		return "Inspect your inventory to see a full list of items.";
 	}
 
 	/**

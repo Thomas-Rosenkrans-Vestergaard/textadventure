@@ -2,8 +2,8 @@ package textadventure;
 
 import textadventure.doors.DefaultDoor;
 import textadventure.doors.Door;
-import textadventure.items.backpack.Backpack;
-import textadventure.items.backpack.BaseBackpack;
+import textadventure.items.inventory.Inventory;
+import textadventure.items.inventory.BaseInventory;
 import textadventure.lock.Key;
 import textadventure.lock.Lock;
 import textadventure.rooms.BaseRoom;
@@ -17,13 +17,13 @@ public class Main
 
 	public static void main(String[] args) throws UnknownRoomException
 	{
-		UI       gameInterface = new ConsoleUI();
-		Maze     maze          = generateMaze();
-		Game     game          = new Game(gameInterface, maze, 5);
-		Backpack backpack      = new BaseBackpack(10);
-		backpack.addItem(0, new Key("NKATS3"));
+		UI        gameInterface = new ConsoleUI();
+		Maze      maze          = generateMaze();
+		Game      game          = new Game(gameInterface, maze, 5);
+		Inventory inventory     = new BaseInventory(10);
+		inventory.addItem(0, new Key("NKATS3"));
 		game.addPlayer(new HumanPlayer(
-				new BaseCharacter("George", backpack, maze.getStartingRoom(), 100, 100, 0,
+				new BaseCharacter("George", inventory, maze.getStartingRoom(), 100, 100, 0,
 								  0, 0, 0, 0, 0
 				)
 		));
