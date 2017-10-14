@@ -1,5 +1,6 @@
 package textadventure;
 
+import textadventure.items.inventory.Backpack;
 import textadventure.items.inventory.Inventory;
 import textadventure.rooms.Room;
 import textadventure.rooms.Landmine;
@@ -13,9 +14,9 @@ public class BaseCharacter implements Character
 	private String name;
 
 	/**
-	 * The {@link Inventory} of the {@link Character}. Used to store items.
+	 * The {@link Backpack} of the {@link Character}. Used to store items.
 	 */
-	private Inventory inventory;
+	private Backpack backpack;
 
 	/**
 	 * The {@link Room} the {@link Character} is currently in.
@@ -65,7 +66,7 @@ public class BaseCharacter implements Character
 
 	public BaseCharacter(
 			String name,
-			Inventory inventory,
+			Backpack backpack,
 			Room currentLocation,
 			int maxHP,
 			int currentHP,
@@ -77,7 +78,7 @@ public class BaseCharacter implements Character
 			int money)
 	{
 		this.name = name;
-		this.inventory = inventory;
+		this.backpack = backpack;
 		this.currentLocation = currentLocation;
 		this.maxHP = maxHP;
 		this.currentHP = currentHP;
@@ -100,13 +101,13 @@ public class BaseCharacter implements Character
 	}
 
 	/**
-	 * Returns the {@link Inventory} of the {@link Character}.
+	 * Returns the {@link Backpack} of the {@link Character}.
 	 *
-	 * @return The {@link Inventory} of the {@link Character}.
+	 * @return The {@link Backpack} of the {@link Character}.
 	 */
-	@Override public Inventory getInventory()
+	@Override public Backpack getBackpack()
 	{
-		return inventory;
+		return backpack;
 	}
 
 	/**

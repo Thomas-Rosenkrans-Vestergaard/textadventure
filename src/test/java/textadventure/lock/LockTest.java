@@ -7,14 +7,6 @@ import static org.junit.Assert.*;
 public class LockTest
 {
 
-
-	@Test
-	public void getPropertyName() throws Exception
-	{
-		Lock lock = new Lock("a", Lock.State.LOCKED);
-		assertEquals("lock", lock.getPropertyName());
-	}
-
 	@Test
 	public void getCode() throws Exception
 	{
@@ -33,7 +25,7 @@ public class LockTest
 	public void lock() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.UNLOCKED);
-		Key  key  = new Key("a");
+		Key key = new Key("a");
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		lock.lock(key);
 		assertEquals(Lock.State.LOCKED, lock.getState());
@@ -43,7 +35,7 @@ public class LockTest
 	public void lockAlreadyLockedException() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.LOCKED);
-		Key  key  = new Key("a");
+		Key key = new Key("a");
 		lock.lock(key);
 	}
 
@@ -59,7 +51,7 @@ public class LockTest
 	public void unlock() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.LOCKED);
-		Key  key  = new Key("a");
+		Key key = new Key("a");
 		assertEquals(Lock.State.LOCKED, lock.getState());
 		lock.unlock(key);
 		assertEquals(Lock.State.UNLOCKED, lock.getState());

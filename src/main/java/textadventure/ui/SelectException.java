@@ -1,7 +1,11 @@
 package textadventure.ui;
 
-import textadventure.GameException;
+import textadventure.*;
 
-public class SelectException extends GameException
+public class SelectException extends ActionException
 {
+	public SelectException(Property property, Action action, Player player)
+	{
+		super(property, action, player);
+	}
 }

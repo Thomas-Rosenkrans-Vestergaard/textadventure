@@ -1,9 +1,8 @@
 package textadventure;
 
-import textadventure.openable.doors.DefaultDoor;
-import textadventure.openable.doors.Door;
-import textadventure.items.inventory.Inventory;
-import textadventure.items.inventory.BaseInventory;
+import textadventure.doors.DefaultDoor;
+import textadventure.doors.Door;
+import textadventure.items.inventory.Backpack;
 import textadventure.lock.Key;
 import textadventure.lock.Lock;
 import textadventure.rooms.BaseRoom;
@@ -23,10 +22,10 @@ public class Main
 		UserInterface gameInterface = new ConsoleUserInterface(new Scanner(System.in), new PrintWriter(System.out, true));
 		Maze maze = generateMaze();
 		Game game = new Game(gameInterface, maze, 5);
-		Inventory inventory = new BaseInventory(10);
-		inventory.addItem(0, new Key("NKATS3"));
+		Backpack backpack = new Backpack(10);
+		backpack.addItem(0, new Key("NKATS3"));
 		game.addPlayer(new HumanPlayer(
-				new BaseCharacter("George", inventory, maze.getStartingRoom(), 100, 100, 0,
+				new BaseCharacter("George", backpack, maze.getStartingRoom(), 100, 100, 0,
 						0, 0, 0, 0, 0
 				)
 		));
@@ -44,39 +43,29 @@ public class Main
 
 		// Starting center door.
 		Lock startingCenterLock = new Lock("NKATS3", Lock.State.UNLOCKED);
-		Door startingCenterDoor = new DefaultDoor(Door.State.OPEN, startingCenterLock, Direction.NORTH, startingRoom,
+		Door startingCenterDoor = new DefaultDoor(Door.State.OPEN, startingCenterLock, startingRoom,
 				centerRoom
 		);
-		startingRoom.addProperty("northern_door", startingCenterDoor);
-		centerRoom.addProperty("southern_door", startingCenterDoor);
-		centerRoom.addRoomFeature(startingCenterDoor);
-		startingRoom.addRoomFeature(startingCenterDoor);
+		startingRoom.addProperty("northern_door", "", startingCenterDoor);
+		centerRoom.addProperty("southern_door", "", startingCenterDoor);
 
 		// Center west door.
 		Lock centerWestLock = new Lock("HQ7QSW", Lock.State.UNLOCKED);
-		Door centerWestDoor = new DefaultDoor(Door.State.OPEN, centerWestLock, Direction.WEST, centerRoom, westRoom);
-		centerRoom.addProperty("western_door", centerWestDoor);
-		westRoom.addProperty("eastern_door", centerWestDoor);
-		centerRoom.addRoomFeature(centerWestDoor);
-		westRoom.addRoomFeature(centerWestDoor);
+		Door centerWestDoor = new DefaultDoor(Door.State.OPEN, centerWestLock, centerRoom, westRoom);
+		centerRoom.addProperty("western_door", "", centerWestDoor);
+		westRoom.addProperty("eastern_door", "", centerWestDoor);
 
 		// Center east door.
 		Lock centerEastLock = new Lock("4DN9C6", Lock.State.UNLOCKED);
-		Door centerEastDoor = new DefaultDoor(Door.State.CLOSED, centerEastLock, Direction.EAST, centerRoom, eastRoom);
-		centerRoom.addProperty("eastern_door", centerEastDoor);
-		eastRoom.addProperty("western_door", centerEastDoor);
-		centerRoom.addRoomFeature(centerEastDoor);
-		eastRoom.addRoomFeature(centerEastDoor);
+		Door centerEastDoor = new DefaultDoor(Door.State.CLOSED, centerEastLock, centerRoom, eastRoom);
+		centerRoom.addProperty("eastern_door", "", centerEastDoor);
+		eastRoom.addProperty("western_door", "", centerEastDoor);
 
 		// Center ending door.
 		Lock centerEndingLock = new Lock("IPT2QJ", Lock.State.UNLOCKED);
-		Door centerEndingDoor = new DefaultDoor(Door.State.OPEN, centerEndingLock, Direction.NORTH, centerRoom,
-				endingRoom
-		);
-		centerRoom.addProperty("northern_door", centerEndingDoor);
-		endingRoom.addProperty("southern_door", centerEndingDoor);
-		centerRoom.addRoomFeature(centerEndingDoor);
-		endingRoom.addRoomFeature(centerEndingDoor);
+		Door centerEndingDoor = new DefaultDoor(Door.State.OPEN, centerEndingLock, centerRoom, endingRoom);
+		centerRoom.addProperty("northern_door", "", centerEndingDoor);
+		endingRoom.addProperty("southern_door", "", centerEndingDoor);
 
 		// Return the created maze
 		return new Maze(startingRoom, endingRoom, westRoom, centerRoom, eastRoom);

@@ -25,21 +25,21 @@ public class Key implements Item
 	}
 
 	/**
+	 * Returns the code representing the {@link Key}. The {@link Key} can only open {@link Lock}s with matching codes.
+	 *
+	 * @return The code representing the {@link Key}. The {@link Key} can only open {@link Lock}s with matching codes.
+	 */
+	public String getCode()
+	{
+		return this.code;
+	}
+
+	/**
 	 * Returns the name of the {@link Item}.
 	 *
 	 * @return The name of the {@link Item}.
 	 */
 	@Override public String getItemName()
-	{
-		return code;
-	}
-
-	/**
-	 * Returns the name that should be displayed in the {@link Select}.
-	 *
-	 * @return The name that should be displayed in the {@link Select}.
-	 */
-	@Override public String getOptionName()
 	{
 		return code;
 	}
@@ -55,12 +55,24 @@ public class Key implements Item
 	}
 
 	/**
-	 * Returns the code representing the {@link Key}. The {@link Key} can only open {@link Lock}s with matching codes.
+	 * Returns the name the {@link textadventure.ui.Option} should be displayed in the {@link textadventure.ui.Select}.
 	 *
-	 * @return The code representing the {@link Key}. The {@link Key} can only open {@link Lock}s with matching codes.
+	 * @return The name the {@link textadventure.ui.Option} should be displayed in the {@link textadventure.ui.Select}.
 	 */
-	public String getCode()
+	@Override public String getOptionName()
 	{
-		return this.code;
+		return code;
+	}
+
+	/**
+	 * Returns the description of the {@link textadventure.ui.Option}. Informs the user what selecting the
+	 * {@link textadventure.ui.Option} will do.
+	 *
+	 * @return The description of the {@link textadventure.ui.Option}. Informs the user what selecting the
+	 * {@link textadventure.ui.Option} will do.
+	 */
+	@Override public String getOptionDescription()
+	{
+		return String.format("Can be used to lock or unlock locks with the code %s.", code);
 	}
 }

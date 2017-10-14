@@ -43,7 +43,6 @@ public class BaseInventory implements Inventory
 	 * Returns the {@link Item} in the provided slot.
 	 *
 	 * @param slot The identifier of the slot to insert.
-	 *
 	 * @return The {@link Item} in the provided slot.
 	 */
 	@Override public Item getItem(int slot)
@@ -52,20 +51,6 @@ public class BaseInventory implements Inventory
 			throw new IllegalArgumentException("Slot out of range.");
 
 		return items[slot];
-	}
-
-	/**
-	 * Returns <code>true</code> when an {@link Item} exists in the provided inventory slot. Returns
-	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
-	 *
-	 * @param slot The inventory slot to check for.
-	 *
-	 * @return <code>True</code> when an {@link Item} exists in the provided inventory slot. Returns
-	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
-	 */
-	@Override public boolean hasItem(int slot)
-	{
-		return items[slot] != null;
 	}
 
 	/**
@@ -79,6 +64,36 @@ public class BaseInventory implements Inventory
 		this.items[slot] = item;
 		countNonEmpty++;
 		countEmpty--;
+	}
+
+	/**
+	 * Returns <code>true</code> when an {@link Item} exists in the provided inventory slot. Returns
+	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
+	 *
+	 * @param slot The inventory slot to check for.
+	 * @return <code>True</code> when an {@link Item} exists in the provided inventory slot. Returns
+	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
+	 */
+	@Override public boolean hasItem(int slot)
+	{
+		return items[slot] != null;
+	}
+
+	/**
+	 * Returns an {@link ImmutableMap} of the items in the {@link Inventory}. The {@link ImmutableMap} does not contain
+	 * <code>null</code> values.
+	 *
+	 * @return The {@link ImmutableMap} of the items in the {@link Inventory}. The {@link ImmutableMap} does not contain
+	 * <code>null</code> values.
+	 */
+	@Override public ImmutableMap<Integer, Item> getItems()
+	{
+		ImmutableMap.Builder<Integer, Item> builder = new ImmutableMap.Builder<>();
+		for (int x = 0; x < countSlots; x++)
+			if (items[x] != null)
+				builder.put(x, items[x]);
+
+		return builder.build();
 	}
 
 	/**
@@ -128,12 +143,12 @@ public class BaseInventory implements Inventory
 	 *
 	 * @return The {@link Item}s available in the {@link Inventory}.
 	 */
-	@Override public ImmutableMap<String, Item> getOptions()
+	@Override public ImmutableMap<Integer, Item> getOptions()
 	{
-		ImmutableMap.Builder<String, Item> options = new ImmutableMap.Builder<>();
-		for (Item item : items)
-			if (item != null)
-				options.put(item.getItemName(), item);
+		ImmutableMap.Builder<Integer, Item> options = new ImmutableMap.Builder<>();
+		for (int x = 0; x < items.length; x++)
+			if (items[x] != null)
+				options.put(x, items[x]);
 
 		return options.build();
 	}

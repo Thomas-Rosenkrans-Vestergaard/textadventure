@@ -146,16 +146,12 @@ public class Game
 	 *
 	 * @param action The chosen {@link Action}.
 	 */
-	private void handleActionResponse(Action action)
+	private void handleActionResponse(Action action) throws ActionException
 	{
-		try {
-			action.perform(this, this.currentPlayer);
-			this.currentPlayerMoves++;
-			if (this.currentPlayerMoves > movesPerTurn) {
-				handleNext();
-			}
-		} catch (ActionException e) {
-			handleActionRequest(this.currentPlayer);
+		action.perform(this, this.currentPlayer);
+		this.currentPlayerMoves++;
+		if (this.currentPlayerMoves > movesPerTurn) {
+			handleNext();
 		}
 	}
 

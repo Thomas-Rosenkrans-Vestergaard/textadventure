@@ -1,5 +1,6 @@
 package textadventure;
 
+@FunctionalInterface
 public interface Action
 {
 

@@ -1,14 +1,13 @@
 package textadventure.ui;
 
+import textadventure.ActionResponse;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.Action;
-import textadventure.openable.Openable;
-import textadventure.openable.OpenableException;
-import textadventure.openable.doors.Door;
+import textadventure.doors.Door;
+import textadventure.items.inventory.Inventory;
 import textadventure.lock.Lock;
-
-import java.util.function.Consumer;
+import textadventure.rooms.Room;
 
 public interface UserInterface
 {
@@ -72,25 +71,38 @@ public interface UserInterface
 	 *
 	 * @param game     The {@link Game} instance.
 	 * @param player   The {@link Player} who requests the {@link Action}.
-	 * @param callback The callback to respond with.
+	 * @param response The {@link ActionResponse} to respond with.
 	 */
-	void onActionRequest(Game game, Player player, Consumer<Action> callback);
+	void onActionRequest(Game game, Player player, ActionResponse response);
 
-	/**
-	 * Called when a {@link Player} responds to a request for {@link Action}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who responded to a request for {@link Action}.
-	 * @param action The chosen {@link Action}.
-	 */
-	void onActionResponse(Game game, Player player, Action action);
+	void onDoorOpen(Game game, Player player, Door door);
+
+	void onDoorClose(Game game, Player player, Door door);
+
+	void onDoorEnter(Game game, Player player, Door door, Room room);
+
+	void onDoorInspect(Game game, Player player, Door door);
+
+	void onLockLock(Game game, Player player, Lock lock);
+
+	void onLockUnlock(Game game, Player player, Lock lock);
+
+	void onLockInspect(Game game, Player player, Lock lock);
 
 	/**
 	 * Requests a {@link Select} option {@link UserInterface}.
 	 *
+	 * @param message  The message to display before the {@link Player} can select.
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
 	 * @param callback The callback to use to return the selected element.
 	 */
-	<T> void select(Select<T> select, Player player, SelectCallback<T> callback);
+	<T extends Option> void select(String message, Select<T> select, Player player, SelectResponse<T> callback);
+
+	/**
+	 * Shows the provided {@link Inventory} in the {@link UserInterface}.
+	 *
+	 * @param inventory The {@link Inventory} to show.
+	 */
+	void showInventory(Inventory inventory);
 }

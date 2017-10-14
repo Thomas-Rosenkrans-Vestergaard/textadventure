@@ -1,18 +1,18 @@
 package textadventure.lock;
 
+import textadventure.Action;
+import textadventure.ActionException;
+import textadventure.Player;
+import textadventure.Property;
+
 /**
  * Thrown when the {@link Lock} is already unlocked.
  */
-public class AlreadyUnlockedException extends LockException
+public class AlreadyUnlockedException extends ActionException
 {
 
-	/**
-	 * Creates a new {@link AlreadyUnlockedException}.
-	 *
-	 * @param lock The {@link Lock} that was attempted unlocked.
-	 */
-	public AlreadyUnlockedException(Lock lock)
+	public AlreadyUnlockedException(Property property, Action action, Player player)
 	{
-		super(lock);
+		super(property, action, player);
 	}
 }

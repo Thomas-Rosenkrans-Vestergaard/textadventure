@@ -16,6 +16,6 @@ public class ActionFocusMismatchException extends ActionException
 	 */
 	public ActionFocusMismatchException(textadventure.Property focus, Action action, Player player)
 	{
-		super(focus, action, player, player.getCharacter().getCurrentLocation());
+		super(focus, action, player);
 	}
 }

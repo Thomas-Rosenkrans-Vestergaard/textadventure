@@ -2,9 +2,6 @@ package textadventure.rooms;
 
 import textadventure.AbstractPropertyContainer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * An implementation of the {@link Room} interface.
  */
@@ -20,11 +17,6 @@ public class BaseRoom extends AbstractPropertyContainer implements Room
 	 * The description of the {@link Room}.
 	 */
 	private final String description;
-
-	/**
-	 * List of {@link RoomFeature}s in the {@link Room}.
-	 */
-	private final List<RoomFeature> features = new ArrayList<>();
 
 	/**
 	 * Creates a new {@link BaseRoom}.
@@ -43,7 +35,7 @@ public class BaseRoom extends AbstractPropertyContainer implements Room
 	 *
 	 * @return The name of the {@link Room}.
 	 */
-	@Override public String getName()
+	@Override public String getRoomName()
 	{
 		return name;
 	}
@@ -53,21 +45,8 @@ public class BaseRoom extends AbstractPropertyContainer implements Room
 	 *
 	 * @return The description of the {@link Room}.
 	 */
-	@Override public String getDescription()
+	@Override public String getRoomDescription()
 	{
-		StringBuilder builder = new StringBuilder();
-		builder.append(description);
-		builder.append('\n');
-		features.forEach(feature -> {
-			builder.append(feature.getRoomFeatureDescription());
-			builder.append('\n');
-		});
-
-		return builder.toString();
-	}
-
-	@Override
-	public void addRoomFeature(RoomFeature feature) {
-		features.add(feature);
+		return description;
 	}
 }

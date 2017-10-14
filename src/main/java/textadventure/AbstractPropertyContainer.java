@@ -12,9 +12,16 @@ public abstract class AbstractPropertyContainer extends AbstractProperty impleme
 	 */
 	private HashMap<String, Property> properties = new HashMap<>();
 
-	@Override public void addProperty(String propertyName, Property property)
+	/**
+	 * Adds a new property to the {@link PropertyContainer}.
+	 *
+	 * @param name        The name of the {@link Property}.
+	 * @param description The description of the {@link Property}.
+	 * @param property    The {@link Property} to add to the {@link PropertyContainer}.
+	 */
+	@Override public void addProperty(String name, String description, Property property)
 	{
-		properties.put(propertyName, property);
+		properties.put(name, property);
 	}
 
 	/**

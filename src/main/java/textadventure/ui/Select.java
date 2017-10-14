@@ -2,7 +2,7 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
 
-public interface Select<T>
+public interface Select<T extends Option>
 {
 
 	/**
@@ -10,5 +10,5 @@ public interface Select<T>
 	 *
 	 * @return The {@link T}s available in the {@link Select}.
 	 */
-	ImmutableMap<String, T> getOptions();
+	ImmutableMap<Integer, T> getOptions();
 }

@@ -10,14 +10,12 @@ public interface Room extends PropertyContainer
 	 *
 	 * @return The name of the {@link Room}.
 	 */
-	String getName();
+	String getRoomName();
 
 	/**
 	 * Returns the description of the {@link Room}.
 	 *
 	 * @return The description of the {@link Room}.
 	 */
-	String getDescription();
-
-	void addRoomFeature(RoomFeature feature);
+	String getRoomDescription();
 }

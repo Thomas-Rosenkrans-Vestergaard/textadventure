@@ -1,9 +1,14 @@
 package textadventure.lock;
 
+import textadventure.Action;
+import textadventure.ActionException;
+import textadventure.Player;
+import textadventure.Property;
+
 /**
  * Thrown when a {@link Key} was used on an incompatible {@link Lock}.
  */
-public class IncorrectKeyException extends LockException
+public class IncorrectKeyException extends ActionException
 {
 
 	/**
@@ -11,15 +16,9 @@ public class IncorrectKeyException extends LockException
 	 */
 	private Key key;
 
-	/**
-	 * Creates a new {@link IncorrectKeyException}.
-	 *
-	 * @param lock The {@link Lock}.
-	 * @param key  The {@link Key}.
-	 */
-	public IncorrectKeyException(Lock lock, Key key)
+	public IncorrectKeyException(Property property, Action action, Player player, Key key)
 	{
-		super(lock);
+		super(property, action, player);
 		this.key = key;
 	}
 

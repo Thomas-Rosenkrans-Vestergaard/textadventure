@@ -1,13 +1,14 @@
 package textadventure;
 
-import textadventure.rooms.Room;
-
 /**
  * Thrown when an error occurs while performing an {@link Action}.
  */
 public class ActionException extends GameException
 {
 
+	/**
+	 * The {@link Property} that the {@link Action} was performed on.
+	 */
 	private Property property;
 
 	/**
@@ -21,27 +22,24 @@ public class ActionException extends GameException
 	private Player player;
 
 	/**
-	 * The {@link Room} the {@link Action} was performed in.
-	 */
-	private Room room;
-
-	/**
 	 * Creates a new {@link ActionException}.
 	 *
 	 * @param property The {@link textadventure.Property} object that the {@link Action} was performed on.
 	 * @param action   The {@link Action} that was attempted.
 	 * @param player   The {@link Player} who attempted the {@link Action}.
-	 * @param room     The {@link Room} the {@link Action} was performed in.
 	 */
-	public ActionException(Property property, Action action, Player player, Room room)
+	public ActionException(Property property, Action action, Player player)
 	{
 		this.property = property;
 		this.action = action;
 		this.player = player;
-		this.room = room;
 	}
 
-
+	/**
+	 * Returns the {@link Property} that the {@link Action} was performed on.
+	 *
+	 * @return The {@link Property} that the {@link Action} was performed on.
+	 */
 	public Property getProperty()
 	{
 		return this.property;
@@ -65,15 +63,5 @@ public class ActionException extends GameException
 	public Player getPlayer()
 	{
 		return this.player;
-	}
-
-	/**
-	 * Returns the {@link Room} the {@link Action} was performed in.
-	 *
-	 * @return The {@link Room} the {@link Action} was performed in.
-	 */
-	public Room getRoom()
-	{
-		return this.room;
 	}
 }

@@ -1,11 +1,11 @@
-package textadventure.items.equipmentbox;
+package textadventure.items.inventory.crates;
 
 import textadventure.Action;
 import textadventure.ActionException;
 import textadventure.Game;
 import textadventure.Player;
 
-public class EquipmentBoxInspect implements Action
+public class InspectCrateAction implements Action
 {
 
 	/**

@@ -1,6 +1,6 @@
 package textadventure.items.inventory;
 
-import textadventure.Property;
+import com.google.common.collect.ImmutableMap;
 import textadventure.items.Item;
 import textadventure.ui.Select;
 
@@ -11,7 +11,6 @@ public interface Inventory extends Select<Item>
 	 * Returns the {@link Item} in the provided slot.
 	 *
 	 * @param slot The identifier of the slot to insert.
-	 *
 	 * @return The {@link Item} in the provided slot. Returns <code>null</code> if the {@link Item} doesn't exist.
 	 */
 	Item getItem(int slot);
@@ -25,6 +24,16 @@ public interface Inventory extends Select<Item>
 	void addItem(int slot, Item item);
 
 	/**
+	 * Returns <code>true</code> when an {@link Item} exists in the provided inventory slot. Returns
+	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
+	 *
+	 * @param slot The inventory slot to check for.
+	 * @return <code>True</code> when an {@link Item} exists in the provided inventory slot. Returns
+	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
+	 */
+	boolean hasItem(int slot);
+
+	/**
 	 * Removes the {@link Item} in the provided inventory slot.
 	 *
 	 * @param slot The inventory slot identifier.
@@ -32,15 +41,13 @@ public interface Inventory extends Select<Item>
 	void removeItem(int slot);
 
 	/**
-	 * Returns <code>true</code> when an {@link Item} exists in the provided inventory slot. Returns
-	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
+	 * Returns an {@link ImmutableMap} of the items in the {@link Inventory}. The {@link ImmutableMap} does not contain
+	 * <code>null</code> values.
 	 *
-	 * @param slot The inventory slot to check for.
-	 *
-	 * @return <code>True</code> when an {@link Item} exists in the provided inventory slot. Returns
-	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
+	 * @return The {@link ImmutableMap} of the items in the {@link Inventory}. The {@link ImmutableMap} does not contain
+	 * <code>null</code> values.
 	 */
-	boolean hasItem(int slot);
+	ImmutableMap<Integer, Item> getItems();
 
 	/**
 	 * Returns the number of slots in the {@link Inventory}.

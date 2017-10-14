@@ -16,7 +16,7 @@ public interface Player
 	 * Delegates a turn to the {@link Player}.
 	 *
 	 * @param game     The {@link Game} instance.
-	 * @param callback The callback to use for returning an appropriate {@link Action}.
+	 * @param response The callback to use for returning an appropriate {@link Action}.
 	 */
-	void takeTurn(Game game, Consumer<Action> callback);
+	void takeTurn(Game game, ActionResponse response);
 }

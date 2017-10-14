@@ -33,7 +33,7 @@ public class BaseCharacterTest
 	@Test
 	public void getInventory() throws Exception
 	{
-		assertEquals(inventory, character.getInventory());
+		assertEquals(inventory, character.getBackpack());
 	}
 
 	@Test
