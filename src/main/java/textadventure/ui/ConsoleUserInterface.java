@@ -90,6 +90,9 @@ public class ConsoleUserInterface implements UserInterface
 		printer.println();
 		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
+		showCommands();
+		showProperties(null);
+		showActions(game);
 		printer.println(game.getMaze().getStartingRoom().getStartingMessage());
 		printer.println(game.getMaze().getStartingRoom().getRoomDescription());
 	}
@@ -626,8 +629,6 @@ public class ConsoleUserInterface implements UserInterface
 		printer.println("The above command executes the action 'inspect' on the property 'lock' on the property 'north'.");
 		printer.println("The 'lock' is a property nested inside the 'north' property.");
 		printer.println();
-
-		showCommands();
 	}
 
 	/**
@@ -643,7 +644,7 @@ public class ConsoleUserInterface implements UserInterface
 		printer.println();
 
 		printer.println("\tquit                          Exit the game without saving your progress.");
-		printer.println("\tproperties                    See all the properties you can currently access.");
+		printer.println("\tproperties                    See all the properties you can access in the rooms.");
 		printer.println("\tactions                       See a global list of actions that can be performed.");
 		printer.println("\tcommands                      See a list of possible commands.");
 		printer.println("\tinstructions                  Print the game instructions.");
@@ -679,25 +680,40 @@ public class ConsoleUserInterface implements UserInterface
 	 */
 	private void showProperties(Character character)
 	{
-		printer.println("The properties available to the character.");
-		ImmutableMap<String, Property> properties = character.getProperties();
-		showProperties(properties, "");
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println();
+		printer.println("       PROPERTIES");
+		printer.println();
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println();
+
+		printer.println("\tchest                         A chest that contains items.");
+		printer.println("\tbackpack                      The backpack contains the items you carry.");
+		printer.println("\tnorth                         A door in the northern part of the room.");
+		printer.println("\tsouth                         A door in the southern part of the room.");
+		printer.println("\twest                          A door in the western part of the room.");
+		printer.println("\teast                          A door in the eastern part of the room.");
+		printer.println("\tdoor/chest lock               A lock on a door or chest preventing it from being opened.");
+		//ImmutableMap<String, Property> properties = character.getProperties();
+		//showProperties(properties, "");
 	}
 
 	/**
 	 * Show the provided properties.
 	 *
-	 * @param properties The properties.
+	 * @param properties  The properties.
 	 * @param indentation The indentation.
 	 */
 	private void showProperties(ImmutableMap<String, Property> properties, String indentation)
 	{
-		properties.entrySet().forEach(entry -> {
+		throw new IllegalStateException();
+
+		/*properties.entrySet().forEach(entry -> {
 			printer.println(String.format("%s- %s", indentation, entry.getKey()));
 			if (entry.getValue() instanceof PropertyContainer) {
 				PropertyContainer propertyContainer = (PropertyContainer) entry.getValue();
 				showProperties(propertyContainer.getProperties(), indentation + '\t');
 			}
-		});
+		});*/
 	}
 }
