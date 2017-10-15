@@ -6,6 +6,8 @@ import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.doors.*;
 import textadventure.items.Inventory;
+import textadventure.items.backpack.InspectBackpackAction;
+import textadventure.items.chest.TakeChestItemAction;
 import textadventure.items.chest.CloseChestAction;
 import textadventure.items.chest.InspectChestAction;
 import textadventure.items.chest.OpenChestAction;
@@ -15,8 +17,6 @@ import textadventure.lock.UnlockLockAction;
 
 public interface UserInterface
 {
-
-	void write(String message);
 
 	/**
 	 * Called when the {@link Game} is constructed.
@@ -161,6 +161,24 @@ public interface UserInterface
 	 * @param action The {@link InspectChestAction} instance.
 	 */
 	void onChestInspect(Game game, Player player, InspectChestAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link TakeChestItemAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link TakeChestItemAction}.
+	 * @param action The {@link TakeChestItemAction} instance.
+	 */
+	void onChestTake(Game game, Player player, TakeChestItemAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link InspectBackpackAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link InspectBackpackAction}.
+	 * @param action The {@link InspectBackpackAction} instance.
+	 */
+	void onBackpackInspect(Game game, Player player, InspectBackpackAction action);
 
 	/**
 	 * Prompts the provided {@link Player} to select some {@link Option}.

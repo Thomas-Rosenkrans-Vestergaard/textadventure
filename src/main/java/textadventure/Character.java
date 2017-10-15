@@ -1,11 +1,9 @@
 package textadventure;
 
-import com.google.common.collect.ImmutableMap;
-import textadventure.actions.Action;
 import textadventure.items.backpack.Backpack;
 import textadventure.rooms.Room;
 
-public interface Character
+public interface Character extends PropertyContainer
 {
 
 	/**
@@ -21,13 +19,6 @@ public interface Character
 	 * @return The {@link Backpack} of the {@link Character}.
 	 */
 	Backpack getBackpack();
-
-	/**
-	 * The {@link Action}s that the {@link Character} can perform.
-	 *
-	 * @return The {@link Action}s that the {@link Character} can perform.
-	 */
-	ImmutableMap<String, Action> getActions();
 
 	/**
 	 * Returns the {@link Room} the {@link Character} is currently in.

@@ -2,15 +2,14 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.*;
+import textadventure.Character;
 import textadventure.actions.Action;
 import textadventure.actions.ActionResponse;
 import textadventure.doors.*;
 import textadventure.items.Item;
 import textadventure.items.Inventory;
-import textadventure.items.chest.Chest;
-import textadventure.items.chest.CloseChestAction;
-import textadventure.items.chest.InspectChestAction;
-import textadventure.items.chest.OpenChestAction;
+import textadventure.items.backpack.InspectBackpackAction;
+import textadventure.items.chest.*;
 import textadventure.lock.*;
 import textadventure.rooms.Room;
 
@@ -41,12 +40,6 @@ public class ConsoleUserInterface implements UserInterface
 	{
 		this.scanner = scanner;
 		this.printer = printer;
-	}
-
-	@Override
-	public void write(String message)
-	{
-		printer.println(message);
 	}
 
 	/**
@@ -86,6 +79,7 @@ public class ConsoleUserInterface implements UserInterface
 		printer.println("#");
 		printer.println();
 		printer.println(game.getMaze().getStartingRoom().getStartingMessage());
+		printer.println(game.getMaze().getStartingRoom().getRoomDescription());
 	}
 
 	/**
@@ -147,14 +141,11 @@ public class ConsoleUserInterface implements UserInterface
 			}
 
 			if (input.startsWith("quit")) {
-				return;
+				System.exit(0);
 			}
 
 			if (input.startsWith("properties")) {
-				printer.println("The properties available is this room:");
-				for (Map.Entry<String, Property> entry : player.getCharacter().getCurrentLocation().getProperties().entrySet()) {
-					printer.println(String.format("- %s", entry.getKey()));
-				}
+				showProperties(player.getCharacter());
 				continue;
 			}
 
@@ -179,7 +170,8 @@ public class ConsoleUserInterface implements UserInterface
 				continue;
 			}
 
-			Property property = currentRoom.getProperty(sections[0]);
+			ImmutableMap<String, Property> properties = player.getCharacter().getProperties();
+			Property property = properties.get(sections[0]);
 			for (int i = 1; i < sections.length - 1; i++) {
 				if (property instanceof PropertyContainer) {
 					PropertyContainer container = (PropertyContainer) property;
@@ -193,7 +185,10 @@ public class ConsoleUserInterface implements UserInterface
 			}
 
 			Action action = property.getAction(sections[sections.length - 1]);
-			if (action == null) throw new UnsupportedOperationException();
+			if (action == null) {
+				printer.println("Unknown action " + sections[sections.length - 1] + ".");
+				continue;
+			}
 
 			response.respond(action);
 		}
@@ -424,7 +419,7 @@ public class ConsoleUserInterface implements UserInterface
 		}
 
 		if (outcome == OpenChestAction.Outcome.LOCKED) {
-			printer.println("You attempt to open the door, but discover that the chest is locked.");
+			printer.println("You attempt to open the chest, but discover that the chest is locked.");
 			return;
 		}
 
@@ -497,6 +492,64 @@ public class ConsoleUserInterface implements UserInterface
 	}
 
 	/**
+	 * Event when a {@link Player} performs the {@link TakeChestItemAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link TakeChestItemAction}.
+	 * @param action The {@link TakeChestItemAction} instance.
+	 */
+	@Override public void onChestTake(Game game, Player player, TakeChestItemAction action)
+	{
+		TakeChestItemAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == TakeChestItemAction.Outcome.SUCCESS) {
+			printer.println("You succeeded in taking item " + action.getItem().getItemName() + " from the chest.");
+			return;
+		}
+
+		if (outcome == TakeChestItemAction.Outcome.CLOSED) {
+			printer.println("You cannot take items from a closed chest.");
+			return;
+		}
+
+		if (outcome == TakeChestItemAction.Outcome.BACKPACK_FULL) {
+			printer.println("You attempt to take the item, but you cannot fit it in your backpack.");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link InspectBackpackAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link InspectBackpackAction}.
+	 * @param action The {@link InspectBackpackAction} instance.
+	 */
+	@Override public void onBackpackInspect(Game game, Player player, InspectBackpackAction action)
+	{
+		InspectBackpackAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == InspectBackpackAction.Outcome.SUCCESS) {
+			ImmutableMap<Integer, Item> items = action.getBackpack().getItems();
+			printer.println("-----------------------------------------------------------------------------------------");
+			printer.println("| Slot | Item name            | Item description                                        |");
+			printer.println("-----------------------------------------------------------------------------------------");
+			items.entrySet().forEach(entry -> {
+				printer.println(String.format("| %-4d | %-20s | %-40s |",
+						entry.getKey(),
+						entry.getValue().getItemName(),
+						entry.getValue().getItemDescription()));
+			});
+			printer.println("------------------------------------------------------------------------------------------");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * Requests a {@link Select} option {@link UserInterface}.
 	 *
 	 * @param message  The message to display before the {@link Player} can select.
@@ -508,6 +561,7 @@ public class ConsoleUserInterface implements UserInterface
 	public <T extends Option> void select(String message, Select<T> select, Player player, SelectResponse<T> callback)
 	{
 		printer.println(message);
+		printer.println("'quit' to exit select.");
 		ImmutableMap<Integer, ? extends T> options = select.getOptions();
 		printer.println("------------------------------------------------------------------------------------------");
 		printer.println("| ID  | Option name          | Option description                                        |");
@@ -520,7 +574,12 @@ public class ConsoleUserInterface implements UserInterface
 		int choice;
 		while (true) {
 			try {
-				choice = Integer.parseInt(scanner.nextLine());
+				String input = scanner.nextLine();
+
+				if (input.equals("quit"))
+					return;
+
+				choice = Integer.parseInt(input);
 				break;
 			} catch (NumberFormatException e) {
 				printer.println("Selection must be a number.");
@@ -608,6 +667,24 @@ public class ConsoleUserInterface implements UserInterface
 			entry.getValue().iterator().forEachRemaining(action -> {
 				printer.println(String.format("\t%-30s %s", action.getActionName(), action.getActionDescription()));
 			});
+		});
+	}
+
+	private void showProperties(Character character)
+	{
+		printer.println("The properties available to the character.");
+		ImmutableMap<String, Property> properties = character.getProperties();
+		showProperties(properties, "");
+	}
+
+	private void showProperties(ImmutableMap<String, Property> properties, String indentation)
+	{
+		properties.entrySet().forEach(entry -> {
+			printer.println(String.format("%s- %s", indentation, entry.getKey()));
+			if (entry.getValue() instanceof PropertyContainer) {
+				PropertyContainer propertyContainer = (PropertyContainer) entry.getValue();
+				showProperties(propertyContainer.getProperties(), indentation + '\t');
+			}
 		});
 	}
 }

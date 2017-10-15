@@ -18,4 +18,11 @@ public interface Room extends PropertyContainer
 	 * @return The description of the {@link Room}.
 	 */
 	String getRoomDescription();
+
+	/**
+	 * Adds a new feature to the room.
+	 *
+	 * @param description The description of the feature.
+	 */
+	void addFeature(String description);
 }

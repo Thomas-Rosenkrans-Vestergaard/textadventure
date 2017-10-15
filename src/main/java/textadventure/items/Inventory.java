@@ -17,6 +17,13 @@ public interface Inventory extends Select<Item>
 	/**
 	 * Adds a new {@link Item} to the {@link Inventory}.
 	 *
+	 * @param item The {@link Item} to add to the {@link Inventory}.
+	 */
+	void addItem(Item item);
+
+	/**
+	 * Adds a new {@link Item} to the {@link Inventory}.
+	 *
 	 * @param slot The slot the add the {@link Item} to.
 	 * @param item The {@link Item} to add to the {@link Inventory}.
 	 */
@@ -38,6 +45,21 @@ public interface Inventory extends Select<Item>
 	 * @param slot The inventory slot identifier.
 	 */
 	void removeItem(int slot);
+
+	/**
+	 * Removes the {@link Item} from the {@link Inventory}.
+	 *
+	 * @param item The {@link Item} to remove.
+	 */
+	void removeItem(Item item);
+
+	/**
+	 * Returns the slot of the provided {@link Item}.
+	 *
+	 * @param item The {@link Item} to return the slot of.
+	 * @return The slot number of the provided {@link Item}. Returns <code>-1</code> if the {@link Item} doesn't exist.
+	 */
+	int getSlot(Item item);
 
 	/**
 	 * Returns an {@link ImmutableMap} of the items in the {@link Inventory}. The {@link ImmutableMap} does not contain

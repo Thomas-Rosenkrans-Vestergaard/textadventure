@@ -16,7 +16,7 @@ public interface Door extends PropertyContainer, Property
 	enum State
 	{
 		OPEN,
-		CLOSED
+		CLOSED,
 	}
 
 	/**

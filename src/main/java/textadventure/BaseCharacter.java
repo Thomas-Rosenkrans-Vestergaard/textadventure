@@ -1,11 +1,10 @@
 package textadventure;
 
 import com.google.common.collect.ImmutableMap;
-import textadventure.actions.Action;
 import textadventure.items.backpack.Backpack;
 import textadventure.rooms.Room;
 
-public class BaseCharacter implements Character
+public class BaseCharacter extends AbstractPropertyContainer implements Character
 {
 
 	/**
@@ -69,7 +68,7 @@ public class BaseCharacter implements Character
 	 */
 	private int money;
 
-	public BaseCharacter(
+	BaseCharacter(
 			String name,
 			Backpack backpack,
 			Room currentLocation,
@@ -95,6 +94,21 @@ public class BaseCharacter implements Character
 		this.intelligence = intelligence;
 		this.stealth = stealth;
 		this.money = money;
+
+		addProperty("backpack", backpack);
+	}
+
+	/**
+	 * Returns an {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
+	 *
+	 * @return The {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
+	 */
+	@Override public ImmutableMap<String, Property> getProperties()
+	{
+		ImmutableMap<String, Property> properties = super.getProperties();
+
+		return new ImmutableMap.Builder<String, Property>().putAll(getCurrentLocation().getProperties())
+		                                                   .putAll(properties).build();
 	}
 
 	/**
@@ -105,17 +119,6 @@ public class BaseCharacter implements Character
 	@Override public String getName()
 	{
 		return name;
-	}
-
-	/**
-	 * The {@link Action}s that the {@link java.lang.Character} can perform.
-	 *
-	 * @return The {@link Action}s that the {@link java.lang.Character} can perform.
-	 */
-	@Override public ImmutableMap<String, Action> getActions()
-	{
-		//return new ImmutableMap.Builder<String, Action>().putAll("backpack", new InspectBackpackAction(backpack));
-		throw new UnsupportedOperationException();
 	}
 
 	/**

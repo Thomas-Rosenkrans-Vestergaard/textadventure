@@ -49,7 +49,7 @@ public class BaseDoor extends AbstractPropertyContainer implements Door
 		addAction(new LockLockAction(lock));
 		addAction(new UnlockLockAction(lock));
 
-		addProperty("lock", "The lock on the door.", lock);
+		addProperty("lock", lock);
 	}
 
 	/**

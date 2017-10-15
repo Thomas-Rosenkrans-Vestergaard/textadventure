@@ -55,6 +55,21 @@ public class BaseInventory implements Inventory
 	/**
 	 * Adds a new {@link Item} to the {@link Inventory}.
 	 *
+	 * @param item The {@link Item} to add to the {@link Inventory}.
+	 */
+	@Override public void addItem(Item item)
+	{
+		for (int x = 0; x < items.length; x++) {
+			if (items[x] == null) {
+				items[x] = item;
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Adds a new {@link Item} to the {@link Inventory}.
+	 *
 	 * @param slot The slot the add the {@link Item} to.
 	 * @param item The {@link Item} to add to the {@link Inventory}.
 	 */
@@ -76,6 +91,20 @@ public class BaseInventory implements Inventory
 	@Override public boolean hasItem(int slot)
 	{
 		return items[slot] != null;
+	}
+
+	/**
+	 * Removes the {@link Item} from the {@link Inventory}.
+	 *
+	 * @param item The {@link Item} to remove.
+	 */
+	@Override public void removeItem(Item item)
+	{
+		for (int x = 0; x < items.length; x++) {
+			if (items[x] == item) {
+				items[x] = null;
+			}
+		}
 	}
 
 	/**
@@ -105,6 +134,23 @@ public class BaseInventory implements Inventory
 		this.items[slot] = null;
 		countNonEmpty--;
 		countEmpty++;
+	}
+
+	/**
+	 * Returns the slot of the provided {@link Item}.
+	 *
+	 * @param item The {@link Item} to return the slot of.
+	 * @return The slot number of the provided {@link Item}. Returns <code>-1</code> if the {@link Item} doesn't exist.
+	 */
+	@Override public int getSlot(Item item)
+	{
+		for (int x = 0; x < items.length; x++) {
+			if (item == items[0]) {
+				return x;
+			}
+		}
+
+		return -1;
 	}
 
 	/**

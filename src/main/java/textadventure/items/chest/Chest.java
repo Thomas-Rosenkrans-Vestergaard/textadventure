@@ -1,5 +1,7 @@
 package textadventure.items.chest;
 
+import com.google.common.collect.ImmutableMap;
+import textadventure.PropertyContainer;
 import textadventure.actions.Action;
 import textadventure.Property;
 import textadventure.actions.NamedAction;
@@ -11,7 +13,7 @@ import textadventure.lock.UnlockLockAction;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
-public class Chest extends BaseInventory implements Property
+public class Chest extends BaseInventory implements PropertyContainer
 {
 
 	/**
@@ -30,6 +32,11 @@ public class Chest extends BaseInventory implements Property
 		 */
 		CLOSED
 	}
+
+	/**
+	 * The instances of {@link Property} in the {@link Chest}.
+	 */
+	private HashMap<String, Property> properties = new HashMap<>();
 
 	/**
 	 * The {@link Action}s available on the {@link Property}.
@@ -62,8 +69,11 @@ public class Chest extends BaseInventory implements Property
 		addAction(new OpenChestAction(this));
 		addAction(new CloseChestAction(this));
 		addAction(new InspectChestAction(this));
+		addAction(new TakeChestItemAction(this));
 		addAction(new LockLockAction(lock));
 		addAction(new UnlockLockAction(lock));
+
+		addProperty("lock", lock);
 	}
 
 	/**
@@ -153,5 +163,36 @@ public class Chest extends BaseInventory implements Property
 	public Lock getLock()
 	{
 		return this.lock;
+	}
+
+	/**
+	 * Adds the {@link Property} to the {@link PropertyContainer}.
+	 *
+	 * @param propertyName The name of the {@link Property}.
+	 * @param property     The {@link Property} to add to the {@link PropertyContainer}.
+	 */
+	@Override public void addProperty(String propertyName, Property property)
+	{
+		properties.put(propertyName, property);
+	}
+
+	/**
+	 * Returns the {@link Property} with the provided <code>name</code>.
+	 *
+	 * @param name The <code>name</code> of the {@link Property} to get.
+	 */
+	@Override public Property getProperty(String name)
+	{
+		return properties.get(name);
+	}
+
+	/**
+	 * Returns an {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
+	 *
+	 * @return The {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
+	 */
+	@Override public ImmutableMap<String, Property> getProperties()
+	{
+		return new ImmutableMap.Builder<String, Property>().putAll(properties).build();
 	}
 }

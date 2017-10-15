@@ -15,11 +15,10 @@ public abstract class AbstractPropertyContainer extends AbstractProperty impleme
 	/**
 	 * Adds a new property to the {@link PropertyContainer}.
 	 *
-	 * @param name        The name of the {@link Property}.
-	 * @param description The description of the {@link Property}.
-	 * @param property    The {@link Property} to add to the {@link PropertyContainer}.
+	 * @param name     The name of the {@link Property}.
+	 * @param property The {@link Property} to add to the {@link PropertyContainer}.
 	 */
-	@Override public void addProperty(String name, String description, Property property)
+	@Override public void addProperty(String name, Property property)
 	{
 		properties.put(name, property);
 	}

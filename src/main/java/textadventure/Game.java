@@ -4,11 +4,12 @@ import textadventure.actions.Action;
 import textadventure.actions.ImmutableActionRegistry;
 import textadventure.actions.MutableActionRegistry;
 import textadventure.doors.*;
+import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.CloseChestAction;
 import textadventure.items.chest.InspectChestAction;
 import textadventure.items.chest.OpenChestAction;
+import textadventure.items.chest.TakeChestItemAction;
 import textadventure.lock.InspectLockAction;
-import textadventure.lock.Lock;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.EndingRoom;
@@ -78,6 +79,11 @@ public class Game
 		this.actionRegistry.addAction("chest", new OpenChestAction(null));
 		this.actionRegistry.addAction("chest", new CloseChestAction(null));
 		this.actionRegistry.addAction("chest", new InspectChestAction(null));
+		this.actionRegistry.addAction("chest", new TakeChestItemAction(null));
+		this.actionRegistry.addAction("chest", new LockLockAction(null));
+		this.actionRegistry.addAction("chest", new UnlockLockAction(null));
+
+		this.actionRegistry.addAction("backpack", new InspectBackpackAction(null));
 
 		userInterface.onInit(this);
 	}
