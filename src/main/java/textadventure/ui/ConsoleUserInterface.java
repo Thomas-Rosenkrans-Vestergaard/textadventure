@@ -2,9 +2,15 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.*;
+import textadventure.actions.Action;
+import textadventure.actions.ActionResponse;
 import textadventure.doors.*;
 import textadventure.items.Item;
-import textadventure.items.inventory.Inventory;
+import textadventure.items.Inventory;
+import textadventure.items.chest.Chest;
+import textadventure.items.chest.CloseChestAction;
+import textadventure.items.chest.InspectChestAction;
+import textadventure.items.chest.OpenChestAction;
 import textadventure.lock.*;
 import textadventure.rooms.Room;
 
@@ -51,9 +57,7 @@ public class ConsoleUserInterface implements UserInterface
 	@Override
 	public void onInit(Game game)
 	{
-		String message = "The game was initialized.";
 
-		printer.println(message);
 	}
 
 	/**
@@ -65,9 +69,7 @@ public class ConsoleUserInterface implements UserInterface
 	@Override
 	public void onPlayerJoin(Game game, Player player)
 	{
-		String message = String.format("%s connected to the game.", player.getCharacter().getName());
 
-		printer.println(message);
 	}
 
 	/**
@@ -78,9 +80,12 @@ public class ConsoleUserInterface implements UserInterface
 	@Override
 	public void onGameStart(Game game)
 	{
-		String message = game.getMaze().getStartingRoom().getStartingMessage();
-
-		printer.println(message);
+		showInstructions();
+		printer.println("#");
+		printer.println("# Story");
+		printer.println("#");
+		printer.println();
+		printer.println(game.getMaze().getStartingRoom().getStartingMessage());
 	}
 
 	/**
@@ -136,9 +141,9 @@ public class ConsoleUserInterface implements UserInterface
 			printer.println("Please enter your next action.");
 			String input = scanner.nextLine().trim();
 
-			if (input.startsWith("help")) {
-				showHelp();
-				return;
+			if (input.startsWith("instructions")) {
+				showInstructions();
+				continue;
 			}
 
 			if (input.startsWith("quit")) {
@@ -154,7 +159,13 @@ public class ConsoleUserInterface implements UserInterface
 			}
 
 			if (input.startsWith("actions")) {
-				throw new UnsupportedOperationException();
+				showActions(game);
+				continue;
+			}
+
+			if (input.startsWith("commands")) {
+				showCommands();
+				continue;
 			}
 
 			String[] sections = input.split(" ");
@@ -283,7 +294,7 @@ public class ConsoleUserInterface implements UserInterface
 	@Override public void onDoorInspect(Game game, Player player, InspectDoorAction action)
 	{
 		InspectDoorAction.Outcome outcome = action.getOutcome();
-		Door door = action.getDoor();
+		Door                      door    = action.getDoor();
 
 		if (outcome == InspectDoorAction.Outcome.SUCCESS) {
 			printer.println(String.format("You inspect the door, learning that the door is %s.", door.getState().name().toLowerCase()));
@@ -375,7 +386,7 @@ public class ConsoleUserInterface implements UserInterface
 	@Override public void onLockInspect(Game game, Player player, InspectLockAction action)
 	{
 		InspectLockAction.Outcome outcome = action.getOutcome();
-		Lock lock = action.getLock();
+		Lock                      lock    = action.getLock();
 
 		if (outcome == InspectLockAction.Outcome.SUCCESS) {
 			printer.println(
@@ -384,6 +395,101 @@ public class ConsoleUserInterface implements UserInterface
 							lock.getCode()
 					)
 			);
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link OpenChestAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link OpenChestAction}.
+	 * @param action The {@link OpenChestAction} instance.
+	 */
+	@Override public void onChestOpen(Game game, Player player, OpenChestAction action)
+	{
+		OpenChestAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == OpenChestAction.Outcome.SUCCESS) {
+			printer.println("You successfully opened the chest.");
+			return;
+		}
+
+		if (outcome == OpenChestAction.Outcome.ALREADY_OPEN) {
+			printer.println("You attempted to open the chest, even though the chest is already open.");
+			printer.println("You start to question your sanity.");
+			return;
+		}
+
+		if (outcome == OpenChestAction.Outcome.LOCKED) {
+			printer.println("You attempt to open the door, but discover that the chest is locked.");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link CloseChestAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link CloseChestAction}.
+	 * @param action The {@link CloseChestAction} instance.
+	 */
+	@Override public void onChestClose(Game game, Player player, CloseChestAction action)
+	{
+		CloseChestAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == CloseChestAction.Outcome.SUCCESS) {
+			printer.println("You successfully closed the chest.");
+			return;
+		}
+
+		if (outcome == CloseChestAction.Outcome.ALREADY_CLOSED) {
+			printer.println("You attempted to close the chest, even though the chest is already closed.");
+			printer.println("You start to question your sanity.");
+			return;
+		}
+
+		if (outcome == CloseChestAction.Outcome.LOCKED) {
+			printer.println("You attempt to close the chest, but discover that the chest is locked.");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link InspectChestAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link InspectChestAction}.
+	 * @param action The {@link InspectChestAction} instance.
+	 */
+	@Override public void onChestInspect(Game game, Player player, InspectChestAction action)
+	{
+		InspectChestAction.Outcome outcome = action.getOutcome();
+		Chest                      chest   = action.getChest();
+
+		if (outcome == InspectChestAction.Outcome.SUCCESS) {
+			ImmutableMap<Integer, Item> items = chest.getItems();
+			printer.println("-----------------------------------------------------------------------------------------");
+			printer.println("| Slot | Item name            | Item description                                        |");
+			printer.println("-----------------------------------------------------------------------------------------");
+			items.entrySet().forEach(entry -> {
+				printer.println(String.format("| %-4d | %-20s | %-40s |",
+						entry.getKey(),
+						entry.getValue().getItemName(),
+						entry.getValue().getItemDescription()));
+			});
+			printer.println("------------------------------------------------------------------------------------------");
+			return;
+		}
+
+		if (outcome == InspectChestAction.Outcome.CLOSED) {
+			printer.println("You attempt to inspect the chest, but discover that the chest is closed.");
 			return;
 		}
 
@@ -437,8 +543,8 @@ public class ConsoleUserInterface implements UserInterface
 	 */
 	@Override public void showInventory(String header, Inventory inventory)
 	{
-		ImmutableMap<Integer, Item> items = inventory.getItems();
-		StringBuilder builder = new StringBuilder();
+		ImmutableMap<Integer, Item> items   = inventory.getItems();
+		StringBuilder               builder = new StringBuilder();
 		builder.append("------------------------------------------------------------------------------------------\n");
 		builder.append("| #   | Item name            | Item description                                          |\n");
 		builder.append("------------------------------------------------------------------------------------------\n");
@@ -452,17 +558,56 @@ public class ConsoleUserInterface implements UserInterface
 		printer.println(builder);
 	}
 
-	private void showHelp()
+	/**
+	 * Show instructions on show to play the game.
+	 */
+	private void showInstructions()
 	{
-		printer.println("You interact with the room around you using properties and actions.\nProperties are objects" +
-				" that you can perform actions upon. Properties can be nested inside other properties.\nActions " +
-				"cannot be nested inside other actions.\n");
+		printer.println("#");
+		printer.println("# Instructions");
+		printer.println("#");
+		printer.println();
+		printer.println("You interact with the room around you using 'properties' and 'actions'.");
+		printer.println();
+		printer.println("\tnorth lock inspect");
+		printer.println();
+		printer.println("The above command executes the action 'inspect' on the property 'lock' on the property 'north'.");
+		printer.println("The 'lock' is a property nested inside the 'north' property.");
+		printer.println();
 
-		printer.println("\tnorthern_door lock unlock\n");
+		showCommands();
+	}
 
-		printer.println("In the above command you access the property 'northern_door'.\nThen you access the property" +
-				" 'lock' on the 'northern_door'. Lastly then perform the 'unlock' action on the 'lock'.\n");
+	/**
+	 * Show a list of global commands.
+	 */
+	private void showCommands()
+	{
+		printer.println("A number of commands are available at all times in the game:");
+		printer.println();
+		printer.println("\tquit                          Exit the game without saving your progress.");
+		printer.println("\tproperties                    See all the properties you can currently access.");
+		printer.println("\tactions                       See a global list of actions that can be performed.");
+		printer.println("\tcommands                      See a list of possible commands.");
+		printer.println("\tinstructions                  Print the game instructions.");
+		printer.println();
+	}
 
-		printer.println("To see the a");
+	/**
+	 * Show a list of global commands.
+	 *
+	 * @param game The {@link Game} instance.
+	 */
+	private void showActions(Game game)
+	{
+		printer.println("---------- Actions ---------");
+		printer.println();
+
+		game.getActionRegistry().getActions().entrySet().forEach(entry -> {
+			printer.println(entry.getKey());
+			entry.getValue().iterator().forEachRemaining(action -> {
+				printer.println(String.format("\t%-30s %s", action.getActionName(), action.getActionDescription()));
+			});
+		});
 	}
 }

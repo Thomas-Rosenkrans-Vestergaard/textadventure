@@ -1,11 +1,14 @@
 package textadventure.ui;
 
-import textadventure.ActionResponse;
+import textadventure.actions.ActionResponse;
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.Action;
+import textadventure.actions.Action;
 import textadventure.doors.*;
-import textadventure.items.inventory.Inventory;
+import textadventure.items.Inventory;
+import textadventure.items.chest.CloseChestAction;
+import textadventure.items.chest.InspectChestAction;
+import textadventure.items.chest.OpenChestAction;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
@@ -131,6 +134,33 @@ public interface UserInterface
 	 * @param action The {@link InspectLockAction} instance.
 	 */
 	void onLockInspect(Game game, Player player, InspectLockAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link OpenChestAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link OpenChestAction}.
+	 * @param action The {@link OpenChestAction} instance.
+	 */
+	void onChestOpen(Game game, Player player, OpenChestAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link CloseChestAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link CloseChestAction}.
+	 * @param action The {@link CloseChestAction} instance.
+	 */
+	void onChestClose(Game game, Player player, CloseChestAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link InspectChestAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link InspectChestAction}.
+	 * @param action The {@link InspectChestAction} instance.
+	 */
+	void onChestInspect(Game game, Player player, InspectChestAction action);
 
 	/**
 	 * Prompts the provided {@link Player} to select some {@link Option}.

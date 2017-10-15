@@ -2,8 +2,9 @@ package textadventure.lock;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.NamedAction;
 
-public class InspectLockAction extends LockAction
+public class InspectLockAction extends LockAction implements NamedAction
 {
 
 	/**
@@ -24,7 +25,7 @@ public class InspectLockAction extends LockAction
 	 *
 	 * @param lock The {@link Lock} to inspect.
 	 */
-	InspectLockAction(Lock lock)
+	public InspectLockAction(Lock lock)
 	{
 		super(lock);
 	}

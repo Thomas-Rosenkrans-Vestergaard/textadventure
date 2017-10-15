@@ -2,8 +2,7 @@ package textadventure;
 
 import org.junit.Before;
 import org.junit.Test;
-import textadventure.items.inventory.BaseInventory;
-import textadventure.items.inventory.Inventory;
+import textadventure.items.backpack.Backpack;
 import textadventure.rooms.BaseRoom;
 import textadventure.rooms.Room;
 
@@ -12,16 +11,16 @@ import static org.junit.Assert.*;
 public class BaseCharacterTest
 {
 
-	Inventory inventory;
-	Room      room;
+	Backpack backpack;
+	Room room;
 	Character character;
 
 	@Before
 	public void setUp() throws Exception
 	{
-		inventory = new BaseInventory(10);
+		backpack = new Backpack(10);
 		room = new BaseRoom("roomName", "roomDescription");
-		character = new BaseCharacter("name", inventory, room, 1, 2, 3, 4, 5, 6, 7, 8);
+		character = new BaseCharacter("name", backpack, room, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 	}
 
 	@Test
@@ -33,7 +32,7 @@ public class BaseCharacterTest
 	@Test
 	public void getInventory() throws Exception
 	{
-		assertEquals(inventory, character.getBackpack());
+		assertEquals(backpack, character.getBackpack());
 	}
 
 	@Test
@@ -69,33 +68,38 @@ public class BaseCharacterTest
 		assertEquals(3, character.getLevel());
 	}
 
+	@Test void getSanity() throws Exception
+	{
+		assertEquals(4, character.getSanity());
+	}
+
 	@Test
 	public void getStrength() throws Exception
 	{
-		assertEquals(4, character.getStrength());
+		assertEquals(5, character.getStrength());
 	}
 
 	@Test
 	public void getDexterity() throws Exception
 	{
-		assertEquals(5, character.getDexterity());
+		assertEquals(6, character.getDexterity());
 	}
 
 	@Test
 	public void getIntelligence() throws Exception
 	{
-		assertEquals(6, character.getIntelligence());
+		assertEquals(7, character.getIntelligence());
 	}
 
 	@Test
 	public void getStealth() throws Exception
 	{
-		assertEquals(7, character.getStealth());
+		assertEquals(8, character.getStealth());
 	}
 
 	@Test
 	public void getMoney() throws Exception
 	{
-		assertEquals(8, character.getMoney());
+		assertEquals(9, character.getMoney());
 	}
 }

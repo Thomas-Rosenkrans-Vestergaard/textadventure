@@ -2,13 +2,17 @@ package textadventure;
 
 import textadventure.doors.BaseDoor;
 import textadventure.doors.Door;
+import textadventure.items.chest.Chest;
+import textadventure.lock.Key;
 import textadventure.lock.Lock;
 import textadventure.rooms.BaseRoom;
 import textadventure.rooms.EndingRoom;
 import textadventure.rooms.Room;
 import textadventure.rooms.StartingRoom;
 
+import static textadventure.doors.Door.State.CLOSED;
 import static textadventure.doors.Door.State.OPEN;
+import static textadventure.lock.Lock.State.LOCKED;
 import static textadventure.lock.Lock.State.UNLOCKED;
 
 public class MazeCreator
@@ -38,6 +42,9 @@ public class MazeCreator
 	{
 		rooms[1][0] = new BaseRoom("(1,0)", "You are currently in room (1,0).");
 		rooms[3][0] = new StartingRoom("(3,0)", "You are currently in room (3,0).");
+		Chest chest = new Chest(10, Chest.State.CLOSED, new Lock("LY4SW", UNLOCKED));
+		chest.addItem(0, new Key("KZSE6X"));
+		rooms[3][0].addProperty("chest", "A dusty military crate.", chest);
 
 		rooms[1][1] = new BaseRoom("(1,1)", "You are currently in room (1,1).");
 		rooms[2][1] = new BaseRoom("(2,1)", "You are currently in room (2,1).");
@@ -72,16 +79,16 @@ public class MazeCreator
 		 */
 		final String NORTH_DOOR_NAME = "north";
 		final String SOUTH_DOOR_NAME = "south";
-		final String EAST_DOOR_NAME = "east";
-		final String WEST_DOOR_NAME = "west";
+		final String EAST_DOOR_NAME  = "east";
+		final String WEST_DOOR_NAME  = "west";
 
 		/*
 		 * Room description constants.
 		 */
 		final String NORTH_DOOR_DESC = "In the northern part of the room is a door.";
 		final String SOUTH_DOOR_DESC = "In the southern part of the room is a door.";
-		final String EAST_DOOR_DESC = "In the eastern part of the room is a door.";
-		final String WEST_DOOR_DESC = "In the western part of the room is a door.";
+		final String EAST_DOOR_DESC  = "In the eastern part of the room is a door.";
+		final String WEST_DOOR_DESC  = "In the western part of the room is a door.";
 
 		Door door;
 
@@ -91,7 +98,7 @@ public class MazeCreator
 		rooms[1][0].addProperty(NORTH_DOOR_NAME, NORTH_DOOR_DESC, door);
 		rooms[1][1].addProperty(SOUTH_DOOR_NAME, NORTH_DOOR_DESC, door);
 
-		door = new BaseDoor(OPEN, new Lock("KZSE6X", UNLOCKED), rooms[3][0], rooms[3][1]);
+		door = new BaseDoor(CLOSED, new Lock("KZSE6X", LOCKED), rooms[3][0], rooms[3][1]);
 		rooms[3][0].addProperty(NORTH_DOOR_NAME, SOUTH_DOOR_DESC, door);
 		rooms[3][1].addProperty(SOUTH_DOOR_NAME, SOUTH_DOOR_DESC, door);
 

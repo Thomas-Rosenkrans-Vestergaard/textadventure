@@ -1,8 +1,8 @@
 package textadventure;
 
+import textadventure.actions.Action;
+import textadventure.actions.ActionResponse;
 import textadventure.ui.UserInterface;
-
-import java.util.function.Consumer;
 
 public class HumanPlayer extends AbstractPlayer
 {

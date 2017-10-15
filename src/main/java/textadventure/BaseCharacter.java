@@ -1,10 +1,11 @@
 package textadventure;
 
-import textadventure.items.inventory.Backpack;
+import com.google.common.collect.ImmutableMap;
+import textadventure.actions.Action;
+import textadventure.items.backpack.Backpack;
 import textadventure.rooms.Room;
-import textadventure.rooms.Landmine;
 
-public class BaseCharacter extends AbstractPropertyContainer implements Character
+public class BaseCharacter implements Character
 {
 
 	/**
@@ -37,6 +38,9 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	 */
 	private int level;
 
+	/**
+	 * The sanity level of the {@link Character}.
+	 */
 	private int sanity;
 
 	/**
@@ -51,7 +55,7 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	private int dexterity;
 
 	/**
-	 * The intelligence level of the {@link Character}. Determines the chance to disarm {@link Landmine}s.
+	 * The intelligence level of the {@link Character}.
 	 */
 	private int intelligence;
 
@@ -104,6 +108,17 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	}
 
 	/**
+	 * The {@link Action}s that the {@link java.lang.Character} can perform.
+	 *
+	 * @return The {@link Action}s that the {@link java.lang.Character} can perform.
+	 */
+	@Override public ImmutableMap<String, Action> getActions()
+	{
+		//return new ImmutableMap.Builder<String, Action>().putAll("backpack", new InspectBackpackAction(backpack));
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * Returns the {@link Backpack} of the {@link Character}.
 	 *
 	 * @return The {@link Backpack} of the {@link Character}.
@@ -135,9 +150,9 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 
 
 	/**
-	 * Returns the current number of hit points that the {@link java.lang.Character} has.
+	 * Returns the current number of hit points that the {@link Character} has.
 	 *
-	 * @return The current number of hit points that the {@link java.lang.Character} has.
+	 * @return The current number of hit points that the {@link Character} has.
 	 */
 	@Override public int getCurrentHP()
 	{
@@ -145,9 +160,9 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	}
 
 	/**
-	 * Returns the maximum number of hit points that the {@link java.lang.Character} can has.
+	 * Returns the maximum number of hit points that the {@link Character} can has.
 	 *
-	 * @return The maximum number of hit points that the {@link java.lang.Character} can has.
+	 * @return The maximum number of hit points that the {@link Character} can has.
 	 */
 	@Override public int getMaxHP()
 	{
@@ -165,9 +180,9 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	}
 
 	/**
-	 * Returns the level of sanity of the {@link java.lang.Character}.
+	 * Returns the level of sanity of the {@link Character}.
 	 *
-	 * @return The level of sanity of the {@link java.lang.Character}.
+	 * @return The level of sanity of the {@link Character}.
 	 */
 	@Override public int getSanity()
 	{
@@ -197,11 +212,9 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	}
 
 	/**
-	 * Returns the intelligence level of the {@link Character}. Determines the chance to disarm
-	 * {@link Landmine}s.
+	 * Returns the intelligence level of the {@link Character}.
 	 *
-	 * @return The intelligence level of the {@link Character}. Determines the chance to disarm
-	 * {@link Landmine}s.
+	 * @return The intelligence level of the {@link Character}.
 	 */
 	@Override public int getIntelligence()
 	{

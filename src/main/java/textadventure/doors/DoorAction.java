@@ -1,6 +1,6 @@
 package textadventure.doors;
 
-import textadventure.Action;
+import textadventure.actions.Action;
 
 public abstract class DoorAction implements Action
 {

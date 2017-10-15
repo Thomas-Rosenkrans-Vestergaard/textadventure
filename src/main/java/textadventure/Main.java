@@ -1,6 +1,6 @@
 package textadventure;
 
-import textadventure.items.inventory.Backpack;
+import textadventure.items.backpack.Backpack;
 import textadventure.lock.Key;
 import textadventure.ui.ConsoleUserInterface;
 import textadventure.ui.UserInterface;

@@ -1,6 +1,8 @@
 package textadventure.items.inventory;
 
 import org.junit.Test;
+import textadventure.items.BaseInventory;
+import textadventure.items.Inventory;
 import textadventure.items.Item;
 
 import static org.junit.Assert.*;

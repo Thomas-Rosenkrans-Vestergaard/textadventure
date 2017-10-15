@@ -2,8 +2,9 @@ package textadventure.doors;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.NamedAction;
 
-public class InspectDoorAction extends DoorAction
+public class InspectDoorAction extends DoorAction implements NamedAction
 {
 
 	/**
@@ -24,7 +25,7 @@ public class InspectDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to inspect.
 	 */
-	InspectDoorAction(Door door)
+	public InspectDoorAction(Door door)
 	{
 		super(door);
 	}

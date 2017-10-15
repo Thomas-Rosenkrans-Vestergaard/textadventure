@@ -1,7 +1,6 @@
-package textadventure.items.inventory;
+package textadventure.items;
 
 import com.google.common.collect.ImmutableMap;
-import textadventure.items.Item;
 import textadventure.ui.Select;
 
 public interface Inventory extends Select<Item>

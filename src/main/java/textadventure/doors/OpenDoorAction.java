@@ -2,8 +2,9 @@ package textadventure.doors;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.NamedAction;
 
-public class OpenDoorAction extends DoorAction
+public class OpenDoorAction extends DoorAction implements NamedAction
 {
 
 	/**
@@ -38,7 +39,7 @@ public class OpenDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to be opened.
 	 */
-	OpenDoorAction(Door door)
+	public OpenDoorAction(Door door)
 	{
 		super(door);
 	}

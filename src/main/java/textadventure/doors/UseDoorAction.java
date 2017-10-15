@@ -2,9 +2,10 @@ package textadventure.doors;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.NamedAction;
 import textadventure.rooms.Room;
 
-public class UseDoorAction extends DoorAction
+public class UseDoorAction extends DoorAction implements NamedAction
 {
 
 	/**
@@ -34,7 +35,7 @@ public class UseDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to use.
 	 */
-	UseDoorAction(Door door)
+	public UseDoorAction(Door door)
 	{
 		super(door);
 	}

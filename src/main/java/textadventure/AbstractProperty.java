@@ -1,5 +1,8 @@
 package textadventure;
 
+import textadventure.actions.Action;
+import textadventure.actions.NamedAction;
+
 import java.util.HashMap;
 import java.util.stream.Stream;
 
@@ -12,11 +15,11 @@ public abstract class AbstractProperty implements Property
 	private HashMap<String, Action> actions = new HashMap<>();
 
 	/**
-	 * Adds a new {@link Action} to the {@link Property}.
+	 * Adds a new {@link NamedAction} to the {@link Property}.
 	 *
-	 * @param action The {@link Action} to add to the {@link Property}.
+	 * @param action The {@link NamedAction} to add to the {@link Property}.
 	 */
-	@Override public void addAction(Action action)
+	@Override public void addAction(NamedAction action)
 	{
 		actions.put(action.getActionName(), action);
 	}

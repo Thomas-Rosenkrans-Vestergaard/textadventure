@@ -1,6 +1,7 @@
 package textadventure;
 
-import java.util.function.Consumer;
+import textadventure.actions.Action;
+import textadventure.actions.ActionResponse;
 
 public interface Player
 {

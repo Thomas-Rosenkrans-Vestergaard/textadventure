@@ -1,4 +1,7 @@
-package textadventure.items.inventory;
+package textadventure.items.backpack;
+
+import textadventure.items.BaseInventory;
+import textadventure.items.Inventory;
 
 /**
  * Represents a {@link Inventory} the {@link textadventure.Player} can carry.

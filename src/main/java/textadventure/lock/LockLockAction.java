@@ -2,11 +2,12 @@ package textadventure.lock;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.NamedAction;
 import textadventure.items.Item;
-import textadventure.items.inventory.Backpack;
+import textadventure.items.backpack.Backpack;
 import textadventure.ui.UserInterface;
 
-public class LockLockAction extends LockAction
+public class LockLockAction extends LockAction implements NamedAction
 {
 
 	/**
@@ -60,7 +61,7 @@ public class LockLockAction extends LockAction
 	@Override public void perform(Game game, Player player)
 	{
 		UserInterface userInterface = game.getUserInterface();
-		Lock.State state = lock.getState();
+		Lock.State    state         = lock.getState();
 
 		if (state == Lock.State.LOCKED) {
 			outcome = Outcome.ALREADY_LOCKED;
@@ -69,7 +70,7 @@ public class LockLockAction extends LockAction
 		}
 
 		if (state == Lock.State.UNLOCKED) {
-			String message = "Select the key to use to lock the lock.";
+			String   message  = "Select the key to use to lock the lock.";
 			Backpack backpack = player.getCharacter().getBackpack();
 			userInterface.select(message, backpack, player, item -> {
 

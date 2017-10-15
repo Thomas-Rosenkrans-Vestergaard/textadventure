@@ -1,10 +1,11 @@
 package textadventure.doors;
 
-import textadventure.Action;
+import textadventure.actions.Action;
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.NamedAction;
 
-public class CloseDoorAction extends DoorAction
+public class CloseDoorAction extends DoorAction implements NamedAction
 {
 
 	/**
@@ -39,7 +40,7 @@ public class CloseDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to be closed.
 	 */
-	CloseDoorAction(Door door)
+	public CloseDoorAction(Door door)
 	{
 		super(door);
 	}
@@ -82,7 +83,7 @@ public class CloseDoorAction extends DoorAction
 	 */
 	@Override public String getActionDescription()
 	{
-		return "Close the door.";
+		return "Attempt to close the door.";
 	}
 
 	/**

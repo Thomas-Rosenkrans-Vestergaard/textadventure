@@ -1,12 +1,21 @@
 package textadventure;
 
+import textadventure.actions.Action;
+import textadventure.actions.ImmutableActionRegistry;
+import textadventure.actions.MutableActionRegistry;
+import textadventure.doors.*;
+import textadventure.items.chest.CloseChestAction;
+import textadventure.items.chest.InspectChestAction;
+import textadventure.items.chest.OpenChestAction;
+import textadventure.lock.InspectLockAction;
+import textadventure.lock.Lock;
+import textadventure.lock.LockLockAction;
+import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.EndingRoom;
 import textadventure.ui.UserInterface;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Game
 {
@@ -14,17 +23,12 @@ public class Game
 	/**
 	 * The {@link UserInterface} used for input-output.
 	 */
-	private UserInterface ui;
+	private UserInterface userInterface;
 
 	/**
 	 * The {@link Player}s in the {@link Game}.
 	 */
 	private List<Player> players = new ArrayList<>();
-
-	/**
-	 * The {@link Player}s in the {@link Game} mapped by their name.
-	 */
-	private Map<String, Player> names = new HashMap<>();
 
 	/**
 	 * The {@link Maze} the {@link Game} is played within.
@@ -46,18 +50,36 @@ public class Game
 	 */
 	private int currentPlayerMoves;
 
+	private MutableActionRegistry actionRegistry = new MutableActionRegistry();
+
 	/**
 	 * The {@link UserInterface} to use for input-output.
 	 *
-	 * @param ui           The {@link UserInterface} to use for input-output.
-	 * @param movesPerTurn The amount of moves per {@link Player} before the turn ends.
+	 * @param userInterface The {@link UserInterface} to use for input-output.
+	 * @param movesPerTurn  The amount of moves per {@link Player} before the turn ends.
 	 */
-	public Game(UserInterface ui, Maze maze, int movesPerTurn)
+	public Game(UserInterface userInterface, Maze maze, int movesPerTurn)
 	{
-		this.ui = ui;
+		this.userInterface = userInterface;
 		this.maze = maze;
 		this.movesPerTurn = movesPerTurn;
-		ui.onInit(this);
+
+		this.actionRegistry.addAction("door", new OpenDoorAction(null));
+		this.actionRegistry.addAction("door", new CloseDoorAction(null));
+		this.actionRegistry.addAction("door", new InspectDoorAction(null));
+		this.actionRegistry.addAction("door", new UseDoorAction(null));
+		this.actionRegistry.addAction("door", new LockLockAction(null));
+		this.actionRegistry.addAction("door", new UnlockLockAction(null));
+
+		this.actionRegistry.addAction("lock", new LockLockAction(null));
+		this.actionRegistry.addAction("lock", new UnlockLockAction(null));
+		this.actionRegistry.addAction("lock", new InspectLockAction(null));
+
+		this.actionRegistry.addAction("chest", new OpenChestAction(null));
+		this.actionRegistry.addAction("chest", new CloseChestAction(null));
+		this.actionRegistry.addAction("chest", new InspectChestAction(null));
+
+		userInterface.onInit(this);
 	}
 
 	/**
@@ -68,8 +90,7 @@ public class Game
 	public void addPlayer(Player player)
 	{
 		players.add(player);
-		names.put(player.getCharacter().getName(), player);
-		ui.onPlayerJoin(this, player);
+		userInterface.onPlayerJoin(this, player);
 	}
 
 	/**
@@ -77,7 +98,7 @@ public class Game
 	 */
 	public void start()
 	{
-		ui.onGameStart(this);
+		userInterface.onGameStart(this);
 		handleTurn(players.get(0));
 	}
 
@@ -86,12 +107,12 @@ public class Game
 	 */
 	private void handleNext()
 	{
-		ui.onTurnEnd(this, this.currentPlayer);
+		userInterface.onTurnEnd(this, this.currentPlayer);
 		int index = players.indexOf(this.currentPlayer);
 		if (index + 1 == players.size()) {
 
 			if (hasWinner()) {
-				ui.onGameEnd(this);
+				userInterface.onGameEnd(this);
 				return;
 			}
 
@@ -126,7 +147,7 @@ public class Game
 	private void handleTurn(Player player)
 	{
 		this.movesPerTurn = 0;
-		ui.onTurnStart(this, player);
+		userInterface.onTurnStart(this, player);
 		handleActionRequest(player);
 	}
 
@@ -172,6 +193,11 @@ public class Game
 	 */
 	public UserInterface getUserInterface()
 	{
-		return this.ui;
+		return this.userInterface;
+	}
+
+	public ImmutableActionRegistry getActionRegistry()
+	{
+		return this.actionRegistry.immutable();
 	}
 }

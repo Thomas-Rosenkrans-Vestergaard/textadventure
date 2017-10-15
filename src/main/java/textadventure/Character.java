@@ -1,8 +1,8 @@
 package textadventure;
 
 import com.google.common.collect.ImmutableMap;
-import textadventure.items.inventory.Backpack;
-import textadventure.rooms.Landmine;
+import textadventure.actions.Action;
+import textadventure.items.backpack.Backpack;
 import textadventure.rooms.Room;
 
 public interface Character
@@ -21,6 +21,13 @@ public interface Character
 	 * @return The {@link Backpack} of the {@link Character}.
 	 */
 	Backpack getBackpack();
+
+	/**
+	 * The {@link Action}s that the {@link Character} can perform.
+	 *
+	 * @return The {@link Action}s that the {@link Character} can perform.
+	 */
+	ImmutableMap<String, Action> getActions();
 
 	/**
 	 * Returns the {@link Room} the {@link Character} is currently in.
@@ -81,18 +88,16 @@ public interface Character
 	int getDexterity();
 
 	/**
-	 * Returns the intelligence level of the {@link Character}. Determines the chance to disarm
-	 * {@link Landmine}s.
+	 * Returns the intelligence level of the {@link Character}.
 	 *
-	 * @return The intelligence level of the {@link Character}. Determines the chance to disarm
-	 * {@link Landmine}s.
+	 * @return The intelligence level of the {@link Character}.
 	 */
 	int getIntelligence();
 
 	/**
-	 * Returns the stealth level of the {@link Character}. Determines the chance to pickpocket other {@link Person}s.
+	 * Returns the stealth level of the {@link Character}.
 	 *
-	 * @return The stealth level of the {@link Character}. Determines the chance to pickpocket other {@link Person}s.
+	 * @return The stealth level of the {@link Character}.
 	 */
 	int getStealth();
 

@@ -1,4 +1,4 @@
-package textadventure;
+package textadventure.actions;
 
 import textadventure.ui.Select;
 
