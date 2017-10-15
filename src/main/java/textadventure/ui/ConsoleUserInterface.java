@@ -93,6 +93,7 @@ public class ConsoleUserInterface implements UserInterface
 		String message = game.getMaze().getEndingRoom().getEndingMessage();
 
 		printer.println(message);
+		System.exit(0);
 	}
 
 	/**

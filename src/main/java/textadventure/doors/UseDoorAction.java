@@ -3,6 +3,7 @@ package textadventure.doors;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.NamedAction;
+import textadventure.rooms.EndingRoom;
 import textadventure.rooms.Room;
 
 public class UseDoorAction extends DoorAction implements NamedAction
@@ -49,7 +50,7 @@ public class UseDoorAction extends DoorAction implements NamedAction
 	@Override public void perform(Game game, Player player)
 	{
 		Room currentRoom = player.getCharacter().getCurrentLocation();
-		Room targetRoom = getDoor().getInverseRoom(currentRoom);
+		Room targetRoom  = getDoor().getInverseRoom(currentRoom);
 
 		if (targetRoom == null) {
 			throw new IllegalStateException();
@@ -67,6 +68,11 @@ public class UseDoorAction extends DoorAction implements NamedAction
 			outcome = Outcome.SUCCESS;
 			player.getCharacter().setCurrentLocation(targetRoom);
 			game.getUserInterface().onDoorUse(game, player, this);
+
+			// TODO: QUICK FIX
+			if (targetRoom instanceof EndingRoom)
+				game.getUserInterface().onGameEnd(game);
+
 			return;
 		}
 
