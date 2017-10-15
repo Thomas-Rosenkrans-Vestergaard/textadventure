@@ -157,11 +157,15 @@ public class ConsoleUserInterface implements UserInterface
 			}
 
 			if (input.startsWith("quit")) {
-				throw new UnsupportedOperationException();
+				return;
 			}
 
 			if (input.startsWith("properties")) {
-				throw new UnsupportedOperationException();
+				printer.println("The properties available is this room:");
+				for (Map.Entry<String, Property> entry : player.getCharacter().getCurrentLocation().getProperties().entrySet()) {
+					printer.println(String.format("- %s", entry.getKey()));
+				}
+				continue;
 			}
 
 			if (input.startsWith("actions")) {

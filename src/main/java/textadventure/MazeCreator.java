@@ -36,30 +36,30 @@ public class MazeCreator
 	 */
 	private void generateRooms()
 	{
-		rooms[1][0] = new BaseRoom("(1,0)", "You entered room (1,0).");
-		rooms[3][0] = new StartingRoom("(3,0)", "You entered room (3,0).");
+		rooms[1][0] = new BaseRoom("(1,0)", "You are currently in room (1,0).");
+		rooms[3][0] = new StartingRoom("(3,0)", "You are currently in room (3,0).");
 
-		rooms[1][1] = new BaseRoom("(1,1)", "You entered room (1,1).");
-		rooms[2][1] = new BaseRoom("(2,1)", "You entered room (2,1).");
-		rooms[3][1] = new BaseRoom("(3,1)", "You entered room (3,1).");
-		rooms[4][1] = new BaseRoom("(4,1)", "You entered room (4,1).");
-		rooms[5][1] = new BaseRoom("(5,1)", "You entered room (5,1).");
+		rooms[1][1] = new BaseRoom("(1,1)", "You are currently in room (1,1).");
+		rooms[2][1] = new BaseRoom("(2,1)", "You are currently in room (2,1).");
+		rooms[3][1] = new BaseRoom("(3,1)", "You are currently in room (3,1).");
+		rooms[4][1] = new BaseRoom("(4,1)", "You are currently in room (4,1).");
+		rooms[5][1] = new BaseRoom("(5,1)", "You are currently in room (5,1).");
 
-		rooms[1][2] = new BaseRoom("(1,2)", "You entered room (1,2).");
-		rooms[2][2] = new BaseRoom("(2,2)", "You entered room (2,2).");
-		rooms[3][2] = new BaseRoom("(3,2)", "You entered room (3,2).");
-		rooms[4][2] = new BaseRoom("(4,4)", "You entered room (4,4).");
-		rooms[5][2] = new BaseRoom("(5,2)", "You entered room (5,2).");
+		rooms[1][2] = new BaseRoom("(1,2)", "You are currently in room (1,2).");
+		rooms[2][2] = new BaseRoom("(2,2)", "You are currently in room (2,2).");
+		rooms[3][2] = new BaseRoom("(3,2)", "You are currently in room (3,2).");
+		rooms[4][2] = new BaseRoom("(4,4)", "You are currently in room (4,4).");
+		rooms[5][2] = new BaseRoom("(5,2)", "You are currently in room (5,2).");
 
-		rooms[0][3] = new BaseRoom("(0,3)", "You entered room (0,3).");
-		rooms[1][3] = new BaseRoom("(1,3)", "You entered room (1,3).");
-		rooms[2][3] = new BaseRoom("(2,3)", "You entered room (2,3).");
-		rooms[3][3] = new BaseRoom("(3,3)", "You entered room (3,3).");
-		rooms[4][3] = new BaseRoom("(4,3)", "You entered room (4,3).");
-		rooms[5][3] = new BaseRoom("(5,3)", "You entered room (5,3).");
+		rooms[0][3] = new BaseRoom("(0,3)", "You are currently in room (0,3).");
+		rooms[1][3] = new BaseRoom("(1,3)", "You are currently in room (1,3).");
+		rooms[2][3] = new BaseRoom("(2,3)", "You are currently in room (2,3).");
+		rooms[3][3] = new BaseRoom("(3,3)", "You are currently in room (3,3).");
+		rooms[4][3] = new BaseRoom("(4,3)", "You are currently in room (4,3).");
+		rooms[5][3] = new BaseRoom("(5,3)", "You are currently in room (5,3).");
 
-		rooms[2][4] = new BaseRoom("(2,4)", "You entered room (2,4).");
-		rooms[3][4] = new EndingRoom("(3,4)", "You entered room (3,4).");
+		rooms[2][4] = new BaseRoom("(2,4)", "You are currently in room (2,4).");
+		rooms[3][4] = new EndingRoom("(3,4)", "You are currently in room (3,4).");
 	}
 
 	/**
