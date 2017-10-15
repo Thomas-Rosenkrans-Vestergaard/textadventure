@@ -14,13 +14,11 @@ public abstract class AbstractProperty implements Property
 	/**
 	 * Adds a new {@link Action} to the {@link Property}.
 	 *
-	 * @param name        The name of the {@link Action}. Used when invoking the {@link Action}.
-	 * @param description The description of the {@link Action}.
-	 * @param action      The {@link Action} to add to the {@link Property}.
+	 * @param action The {@link Action} to add to the {@link Property}.
 	 */
-	@Override public void addAction(String name, String description, Action action)
+	@Override public void addAction(Action action)
 	{
-		actions.put(name, action); // TODO
+		actions.put(action.getActionName(), action);
 	}
 
 	/**

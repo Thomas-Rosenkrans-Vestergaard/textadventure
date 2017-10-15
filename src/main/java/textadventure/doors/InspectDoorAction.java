@@ -1,6 +1,5 @@
 package textadventure.doors;
 
-import textadventure.ActionException;
 import textadventure.Game;
 import textadventure.Player;
 
@@ -25,7 +24,7 @@ public class InspectDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to inspect.
 	 */
-	public InspectDoorAction(Door door)
+	InspectDoorAction(Door door)
 	{
 		super(door);
 	}
@@ -34,9 +33,9 @@ public class InspectDoorAction extends DoorAction
 	 * Performs the {@link InspectDoorAction} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link InspectDoorAction}.
+	 * @param player The {@link Player} executing the {@link InspectDoorAction}.
 	 */
-	@Override public void perform(Game game, Player player) throws ActionException
+	@Override public void perform(Game game, Player player)
 	{
 		outcome = Outcome.SUCCESS;
 		game.getUserInterface().onDoorInspect(game, player, this);
@@ -50,5 +49,25 @@ public class InspectDoorAction extends DoorAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
+	}
+
+	/**
+	 * Returns the name of the {@link InspectDoorAction}.
+	 *
+	 * @return The name of the {@link InspectDoorAction}.
+	 */
+	@Override public String getActionName()
+	{
+		return "inspect";
+	}
+
+	/**
+	 * Returns the description of the {@link InspectDoorAction}.
+	 *
+	 * @return The description of the {@link InspectDoorAction}.
+	 */
+	@Override public String getActionDescription()
+	{
+		return "Inspect the door to learn new information about the door.";
 	}
 }

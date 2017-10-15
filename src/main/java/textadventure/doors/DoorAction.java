@@ -8,14 +8,14 @@ public abstract class DoorAction implements Action
 	/**
 	 * The {@link Door} the {@link DoorAction} is performed upon.
 	 */
-	protected final Door door;
+	private final Door door;
 
 	/**
 	 * Creates a new {@link DoorAction}.
 	 *
 	 * @param door The {@link Door} the {@link DoorAction} is performed upon.
 	 */
-	public DoorAction(Door door)
+	DoorAction(Door door)
 	{
 		this.door = door;
 	}

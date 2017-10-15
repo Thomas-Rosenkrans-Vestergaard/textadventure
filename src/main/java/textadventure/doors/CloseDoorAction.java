@@ -1,7 +1,6 @@
 package textadventure.doors;
 
 import textadventure.Action;
-import textadventure.ActionException;
 import textadventure.Game;
 import textadventure.Player;
 
@@ -40,7 +39,7 @@ public class CloseDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to be closed.
 	 */
-	public CloseDoorAction(Door door)
+	CloseDoorAction(Door door)
 	{
 		super(door);
 	}
@@ -49,24 +48,41 @@ public class CloseDoorAction extends DoorAction
 	 * Performs the {@link Action} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link Action}.
+	 * @param player The {@link Player} executing the {@link Action}.
 	 */
-	@Override public void perform(Game game, Player player) throws ActionException
+	@Override public void perform(Game game, Player player)
 	{
 		try {
-			door.close();
+			getDoor().close();
 			this.outcome = Outcome.SUCCESS;
 			game.getUserInterface().onDoorClose(game, player, this);
-			return;
 		} catch (DoorAlreadyClosedException e) {
 			this.outcome = Outcome.ALREADY_CLOSED;
 			game.getUserInterface().onDoorClose(game, player, this);
-			return;
 		} catch (DoorLockedException e) {
 			this.outcome = Outcome.LOCKED;
 			game.getUserInterface().onDoorClose(game, player, this);
-			return;
 		}
+	}
+
+	/**
+	 * Returns the name of the {@link CloseDoorAction}.
+	 *
+	 * @return The name of the {@link CloseDoorAction}.
+	 */
+	@Override public String getActionName()
+	{
+		return "close";
+	}
+
+	/**
+	 * Returns the description of the {@link CloseDoorAction}.
+	 *
+	 * @return The description of the {@link CloseDoorAction}.
+	 */
+	@Override public String getActionDescription()
+	{
+		return "Close the door.";
 	}
 
 	/**

@@ -1,7 +1,5 @@
 package textadventure.doors;
 
-import textadventure.Action;
-import textadventure.ActionException;
 import textadventure.Game;
 import textadventure.Player;
 
@@ -40,7 +38,7 @@ public class OpenDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to be opened.
 	 */
-	public OpenDoorAction(Door door)
+	OpenDoorAction(Door door)
 	{
 		super(door);
 	}
@@ -49,23 +47,20 @@ public class OpenDoorAction extends DoorAction
 	 * Performs the {@link OpenDoorAction} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link OpenDoorAction}.
+	 * @param player The {@link Player} executing the {@link OpenDoorAction}.
 	 */
-	@Override public void perform(Game game, Player player) throws ActionException
+	@Override public void perform(Game game, Player player)
 	{
 		try {
-			door.open();
+			getDoor().open();
 			this.outcome = Outcome.SUCCESS;
 			game.getUserInterface().onDoorOpen(game, player, this);
-			return;
 		} catch (DoorAlreadyOpenException e) {
 			this.outcome = Outcome.ALREADY_OPEN;
 			game.getUserInterface().onDoorOpen(game, player, this);
-			return;
 		} catch (DoorLockedException e) {
 			this.outcome = Outcome.LOCKED;
 			game.getUserInterface().onDoorOpen(game, player, this);
-			return;
 		}
 	}
 
@@ -77,5 +72,25 @@ public class OpenDoorAction extends DoorAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
+	}
+
+	/**
+	 * Returns the name of the {@link OpenDoorAction}.
+	 *
+	 * @return The name of the {@link OpenDoorAction}.
+	 */
+	@Override public String getActionName()
+	{
+		return "open";
+	}
+
+	/**
+	 * Returns the description of the {@link OpenDoorAction}.
+	 *
+	 * @return The description of the {@link OpenDoorAction}.
+	 */
+	@Override public String getActionDescription()
+	{
+		return "Open the door.";
 	}
 }

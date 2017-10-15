@@ -1,8 +1,21 @@
 package textadventure;
 
-@FunctionalInterface
 public interface Action
 {
+
+	/**
+	 * Returns the name of the {@link Action}.
+	 *
+	 * @return The name of the {@link Action}.
+	 */
+	String getActionName();
+
+	/**
+	 * Returns the description of the {@link Action}.
+	 *
+	 * @return The description of the {@link Action}.
+	 */
+	String getActionDescription();
 
 	/**
 	 * Performs the {@link Action} using the provided parameters.
@@ -10,5 +23,5 @@ public interface Action
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} performing the {@link Action}.
 	 */
-	void perform(Game game, Player player) throws ActionException;
+	void perform(Game game, Player player);
 }

@@ -75,4 +75,14 @@ public class Key implements Item
 	{
 		return String.format("Can be used to lock or unlock locks with the code %s.", code);
 	}
+
+	/**
+	 * Returns the size of a stack of {@link Item}s.
+	 *
+	 * @return The size of a stack of {@link Item}s.
+	 */
+	@Override public int getStackSize()
+	{
+		return 1;
+	}
 }

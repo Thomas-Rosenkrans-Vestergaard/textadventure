@@ -28,7 +28,6 @@ public class HumanPlayer extends AbstractPlayer
 	 * Delegates a turn to the {@link Player}.
 	 *
 	 * @param game     The {@link Game} instance.
-	 * @param callback The callback to use for returning an appropriate {@link Action}.
 	 */
 	@Override
 	public void takeTurn(Game game, ActionResponse response)
@@ -43,7 +42,7 @@ public class HumanPlayer extends AbstractPlayer
 	 *
 	 * @param action The {@link Action} response.
 	 */
-	private void handleAction(Action action) throws ActionException
+	private void handleAction(Action action)
 	{
 		response.respond(action);
 	}

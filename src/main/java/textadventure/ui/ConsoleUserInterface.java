@@ -182,13 +182,9 @@ public class ConsoleUserInterface implements UserInterface
 			}
 
 			Action action = property.getAction(sections[sections.length - 1]);
-			try {
-				response.respond(action);
-				break;
-			} catch (ActionException e) {
-				printer.println("ActionException");
-				e.printStackTrace(printer);
-			}
+			if (action == null) throw new UnsupportedOperationException();
+
+			response.respond(action);
 		}
 	}
 
@@ -319,6 +315,12 @@ public class ConsoleUserInterface implements UserInterface
 			return;
 		}
 
+		if (outcome == LockLockAction.Outcome.SELECTED_NOT_KEY) {
+			printer.println("The item you attempted to lock the lock with is not a key.");
+			printer.println("You start to questing your sanity.");
+			return;
+		}
+
 		if (outcome == LockLockAction.Outcome.INCORRECT_KEY) {
 			printer.println("You attempt to turn the lock, but discover that you have the wrong key.");
 			return;
@@ -349,6 +351,12 @@ public class ConsoleUserInterface implements UserInterface
 			return;
 		}
 
+		if (outcome == UnlockLockAction.Outcome.SELECTED_NOT_KEY) {
+			printer.println("The item you attempted to unlock the lock with is not a key.");
+			printer.println("You start to questing your sanity.");
+			return;
+		}
+
 		if (outcome == UnlockLockAction.Outcome.INCORRECT_KEY) {
 			printer.println("You attempt to turn the lock, but discover that you have the wrong key.");
 			return;
@@ -370,8 +378,12 @@ public class ConsoleUserInterface implements UserInterface
 		Lock lock = action.getLock();
 
 		if (outcome == InspectLockAction.Outcome.SUCCESS) {
-			printer.println(String.format("You inspect the lock learning that the lock is %s.", lock.getState().name()
-					.toLowerCase()));
+			printer.println(
+					String.format("You inspect the lock learning that the lock is %s. You notice that '%s' is written on the lock.",
+							lock.getState().name().toLowerCase(),
+							lock.getCode()
+					)
+			);
 			return;
 		}
 
@@ -415,12 +427,7 @@ public class ConsoleUserInterface implements UserInterface
 			return;
 		}
 
-		try {
-			callback.<T>select(options.get(choice));
-		} catch (ActionException e) {
-			System.out.println("SelectException");
-			e.printStackTrace();
-		}
+		callback.<T>select(options.get(choice));
 	}
 
 	/**

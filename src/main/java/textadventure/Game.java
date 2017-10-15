@@ -146,7 +146,7 @@ public class Game
 	 *
 	 * @param action The chosen {@link Action}.
 	 */
-	private void handleActionResponse(Action action) throws ActionException
+	private void handleActionResponse(Action action)
 	{
 		action.perform(this, this.currentPlayer);
 		this.currentPlayerMoves++;

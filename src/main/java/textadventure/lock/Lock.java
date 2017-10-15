@@ -40,10 +40,9 @@ public class Lock extends AbstractProperty
 		this.code = code;
 		this.state = state;
 
-		addAction("lock", "Attempt to lock the lock, provided you have a matching key.", new LockLockAction(this));
-		addAction("unlock", "Attempt to unlock the lock, provided you have a matching key.", new UnlockLockAction
-				(this));
-		addAction("inspect", "Inspect the lock to gather new information.", new InspectLockAction(this));
+		addAction(new LockLockAction(this));
+		addAction(new UnlockLockAction(this));
+		addAction(new InspectLockAction(this));
 	}
 
 	/**
@@ -74,7 +73,7 @@ public class Lock extends AbstractProperty
 	 * @throws AlreadyUnlockedException When the {@link Lock} is already {@link Lock.State#LOCKED}.
 	 * @throws IncorrectKeyException    When the incorrect {@link Key} is used on the {@link Lock}.
 	 */
-	public void unlock(Key key) throws AlreadyUnlockedException, IncorrectKeyException
+	void unlock(Key key) throws AlreadyUnlockedException, IncorrectKeyException
 	{
 
 		if (state == UNLOCKED) {

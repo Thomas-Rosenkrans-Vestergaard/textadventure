@@ -18,4 +18,11 @@ public interface Item extends Option
 	 * @return The description of the {@link Item}.
 	 */
 	String getItemDescription();
+
+	/**
+	 * Returns the size of a stack of {@link Item}s.
+	 *
+	 * @return The size of a stack of {@link Item}s.
+	 */
+	int getStackSize();
 }

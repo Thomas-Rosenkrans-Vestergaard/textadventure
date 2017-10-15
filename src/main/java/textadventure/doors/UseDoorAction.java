@@ -1,6 +1,5 @@
 package textadventure.doors;
 
-import textadventure.ActionException;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.rooms.Room;
@@ -35,7 +34,7 @@ public class UseDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to use.
 	 */
-	public UseDoorAction(Door door)
+	UseDoorAction(Door door)
 	{
 		super(door);
 	}
@@ -44,18 +43,18 @@ public class UseDoorAction extends DoorAction
 	 * Performs the {@link UseDoorAction} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link  UseDoorAction}.
+	 * @param player The {@link Player} executing the {@link  UseDoorAction}.
 	 */
-	@Override public void perform(Game game, Player player) throws ActionException
+	@Override public void perform(Game game, Player player)
 	{
 		Room currentRoom = player.getCharacter().getCurrentLocation();
-		Room targetRoom = door.getInverseRoom(currentRoom);
+		Room targetRoom = getDoor().getInverseRoom(currentRoom);
 
 		if (targetRoom == null) {
 			throw new IllegalStateException();
 		}
 
-		Door.State state = door.getState();
+		Door.State state = getDoor().getState();
 
 		if (state == Door.State.CLOSED) {
 			outcome = Outcome.CLOSED;
@@ -81,5 +80,25 @@ public class UseDoorAction extends DoorAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
+	}
+
+	/**
+	 * Returns the name of the {@link UseDoorAction}.
+	 *
+	 * @return The name of the {@link UseDoorAction}.
+	 */
+	@Override public String getActionName()
+	{
+		return "use";
+	}
+
+	/**
+	 * Returns the description of the {@link UseDoorAction}.
+	 *
+	 * @return The description of the {@link UseDoorAction}.
+	 */
+	@Override public String getActionDescription()
+	{
+		return "Use the door to move to the next room.";
 	}
 }

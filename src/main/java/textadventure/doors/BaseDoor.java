@@ -4,9 +4,6 @@ import textadventure.*;
 import textadventure.lock.*;
 import textadventure.rooms.Room;
 
-/**
- * The default implementation of the {@link Door} interface.
- */
 public class BaseDoor extends AbstractPropertyContainer implements Door
 {
 
@@ -45,12 +42,12 @@ public class BaseDoor extends AbstractPropertyContainer implements Door
 		this.roomA = roomA;
 		this.roomB = roomB;
 
-		addAction("open", "Open the door.", new OpenDoorAction(this));
-		addAction("close", "Close the door.", new CloseDoorAction(this));
-		addAction("use", "Use the door to enter the next room.", new UseDoorAction(this));
-		addAction("inspect", "Inspect the door to learn new information.", new InspectDoorAction(this));
-		addAction("lock", "Lock the door.", new LockLockAction(lock));
-		addAction("unlock", "Unlock the door.", new UnlockLockAction(lock));
+		addAction(new OpenDoorAction(this));
+		addAction(new CloseDoorAction(this));
+		addAction(new UseDoorAction(this));
+		addAction(new InspectDoorAction(this));
+		addAction(new LockLockAction(lock));
+		addAction(new UnlockLockAction(lock));
 
 		addProperty("lock", "The lock on the door.", lock);
 	}
