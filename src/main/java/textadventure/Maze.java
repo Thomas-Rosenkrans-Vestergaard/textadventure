@@ -4,10 +4,6 @@ import textadventure.rooms.EndingRoom;
 import textadventure.rooms.Room;
 import textadventure.rooms.StartingRoom;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 public class Maze
 {
 

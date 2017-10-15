@@ -19,11 +19,8 @@ public class Main
 		Game          game          = new Game(gameInterface, maze, 5);
 		Backpack      backpack      = new Backpack(10);
 		backpack.addItem(0, new Key("LY4SW"));
-		game.addPlayer(new HumanPlayer(
-				new BaseCharacter("George", backpack, maze.getStartingRoom(), 100, 100, 0,
-						0, 0, 0, 0, 0, 0
-				)
-		));
+		Character character = new BaseCharacter("George", backpack, maze.getStartingRoom(), 100, 100, 0, 0, 0, 0, 0, 0, 0);
+		game.addPlayer(new HumanPlayer(character));
 		game.start();
 	}
 }
