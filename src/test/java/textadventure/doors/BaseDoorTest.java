@@ -5,7 +5,7 @@ import textadventure.lock.Lock;
 
 import static org.junit.Assert.*;
 
-public class DefaultDoorTest
+public class BaseDoorTest
 {
 	@Test
 	public void getState() throws Exception

@@ -3,7 +3,6 @@ package textadventure.lock;
 import textadventure.Action;
 import textadventure.ActionException;
 import textadventure.Player;
-import textadventure.Property;
 
 /**
  * Thrown when the {@link Lock} is already locked.
@@ -11,7 +10,13 @@ import textadventure.Property;
 public class AlreadyLockedException extends ActionException
 {
 
-	public AlreadyLockedException(Property property, Action action, Player player)
+	/**
+	 * Creates a new {@link AlreadyUnlockedException}.
+	 * @param property The {@link Lock}
+	 * @param action
+	 * @param player
+	 */
+	public AlreadyLockedException(Lock property, Action action, Player player)
 	{
 		super(property, action, player);
 	}

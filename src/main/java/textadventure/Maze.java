@@ -24,24 +24,15 @@ public class Maze
 	private EndingRoom endingRoom;
 
 	/**
-	 * The {@link Room}s in the {@link Maze}, not including the {@link StartingRoom} and {@link EndingRoom}.
-	 */
-	private List<Room> rooms = new ArrayList<>();
-
-	/**
 	 * Creates a new {@link Maze}.
 	 *
-	 * @param rooms        The {@link Room}s in the {@link Maze}.
 	 * @param startingRoom The {@link Room} that the {@link Player}(s) starts in.
 	 * @param endingRoom   The {@link Room} that the {@link Player}(s) ends in.
 	 */
-	public Maze(StartingRoom startingRoom, EndingRoom endingRoom, Room... rooms)
+	public Maze(StartingRoom startingRoom, EndingRoom endingRoom)
 	{
 		this.startingRoom = startingRoom;
 		this.endingRoom = endingRoom;
-		for (Room room : rooms) {
-			this.rooms.add(room);
-		}
 	}
 
 	/**
@@ -62,15 +53,5 @@ public class Maze
 	public EndingRoom getEndingRoom()
 	{
 		return this.endingRoom;
-	}
-
-	/**
-	 * Returns a {@link Stream} of the {@link Room}s in the {@link Maze}.
-	 *
-	 * @return The {@link Stream} of the {@link Room}s in the {@link Maze}.
-	 */
-	public Stream<Room> getRooms()
-	{
-		return rooms.stream();
 	}
 }

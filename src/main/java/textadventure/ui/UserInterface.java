@@ -102,7 +102,8 @@ public interface UserInterface
 	/**
 	 * Shows the provided {@link Inventory} in the {@link UserInterface}.
 	 *
+	 * @param header    The header of the item list.
 	 * @param inventory The {@link Inventory} to show.
 	 */
-	void showInventory(Inventory inventory);
+	void showInventory(String header, Inventory inventory);
 }

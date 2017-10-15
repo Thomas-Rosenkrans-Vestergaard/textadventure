@@ -260,20 +260,20 @@ public class ConsoleUserInterface implements UserInterface
 	 *
 	 * @param inventory The {@link Inventory} to show.
 	 */
-	@Override public void showInventory(Inventory inventory)
+	@Override public void showInventory(String header, Inventory inventory)
 	{
 		ImmutableMap<Integer, Item> items = inventory.getItems();
 		StringBuilder builder = new StringBuilder();
+		builder.append("------------------------------------------------------------------------------------------\n");
+		builder.append("| #   | Item name            | Item description                                          |\n");
+		builder.append("------------------------------------------------------------------------------------------\n");
 		for (Map.Entry<Integer, Item> entry : items.entrySet()) {
-			builder.append(entry.getKey());
-			builder.append('\n');
-			builder.append('\t');
-			builder.append(entry.getValue().getItemName());
-			builder.append('\n');
-			builder.append('\t');
-			builder.append(entry.getValue().getItemDescription());
+			builder.append(String.format("| %-3d | %-20s | %-57s |\n", entry.getKey(), entry.getValue().getItemName(),
+					entry.getValue().getItemDescription()));
 		}
+		builder.append("------------------------------------------------------------------------------------------");
 
+		printer.println(header);
 		printer.println(builder);
 	}
 

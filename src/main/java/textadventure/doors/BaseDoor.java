@@ -7,7 +7,7 @@ import textadventure.rooms.Room;
 /**
  * The default implementation of the {@link Door} interface.
  */
-public class DefaultDoor extends AbstractPropertyContainer implements Door
+public class BaseDoor extends AbstractPropertyContainer implements Door
 {
 
 	/**
@@ -31,14 +31,14 @@ public class DefaultDoor extends AbstractPropertyContainer implements Door
 	private Room roomB;
 
 	/**
-	 * Creates a new {@link DefaultDoor}.
+	 * Creates a new {@link BaseDoor}.
 	 *
 	 * @param state The {@link textadventure.doors.Door.State} that the {@link Door} is in.
 	 * @param lock  The {@link Lock} placed on the {@link Door}.
 	 * @param roomA The first room (<code>roomA</code>).
 	 * @param roomB The second room (<code>roomB</code>).
 	 */
-	public DefaultDoor(State state, Lock lock, Room roomA, Room roomB)
+	public BaseDoor(State state, Lock lock, Room roomA, Room roomB)
 	{
 		this.lock = lock;
 		this.state = state;

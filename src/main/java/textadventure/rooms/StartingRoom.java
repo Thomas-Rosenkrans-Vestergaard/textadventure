@@ -3,12 +3,9 @@ package textadventure.rooms;
 public class StartingRoom extends BaseRoom
 {
 
-	/**
-	 * Creates a new {@link StartingRoom}.
-	 */
-	public StartingRoom()
+	public StartingRoom(String name, String description)
 	{
-		super("Starting room", "This is the starting room.");
+		super(name, description);
 	}
 
 	/**
