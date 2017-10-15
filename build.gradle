@@ -1,3 +1,7 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.1'
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 
@@ -11,4 +15,10 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile files('lib/TextIO.jar')
     testCompile 'junit:junit:4.12'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'textadventure.Main'
+    }
 }

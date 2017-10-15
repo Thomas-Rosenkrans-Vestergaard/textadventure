@@ -73,10 +73,22 @@ public class ConsoleUserInterface implements UserInterface
 	@Override
 	public void onGameStart(Game game)
 	{
+		printer.println("\n" +
+				" _____                            __                       _   _  _   __  \n" +
+				"|  ___|                          / _|                     | \\ | || | / /  \n" +
+				"| |__ ___  ___ __ _ _ __   ___  | |_ _ __ ___  _ __ ___   |  \\| || |/ /   \n" +
+				"|  __/ __|/ __/ _` | '_ \\ / _ \\ |  _| '__/ _ \\| '_ ` _ \\  | . ` ||    \\   \n" +
+				"| |__\\__ \\ (_| (_| | |_) |  __/ | | | | | (_) | | | | | | | |\\  || |\\  \\_ \n" +
+				"\\____/___/\\___\\__,_| .__/ \\___| |_| |_|  \\___/|_| |_| |_| \\_| \\_/\\_| \\_(_)\n" +
+				"                   | |                                                    \n" +
+				"                   |_|                                                    ");
+
 		showInstructions();
-		printer.println("#");
-		printer.println("# Story");
-		printer.println("#");
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println();
+		printer.println("       STORY");
+		printer.println();
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
 		printer.println(game.getMaze().getStartingRoom().getStartingMessage());
 		printer.println(game.getMaze().getStartingRoom().getRoomDescription());
@@ -91,7 +103,6 @@ public class ConsoleUserInterface implements UserInterface
 	public void onGameEnd(Game game)
 	{
 		String message = game.getMaze().getEndingRoom().getEndingMessage();
-
 		printer.println(message);
 		System.exit(0);
 	}
@@ -129,8 +140,6 @@ public class ConsoleUserInterface implements UserInterface
 	 */
 	@Override public void onActionRequest(Game game, Player player, ActionResponse response)
 	{
-		Room currentRoom = player.getCharacter().getCurrentLocation();
-
 		while (true) {
 
 			printer.println("Please enter your next action.");
@@ -163,16 +172,11 @@ public class ConsoleUserInterface implements UserInterface
 			String[] sections = input.split(" ");
 			if (sections.length < 2) {
 				printer.println("Your action must contain at least one property.");
-				printer.println("To interact with door write:\nnorthern/eastern/western/southern + _door. For example: northern_door open.\n"
-						+ "Door commands: open, close, enter, inspect.\nTo interact with door lock, simply add 'lock' after 'northern_door'.\n" +
-						"Door commands: inspect, lock, unlock.\n" +
-						"To lock/unlock a door you need the code.\n" +
-						"When you got the code, write northern_door lock lock, and afterwards enter the code.");
 				continue;
 			}
 
 			ImmutableMap<String, Property> properties = player.getCharacter().getProperties();
-			Property property = properties.get(sections[0]);
+			Property                       property   = properties.get(sections[0]);
 			for (int i = 1; i < sections.length - 1; i++) {
 				if (property instanceof PropertyContainer) {
 					PropertyContainer container = (PropertyContainer) property;
@@ -181,13 +185,16 @@ public class ConsoleUserInterface implements UserInterface
 			}
 
 			if (property == null) {
-				printer.println("Unknown property.");
+				printer.println("Unknown property. Enter properties to see the properties you can access.");
 				continue;
 			}
 
-			Action action = property.getAction(sections[sections.length - 1]);
+			String actionName = sections[sections.length - 1];
+			Action action     = property.getAction(actionName);
 			if (action == null) {
-				printer.println("Unknown action " + sections[sections.length - 1] + ".");
+				printer.println(String.format("No action with name '%s' on property '%'.",
+						actionName,
+						sections[sections.length - 2]));
 				continue;
 			}
 
@@ -471,16 +478,16 @@ public class ConsoleUserInterface implements UserInterface
 
 		if (outcome == InspectChestAction.Outcome.SUCCESS) {
 			ImmutableMap<Integer, Item> items = chest.getItems();
-			printer.println("-----------------------------------------------------------------------------------------");
-			printer.println("| Slot | Item name            | Item description                                        |");
-			printer.println("-----------------------------------------------------------------------------------------");
+			printer.println("------------------------------------------------------------------------------------------------------------------------");
+			printer.println("| #    | Item name            | Item description                                                                       |");
+			printer.println("------------------------------------------------------------------------------------------------------------------------");
 			items.entrySet().forEach(entry -> {
-				printer.println(String.format("| %-4d | %-20s | %-40s |",
+				printer.println(String.format("| %-4d | %-20s | %-86s |",
 						entry.getKey(),
 						entry.getValue().getItemName(),
 						entry.getValue().getItemDescription()));
+				printer.println("------------------------------------------------------------------------------------------------------------------------");
 			});
-			printer.println("------------------------------------------------------------------------------------------");
 			return;
 		}
 
@@ -534,16 +541,16 @@ public class ConsoleUserInterface implements UserInterface
 
 		if (outcome == InspectBackpackAction.Outcome.SUCCESS) {
 			ImmutableMap<Integer, Item> items = action.getBackpack().getItems();
-			printer.println("-----------------------------------------------------------------------------------------");
-			printer.println("| Slot | Item name            | Item description                                        |");
-			printer.println("-----------------------------------------------------------------------------------------");
+			printer.println("------------------------------------------------------------------------------------------------------------------------");
+			printer.println("| #    | Item name            | Item description                                                                       |");
+			printer.println("------------------------------------------------------------------------------------------------------------------------");
 			items.entrySet().forEach(entry -> {
-				printer.println(String.format("| %-4d | %-20s | %-40s |",
+				printer.println(String.format("| %-4d | %-20s | %-86s |",
 						entry.getKey(),
 						entry.getValue().getItemName(),
 						entry.getValue().getItemDescription()));
+				printer.println("------------------------------------------------------------------------------------------------------------------------");
 			});
-			printer.println("------------------------------------------------------------------------------------------");
 			return;
 		}
 
@@ -561,29 +568,32 @@ public class ConsoleUserInterface implements UserInterface
 	@Override
 	public <T extends Option> void select(String message, Select<T> select, Player player, SelectResponse<T> callback)
 	{
+		ImmutableMap<Integer, T> options = select.getOptions();
+
 		printer.println(message);
-		printer.println("'quit' to exit select.");
-		ImmutableMap<Integer, ? extends T> options = select.getOptions();
-		printer.println("------------------------------------------------------------------------------------------");
-		printer.println("| ID  | Option name          | Option description                                        |");
-		printer.println("------------------------------------------------------------------------------------------");
-		for (Map.Entry<Integer, ? extends T> entry : options.entrySet()) {
-			printer.println(String.format("| %-3d | %-20s | %-40s |", entry.getKey(), entry.getValue().getOptionName(),
+		printer.println("Select an item using the ID. Enter 'quit' to exit the selection.");
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println("| #    | Item name            | Item description                                                                       |");
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		options.entrySet().forEach(entry -> {
+			printer.println(String.format("| %-4d | %-20s | %-86s |",
+					entry.getKey(),
+					entry.getValue().getOptionName(),
 					entry.getValue().getOptionDescription()));
-		}
-		printer.println("------------------------------------------------------------------------------------------");
+			printer.println("------------------------------------------------------------------------------------------------------------------------");
+		});
+
 		int choice;
 		while (true) {
 			try {
 				String input = scanner.nextLine();
-
 				if (input.equals("quit"))
 					return;
-
 				choice = Integer.parseInt(input);
 				break;
 			} catch (NumberFormatException e) {
 				printer.println("Selection must be a number.");
+				select(message, select, player, callback);
 			}
 		}
 
@@ -597,36 +607,18 @@ public class ConsoleUserInterface implements UserInterface
 	}
 
 	/**
-	 * Shows the provided {@link Inventory} in the {@link UserInterface}.
-	 *
-	 * @param inventory The {@link Inventory} to show.
-	 */
-	@Override public void showInventory(String header, Inventory inventory)
-	{
-		ImmutableMap<Integer, Item> items   = inventory.getItems();
-		StringBuilder               builder = new StringBuilder();
-		builder.append("------------------------------------------------------------------------------------------\n");
-		builder.append("| #   | Item name            | Item description                                          |\n");
-		builder.append("------------------------------------------------------------------------------------------\n");
-		for (Map.Entry<Integer, Item> entry : items.entrySet()) {
-			builder.append(String.format("| %-3d | %-20s | %-57s |\n", entry.getKey(), entry.getValue().getItemName(),
-					entry.getValue().getItemDescription()));
-		}
-		builder.append("------------------------------------------------------------------------------------------");
-
-		printer.println(header);
-		printer.println(builder);
-	}
-
-	/**
 	 * Show instructions on show to play the game.
 	 */
+
 	private void showInstructions()
 	{
-		printer.println("#");
-		printer.println("# Instructions");
-		printer.println("#");
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
+		printer.println("       INSTRUCTIONS");
+		printer.println();
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println();
+
 		printer.println("You interact with the room around you using 'properties' and 'actions'.");
 		printer.println();
 		printer.println("\tnorth lock inspect");
@@ -643,8 +635,13 @@ public class ConsoleUserInterface implements UserInterface
 	 */
 	private void showCommands()
 	{
-		printer.println("A number of commands are available at all times in the game:");
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
+		printer.println("       COMMANDS");
+		printer.println();
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println();
+
 		printer.println("\tquit                          Exit the game without saving your progress.");
 		printer.println("\tproperties                    See all the properties you can currently access.");
 		printer.println("\tactions                       See a global list of actions that can be performed.");
@@ -660,7 +657,11 @@ public class ConsoleUserInterface implements UserInterface
 	 */
 	private void showActions(Game game)
 	{
-		printer.println("---------- Actions ---------");
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println();
+		printer.println("       ACTIONS");
+		printer.println();
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
 
 		game.getActionRegistry().getActions().entrySet().forEach(entry -> {
@@ -671,6 +672,11 @@ public class ConsoleUserInterface implements UserInterface
 		});
 	}
 
+	/**
+	 * Show the properties available to the provided {@link Character}.
+	 *
+	 * @param character The {@link Character} to show the properties of.
+	 */
 	private void showProperties(Character character)
 	{
 		printer.println("The properties available to the character.");
@@ -678,6 +684,12 @@ public class ConsoleUserInterface implements UserInterface
 		showProperties(properties, "");
 	}
 
+	/**
+	 * Show the provided properties.
+	 *
+	 * @param properties The properties.
+	 * @param indentation The indentation.
+	 */
 	private void showProperties(ImmutableMap<String, Property> properties, String indentation)
 	{
 		properties.entrySet().forEach(entry -> {

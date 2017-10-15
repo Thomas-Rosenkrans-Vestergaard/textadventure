@@ -189,12 +189,4 @@ public interface UserInterface
 	 * @param callback The callback to use to return the selected element.
 	 */
 	<T extends Option> void select(String message, Select<T> select, Player player, SelectResponse<T> callback);
-
-	/**
-	 * Shows the provided {@link Inventory} in the {@link UserInterface}.
-	 *
-	 * @param header    The header of the item list.
-	 * @param inventory The {@link Inventory} to show.
-	 */
-	void showInventory(String header, Inventory inventory);
 }
