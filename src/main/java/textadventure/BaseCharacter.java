@@ -1,11 +1,10 @@
 package textadventure;
 
 import textadventure.items.inventory.Backpack;
-import textadventure.items.inventory.Inventory;
 import textadventure.rooms.Room;
 import textadventure.rooms.Landmine;
 
-public class BaseCharacter implements Character
+public class BaseCharacter extends AbstractPropertyContainer implements Character
 {
 
 	/**
@@ -37,6 +36,8 @@ public class BaseCharacter implements Character
 	 * The level of the {@link Character}.
 	 */
 	private int level;
+
+	private int sanity;
 
 	/**
 	 * The strength level of the {@link Character}. Determines the damage done by the
@@ -71,6 +72,7 @@ public class BaseCharacter implements Character
 			int maxHP,
 			int currentHP,
 			int level,
+			int sanity,
 			int strength,
 			int dexterity,
 			int intelligence,
@@ -83,6 +85,7 @@ public class BaseCharacter implements Character
 		this.maxHP = maxHP;
 		this.currentHP = currentHP;
 		this.level = level;
+		this.sanity = sanity;
 		this.strength = strength;
 		this.dexterity = dexterity;
 		this.intelligence = intelligence;
@@ -130,6 +133,7 @@ public class BaseCharacter implements Character
 		this.currentLocation = room;
 	}
 
+
 	/**
 	 * Returns the current number of hit points that the {@link java.lang.Character} has.
 	 *
@@ -158,6 +162,16 @@ public class BaseCharacter implements Character
 	@Override public int getLevel()
 	{
 		return level;
+	}
+
+	/**
+	 * Returns the level of sanity of the {@link java.lang.Character}.
+	 *
+	 * @return The level of sanity of the {@link java.lang.Character}.
+	 */
+	@Override public int getSanity()
+	{
+		return sanity;
 	}
 
 	/**

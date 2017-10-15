@@ -6,6 +6,20 @@ public interface Property
 {
 
 	/**
+	 * Returns the name of the {@link Property}.
+	 *
+	 * @return The name of the {@link Property}.
+	 */
+	/*String getPropertyName();*/
+
+	/**
+	 * Returns the description of the {@link Property}.
+	 *
+	 * @return The description of the {@link Property}.
+	 */
+	/*String getPropertyDescription();*/
+
+	/**
 	 * Adds a new {@link Action} to the {@link Property}.
 	 *
 	 * @param name        The name of the {@link Action}. Used when invoking the {@link Action}.

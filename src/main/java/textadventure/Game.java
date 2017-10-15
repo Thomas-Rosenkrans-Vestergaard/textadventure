@@ -69,7 +69,7 @@ public class Game
 	{
 		players.add(player);
 		names.put(player.getCharacter().getName(), player);
-		ui.onPlayer(this, player);
+		ui.onPlayerJoin(this, player);
 	}
 
 	/**

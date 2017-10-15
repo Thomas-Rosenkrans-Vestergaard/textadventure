@@ -4,10 +4,11 @@ import textadventure.ActionResponse;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.Action;
-import textadventure.doors.Door;
+import textadventure.doors.*;
 import textadventure.items.inventory.Inventory;
-import textadventure.lock.Lock;
-import textadventure.rooms.Room;
+import textadventure.lock.InspectLockAction;
+import textadventure.lock.LockLockAction;
+import textadventure.lock.UnlockLockAction;
 
 public interface UserInterface
 {
@@ -27,7 +28,7 @@ public interface UserInterface
 	 * @param game   The {@link Game} instance.
 	 * @param player The newly joined {@link Player}.
 	 */
-	void onPlayer(Game game, Player player);
+	void onPlayerJoin(Game game, Player player);
 
 	/**
 	 * Called when the {@link Game} starts.
@@ -44,14 +45,7 @@ public interface UserInterface
 	void onGameEnd(Game game);
 
 	/**
-	 * Called when the {@link Game} is prompted to quit.
-	 *
-	 * @param game The {@link Game} instance.
-	 */
-	void onQuit(Game game);
-
-	/**
-	 * Called when the turn rotates.
+	 * Event when a {@link Player} starts their turn.
 	 *
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} whose turn it is.
@@ -59,7 +53,7 @@ public interface UserInterface
 	void onTurnStart(Game game, Player player);
 
 	/**
-	 * Called when a {@link Player} loses their turn.
+	 * Event when a {@link Player} ends their turn.
 	 *
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} whose turn ended.
@@ -75,24 +69,73 @@ public interface UserInterface
 	 */
 	void onActionRequest(Game game, Player player, ActionResponse response);
 
-	void onDoorOpen(Game game, Player player, Door door);
-
-	void onDoorClose(Game game, Player player, Door door);
-
-	void onDoorEnter(Game game, Player player, Door door, Room room);
-
-	void onDoorInspect(Game game, Player player, Door door);
-
-	void onLockLock(Game game, Player player, Lock lock);
-
-	void onLockUnlock(Game game, Player player, Lock lock);
-
-	void onLockInspect(Game game, Player player, Lock lock);
+	/**
+	 * Event when a {@link Player} performs the {@link OpenDoorAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link OpenDoorAction}.
+	 * @param action The {@link OpenDoorAction} instance.
+	 */
+	void onDoorOpen(Game game, Player player, OpenDoorAction action);
 
 	/**
-	 * Requests a {@link Select} option {@link UserInterface}.
+	 * Event when a {@link Player} performs the {@link CloseDoorAction}.
 	 *
-	 * @param message  The message to display before the {@link Player} can select.
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link CloseDoorAction}.
+	 * @param action The {@link CloseDoorAction} instance.
+	 */
+	void onDoorClose(Game game, Player player, CloseDoorAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link UseDoorAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link UseDoorAction}.
+	 * @param action The {@link UseDoorAction} instance.
+	 */
+	void onDoorUse(Game game, Player player, UseDoorAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link InspectDoorAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link InspectDoorAction}.
+	 * @param action The {@link InspectDoorAction} instance.
+	 */
+	void onDoorInspect(Game game, Player player, InspectDoorAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link LockLockAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link LockLockAction}.
+	 * @param action The {@link LockLockAction} instance.
+	 */
+	void onLockLock(Game game, Player player, LockLockAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link UnlockLockAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link UnlockLockAction}.
+	 * @param action The {@link UnlockLockAction} instance.
+	 */
+	void onLockUnlock(Game game, Player player, UnlockLockAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link InspectLockAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link InspectLockAction}.
+	 * @param action The {@link InspectLockAction} instance.
+	 */
+	void onLockInspect(Game game, Player player, InspectLockAction action);
+
+	/**
+	 * Prompts the provided {@link Player} to select some {@link Option}.
+	 *
+	 * @param message  The message displayed to the {@link Player}.
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
 	 * @param callback The callback to use to return the selected element.

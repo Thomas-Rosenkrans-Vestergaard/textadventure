@@ -7,9 +7,11 @@ import static org.junit.Assert.*;
 
 public class BaseDoorTest
 {
+
 	@Test
 	public void getState() throws Exception
 	{
+
 	}
 
 	@Test

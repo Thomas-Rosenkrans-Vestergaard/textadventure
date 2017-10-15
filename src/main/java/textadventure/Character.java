@@ -1,7 +1,7 @@
 package textadventure;
 
+import com.google.common.collect.ImmutableMap;
 import textadventure.items.inventory.Backpack;
-import textadventure.items.inventory.Inventory;
 import textadventure.rooms.Landmine;
 import textadventure.rooms.Room;
 
@@ -56,6 +56,13 @@ public interface Character
 	 * @return The level of the {@link Character}.
 	 */
 	int getLevel();
+
+	/**
+	 * Returns the level of sanity of the {@link Character}.
+	 *
+	 * @return The level of sanity of the {@link Character}.
+	 */
+	int getSanity();
 
 	/**
 	 * Returns the strength level of the {@link Character}. Determines the damage done by the {@link Character} and the

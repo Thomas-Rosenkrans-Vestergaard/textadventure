@@ -45,99 +45,52 @@ public class BaseDoor extends AbstractPropertyContainer implements Door
 		this.roomA = roomA;
 		this.roomB = roomB;
 
-		addAction("open", "Open the door.", this::open);
-		addAction("close", "Close the door.", this::close);
-		addAction("use", "Move through the door to the other side.", this::use);
-		addAction("inspect", "Inspect the door to learn new information.", this::inspect);
-		addAction("lock", "Lock the door.", lock::lock);
-		addAction("unlock", "Unlock the door.", lock::unlock);
+		addAction("open", "Open the door.", new OpenDoorAction(this));
+		addAction("close", "Close the door.", new CloseDoorAction(this));
+		addAction("use", "Use the door to enter the next room.", new UseDoorAction(this));
+		addAction("inspect", "Inspect the door to learn new information.", new InspectDoorAction(this));
+		addAction("lock", "Lock the door.", new LockLockAction(lock));
+		addAction("unlock", "Unlock the door.", new UnlockLockAction(lock));
 
 		addProperty("lock", "The lock on the door.", lock);
 	}
 
 	/**
-	 * Open the {@link Door}.
+	 * Opens the {@link Door}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link Action}.
-	 * @throws DoorAlreadyOpenException When the {@link Door} is {@link Door.State#OPEN}.
-	 * @throws DoorLockedException      When the {@link Door} is {@link Lock.State#LOCKED}.
+	 * @throws DoorAlreadyOpenException When the {@link Door} is already open.
+	 * @throws DoorLockedException      When the {@link Door} is locked.
 	 */
-	@Override public void open(Game game, Player player) throws DoorAlreadyOpenException, DoorLockedException
+	public void open() throws DoorAlreadyOpenException, DoorLockedException
 	{
 		if (state == State.OPEN) {
-			throw new DoorAlreadyOpenException(this, this::open, player);
+			throw new DoorAlreadyOpenException();
 		}
 
 		if (lock.getState() == Lock.State.LOCKED) {
-			throw new DoorLockedException(this, this::open, player);
+			throw new DoorLockedException();
 		}
 
 		this.state = State.OPEN;
-		game.getUserInterface().onDoorOpen(game, player, this);
 	}
 
 	/**
 	 * Closes the {@link Door}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link Action}.
-	 * @throws DoorAlreadyClosedException When the {@link Door} is {@link Door.State#CLOSED}.
-	 * @throws DoorLockedException        When the {@link Door} is {@link Lock.State#LOCKED}.
+	 * @throws DoorAlreadyClosedException When the {@link Door} is already closed.
+	 * @throws DoorLockedException        When the {@link Door} is locked.
 	 */
-	@Override public void close(Game game, Player player) throws DoorAlreadyClosedException, DoorLockedException
+	public void close() throws DoorAlreadyClosedException, DoorLockedException
 	{
 		if (state == State.CLOSED) {
-			throw new DoorAlreadyClosedException(this, this::close, player);
+			throw new DoorAlreadyClosedException();
 		}
 
 		if (lock.getState() == Lock.State.LOCKED) {
-			throw new DoorLockedException(this, this::close, player);
+			throw new DoorLockedException();
 		}
 
 		this.state = State.CLOSED;
-		game.getUserInterface().onDoorClose(game, player, this);
-	}
-
-	/**
-	 * Use the {@link Door}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link Action}.
-	 * @throws DoorClosedException When the {@link Door} is {@link Door.State#CLOSED}. The {@link Door} must first be
-	 *                             {@link Door#open(Game, Player)}ed.
-	 */
-	@Override public void use(Game game, Player player) throws DoorClosedException
-	{
-		Room currentRoom = player.getCharacter().getCurrentLocation();
-		Room targetRoom = this.getInverseRoom(currentRoom);
-
-		if (targetRoom == null) {
-			throw new IllegalStateException();
-		}
-
-		if (state == State.CLOSED) {
-			throw new DoorClosedException(this, this::use, player);
-		}
-
-		if (state == State.OPEN) {
-			player.getCharacter().setCurrentLocation(targetRoom);
-			game.getUserInterface().onDoorEnter(game, player, this, targetRoom);
-			return;
-		}
-
-		throw new IllegalStateException();
-	}
-
-	/**
-	 * Inspect the {@link Door}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link Action}.
-	 */
-	@Override public void inspect(Game game, Player player)
-	{
-		game.getUserInterface().onDoorInspect(game, player, this);
 	}
 
 	/**

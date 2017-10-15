@@ -1,11 +1,6 @@
 package textadventure.lock;
 
 import textadventure.AbstractProperty;
-import textadventure.Game;
-import textadventure.Player;
-import textadventure.items.inventory.Backpack;
-import textadventure.ui.SelectException;
-import textadventure.ui.UserInterface;
 
 import static textadventure.lock.Lock.State.LOCKED;
 import static textadventure.lock.Lock.State.UNLOCKED;
@@ -45,9 +40,52 @@ public class Lock extends AbstractProperty
 		this.code = code;
 		this.state = state;
 
-		addAction("lock", "Attempt to lock the lock, provided you have a matching key.", this::lock);
-		addAction("unlock", "Attempt to unlock the lock, provided you have a matching key.", this::unlock);
-		addAction("inspect", "Inspect the lock to gather new information.", this::inspect);
+		addAction("lock", "Attempt to lock the lock, provided you have a matching key.", new LockLockAction(this));
+		addAction("unlock", "Attempt to unlock the lock, provided you have a matching key.", new UnlockLockAction
+				(this));
+		addAction("inspect", "Inspect the lock to gather new information.", new InspectLockAction(this));
+	}
+
+	/**
+	 * Lock the {@link Lock} using the provided {@link Key}.
+	 *
+	 * @param key The {@link Key} to use when locking the {@link Lock}.
+	 * @throws AlreadyLockedException When the {@link Lock} is already {@link Lock.State#LOCKED}.
+	 * @throws IncorrectKeyException  When the incorrect {@link Key} is used on the {@link Lock}.
+	 */
+	public void lock(Key key) throws AlreadyLockedException, IncorrectKeyException
+	{
+
+		if (state == LOCKED) {
+			throw new AlreadyLockedException();
+		}
+
+		if (!code.equals(key.getCode())) {
+			throw new IncorrectKeyException();
+		}
+
+		state = LOCKED;
+	}
+
+	/**
+	 * Unlocks the {@link Lock} using the provided {@link Key}.
+	 *
+	 * @param key The {@link Key} to use when unlocking the {@link Lock}.
+	 * @throws AlreadyUnlockedException When the {@link Lock} is already {@link Lock.State#LOCKED}.
+	 * @throws IncorrectKeyException    When the incorrect {@link Key} is used on the {@link Lock}.
+	 */
+	public void unlock(Key key) throws AlreadyUnlockedException, IncorrectKeyException
+	{
+
+		if (state == UNLOCKED) {
+			throw new AlreadyUnlockedException();
+		}
+
+		if (!code.equals(key.getCode())) {
+			throw new IncorrectKeyException();
+		}
+
+		state = UNLOCKED;
 	}
 
 	/**
@@ -70,86 +108,5 @@ public class Lock extends AbstractProperty
 	public State getState()
 	{
 		return this.state;
-	}
-
-	/**
-	 * Locks the {@link Lock}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who performed the {@link textadventure.Action}.
-	 * @throws IncorrectKeyException  When the {@link Key} doesn't fit the lock.
-	 * @throws AlreadyLockedException When the {@link Lock} is {@link Lock.State#LOCKED}.
-	 */
-	public void lock(Game game, Player player) throws IncorrectKeyException, AlreadyLockedException
-	{
-		if (state == LOCKED) {
-			throw new AlreadyLockedException(this, this::lock, player);
-		}
-
-		UserInterface userInterface = game.getUserInterface();
-		String message = "Select the key to use to lock the lock.";
-		Backpack backpack = player.getCharacter().getBackpack();
-
-		userInterface.select(message, backpack, player, selection -> {
-			if (!(selection instanceof Key))
-				throw new SelectException(this, this::lock, player);
-
-			Key key = (Key) selection;
-
-			if (!code.equals(key.getCode())) {
-				throw new IncorrectKeyException(this, this::lock, player, key);
-			}
-
-			state = LOCKED;
-			userInterface.onLockLock(game, player, this);
-		});
-	}
-
-	/**
-	 * Unlocks the {@link Lock}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who performed the {@link textadventure.Action}.
-	 * @throws IncorrectKeyException    When the {@link Key} doesn't fit the lock.
-	 * @throws AlreadyUnlockedException When the {@link Lock} is {@link Lock.State#UNLOCKED}.
-	 */
-	public void unlock(Game game, Player player) throws AlreadyUnlockedException, IncorrectKeyException
-	{
-		if (state == UNLOCKED) {
-			throw new AlreadyUnlockedException(this, this::lock, player);
-		}
-
-		UserInterface userInterface = game.getUserInterface();
-		String message = "Select the key to use to unlock the door.";
-		Backpack backpack = player.getCharacter().getBackpack();
-
-		userInterface.select(message, backpack, player, selection -> {
-
-			if (!(selection instanceof Key)) {
-				throw new SelectException(this, this::lock, player);
-			}
-
-			Key key = (Key) selection;
-
-			if (!code.equals(key.getCode())) {
-				throw new IncorrectKeyException(this, this::lock, player, key);
-			}
-
-			state = UNLOCKED;
-			userInterface.onLockUnlock(game, player, this);
-		});
-	}
-
-	/**
-	 * Inspects the {@link Lock}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who performed the {@link textadventure.Action}.
-	 */
-	public void inspect(Game game, Player player)
-	{
-		UserInterface userInterface = game.getUserInterface();
-
-		userInterface.onLockInspect(game, player, this);
 	}
 }

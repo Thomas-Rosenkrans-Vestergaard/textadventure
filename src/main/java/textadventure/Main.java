@@ -21,7 +21,7 @@ public class Main
 		backpack.addItem(0, new Key("NKATS3"));
 		game.addPlayer(new HumanPlayer(
 				new BaseCharacter("George", backpack, maze.getStartingRoom(), 100, 100, 0,
-						0, 0, 0, 0, 0
+						0, 0, 0, 0, 0, 0
 				)
 		));
 		game.start();

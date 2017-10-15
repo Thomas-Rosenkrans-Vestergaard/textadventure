@@ -20,40 +20,20 @@ public interface Door extends PropertyContainer, Property
 	}
 
 	/**
-	 * Open the {@link Door}.
+	 * Opens the {@link Door}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link Action}.
-	 * @throws ActionException When the {@link Door} cannot be opened.
+	 * @throws DoorAlreadyOpenException When the {@link Door} is already open.
+	 * @throws DoorLockedException      When the {@link Door} is locked.
 	 */
-	void open(Game game, Player player) throws ActionException;
+	void open() throws DoorAlreadyOpenException, DoorLockedException;
 
 	/**
 	 * Closes the {@link Door}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link Action}.
-	 * @throws ActionException When the {@link Door} cannot be closed.
+	 * @throws DoorAlreadyClosedException When the {@link Door} is already closed.
+	 * @throws DoorLockedException        When the {@link Door} is locked.
 	 */
-	void close(Game game, Player player) throws ActionException;
-
-	/**
-	 * Use the {@link Door}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link Action}.
-	 * @throws ActionException When the {@link Door} cannot be used.
-	 */
-	void use(Game game, Player player) throws ActionException;
-
-	/**
-	 * Inspect the {@link Door}.
-	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link Action}.
-	 * @throws ActionException When the {@link Door} cannot be inspected.
-	 */
-	void inspect(Game game, Player player) throws ActionException;
+	void close() throws DoorAlreadyClosedException, DoorLockedException;
 
 	/**
 	 * Returns the {@link State} of the {@link Door}.

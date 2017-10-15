@@ -5,9 +5,7 @@ import textadventure.*;
 import textadventure.doors.*;
 import textadventure.items.Item;
 import textadventure.items.inventory.Inventory;
-import textadventure.lock.AlreadyLockedException;
-import textadventure.lock.AlreadyUnlockedException;
-import textadventure.lock.Lock;
+import textadventure.lock.*;
 import textadventure.rooms.Room;
 
 import java.io.OutputStream;
@@ -65,7 +63,7 @@ public class ConsoleUserInterface implements UserInterface
 	 * @param player The newly joined {@link Player}.
 	 */
 	@Override
-	public void onPlayer(Game game, Player player)
+	public void onPlayerJoin(Game game, Player player)
 	{
 		String message = String.format("%s connected to the game.", player.getCharacter().getName());
 
@@ -94,19 +92,6 @@ public class ConsoleUserInterface implements UserInterface
 	public void onGameEnd(Game game)
 	{
 		String message = game.getMaze().getEndingRoom().getEndingMessage();
-
-		printer.println(message);
-	}
-
-	/**
-	 * Called when the {@link Game} is prompted to quit.
-	 *
-	 * @param game The {@link Game} instance.
-	 */
-	@Override
-	public void onQuit(Game game)
-	{
-		String message = "The game was prompted to quit.";
 
 		printer.println(message);
 	}
@@ -200,23 +185,197 @@ public class ConsoleUserInterface implements UserInterface
 			try {
 				response.respond(action);
 				break;
-			} catch (DoorAlreadyClosedException e) {
-				printer.println("The door is already closed.");
-			} catch (DoorAlreadyOpenException e) {
-				printer.println("The door is already open.");
-			} catch (DoorClosedException e) {
-				printer.println("You cannot do that since the door is closed.");
-			} catch (DoorLockedException e) {
-				printer.println("You cannot do that since the door is locked.");
-			} catch (AlreadyLockedException e) {
-				printer.println("The lock is already locked.");
-			} catch (AlreadyUnlockedException e) {
-				printer.println("The lock is already unlocked.");
 			} catch (ActionException e) {
 				printer.println("ActionException");
 				e.printStackTrace(printer);
 			}
 		}
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link OpenDoorAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link OpenDoorAction}.
+	 * @param action The {@link OpenDoorAction} instance.
+	 */
+	@Override public void onDoorOpen(Game game, Player player, OpenDoorAction action)
+	{
+		OpenDoorAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == OpenDoorAction.Outcome.SUCCESS) {
+			printer.println("You attempted and succeeded in opening the door.");
+			return;
+		}
+
+		if (outcome == OpenDoorAction.Outcome.ALREADY_OPEN) {
+			printer.println("You attempted to open the door, even though the door is already open.");
+			printer.println("You start to question your sanity.");
+			return;
+		}
+
+		if (outcome == OpenDoorAction.Outcome.LOCKED) {
+			printer.println("You attempted to open the door, but discover that the door is locked.");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link CloseDoorAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link CloseDoorAction}.
+	 * @param action The {@link CloseDoorAction} instance.
+	 */
+	@Override public void onDoorClose(Game game, Player player, CloseDoorAction action)
+	{
+		CloseDoorAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == CloseDoorAction.Outcome.SUCCESS) {
+			printer.println("You attempted and succeeded in closing the door.");
+			return;
+		}
+
+		if (outcome == CloseDoorAction.Outcome.ALREADY_CLOSED) {
+			printer.println("You attempted to close the door, even though the door is already closed.");
+			printer.println("You start to question your sanity.");
+			return;
+		}
+
+		if (outcome == CloseDoorAction.Outcome.LOCKED) {
+			printer.println("You attempted to close the door, but discover that the door is locked.");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link UseDoorAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link UseDoorAction}.
+	 * @param action The {@link UseDoorAction} instance.
+	 */
+	@Override public void onDoorUse(Game game, Player player, UseDoorAction action)
+	{
+		UseDoorAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == UseDoorAction.Outcome.SUCCESS) {
+			printer.println("You successfully entered a new room using the door.");
+			printer.println(player.getCharacter().getCurrentLocation().getRoomDescription());
+			return;
+		}
+
+		if (outcome == UseDoorAction.Outcome.CLOSED) {
+			printer.println("You attempted the use the door, but discover that the door is closed.");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link InspectDoorAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link InspectDoorAction}.
+	 * @param action The {@link InspectDoorAction} instance.
+	 */
+	@Override public void onDoorInspect(Game game, Player player, InspectDoorAction action)
+	{
+		InspectDoorAction.Outcome outcome = action.getOutcome();
+		Door door = action.getDoor();
+
+		if (outcome == InspectDoorAction.Outcome.SUCCESS) {
+			printer.println(String.format("You inspect the door, learning that the door is %s.", door.getState().name().toLowerCase()));
+			return;
+		}
+
+		throw new IllegalStateException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link LockLockAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link LockLockAction}.
+	 * @param action The {@link LockLockAction} instance.
+	 */
+	@Override public void onLockLock(Game game, Player player, LockLockAction action)
+	{
+		LockLockAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == LockLockAction.Outcome.SUCCESS) {
+			printer.println("You successfully lock the lock using the provided key.");
+			return;
+		}
+
+		if (outcome == LockLockAction.Outcome.ALREADY_LOCKED) {
+			printer.println("You attempted to lock the lock, even though the lock is already locked.");
+			printer.println("You start to question your sanity.");
+			return;
+		}
+
+		if (outcome == LockLockAction.Outcome.INCORRECT_KEY) {
+			printer.println("You attempt to turn the lock, but discover that you have the wrong key.");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link UnlockLockAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link UnlockLockAction}.
+	 * @param action The {@link UnlockLockAction} instance.
+	 */
+	@Override public void onLockUnlock(Game game, Player player, UnlockLockAction action)
+	{
+		UnlockLockAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == UnlockLockAction.Outcome.SUCCESS) {
+			printer.println("You successfully unlock the lock using the provided key.");
+			return;
+		}
+
+		if (outcome == UnlockLockAction.Outcome.ALREADY_UNLOCKED) {
+			printer.println("You attempted to unlock the lock, even though the lock is already unlocked.");
+			printer.println("You start to question your sanity.");
+			return;
+		}
+
+		if (outcome == UnlockLockAction.Outcome.INCORRECT_KEY) {
+			printer.println("You attempt to turn the lock, but discover that you have the wrong key.");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link InspectLockAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link InspectLockAction}.
+	 * @param action The {@link InspectLockAction} instance.
+	 */
+	@Override public void onLockInspect(Game game, Player player, InspectLockAction action)
+	{
+		InspectLockAction.Outcome outcome = action.getOutcome();
+		Lock lock = action.getLock();
+
+		if (outcome == InspectLockAction.Outcome.SUCCESS) {
+			printer.println(String.format("You inspect the lock learning that the lock is %s.", lock.getState().name()
+					.toLowerCase()));
+			return;
+		}
+
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -284,48 +443,6 @@ public class ConsoleUserInterface implements UserInterface
 
 		printer.println(header);
 		printer.println(builder);
-	}
-
-	@Override public void onDoorOpen(Game game, Player player, Door door)
-	{
-		printer.println("You successfully opened the door.");
-	}
-
-	@Override public void onDoorClose(Game game, Player player, Door door)
-	{
-		printer.println("You successfully closed the door.");
-	}
-
-	@Override public void onDoorEnter(Game game, Player player, Door door, Room room)
-	{
-		printer.println("You successfully entered the door.");
-		printer.println(room.getRoomDescription());
-	}
-
-	@Override public void onDoorInspect(Game game, Player player, Door door)
-	{
-		String message = String.format("You successfully inspect the door, learning that the door is %s.",
-				door.getState().name().toLowerCase());
-
-		printer.println(message);
-	}
-
-	@Override public void onLockLock(Game game, Player player, Lock lock)
-	{
-		printer.println("You successfully locked the lock using the provided key.");
-	}
-
-	@Override public void onLockUnlock(Game game, Player player, Lock lock)
-	{
-		printer.println("You successfully unlocked the lock using the provided key.");
-	}
-
-	@Override public void onLockInspect(Game game, Player player, Lock lock)
-	{
-		String message = String.format("You inspect the lock learning that the lock is %s.", lock.getState().name()
-				.toLowerCase());
-
-		printer.println(message);
 	}
 
 	private void showHelp()
