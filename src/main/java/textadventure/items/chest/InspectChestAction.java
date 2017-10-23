@@ -3,7 +3,7 @@ package textadventure.items.chest;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.NamedAction;
-import textadventure.ui.UserInterface;
+import textadventure.ui.GameInterface;
 
 public class InspectChestAction extends ChestAction implements NamedAction
 {
@@ -49,7 +49,7 @@ public class InspectChestAction extends ChestAction implements NamedAction
 	@Override public void perform(Game game, Player player)
 	{
 		Chest.State   state         = chest.getState();
-		UserInterface userInterface = game.getUserInterface();
+		GameInterface userInterface = game.getUserInterface();
 
 		if (state == Chest.State.CLOSED) {
 			outcome = Outcome.CLOSED;

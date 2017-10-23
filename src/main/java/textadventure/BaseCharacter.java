@@ -68,7 +68,7 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	 */
 	private int money;
 
-	BaseCharacter(
+	public BaseCharacter(
 			String name,
 			Backpack backpack,
 			Room currentLocation,

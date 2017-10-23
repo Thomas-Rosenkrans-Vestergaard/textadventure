@@ -5,7 +5,6 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.doors.*;
-import textadventure.items.Inventory;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.TakeChestItemAction;
 import textadventure.items.chest.CloseChestAction;
@@ -15,7 +14,7 @@ import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 
-public interface UserInterface
+public interface GameInterface
 {
 
 	/**
@@ -64,7 +63,7 @@ public interface UserInterface
 	void onTurnEnd(Game game, Player player);
 
 	/**
-	 * Called when a {@link Player} requests an {@link Action} from the {@link UserInterface}.
+	 * Called when a {@link Player} requests an {@link Action} from the {@link GameInterface}.
 	 *
 	 * @param game     The {@link Game} instance.
 	 * @param player   The {@link Player} who requests the {@link Action}.

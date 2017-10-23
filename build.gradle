@@ -19,6 +19,6 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'textadventure.Main'
+        attributes 'Main-Class': 'textadventure.ui.ConsoleGameInterface'
     }
 }

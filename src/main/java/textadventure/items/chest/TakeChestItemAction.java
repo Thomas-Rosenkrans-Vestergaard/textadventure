@@ -5,7 +5,7 @@ import textadventure.Player;
 import textadventure.actions.NamedAction;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
-import textadventure.ui.UserInterface;
+import textadventure.ui.GameInterface;
 
 public class TakeChestItemAction extends ChestAction implements NamedAction
 {
@@ -80,7 +80,7 @@ public class TakeChestItemAction extends ChestAction implements NamedAction
 	@Override public void perform(Game game, Player player)
 	{
 		Chest.State   state         = chest.getState();
-		UserInterface userInterface = game.getUserInterface();
+		GameInterface userInterface = game.getUserInterface();
 
 		if (state == Chest.State.CLOSED) {
 			outcome = Outcome.CLOSED;

@@ -5,7 +5,7 @@ import textadventure.Player;
 import textadventure.actions.NamedAction;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
-import textadventure.ui.UserInterface;
+import textadventure.ui.GameInterface;
 
 public class UnlockLockAction extends LockAction implements NamedAction
 {
@@ -60,7 +60,7 @@ public class UnlockLockAction extends LockAction implements NamedAction
 	 */
 	@Override public void perform(Game game, Player player)
 	{
-		UserInterface userInterface = game.getUserInterface();
+		GameInterface userInterface = game.getUserInterface();
 		Lock.State    state         = lock.getState();
 
 		if (state == Lock.State.UNLOCKED) {

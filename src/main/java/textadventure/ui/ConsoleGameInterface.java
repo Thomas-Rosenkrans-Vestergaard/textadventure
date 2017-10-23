@@ -7,18 +7,30 @@ import textadventure.actions.Action;
 import textadventure.actions.ActionResponse;
 import textadventure.doors.*;
 import textadventure.items.Item;
-import textadventure.items.Inventory;
+import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.*;
-import textadventure.rooms.Room;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.*;
 
-public class ConsoleUserInterface implements UserInterface
+public class ConsoleGameInterface implements GameInterface
 {
+
+	public static void main(String[] args) throws UnknownRoomException
+	{
+		GameInterface gameInterface = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
+		MazeCreator   mazeCreator   = new MazeCreator();
+		Maze          maze          = mazeCreator.generate();
+		Game          game          = new Game(gameInterface, maze, 5);
+		Backpack      backpack      = new Backpack(10);
+		backpack.addItem(0, new Key("LY4SW"));
+		Character character = new BaseCharacter("George", backpack, maze.getStartingRoom(), 100, 100, 0, 0, 0, 0, 0, 0, 0);
+		game.addPlayer(new HumanPlayer(character));
+		game.start();
+	}
 
 	/**
 	 * The {@link Scanner} to use for console input.
@@ -31,12 +43,12 @@ public class ConsoleUserInterface implements UserInterface
 	private PrintWriter printer;
 
 	/**
-	 * Creates a new {@link ConsoleUserInterface}.
+	 * Creates a new {@link ConsoleGameInterface}.
 	 *
 	 * @param scanner The {@link Scanner} to use for console input.
 	 * @param printer The {@link PrintWriter} to use for console output.
 	 */
-	public ConsoleUserInterface(Scanner scanner, PrintWriter printer)
+	public ConsoleGameInterface(Scanner scanner, PrintWriter printer)
 	{
 		this.scanner = scanner;
 		this.printer = printer;
@@ -91,7 +103,7 @@ public class ConsoleUserInterface implements UserInterface
 		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
 		showCommands();
-		showProperties(null);
+		showProperties();
 		showActions(game);
 		printer.println();
 		printer.println(game.getMaze().getStartingRoom().getStartingMessage());
@@ -136,7 +148,7 @@ public class ConsoleUserInterface implements UserInterface
 	}
 
 	/**
-	 * Called when a {@link Player} requests an {@link Action} from the {@link UserInterface}.
+	 * Called when a {@link Player} requests an {@link Action} from the {@link GameInterface}.
 	 *
 	 * @param game     The {@link Game} instance.
 	 * @param player   The {@link Player} who requests the {@link Action}.
@@ -159,7 +171,7 @@ public class ConsoleUserInterface implements UserInterface
 			}
 
 			if (input.startsWith("properties")) {
-				showProperties(player.getCharacter());
+				showProperties();
 				continue;
 			}
 
@@ -562,7 +574,7 @@ public class ConsoleUserInterface implements UserInterface
 	}
 
 	/**
-	 * Requests a {@link Select} option {@link UserInterface}.
+	 * Requests a {@link Select} option {@link GameInterface}.
 	 *
 	 * @param message  The message to display before the {@link Player} can select.
 	 * @param select   The {@link Select}.
@@ -666,20 +678,36 @@ public class ConsoleUserInterface implements UserInterface
 		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
 
-		game.getActionRegistry().getActions().entrySet().forEach(entry -> {
-			printer.println(entry.getKey());
-			entry.getValue().iterator().forEachRemaining(action -> {
-				printer.println(String.format("\t%-30s %s", action.getActionName(), action.getActionDescription()));
-			});
-		});
+		printer.println("door");
+		printer.println(String.format("\t%-30s %s", "open", "Open the door"));
+		printer.println(String.format("\t%-30s %s", "close", "Close the door"));
+		printer.println(String.format("\t%-30s %s", "inspect", "Inspect the door to learn new information."));
+		printer.println(String.format("\t%-30s %s", "use", "Move through the door."));
+		printer.println(String.format("\t%-30s %s", "lock", "Lock the lock on the door."));
+		printer.println(String.format("\t%-30s %s", "unlock", "Unlock the lock on the door."));
+
+		printer.println("lock");
+		printer.println(String.format("\t%-30s %s", "lock", "Lock the lock."));
+		printer.println(String.format("\t%-30s %s", "lock", "Lock the lock."));
+		printer.println(String.format("\t%-30s %s", "inspect", "Inspect the lock to learn new information."));
+
+		printer.println("chest");
+		printer.println(String.format("\t%-30s %s", "open", "Open the chest."));
+		printer.println(String.format("\t%-30s %s", "close", "Close the chest."));
+		printer.println(String.format("\t%-30s %s", "inspect", "Inspect the chest to learn new information."));
+		printer.println(String.format("\t%-30s %s", "take", "Take an item from the chest."));
+		printer.println(String.format("\t%-30s %s", "lock", "Lock the lock on the chest."));
+		printer.println(String.format("\t%-30s %s", "unlock", "Unlock the lock on the chest."));
+
+		printer.println("backpack");
+		printer.println(String.format("\t%-30s %s", "inspect", "Inspect the backpack to see the inventory."));
+		printer.println();
 	}
 
 	/**
-	 * Show the properties available to the provided {@link Character}.
-	 *
-	 * @param character The {@link Character} to show the properties of.
+	 * Show the properties available in game.
 	 */
-	private void showProperties(Character character)
+	private void showProperties()
 	{
 		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
@@ -695,26 +723,5 @@ public class ConsoleUserInterface implements UserInterface
 		printer.println("\twest                          A door in the western part of the room.");
 		printer.println("\teast                          A door in the eastern part of the room.");
 		printer.println("\tdoor/chest lock               A lock on a door or chest preventing it from being opened.");
-		//ImmutableMap<String, Property> properties = character.getProperties();
-		//showProperties(properties, "");
-	}
-
-	/**
-	 * Show the provided properties.
-	 *
-	 * @param properties  The properties.
-	 * @param indentation The indentation.
-	 */
-	private void showProperties(ImmutableMap<String, Property> properties, String indentation)
-	{
-		throw new IllegalStateException();
-
-		/*properties.entrySet().forEach(entry -> {
-			printer.println(String.format("%s- %s", indentation, entry.getKey()));
-			if (entry.getValue() instanceof PropertyContainer) {
-				PropertyContainer propertyContainer = (PropertyContainer) entry.getValue();
-				showProperties(propertyContainer.getProperties(), indentation + '\t');
-			}
-		});*/
 	}
 }

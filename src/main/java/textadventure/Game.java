@@ -1,19 +1,8 @@
 package textadventure;
 
 import textadventure.actions.Action;
-import textadventure.actions.ImmutableActionRegistry;
-import textadventure.actions.MutableActionRegistry;
-import textadventure.doors.*;
-import textadventure.items.backpack.InspectBackpackAction;
-import textadventure.items.chest.CloseChestAction;
-import textadventure.items.chest.InspectChestAction;
-import textadventure.items.chest.OpenChestAction;
-import textadventure.items.chest.TakeChestItemAction;
-import textadventure.lock.InspectLockAction;
-import textadventure.lock.LockLockAction;
-import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.EndingRoom;
-import textadventure.ui.UserInterface;
+import textadventure.ui.GameInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +11,9 @@ public class Game
 {
 
 	/**
-	 * The {@link UserInterface} used for input-output.
+	 * The {@link GameInterface} used for input-output.
 	 */
-	private UserInterface userInterface;
+	private GameInterface userInterface;
 
 	/**
 	 * The {@link Player}s in the {@link Game}.
@@ -51,40 +40,17 @@ public class Game
 	 */
 	private int currentPlayerMoves;
 
-	private MutableActionRegistry actionRegistry = new MutableActionRegistry();
-
 	/**
-	 * The {@link UserInterface} to use for input-output.
+	 * The {@link GameInterface} to use for input-output.
 	 *
-	 * @param userInterface The {@link UserInterface} to use for input-output.
+	 * @param userInterface The {@link GameInterface} to use for input-output.
 	 * @param movesPerTurn  The amount of moves per {@link Player} before the turn ends.
 	 */
-	public Game(UserInterface userInterface, Maze maze, int movesPerTurn)
+	public Game(GameInterface userInterface, Maze maze, int movesPerTurn)
 	{
 		this.userInterface = userInterface;
 		this.maze = maze;
 		this.movesPerTurn = movesPerTurn;
-
-		this.actionRegistry.addAction("door", new OpenDoorAction(null));
-		this.actionRegistry.addAction("door", new CloseDoorAction(null));
-		this.actionRegistry.addAction("door", new InspectDoorAction(null));
-		this.actionRegistry.addAction("door", new UseDoorAction(null));
-		this.actionRegistry.addAction("door", new LockLockAction(null));
-		this.actionRegistry.addAction("door", new UnlockLockAction(null));
-
-		this.actionRegistry.addAction("lock", new LockLockAction(null));
-		this.actionRegistry.addAction("lock", new UnlockLockAction(null));
-		this.actionRegistry.addAction("lock", new InspectLockAction(null));
-
-		this.actionRegistry.addAction("chest", new OpenChestAction(null));
-		this.actionRegistry.addAction("chest", new CloseChestAction(null));
-		this.actionRegistry.addAction("chest", new InspectChestAction(null));
-		this.actionRegistry.addAction("chest", new TakeChestItemAction(null));
-		this.actionRegistry.addAction("chest", new LockLockAction(null));
-		this.actionRegistry.addAction("chest", new UnlockLockAction(null));
-
-		this.actionRegistry.addAction("backpack", new InspectBackpackAction(null));
-
 		userInterface.onInit(this);
 	}
 
@@ -193,17 +159,12 @@ public class Game
 	}
 
 	/**
-	 * Returns the {@link UserInterface} used as input-output for the game.
+	 * Returns the {@link GameInterface} used as input-output for the game.
 	 *
-	 * @return The {@link UserInterface} used as input-output for the game.
+	 * @return The {@link GameInterface} used as input-output for the game.
 	 */
-	public UserInterface getUserInterface()
+	public GameInterface getUserInterface()
 	{
 		return this.userInterface;
-	}
-
-	public ImmutableActionRegistry getActionRegistry()
-	{
-		return this.actionRegistry.immutable();
 	}
 }

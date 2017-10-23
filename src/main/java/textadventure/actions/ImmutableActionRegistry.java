@@ -5,7 +5,7 @@ import textadventure.Property;
 import java.util.List;
 import java.util.Map;
 
-public class ImmutableActionRegistry extends MutableActionRegistry
+public class ImmutableActionRegistry extends PropertyRegistry
 {
 
 	/**

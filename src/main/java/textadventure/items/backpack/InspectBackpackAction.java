@@ -3,7 +3,7 @@ package textadventure.items.backpack;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.NamedAction;
-import textadventure.ui.UserInterface;
+import textadventure.ui.GameInterface;
 
 public class InspectBackpackAction extends BackpackAction implements NamedAction
 {
@@ -39,7 +39,7 @@ public class InspectBackpackAction extends BackpackAction implements NamedAction
 	 */
 	@Override public void perform(Game game, Player player)
 	{
-		UserInterface userInterface = game.getUserInterface();
+		GameInterface userInterface = game.getUserInterface();
 		outcome = Outcome.SUCCESS;
 		userInterface.onBackpackInspect(game, player, this);
 	}

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MutableActionRegistry
+public class PropertyRegistry
 {
 
 	/**
@@ -17,19 +17,19 @@ public class MutableActionRegistry
 	protected Map<String, List<NamedAction>> actions;
 
 	/**
-	 * Creates a new empty {@link MutableActionRegistry}.
+	 * Creates a new empty {@link PropertyRegistry}.
 	 */
-	public MutableActionRegistry()
+	public PropertyRegistry()
 	{
 		this(new HashMap<>());
 	}
 
 	/**
-	 * Creates a new {@link MutableActionRegistry} using the provided {@link Map}.
+	 * Creates a new {@link PropertyRegistry} using the provided {@link Map}.
 	 *
 	 * @param actions The {@link Action}s to add.
 	 */
-	public MutableActionRegistry(Map<String, List<NamedAction>> actions)
+	public PropertyRegistry(Map<String, List<NamedAction>> actions)
 	{
 		this.actions = actions;
 	}
@@ -60,7 +60,7 @@ public class MutableActionRegistry
 	}
 
 	/**
-	 * Creates a new {@link ImmutableActionRegistry} from the {@link MutableActionRegistry}.
+	 * Creates a new {@link ImmutableActionRegistry} from the {@link PropertyRegistry}.
 	 *
 	 * @return The resulting {@link ImmutableActionRegistry}.
 	 */
