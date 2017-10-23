@@ -146,7 +146,7 @@ public class ConsoleUserInterface implements UserInterface
 		while (true) {
 
 			printer.println("Please enter your next action.");
-			String input = scanner.nextLine().trim();
+			String input = scanner.nextLine().trim().toLowerCase();
 
 			if (input.startsWith("instructions")) {
 				showInstructions();
