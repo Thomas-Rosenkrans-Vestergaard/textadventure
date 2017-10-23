@@ -201,12 +201,9 @@ public class RightMarginedPrintWriter extends PrintWriter
 	 */
 	@Override public void write(String s, int off, int len)
 	{
-		System.out.println("Printing " + s);
-		System.out.println(off);
-
 		if (len + currentLineLength <= maxLineLength) {
-			System.out.println("small " + s.substring(s.length() - off));
-			super.write(s.substring(s.length() - off));
+			String sub = s.substring(off).replaceAll("^\\s+", "");
+			System.out.print(sub);
 			this.currentLineLength += len;
 			return;
 		}
