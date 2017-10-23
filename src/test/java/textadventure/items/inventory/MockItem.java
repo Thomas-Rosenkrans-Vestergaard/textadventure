@@ -10,6 +10,16 @@ public class MockItem implements Item
 		return null;
 	}
 
+	@Override public int getStackSize()
+	{
+		return 0;
+	}
+
+	@Override public String getOptionDescription()
+	{
+		return null;
+	}
+
 	@Override public String getOptionName()
 	{
 		return null;
