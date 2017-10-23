@@ -195,7 +195,7 @@ public class ConsoleUserInterface implements UserInterface
 			String actionName = sections[sections.length - 1];
 			Action action     = property.getAction(actionName);
 			if (action == null) {
-				printer.println(String.format("No action with name '%s' on property '%'.",
+				printer.println(String.format("No action with name '%s' on property '%s'.",
 						actionName,
 						sections[sections.length - 2]));
 				continue;
