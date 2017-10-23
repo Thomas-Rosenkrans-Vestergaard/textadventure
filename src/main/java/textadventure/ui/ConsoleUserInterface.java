@@ -93,6 +93,7 @@ public class ConsoleUserInterface implements UserInterface
 		showCommands();
 		showProperties(null);
 		showActions(game);
+		printer.println();
 		printer.println(game.getMaze().getStartingRoom().getStartingMessage());
 		printer.println(game.getMaze().getStartingRoom().getRoomDescription());
 	}
