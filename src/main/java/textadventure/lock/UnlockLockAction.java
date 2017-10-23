@@ -127,6 +127,6 @@ public class UnlockLockAction extends LockAction implements NamedAction
 	 */
 	@Override public String getActionDescription()
 	{
-		return "Unlock the door.";
+		return "Unlock the lock.";
 	}
 }
