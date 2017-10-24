@@ -214,7 +214,7 @@ public class ConsoleGameInterface implements GameInterface
 				continue;
 			}
 
-			response.respond(action);
+			response.respond(action, new String[0]); // TODO: Take arguments from console
 		}
 	}
 

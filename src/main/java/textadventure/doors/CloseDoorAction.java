@@ -48,12 +48,13 @@ public class CloseDoorAction extends DoorAction
 	}
 
 	/**
-	 * Performs the {@link Action} using the provided parameters.
+	 * Performs the {@link CloseDoorAction} using the provided parameters.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} executing the {@link Action}.
+	 * @param game      The {@link Game} instance.
+	 * @param player    The {@link Player} performing the {@link CloseDoorAction}.
+	 * @param arguments The arguments provided to the {@link CloseDoorAction}.
 	 */
-	@Override public void perform(Game game, Player player)
+	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		try {
 			getDoor().close();

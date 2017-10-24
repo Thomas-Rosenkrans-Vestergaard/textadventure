@@ -33,10 +33,11 @@ public class InspectBackpackAction extends BackpackAction
 	/**
 	 * Performs the {@link InspectBackpackAction} using the provided parameters.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link InspectBackpackAction}.
+	 * @param game      The {@link Game} instance.
+	 * @param player    The {@link Player} performing the {@link InspectBackpackAction}.
+	 * @param arguments The arguments provided to the {@link InspectBackpackAction}.
 	 */
-	@Override public void perform(Game game, Player player)
+	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		GameInterface userInterface = game.getUserInterface();
 		outcome = Outcome.SUCCESS;

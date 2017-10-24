@@ -9,8 +9,9 @@ public interface Action
 	/**
 	 * Performs the {@link Action} using the provided parameters.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link Action}.
+	 * @param game      The {@link Game} instance.
+	 * @param player    The {@link Player} performing the {@link Action}.
+	 * @param arguments The arguments provided to the {@link Action}.
 	 */
-	void perform(Game game, Player player);
+	void perform(Game game, Player player, String[] arguments);
 }

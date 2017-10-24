@@ -47,10 +47,11 @@ public class OpenChestAction extends ChestAction
 	/**
 	 * Performs the {@link OpenChestAction} using the provided parameters.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link OpenChestAction}.
+	 * @param game      The {@link Game} instance.
+	 * @param player    The {@link Player} performing the {@link OpenChestAction}.
+	 * @param arguments The arguments provided to the {@link OpenChestAction}.
 	 */
-	@Override public void perform(Game game, Player player)
+	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		Chest.State   state         = chest.getState();
 		GameInterface userInterface = game.getUserInterface();

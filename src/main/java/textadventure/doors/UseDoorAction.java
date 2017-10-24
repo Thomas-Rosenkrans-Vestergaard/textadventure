@@ -46,10 +46,11 @@ public class UseDoorAction extends DoorAction
 	/**
 	 * Performs the {@link UseDoorAction} using the provided parameters.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} executing the {@link  UseDoorAction}.
+	 * @param game      The {@link Game} instance.
+	 * @param player    The {@link Player} performing the {@link UseDoorAction}.
+	 * @param arguments The arguments provided to the {@link UseDoorAction}.
 	 */
-	@Override public void perform(Game game, Player player)
+	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		Room currentRoom = player.getCharacter().getCurrentLocation();
 		Room targetRoom  = getDoor().getInverseRoom(currentRoom);

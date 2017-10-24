@@ -45,10 +45,11 @@ public class InspectChestAction extends ChestAction
 	/**
 	 * Performs the {@link InspectChestAction} using the provided parameters.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link InspectChestAction}.
+	 * @param game      The {@link Game} instance.
+	 * @param player    The {@link Player} performing the {@link InspectChestAction}.
+	 * @param arguments The arguments provided to the {@link InspectChestAction}.
 	 */
-	@Override public void perform(Game game, Player player)
+	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		Chest.State   state         = chest.getState();
 		GameInterface userInterface = game.getUserInterface();

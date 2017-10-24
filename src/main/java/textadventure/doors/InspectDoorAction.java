@@ -35,10 +35,11 @@ public class InspectDoorAction extends DoorAction
 	/**
 	 * Performs the {@link InspectDoorAction} using the provided parameters.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} executing the {@link InspectDoorAction}.
+	 * @param game      The {@link Game} instance.
+	 * @param player    The {@link Player} performing the {@link InspectDoorAction}.
+	 * @param arguments The arguments provided to the {@link InspectDoorAction}.
 	 */
-	@Override public void perform(Game game, Player player)
+	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		outcome = Outcome.SUCCESS;
 		game.getUserInterface().onDoorInspect(game, player, this);

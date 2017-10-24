@@ -52,12 +52,13 @@ public class UnlockLockAction extends LockAction
 	}
 
 	/**
-	 * Performs the {@link LockLockAction} using the provided parameters.
+	 * Performs the {@link UnlockLockAction} using the provided parameters.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} executing the {@link LockLockAction}.
+	 * @param game      The {@link Game} instance.
+	 * @param player    The {@link Player} performing the {@link UnlockLockAction}.
+	 * @param arguments The arguments provided to the {@link UnlockLockAction}.
 	 */
-	@Override public void perform(Game game, Player player)
+	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		GameInterface userInterface = game.getUserInterface();
 		Lock.State    state         = lock.getState();

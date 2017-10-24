@@ -137,11 +137,12 @@ public class Game
 	/**
 	 * Callback by {@link Player}s that have decided on an {@link Action}.
 	 *
-	 * @param action The chosen {@link Action}.
+	 * @param action    The chosen {@link Action}.
+	 * @param arguments The arguments to pass to the {@link Action}.
 	 */
-	private void handleActionResponse(Action action)
+	private void handleActionResponse(Action action, String[] arguments)
 	{
-		action.perform(this, this.currentPlayer);
+		action.perform(this, this.currentPlayer, arguments);
 		this.currentPlayerMoves++;
 		if (this.currentPlayerMoves > movesPerTurn) {
 			handleNext();

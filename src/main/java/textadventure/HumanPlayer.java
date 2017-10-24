@@ -23,6 +23,6 @@ public class HumanPlayer extends AbstractPlayer
 	@Override
 	public void takeTurn(Game game, ActionResponse response)
 	{
-		game.getUserInterface().onActionRequest(game, this, action -> response.respond(action));
+		game.getUserInterface().onActionRequest(game, this, (action, arguments) -> response.respond(action, arguments));
 	}
 }

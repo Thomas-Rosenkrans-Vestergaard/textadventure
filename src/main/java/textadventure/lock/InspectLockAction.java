@@ -32,10 +32,11 @@ public class InspectLockAction extends LockAction
 	/**
 	 * Performs the {@link InspectLockAction} using the provided parameters.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} executing the {@link InspectLockAction}.
+	 * @param game      The {@link Game} instance.
+	 * @param player    The {@link Player} performing the {@link InspectLockAction}.
+	 * @param arguments The arguments provided to the {@link InspectLockAction}.
 	 */
-	@Override public void perform(Game game, Player player)
+	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		outcome = Outcome.SUCCESS;
 		game.getUserInterface().onLockInspect(game, player, this);

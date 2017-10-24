@@ -49,10 +49,11 @@ public class OpenDoorAction extends DoorAction
 	/**
 	 * Performs the {@link OpenDoorAction} using the provided parameters.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} executing the {@link OpenDoorAction}.
+	 * @param game      The {@link Game} instance.
+	 * @param player    The {@link Player} performing the {@link OpenDoorAction}.
+	 * @param arguments The arguments provided to the {@link OpenDoorAction}.
 	 */
-	@Override public void perform(Game game, Player player)
+	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		try {
 			getDoor().open();
