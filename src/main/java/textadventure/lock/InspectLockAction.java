@@ -39,7 +39,7 @@ public class InspectLockAction extends LockAction
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		outcome = Outcome.SUCCESS;
-		game.getUserInterface().onLockInspect(game, player, this);
+		game.getGameInterface().onLockInspect(game, player, this);
 	}
 
 	/**

@@ -42,7 +42,7 @@ public class InspectDoorAction extends DoorAction
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		outcome = Outcome.SUCCESS;
-		game.getUserInterface().onDoorInspect(game, player, this);
+		game.getGameInterface().onDoorInspect(game, player, this);
 	}
 
 	/**

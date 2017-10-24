@@ -60,7 +60,7 @@ public class UnlockLockAction extends LockAction
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-		GameInterface userInterface = game.getUserInterface();
+		GameInterface userInterface = game.getGameInterface();
 		Lock.State    state         = lock.getState();
 
 		if (state == Lock.State.UNLOCKED) {

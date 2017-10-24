@@ -39,7 +39,7 @@ public class InspectBackpackAction extends BackpackAction
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-		GameInterface userInterface = game.getUserInterface();
+		GameInterface userInterface = game.getGameInterface();
 		outcome = Outcome.SUCCESS;
 		userInterface.onBackpackInspect(game, player, this);
 	}

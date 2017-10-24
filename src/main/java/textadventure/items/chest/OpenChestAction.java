@@ -2,7 +2,6 @@ package textadventure.items.chest;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.doors.Door;
 import textadventure.ui.GameInterface;
 
 public class OpenChestAction extends ChestAction
@@ -54,7 +53,7 @@ public class OpenChestAction extends ChestAction
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		Chest.State   state         = chest.getState();
-		GameInterface userInterface = game.getUserInterface();
+		GameInterface userInterface = game.getGameInterface();
 
 		if (state == Chest.State.OPEN) {
 			outcome = Outcome.ALREADY_OPEN;

@@ -62,14 +62,14 @@ public class UseDoorAction extends DoorAction
 
 		if (state == Door.State.CLOSED) {
 			outcome = Outcome.CLOSED;
-			game.getUserInterface().onDoorUse(game, player, this);
+			game.getGameInterface().onDoorUse(game, player, this);
 			return;
 		}
 
 		if (state == Door.State.OPEN) {
 			outcome = Outcome.SUCCESS;
 			player.getCharacter().setCurrentLocation(targetRoom);
-			game.getUserInterface().onDoorUse(game, player, this);
+			game.getGameInterface().onDoorUse(game, player, this);
 			return;
 		}
 

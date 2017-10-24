@@ -52,7 +52,7 @@ public class InspectChestAction extends ChestAction
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		Chest.State   state         = chest.getState();
-		GameInterface userInterface = game.getUserInterface();
+		GameInterface userInterface = game.getGameInterface();
 
 		if (state == Chest.State.CLOSED) {
 			outcome = Outcome.CLOSED;

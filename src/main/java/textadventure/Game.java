@@ -13,7 +13,7 @@ public class Game
 	/**
 	 * The {@link GameInterface} used for input-output.
 	 */
-	private GameInterface userInterface;
+	private GameInterface gameInterface;
 
 	/**
 	 * The {@link Player}s in the {@link Game}.
@@ -43,15 +43,15 @@ public class Game
 	/**
 	 * The {@link GameInterface} to use for input-output.
 	 *
-	 * @param userInterface The {@link GameInterface} to use for input-output.
+	 * @param gameInterface The {@link GameInterface} to use for input-output.
 	 * @param movesPerTurn  The amount of moves per {@link Player} before the turn ends.
 	 */
-	public Game(GameInterface userInterface, Maze maze, int movesPerTurn)
+	public Game(GameInterface gameInterface, Maze maze, int movesPerTurn)
 	{
-		this.userInterface = userInterface;
+		this.gameInterface = gameInterface;
 		this.maze = maze;
 		this.movesPerTurn = movesPerTurn;
-		userInterface.onInit(this);
+		gameInterface.onInit(this);
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class Game
 	public void addPlayer(Player player)
 	{
 		players.add(player);
-		userInterface.onPlayerJoin(this, player);
+		gameInterface.onPlayerJoin(this, player);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class Game
 	 */
 	public void start()
 	{
-		userInterface.onGameStart(this);
+		gameInterface.onGameStart(this);
 		handleTurn(players.get(0));
 	}
 
@@ -79,12 +79,12 @@ public class Game
 	 */
 	private void handleNext()
 	{
-		userInterface.onTurnEnd(this, this.currentPlayer);
+		gameInterface.onTurnEnd(this, this.currentPlayer);
 		int index = players.indexOf(this.currentPlayer);
 		if (index + 1 == players.size()) {
 
 			if (hasWinner()) {
-				userInterface.onGameEnd(this);
+				gameInterface.onGameEnd(this);
 				return;
 			}
 
@@ -119,7 +119,7 @@ public class Game
 	private void handleTurn(Player player)
 	{
 		this.movesPerTurn = 0;
-		userInterface.onTurnStart(this, player);
+		gameInterface.onTurnStart(this, player);
 		handleActionRequest(player);
 	}
 
@@ -146,7 +146,7 @@ public class Game
 		this.currentPlayerMoves++;
 
 		if (currentPlayer.getCharacter().getCurrentLocation() instanceof EndingRoom) {
-			userInterface.onGameEnd(this);
+			gameInterface.onGameEnd(this);
 			return;
 		}
 
@@ -170,8 +170,8 @@ public class Game
 	 *
 	 * @return The {@link GameInterface} used as input-output for the game.
 	 */
-	public GameInterface getUserInterface()
+	public GameInterface getGameInterface()
 	{
-		return this.userInterface;
+		return this.gameInterface;
 	}
 }

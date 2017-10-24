@@ -58,13 +58,13 @@ public class OpenDoorAction extends DoorAction
 		try {
 			getDoor().open();
 			this.outcome = Outcome.SUCCESS;
-			game.getUserInterface().onDoorOpen(game, player, this);
+			game.getGameInterface().onDoorOpen(game, player, this);
 		} catch (DoorAlreadyOpenException e) {
 			this.outcome = Outcome.ALREADY_OPEN;
-			game.getUserInterface().onDoorOpen(game, player, this);
+			game.getGameInterface().onDoorOpen(game, player, this);
 		} catch (DoorLockedException e) {
 			this.outcome = Outcome.LOCKED;
-			game.getUserInterface().onDoorOpen(game, player, this);
+			game.getGameInterface().onDoorOpen(game, player, this);
 		}
 	}
 

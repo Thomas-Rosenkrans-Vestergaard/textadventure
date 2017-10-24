@@ -59,13 +59,13 @@ public class CloseDoorAction extends DoorAction
 		try {
 			getDoor().close();
 			this.outcome = Outcome.SUCCESS;
-			game.getUserInterface().onDoorClose(game, player, this);
+			game.getGameInterface().onDoorClose(game, player, this);
 		} catch (DoorAlreadyClosedException e) {
 			this.outcome = Outcome.ALREADY_CLOSED;
-			game.getUserInterface().onDoorClose(game, player, this);
+			game.getGameInterface().onDoorClose(game, player, this);
 		} catch (DoorLockedException e) {
 			this.outcome = Outcome.LOCKED;
-			game.getUserInterface().onDoorClose(game, player, this);
+			game.getGameInterface().onDoorClose(game, player, this);
 		}
 	}
 
