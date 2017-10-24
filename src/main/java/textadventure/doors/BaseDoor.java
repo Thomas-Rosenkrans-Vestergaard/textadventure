@@ -4,6 +4,9 @@ import textadventure.*;
 import textadventure.lock.*;
 import textadventure.rooms.Room;
 
+/**
+ * Base implementation of the {@link Door} interface.
+ */
 public class BaseDoor extends AbstractPropertyContainer implements Door
 {
 

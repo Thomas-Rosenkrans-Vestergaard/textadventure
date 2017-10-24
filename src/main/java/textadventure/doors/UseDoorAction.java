@@ -5,6 +5,9 @@ import textadventure.Player;
 import textadventure.rooms.EndingRoom;
 import textadventure.rooms.Room;
 
+/**
+ * {@link textadventure.actions.Action} that allows a player to use a {@link Door} to move to another {@link Room}.
+ */
 public class UseDoorAction extends DoorAction
 {
 

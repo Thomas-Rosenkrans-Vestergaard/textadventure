@@ -2,6 +2,9 @@ package textadventure.doors;
 
 import textadventure.actions.Action;
 
+/**
+ * Abstract class for {@link Action}s performed upon a {@link Door}.
+ */
 public abstract class DoorAction implements Action
 {
 

@@ -3,6 +3,9 @@ package textadventure.doors;
 import textadventure.Game;
 import textadventure.Player;
 
+/**
+ * {@link textadventure.actions.Action} that allows a player to open a {@link Door}.
+ */
 public class OpenDoorAction extends DoorAction
 {
 

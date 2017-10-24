@@ -4,6 +4,9 @@ import textadventure.actions.Action;
 import textadventure.Game;
 import textadventure.Player;
 
+/**
+ * {@link Action} that allows a player to close a {@link Door}.
+ */
 public class CloseDoorAction extends DoorAction
 {
 

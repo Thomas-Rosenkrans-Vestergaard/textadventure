@@ -3,6 +3,9 @@ package textadventure.doors;
 import textadventure.Game;
 import textadventure.Player;
 
+/**
+ * {@link textadventure.actions.Action} that allows a player to gather information about a {@link Door}.
+ */
 public class InspectDoorAction extends DoorAction
 {
 
