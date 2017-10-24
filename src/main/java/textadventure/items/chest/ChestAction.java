@@ -2,6 +2,9 @@ package textadventure.items.chest;
 
 import textadventure.actions.Action;
 
+/**
+ * Base for {@link Action}s acting upon a {@link Chest}.
+ */
 public abstract class ChestAction implements Action
 {
 

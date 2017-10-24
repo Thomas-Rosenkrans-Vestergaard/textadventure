@@ -4,6 +4,9 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.ui.GameInterface;
 
+/**
+ * {@link textadventure.actions.Action} that allows the player to inspect the {@link Chest}.
+ */
 public class InspectChestAction extends ChestAction
 {
 

@@ -6,6 +6,9 @@ import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.GameInterface;
 
+/**
+ * {@link textadventure.actions.Action} that allows a player to take item(s) from the {@link Chest}.
+ */
 public class TakeItemFromChestAction extends ChestAction
 {
 	/**
