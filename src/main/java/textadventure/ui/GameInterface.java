@@ -1,5 +1,6 @@
 package textadventure.ui;
 
+import textadventure.Property;
 import textadventure.actions.ActionResponse;
 import textadventure.Game;
 import textadventure.Player;

@@ -1,110 +1,77 @@
 package textadventure.items;
 
 import com.google.common.collect.ImmutableMap;
+import textadventure.items.exception.InventoryFullException;
+import textadventure.items.exception.UnknownSlotException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class BaseInventory implements Inventory
 {
 
 	/**
-	 * The items in the {@link Inventory}.
+	 * The {@link Slot}s in the {@link Inventory} mapped to the type of {@link Item} they contain.
 	 */
-	private Item[] items;
+	private HashMap<Class<? extends Item>, List<Slot>> types = new HashMap<>();
 
 	/**
-	 * The number of items in the {@link Inventory}.
+	 * The {@link Slot}s in the {@link Inventory}.
 	 */
-	private int countSlots;
+	private List<Slot> slots = new ArrayList<>();
 
 	/**
-	 * The number of filled items in the {@link Inventory}.
-	 */
-	private int countNonEmpty;
-
-	/**
-	 * The number of empty items in the {@link Inventory}.
-	 */
-	private int countEmpty;
-
-	/**
-	 * Creates a new {@link BaseInventory}.
+	 * Returns the {@link Item} in the provided <code>slot</code>. The {@link Item} is then deleted from the
+	 * {@link Inventory}.
 	 *
-	 * @param countSlots The number of items in the {@link Inventory}.
+	 * @param slot The <code>slot</code> to get the {@link Item} from.
+	 * @return The {@link Item} in the provided <code>slot</code>.
+	 * @throws UnknownSlotException When the provided <code>slot</code> doesn't exist in the {@link Inventory}.
 	 */
-	public BaseInventory(int countSlots)
+	@Override public Slot getSlot(int slot) throws UnknownSlotException
 	{
-		this.items = new Item[countSlots];
-		this.countSlots = countSlots;
-		this.countNonEmpty = 0;
-		this.countEmpty = countSlots;
+		Slot result = slots.get(slot);
+		if (result == null) throw new UnknownSlotException(this);
+		return result;
 	}
 
 	/**
-	 * Returns the {@link Item} in the provided slot.
+	 * Returns a stream of {@link Slot}s that can contain the provided {@link Item} type.
 	 *
-	 * @param slot The identifier of the slot to insert.
-	 * @return The {@link Item} in the provided slot.
+	 * @param type The type of {@link Item} the slot can contain.
+	 * @return The stream of {@link Slot}s that fit the criteria.
+	 * @throws UnknownSlotException When no {@link Slot} exists that fit the criteria.
 	 */
-	@Override public Item getItem(int slot)
+	@Override public Stream<Slot> getSlot(Class<? extends Item> type) throws UnknownSlotException
 	{
-		if (slot < 0 || slot > countSlots)
-			throw new IllegalArgumentException("Slot out of range.");
-
-		return items[slot];
+		List<Slot> slots = types.get(type);
+		if (slots == null) throw new UnknownSlotException(this);
+		return slots.stream();
 	}
 
 	/**
-	 * Adds a new {@link Item} to the {@link Inventory}.
+	 * Adds a new {@link Item} to the {@link Inventory}. The {@link Item} is added to the first place it fits.
 	 *
 	 * @param item The {@link Item} to add to the {@link Inventory}.
+	 * @throws InventoryFullException When the {@link Inventory} cannot add the provided {@link Item}.
 	 */
-	@Override public void addItem(Item item)
+	@Override public void addItem(Item item) throws InventoryFullException
 	{
-		for (int x = 0; x < items.length; x++) {
-			if (items[x] == null) {
-				items[x] = item;
-				return;
-			}
-		}
+		List<Slot> slots = types.get(item.getClass());
+		if(slots == null) throw new UnknownSlotException(this);
 	}
 
 	/**
-	 * Adds a new {@link Item} to the {@link Inventory}.
+	 * Removes the {@link Slot} at the provided <code>slot</code> number.
 	 *
-	 * @param slot The slot the add the {@link Item} to.
-	 * @param item The {@link Item} to add to the {@link Inventory}.
+	 * @param slot The <code>slot</code> number.
+	 * @throws UnknownSlotException When there exists no {@link Slot}.
 	 */
-	@Override public void addItem(int slot, Item item)
+	@Override public void removeSlot(int slot) throws UnknownSlotException
 	{
-		this.items[slot] = item;
-		countNonEmpty++;
-		countEmpty--;
-	}
 
-	/**
-	 * Returns <code>true</code> when an {@link Item} exists in the provided inventory slot. Returns
-	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
-	 *
-	 * @param slot The inventory slot to check for.
-	 * @return <code>True</code> when an {@link Item} exists in the provided inventory slot. Returns
-	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
-	 */
-	@Override public boolean hasItem(int slot)
-	{
-		return items[slot] != null;
-	}
-
-	/**
-	 * Removes the {@link Item} from the {@link Inventory}.
-	 *
-	 * @param item The {@link Item} to remove.
-	 */
-	@Override public void removeItem(Item item)
-	{
-		for (int x = 0; x < items.length; x++) {
-			if (items[x] == item) {
-				items[x] = null;
-			}
-		}
 	}
 
 	/**
@@ -114,87 +81,48 @@ public class BaseInventory implements Inventory
 	 * @return The {@link ImmutableMap} of the items in the {@link Inventory}. The {@link ImmutableMap} does not contain
 	 * <code>null</code> values.
 	 */
-	@Override public ImmutableMap<Integer, Item> getItems()
+	@Override public ImmutableMap<Integer, Slot> getSlots()
 	{
-		ImmutableMap.Builder<Integer, Item> builder = new ImmutableMap.Builder<>();
-		for (int x = 0; x < countSlots; x++)
-			if (items[x] != null)
-				builder.put(x, items[x]);
-
-		return builder.build();
+		return null;
 	}
 
 	/**
-	 * Removes the {@link Item} in the provided inventory slot.
+	 * Returns the number of slots in the {@link Inventory}.
 	 *
-	 * @param slot The inventory slot identifier.
-	 */
-	@Override public void removeItem(int slot)
-	{
-		this.items[slot] = null;
-		countNonEmpty--;
-		countEmpty++;
-	}
-
-	/**
-	 * Returns the slot of the provided {@link Item}.
-	 *
-	 * @param item The {@link Item} to return the slot of.
-	 * @return The slot number of the provided {@link Item}. Returns <code>-1</code> if the {@link Item} doesn't exist.
-	 */
-	@Override public int getSlot(Item item)
-	{
-		for (int x = 0; x < items.length; x++) {
-			if (item == items[0]) {
-				return x;
-			}
-		}
-
-		return -1;
-	}
-
-	/**
-	 * Returns the number of items in the {@link Inventory}.
-	 *
-	 * @return The number of items in the {@link Inventory}.
+	 * @return The number of slots in the {@link Inventory}.
 	 */
 	@Override public int countSlots()
 	{
-		return countSlots;
+		return 0;
 	}
 
 	/**
-	 * Returns the number of non-empty items.
+	 * Returns the number of non-empty slots.
 	 *
-	 * @return The number of non-empty items.
+	 * @return The number of non-empty slots.
 	 */
 	@Override public int countNonEmptySlots()
 	{
-		return countNonEmpty;
+		return 0;
 	}
 
 	/**
-	 * Returns the number of empty items.
+	 * Returns the number of empty slots.
 	 *
-	 * @return The number of empty items.
+	 * @return The number of empty slots.
 	 */
 	@Override public int countEmptySlots()
 	{
-		return countEmpty;
+		return 0;
 	}
 
 	/**
-	 * Returns the {@link Item}s available in the {@link Inventory}.
+	 * Expands the number of slots in the {@link Inventory}.
 	 *
-	 * @return The {@link Item}s available in the {@link Inventory}.
+	 * @param slots The number of slots to expand the {@link Inventory} with.
 	 */
-	@Override public ImmutableMap<Integer, Item> getOptions()
+	@Override public void expand(int slots)
 	{
-		ImmutableMap.Builder<Integer, Item> options = new ImmutableMap.Builder<>();
-		for (int x = 0; x < items.length; x++)
-			if (items[x] != null)
-				options.put(x, items[x]);
 
-		return options.build();
 	}
 }

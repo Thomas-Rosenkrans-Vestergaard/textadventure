@@ -20,9 +20,9 @@ public interface Item extends Option
 	String getItemDescription();
 
 	/**
-	 * Returns the size of a stack of {@link Item}s.
+	 * Returns the amount of {@link Item}s that can fit in a stack of items.
 	 *
-	 * @return The size of a stack of {@link Item}s.
+	 * @return The amount of {@link Item}s that can fit in a stack of items.
 	 */
 	int getStackSize();
 }

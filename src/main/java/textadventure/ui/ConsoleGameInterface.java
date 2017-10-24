@@ -493,7 +493,7 @@ public class ConsoleGameInterface implements GameInterface
 		Chest                      chest   = action.getChest();
 
 		if (outcome == InspectChestAction.Outcome.SUCCESS) {
-			ImmutableMap<Integer, Item> items = chest.getItems();
+			ImmutableMap<Integer, Item> items = chest.getSlots();
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
 			printer.println("| #    | Item name            | Item description                                                                       |");
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
@@ -556,7 +556,7 @@ public class ConsoleGameInterface implements GameInterface
 		InspectBackpackAction.Outcome outcome = action.getOutcome();
 
 		if (outcome == InspectBackpackAction.Outcome.SUCCESS) {
-			ImmutableMap<Integer, Item> items = action.getBackpack().getItems();
+			ImmutableMap<Integer, Item> items = action.getBackpack().getSlots();
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
 			printer.println("| #    | Item name            | Item description                                                                       |");
 			printer.println("------------------------------------------------------------------------------------------------------------------------");

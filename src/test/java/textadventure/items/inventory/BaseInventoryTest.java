@@ -16,8 +16,8 @@ public class BaseInventoryTest
 		Inventory inventory = new BaseInventory(10);
 		Item item = new MockItem();
 		inventory.addItem(0, item);
-		assertSame(item, inventory.getItem(0));
-		assertNull(inventory.getItem(9));
+		assertSame(item, inventory.getSlot(0));
+		assertNull(inventory.getSlot(9));
 	}
 
 	@Test
@@ -57,8 +57,8 @@ public class BaseInventoryTest
 		Inventory inventory = new BaseInventory(10);
 		Item item = new MockItem();
 		inventory.addItem(0, item);
-		assertSame(item, inventory.getItems().get(0));
-		assertEquals(1, inventory.getItems().size());
+		assertSame(item, inventory.getSlots().get(0));
+		assertEquals(1, inventory.getSlots().size());
 	}
 
 	@Test

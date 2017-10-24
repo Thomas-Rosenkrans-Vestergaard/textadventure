@@ -1,65 +1,48 @@
 package textadventure.items;
 
 import com.google.common.collect.ImmutableMap;
+import textadventure.items.exception.*;
 import textadventure.ui.Select;
+
+import java.util.stream.Stream;
 
 public interface Inventory extends Select<Item>
 {
 
 	/**
-	 * Returns the {@link Item} in the provided slot.
+	 * Returns the {@link Item} in the provided <code>slot</code>. The {@link Item} is then deleted from the
+	 * {@link Inventory}.
 	 *
-	 * @param slot The identifier of the slot to insert.
-	 * @return The {@link Item} in the provided slot. Returns <code>null</code> if the {@link Item} doesn't exist.
+	 * @param slot The <code>slot</code> to get the {@link Item} from.
+	 * @return The {@link Item} in the provided <code>slot</code>.
+	 * @throws UnknownSlotException When the provided <code>slot</code> doesn't exist in the {@link Inventory}.
 	 */
-	Item getItem(int slot);
+	Slot getSlot(int slot) throws UnknownSlotException;
 
 	/**
-	 * Adds a new {@link Item} to the {@link Inventory}.
+	 * Returns a stream of {@link Slot}s that can contain the provided {@link Item} type.
+	 *
+	 * @param type The type of {@link Item} the slot can contain.
+	 * @return The stream of {@link Slot}s that fit the criteria.
+	 * @throws UnknownSlotException When no {@link Slot} exists that fit the criteria.
+	 */
+	Stream<Slot> getSlot(Class<? extends Item> type) throws UnknownSlotException;
+
+	/**
+	 * Adds a new {@link Item} to the {@link Inventory}. The {@link Item} is added to the first place it fits.
 	 *
 	 * @param item The {@link Item} to add to the {@link Inventory}.
+	 * @throws InventoryFullException When the {@link Inventory} cannot add the provided {@link Item}.
 	 */
-	void addItem(Item item);
+	void addItem(Item item) throws InventoryFullException;
 
 	/**
-	 * Adds a new {@link Item} to the {@link Inventory}.
+	 * Removes the {@link Slot} at the provided <code>slot</code> number.
 	 *
-	 * @param slot The slot the add the {@link Item} to.
-	 * @param item The {@link Item} to add to the {@link Inventory}.
+	 * @param slot The <code>slot</code> number.
+	 * @throws UnknownSlotException When there exists no {@link Slot}.
 	 */
-	void addItem(int slot, Item item);
-
-	/**
-	 * Returns <code>true</code> when an {@link Item} exists in the provided inventory slot. Returns
-	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
-	 *
-	 * @param slot The inventory slot to check for.
-	 * @return <code>True</code> when an {@link Item} exists in the provided inventory slot. Returns
-	 * <code>false</code> when no {@link Item} was found in the provided inventory slot.
-	 */
-	boolean hasItem(int slot);
-
-	/**
-	 * Removes the {@link Item} in the provided inventory slot.
-	 *
-	 * @param slot The inventory slot identifier.
-	 */
-	void removeItem(int slot);
-
-	/**
-	 * Removes the {@link Item} from the {@link Inventory}.
-	 *
-	 * @param item The {@link Item} to remove.
-	 */
-	void removeItem(Item item);
-
-	/**
-	 * Returns the slot of the provided {@link Item}.
-	 *
-	 * @param item The {@link Item} to return the slot of.
-	 * @return The slot number of the provided {@link Item}. Returns <code>-1</code> if the {@link Item} doesn't exist.
-	 */
-	int getSlot(Item item);
+	void removeSlot(int slot) throws UnknownSlotException;
 
 	/**
 	 * Returns an {@link ImmutableMap} of the items in the {@link Inventory}. The {@link ImmutableMap} does not contain
@@ -68,7 +51,7 @@ public interface Inventory extends Select<Item>
 	 * @return The {@link ImmutableMap} of the items in the {@link Inventory}. The {@link ImmutableMap} does not contain
 	 * <code>null</code> values.
 	 */
-	ImmutableMap<Integer, Item> getItems();
+	ImmutableMap<Integer, Slot> getSlots();
 
 	/**
 	 * Returns the number of slots in the {@link Inventory}.
@@ -90,4 +73,11 @@ public interface Inventory extends Select<Item>
 	 * @return The number of empty slots.
 	 */
 	int countEmptySlots();
+
+	/**
+	 * Expands the number of slots in the {@link Inventory}.
+	 *
+	 * @param slots The number of slots to expand the {@link Inventory} with.
+	 */
+	void expand(int slots);
 }
