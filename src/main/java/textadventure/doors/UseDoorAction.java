@@ -2,7 +2,6 @@ package textadventure.doors;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.rooms.EndingRoom;
 import textadventure.rooms.Room;
 
 /**
@@ -71,11 +70,6 @@ public class UseDoorAction extends DoorAction
 			outcome = Outcome.SUCCESS;
 			player.getCharacter().setCurrentLocation(targetRoom);
 			game.getUserInterface().onDoorUse(game, player, this);
-
-			// TODO: QUICK FIX
-			if (targetRoom instanceof EndingRoom)
-				game.getUserInterface().onGameEnd(game);
-
 			return;
 		}
 

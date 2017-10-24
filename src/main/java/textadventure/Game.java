@@ -144,6 +144,12 @@ public class Game
 	{
 		action.perform(this, this.currentPlayer, arguments);
 		this.currentPlayerMoves++;
+
+		if (currentPlayer.getCharacter().getCurrentLocation() instanceof EndingRoom) {
+			userInterface.onGameEnd(this);
+			return;
+		}
+
 		if (this.currentPlayerMoves > movesPerTurn) {
 			handleNext();
 		}
