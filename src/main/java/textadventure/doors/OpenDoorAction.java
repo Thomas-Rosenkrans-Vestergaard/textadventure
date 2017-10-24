@@ -2,9 +2,8 @@ package textadventure.doors;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.NamedAction;
 
-public class OpenDoorAction extends DoorAction implements NamedAction
+public class OpenDoorAction extends DoorAction
 {
 
 	/**
@@ -73,25 +72,5 @@ public class OpenDoorAction extends DoorAction implements NamedAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
-	}
-
-	/**
-	 * Returns the name of the {@link OpenDoorAction}.
-	 *
-	 * @return The name of the {@link OpenDoorAction}.
-	 */
-	@Override public String getActionName()
-	{
-		return "open";
-	}
-
-	/**
-	 * Returns the description of the {@link OpenDoorAction}.
-	 *
-	 * @return The description of the {@link OpenDoorAction}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Open the door.";
 	}
 }

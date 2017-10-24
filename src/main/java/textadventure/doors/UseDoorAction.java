@@ -2,11 +2,10 @@ package textadventure.doors;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.NamedAction;
 import textadventure.rooms.EndingRoom;
 import textadventure.rooms.Room;
 
-public class UseDoorAction extends DoorAction implements NamedAction
+public class UseDoorAction extends DoorAction
 {
 
 	/**
@@ -87,25 +86,5 @@ public class UseDoorAction extends DoorAction implements NamedAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
-	}
-
-	/**
-	 * Returns the name of the {@link UseDoorAction}.
-	 *
-	 * @return The name of the {@link UseDoorAction}.
-	 */
-	@Override public String getActionName()
-	{
-		return "use";
-	}
-
-	/**
-	 * Returns the description of the {@link UseDoorAction}.
-	 *
-	 * @return The description of the {@link UseDoorAction}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Use the door to move to the next room.";
 	}
 }

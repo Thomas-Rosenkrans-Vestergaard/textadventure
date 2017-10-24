@@ -2,7 +2,6 @@ package textadventure.items.backpack;
 
 import textadventure.Property;
 import textadventure.actions.Action;
-import textadventure.actions.NamedAction;
 import textadventure.items.BaseInventory;
 import textadventure.items.Inventory;
 
@@ -29,17 +28,18 @@ public class Backpack extends BaseInventory implements Property, Inventory
 	{
 		super(countSlots);
 
-		addAction(new InspectBackpackAction(this));
+		addAction("inspect", new InspectBackpackAction(this));
 	}
 
 	/**
 	 * Adds a new {@link Action} to the {@link Property}.
 	 *
+	 * @param name   The name of the {@link Action}.
 	 * @param action The {@link Action} to add to the {@link Property}.
 	 */
-	@Override public void addAction(NamedAction action)
+	@Override public void addAction(String name, Action action)
 	{
-		actions.put(action.getActionName(), action);
+		actions.put(name, action);
 	}
 
 	/**

@@ -40,9 +40,9 @@ public class Lock extends AbstractProperty
 		this.code = code;
 		this.state = state;
 
-		addAction(new LockLockAction(this));
-		addAction(new UnlockLockAction(this));
-		addAction(new InspectLockAction(this));
+		addAction("lock", new LockLockAction(this));
+		addAction("unlock", new UnlockLockAction(this));
+		addAction("inspect", new InspectLockAction(this));
 	}
 
 	/**

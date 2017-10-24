@@ -2,15 +2,14 @@ package textadventure.items.chest;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.NamedAction;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.GameInterface;
 
-public class TakeChestItemAction extends ChestAction implements NamedAction
+public class TakeItemFromChestAction extends ChestAction
 {
 	/**
-	 * The possible {@link Outcome}s of the {@link TakeChestItemAction}.
+	 * The possible {@link Outcome}s of the {@link TakeItemFromChestAction}.
 	 */
 	public enum Outcome
 	{
@@ -32,7 +31,7 @@ public class TakeChestItemAction extends ChestAction implements NamedAction
 	}
 
 	/**
-	 * The {@link Outcome} of the {@link TakeChestItemAction}.
+	 * The {@link Outcome} of the {@link TakeItemFromChestAction}.
 	 */
 	private Outcome outcome;
 
@@ -42,40 +41,20 @@ public class TakeChestItemAction extends ChestAction implements NamedAction
 	private Item item;
 
 	/**
-	 * Creates a new {@link TakeChestItemAction}.
+	 * Creates a new {@link TakeItemFromChestAction}.
 	 *
 	 * @param chest The {@link Chest} to take {@link Item}s from.
 	 */
-	public TakeChestItemAction(Chest chest)
+	public TakeItemFromChestAction(Chest chest)
 	{
 		super(chest);
 	}
 
 	/**
-	 * Returns the name of the {@link TakeChestItemAction}.
-	 *
-	 * @return The name of the {@link TakeChestItemAction}.
-	 */
-	@Override public String getActionName()
-	{
-		return "take";
-	}
-
-	/**
-	 * Returns the description of the {@link TakeChestItemAction}.
-	 *
-	 * @return The description of the {@link TakeChestItemAction}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Take an item from the chest.";
-	}
-
-	/**
-	 * Performs the {@link TakeChestItemAction} using the provided parameters.
+	 * Performs the {@link TakeItemFromChestAction} using the provided parameters.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link TakeChestItemAction}.
+	 * @param player The {@link Player} performing the {@link TakeItemFromChestAction}.
 	 */
 	@Override public void perform(Game game, Player player)
 	{
@@ -108,9 +87,9 @@ public class TakeChestItemAction extends ChestAction implements NamedAction
 	}
 
 	/**
-	 * Returns the {@link Outcome} of the {@link TakeChestItemAction}.
+	 * Returns the {@link Outcome} of the {@link TakeItemFromChestAction}.
 	 *
-	 * @return The {@link Outcome} of the {@link TakeChestItemAction}.
+	 * @return The {@link Outcome} of the {@link TakeItemFromChestAction}.
 	 */
 	public Outcome getOutcome()
 	{

@@ -2,10 +2,9 @@ package textadventure.items.backpack;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.NamedAction;
 import textadventure.ui.GameInterface;
 
-public class InspectBackpackAction extends BackpackAction implements NamedAction
+public class InspectBackpackAction extends BackpackAction
 {
 
 	/**
@@ -42,26 +41,6 @@ public class InspectBackpackAction extends BackpackAction implements NamedAction
 		GameInterface userInterface = game.getUserInterface();
 		outcome = Outcome.SUCCESS;
 		userInterface.onBackpackInspect(game, player, this);
-	}
-
-	/**
-	 * Returns the name of the {@link InspectBackpackAction}.
-	 *
-	 * @return The name of the {@link InspectBackpackAction}.
-	 */
-	@Override public String getActionName()
-	{
-		return "inspect";
-	}
-
-	/**
-	 * Returns the description of the {@link InspectBackpackAction}.
-	 *
-	 * @return The description of the {@link InspectBackpackAction}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Inspect the backpack.";
 	}
 
 	/**

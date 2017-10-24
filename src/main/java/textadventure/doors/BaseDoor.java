@@ -42,12 +42,12 @@ public class BaseDoor extends AbstractPropertyContainer implements Door
 		this.roomA = roomA;
 		this.roomB = roomB;
 
-		addAction(new OpenDoorAction(this));
-		addAction(new CloseDoorAction(this));
-		addAction(new UseDoorAction(this));
-		addAction(new InspectDoorAction(this));
-		addAction(new LockLockAction(lock));
-		addAction(new UnlockLockAction(lock));
+		addAction("open", new OpenDoorAction(this));
+		addAction("close", new CloseDoorAction(this));
+		addAction("use", new UseDoorAction(this));
+		addAction("inspect", new InspectDoorAction(this));
+		addAction("lock", new LockLockAction(lock));
+		addAction("unlock", new UnlockLockAction(lock));
 
 		addProperty("lock", lock);
 	}

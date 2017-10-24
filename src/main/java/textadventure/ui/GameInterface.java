@@ -6,7 +6,7 @@ import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.doors.*;
 import textadventure.items.backpack.InspectBackpackAction;
-import textadventure.items.chest.TakeChestItemAction;
+import textadventure.items.chest.TakeItemFromChestAction;
 import textadventure.items.chest.CloseChestAction;
 import textadventure.items.chest.InspectChestAction;
 import textadventure.items.chest.OpenChestAction;
@@ -162,13 +162,13 @@ public interface GameInterface
 	void onChestInspect(Game game, Player player, InspectChestAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link TakeChestItemAction}.
+	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link TakeChestItemAction}.
-	 * @param action The {@link TakeChestItemAction} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link TakeItemFromChestAction}.
+	 * @param action The {@link TakeItemFromChestAction} instance.
 	 */
-	void onChestTake(Game game, Player player, TakeChestItemAction action);
+	void onChestTake(Game game, Player player, TakeItemFromChestAction action);
 
 	/**
 	 * Event when a {@link Player} performs the {@link InspectBackpackAction}.

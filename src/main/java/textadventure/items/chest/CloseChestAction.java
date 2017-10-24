@@ -2,10 +2,9 @@ package textadventure.items.chest;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.NamedAction;
 import textadventure.ui.GameInterface;
 
-public class CloseChestAction extends ChestAction implements NamedAction
+public class CloseChestAction extends ChestAction
 {
 
 	/**
@@ -90,25 +89,5 @@ public class CloseChestAction extends ChestAction implements NamedAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
-	}
-
-	/**
-	 * Returns the name of the {@link CloseChestAction}.
-	 *
-	 * @return The name of the {@link CloseChestAction}.
-	 */
-	@Override public String getActionName()
-	{
-		return "close";
-	}
-
-	/**
-	 * Returns the description of the {@link CloseChestAction}.
-	 *
-	 * @return The description of the {@link CloseChestAction}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Close the chest.";
 	}
 }

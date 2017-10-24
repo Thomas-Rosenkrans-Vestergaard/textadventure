@@ -2,20 +2,43 @@ package textadventure.items.chest;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.NamedAction;
+import textadventure.doors.Door;
 import textadventure.ui.GameInterface;
 
-public class OpenChestAction extends ChestAction implements NamedAction
+public class OpenChestAction extends ChestAction
 {
+
+	/**
+	 * The possible {@link Outcome}s of the {@link OpenChestAction}.
+	 */
 	public enum Outcome
 	{
+		/**
+		 * The {@link Chest} was successfully opened.
+		 */
 		SUCCESS,
-		ALREADY_OPEN,
+
+		/**
+		 * The {@link Chest} could not be opened, since the {@link Chest} was locked.
+		 */
 		LOCKED,
+
+		/**
+		 * The {@link Chest} was already closed.
+		 */
+		ALREADY_OPEN,
 	}
 
+	/**
+	 * The {@link Outcome} of the {@link OpenChestAction}.
+	 */
 	private Outcome outcome;
 
+	/**
+	 * Creates a new {@link OpenChestAction}.
+	 *
+	 * @param chest The {@link Chest} opened by the {@link OpenChestAction}.
+	 */
 	public OpenChestAction(Chest chest)
 	{
 		super(chest);
@@ -66,25 +89,5 @@ public class OpenChestAction extends ChestAction implements NamedAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
-	}
-
-	/**
-	 * Returns the name of the {@link OpenChestAction}.
-	 *
-	 * @return The name of the {@link OpenChestAction}.
-	 */
-	@Override public String getActionName()
-	{
-		return "open";
-	}
-
-	/**
-	 * Returns the description of the {@link OpenChestAction}.
-	 *
-	 * @return The description of the {@link OpenChestAction}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Open the chest.";
 	}
 }

@@ -1,7 +1,6 @@
 package textadventure;
 
 import textadventure.actions.Action;
-import textadventure.actions.NamedAction;
 
 import java.util.stream.Stream;
 
@@ -11,9 +10,10 @@ public interface Property
 	/**
 	 * Adds a new {@link Action} to the {@link Property}.
 	 *
+	 * @param name The name of the {@link Action}.
 	 * @param action The {@link Action} to add to the {@link Property}.
 	 */
-	void addAction(NamedAction action);
+	void addAction(String name, Action action);
 
 	/**
 	 * Returns the {@link Action} with the provided name.

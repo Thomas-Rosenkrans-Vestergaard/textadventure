@@ -2,9 +2,8 @@ package textadventure.doors;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.NamedAction;
 
-public class InspectDoorAction extends DoorAction implements NamedAction
+public class InspectDoorAction extends DoorAction
 {
 
 	/**
@@ -50,25 +49,5 @@ public class InspectDoorAction extends DoorAction implements NamedAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
-	}
-
-	/**
-	 * Returns the name of the {@link InspectDoorAction}.
-	 *
-	 * @return The name of the {@link InspectDoorAction}.
-	 */
-	@Override public String getActionName()
-	{
-		return "inspect";
-	}
-
-	/**
-	 * Returns the description of the {@link InspectDoorAction}.
-	 *
-	 * @return The description of the {@link InspectDoorAction}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Inspect the door to learn new information about the door.";
 	}
 }

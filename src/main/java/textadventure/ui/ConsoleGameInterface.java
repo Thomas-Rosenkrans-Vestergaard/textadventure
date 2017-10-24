@@ -516,27 +516,27 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link TakeChestItemAction}.
+	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link TakeChestItemAction}.
-	 * @param action The {@link TakeChestItemAction} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link TakeItemFromChestAction}.
+	 * @param action The {@link TakeItemFromChestAction} instance.
 	 */
-	@Override public void onChestTake(Game game, Player player, TakeChestItemAction action)
+	@Override public void onChestTake(Game game, Player player, TakeItemFromChestAction action)
 	{
-		TakeChestItemAction.Outcome outcome = action.getOutcome();
+		TakeItemFromChestAction.Outcome outcome = action.getOutcome();
 
-		if (outcome == TakeChestItemAction.Outcome.SUCCESS) {
+		if (outcome == TakeItemFromChestAction.Outcome.SUCCESS) {
 			printer.println("You succeeded in taking item " + action.getItem().getItemName() + " from the chest.");
 			return;
 		}
 
-		if (outcome == TakeChestItemAction.Outcome.CLOSED) {
+		if (outcome == TakeItemFromChestAction.Outcome.CLOSED) {
 			printer.println("You cannot take items from a closed chest.");
 			return;
 		}
 
-		if (outcome == TakeChestItemAction.Outcome.BACKPACK_FULL) {
+		if (outcome == TakeItemFromChestAction.Outcome.BACKPACK_FULL) {
 			printer.println("You attempt to take the item, but you cannot fit it in your backpack.");
 			return;
 		}

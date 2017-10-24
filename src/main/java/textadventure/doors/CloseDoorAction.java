@@ -3,9 +3,8 @@ package textadventure.doors;
 import textadventure.actions.Action;
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.NamedAction;
 
-public class CloseDoorAction extends DoorAction implements NamedAction
+public class CloseDoorAction extends DoorAction
 {
 
 	/**
@@ -64,26 +63,6 @@ public class CloseDoorAction extends DoorAction implements NamedAction
 			this.outcome = Outcome.LOCKED;
 			game.getUserInterface().onDoorClose(game, player, this);
 		}
-	}
-
-	/**
-	 * Returns the name of the {@link CloseDoorAction}.
-	 *
-	 * @return The name of the {@link CloseDoorAction}.
-	 */
-	@Override public String getActionName()
-	{
-		return "close";
-	}
-
-	/**
-	 * Returns the description of the {@link CloseDoorAction}.
-	 *
-	 * @return The description of the {@link CloseDoorAction}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Attempt to close the door.";
 	}
 
 	/**

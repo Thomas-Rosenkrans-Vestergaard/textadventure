@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import textadventure.PropertyContainer;
 import textadventure.actions.Action;
 import textadventure.Property;
-import textadventure.actions.NamedAction;
 import textadventure.items.BaseInventory;
 import textadventure.lock.Lock;
 import textadventure.lock.LockLockAction;
@@ -66,12 +65,12 @@ public class Chest extends BaseInventory implements PropertyContainer
 		this.state = state;
 		this.lock = lock;
 
-		addAction(new OpenChestAction(this));
-		addAction(new CloseChestAction(this));
-		addAction(new InspectChestAction(this));
-		addAction(new TakeChestItemAction(this));
-		addAction(new LockLockAction(lock));
-		addAction(new UnlockLockAction(lock));
+		addAction("open", new OpenChestAction(this));
+		addAction("close", new CloseChestAction(this));
+		addAction("inspect", new InspectChestAction(this));
+		addAction("take", new TakeItemFromChestAction(this));
+		addAction("lock", new LockLockAction(lock));
+		addAction("unlock", new UnlockLockAction(lock));
 
 		addProperty("lock", lock);
 	}
@@ -117,11 +116,12 @@ public class Chest extends BaseInventory implements PropertyContainer
 	/**
 	 * Adds a new {@link Action} to the {@link Property}.
 	 *
+	 * @param name   The name of the {@link Action}.
 	 * @param action The {@link Action} to add to the {@link Property}.
 	 */
-	@Override public void addAction(NamedAction action)
+	@Override public void addAction(String name, Action action)
 	{
-		actions.put(action.getActionName(), action);
+		actions.put(name, action);
 	}
 
 	/**

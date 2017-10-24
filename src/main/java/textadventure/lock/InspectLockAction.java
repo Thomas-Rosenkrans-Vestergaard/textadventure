@@ -2,9 +2,8 @@ package textadventure.lock;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.NamedAction;
 
-public class InspectLockAction extends LockAction implements NamedAction
+public class InspectLockAction extends LockAction
 {
 
 	/**
@@ -50,25 +49,5 @@ public class InspectLockAction extends LockAction implements NamedAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
-	}
-
-	/**
-	 * Returns the name of the {@link InspectLockAction}.
-	 *
-	 * @return The name of the {@link InspectLockAction}.
-	 */
-	@Override public String getActionName()
-	{
-		return "inspect";
-	}
-
-	/**
-	 * Returns the description of the {@link InspectLockAction}.
-	 *
-	 * @return The description of the {@link InspectLockAction}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Inspect the lock to learn new information about the lock.";
 	}
 }

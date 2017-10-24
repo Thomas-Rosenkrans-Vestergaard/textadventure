@@ -2,12 +2,11 @@ package textadventure.lock;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.actions.NamedAction;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.GameInterface;
 
-public class UnlockLockAction extends LockAction implements NamedAction
+public class UnlockLockAction extends LockAction
 {
 
 	/**
@@ -108,25 +107,5 @@ public class UnlockLockAction extends LockAction implements NamedAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
-	}
-
-	/**
-	 * Returns the name of the {@link UnlockLockAction}.
-	 *
-	 * @return The name of the {@link UnlockLockAction}.
-	 */
-	@Override public String getActionName()
-	{
-		return "unlock";
-	}
-
-	/**
-	 * Returns the description of the {@link UnlockLockAction}.
-	 *
-	 * @return The description of the {@link UnlockLockAction}.
-	 */
-	@Override public String getActionDescription()
-	{
-		return "Unlock the lock.";
 	}
 }
