@@ -6,7 +6,6 @@ import textadventure.Character;
 import textadventure.actions.Action;
 import textadventure.actions.ActionResponse;
 import textadventure.doors.*;
-import textadventure.items.InventorySlot;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.InspectBackpackAction;
@@ -494,7 +493,7 @@ public class ConsoleGameInterface implements GameInterface
 		Chest                      chest   = action.getChest();
 
 		if (outcome == InspectChestAction.Outcome.SUCCESS) {
-			ImmutableMap<Integer, InventorySlot> items = chest.getSlots();
+			/*ImmutableMap<Integer, InventorySlot> items = chest.getSlots();
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
 			printer.println("| Slot | Item name            | Item description                                                                       |");
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
@@ -512,7 +511,9 @@ public class ConsoleGameInterface implements GameInterface
 						throw new IllegalStateException();
 					}
 				}
-			});
+			});*/
+
+			throw new UnsupportedOperationException();
 		}
 
 		if (outcome == InspectChestAction.Outcome.CLOSED) {
@@ -564,7 +565,7 @@ public class ConsoleGameInterface implements GameInterface
 		InspectBackpackAction.Outcome outcome = action.getOutcome();
 
 		if (outcome == InspectBackpackAction.Outcome.SUCCESS) {
-			ImmutableMap<Integer, InventorySlot> items = action.getBackpack().getSlots();
+			/*ImmutableMap<Integer, InventorySlot> items = action.getBackpack().getSlots();
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
 			printer.println("| Slot | Item name            | Item description                                                                       |");
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
@@ -582,11 +583,12 @@ public class ConsoleGameInterface implements GameInterface
 						throw new IllegalStateException();
 					}
 				}
-			});
-			return;
+			});*/
+
+			throw new UnsupportedOperationException();
 		}
 
-		throw new UnsupportedOperationException();
+//		throw new UnsupportedOperationException();
 	}
 
 	/**

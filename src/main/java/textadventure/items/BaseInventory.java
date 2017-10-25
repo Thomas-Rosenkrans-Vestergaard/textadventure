@@ -1,132 +1,135 @@
 package textadventure.items;
 
-import com.google.common.collect.ImmutableMap;
-
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.HashMap;
+import java.util.Stack;
 
 public class BaseInventory implements Inventory
 {
 
-	/**
-	 * The {@link InventorySlot}s in the {@link Inventory}.
-	 */
-	private HashMap<Integer, InventorySlot> slots = new HashMap<>();
-	private int numberOfSlots;
+	private HashMap<Integer, Stack<Item>> items;
+	private HashMap<Integer, Integer>     types;
+	private int                           numberOfSlots;
+	private int                           numberOfItems;
 
-	/**
-	 * Creates a new {@link BaseInventory}.
-	 *
-	 * @param slots The maximum number of slots in the {@link Inventory}.
-	 */
-	public BaseInventory(int slots)
+	public BaseInventory(int numberOfSlots)
 	{
-		if (slots < 1) {
-			throw new IllegalArgumentException("Number of slots in the inventory must be positive.");
-		}
-
-		this.numberOfSlots = slots;
-		populateSlots();
+		this.items = new HashMap<>(numberOfSlots);
+		this.types = new HashMap<>(numberOfSlots);
+		this.numberOfSlots = numberOfSlots;
+		this.numberOfItems = 0;
 	}
 
-	private void populateSlots()
+	private void validateSlot(int slot) throws UnknownItemSlotException
 	{
-		for (int x = 0; x < numberOfSlots; x++)
-			if (!this.slots.containsKey(x))
-				this.slots.put(x, new InventorySlot(this));
-	}
-
-	/**
-	 * Adds the provided {@link Item} to the {@link Inventory}. The {@link Item} is added to the first available stack.
-	 *
-	 * @param item The {@link Item} to add to the {@link Inventory}.
-	 * @throws InventoryFullException When the number of slots in the {@link Inventory} prevents the {@link Item}
-	 *                                from being added to the {@link Inventory}.
-	 */
-	@Override public void addItem(Item item) throws InventoryFullException
-	{
-
-	}
-
-	/**
-	 * Returns the {@link InventorySlot} at the given position. The positions range from <code>0</code> to the number of
-	 * slots - 1.
-	 *
-	 * @param position The position of the {@link InventorySlot} to retrieve.
-	 * @return The {@link InventorySlot} at the provided position.
-	 * @throws UnknownItemSlotException When the given position is invalid.
-	 */
-	@Override public InventorySlot getSlot(int position) throws UnknownItemSlotException
-	{
-		if (!slots.containsKey(position))
+		if (slot < 0)
 			throw new UnknownItemSlotException(this);
 
-		return slots.get(position);
+		if (slot >= numberOfSlots)
+			throw new UnknownItemSlotException(this);
 	}
 
-	/**
-	 * Returns a collection of the {@link InventorySlot}s in the {@link Inventory}.
-	 *
-	 * @return The collections.
-	 */
-	@Override public ImmutableMap<Integer, InventorySlot> getSlots()
+	@Override public void addItem(Item item) throws InventoryFullException
 	{
-		return new ImmutableMap.Builder<Integer, InventorySlot>().putAll(slots).build();
-	}
-
-	@Override public boolean isEmpty()
-	{
-		for (InventorySlot inventorySlot : slots.values()) {
-			if (!inventorySlot.isEmpty()) {
-				return false;
+		Integer itemType = item.getType();
+		for (int x = 0; x < numberOfSlots; x++) {
+			Integer slotType = types.get(x);
+			if (slotType == itemType) {
+				items.get(x).push(item);
+				numberOfItems++;
+				return;
 			}
 		}
 
-		return true;
+		for (int x = 0; x < numberOfSlots; x++) {
+
+		}
 	}
 
-	/**
-	 * Returns the number of {@link Item}s in the {@link Inventory}.
-	 *
-	 * @return The number of {@link Item}s in the {@link Inventory}.
-	 */
+	@Override
+	public void addItem(Item item, int slot) throws UnknownItemSlotException, InventoryTypeMismatchException, ItemSlotFullException
+	{
+		validateSlot(slot);
+		Stack<Item> stack    = items.get(slot);
+		int         size     = stack.size();
+		Integer     slotType = types.get(slot);
+		int         itemType = item.getType();
+
+		if (slotType == null) {
+			types.put(slot, itemType);
+			stack.push(item);
+			numberOfItems++;
+			return;
+		}
+
+		if (slotType != itemType) {
+			throw new InventoryTypeMismatchException(this, slot, slotType, itemType);
+		}
+
+		if (size == numberOfSlots) {
+			throw new ItemSlotFullException(this, numberOfSlots);
+		}
+
+		stack.push(item);
+		this.numberOfItems++;
+	}
+
+	@Override public void takeItem(Item item) throws NotEnoughItemsException
+	{
+
+	}
+
+	@Override public void takeItem(int slot, int amount) throws UnknownItemSlotException, NotEnoughItemsException
+	{
+
+	}
+
 	@Override public int getNumberOfItems()
 	{
 		return 0;
 	}
 
-	/**
-	 * Counts the number of {@link Item}s of the provided <code>type</code>.
-	 *
-	 * @param type The <code>type</code> of {@link Item} to count.
-	 * @return The number of {@link Item}s of the provided <code>type</code>.
-	 */
-	@Override public int getNumberOfItems(Class<? extends Item> type)
+	@Override public int getNumberOfItems(int slot) throws UnknownItemSlotException
 	{
 		return 0;
 	}
 
-	/**
-	 * Returns the number of slots in the {@link Inventory}.
-	 *
-	 * @return The number of slots in the {@link Inventory}.
-	 */
 	@Override public int getNumberOfSlots()
 	{
 		return 0;
 	}
 
-	/**
-	 * Expands the number of slots in the {@link Inventory}.
-	 *
-	 * @param slots The number of slots to expand the {@link Inventory} with.
-	 */
+	@Override public int getNumberOfEmptySlots()
+	{
+		return 0;
+	}
+
+	@Override public int getNumberOfNonEmptySlots()
+	{
+		return 0;
+	}
+
+	@Override public int isEmpty()
+	{
+		return 0;
+	}
+
+	@Override public int isEmpty(int slot) throws UnknownItemSlotException
+	{
+		return 0;
+	}
+
+	@Override public int isFull()
+	{
+		return 0;
+	}
+
+	@Override public int isFull(int slot) throws UnknownItemSlotException
+	{
+		return 0;
+	}
+
 	@Override public void expand(int slots)
 	{
-		if (slots < 1)
-			throw new IllegalArgumentException("Number of slots to expand with must be positive.");
-
 		this.numberOfSlots += slots;
-		populateSlots();
 	}
 }

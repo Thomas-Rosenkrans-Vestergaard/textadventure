@@ -89,14 +89,4 @@ public class Key implements Item
 
 		return hashCode;
 	}
-
-	/**
-	 * Returns the amount of {@link Item}s that can fit in a stack of {@link Item}s.
-	 *
-	 * @return The amount of {@link Item}s that can fit in a stack of {@link Item}s.
-	 */
-	@Override public int getStackSize()
-	{
-		return -1;
-	}
 }

@@ -43,7 +43,7 @@ public class MazeCreator
 		rooms[1][0] = new BaseRoom("Room (1,0)", "This small chamber seems divided into three parts. The first has several hooks on the walls from which hang dusty robes. An open curtain separates that space from the next, which has a dry basin set in the floor.");
 		rooms[3][0] = new StartingRoom("Room (3,0)", "A horrendous, overwhelming stench wafts from the room before you. Small cages containing small animals and large insects line the walls. Some of the creatures look sickly and alive but most are clearly dead. Their rotting corpses and the unclean cages no doubt result in the zoo's foul odor. A cat mews weakly from its cage, but the other creatures just silently shrink back into their filthy prisons.");
 		Chest chest = new Chest(10, Chest.State.CLOSED, new Lock("LY4SW", LOCKED));
-		chest.addItem(0, new Key("KZSE6X"));
+		//chest.addItem(new Key("KZSE6X"));
 		rooms[3][0].addProperty("chest", chest);
 		rooms[3][0].addFeature("A dusty military sits in the corner of the room.");
 

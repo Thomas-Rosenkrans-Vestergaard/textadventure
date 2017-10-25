@@ -37,16 +37,6 @@ public class MedKit extends BaseInventory implements Item
 	}
 
 	/**
-	 * Returns the amount of {@link MedKit}s that can fit in a stack of {@link Item}s.
-	 *
-	 * @return The amount of {@link MedKit}s that can fit in a stack of {@link Item}s.
-	 */
-	@Override public int getStackSize()
-	{
-		return 1;
-	}
-
-	/**
 	 * Returns an integer representing the type of the {@link Item}.
 	 *
 	 * @return The integer representing the type of the {@link Item}.
