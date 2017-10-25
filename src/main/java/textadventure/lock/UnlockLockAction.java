@@ -72,7 +72,7 @@ public class UnlockLockAction extends LockAction
 		if (state == Lock.State.LOCKED) {
 			String   message  = "Select the key to use to lock the lock.";
 			Backpack backpack = player.getCharacter().getBackpack();
-			userInterface.select(message, backpack, player, item -> {
+			/*userInterface.select(message, backpack, player, item -> {
 
 				if (!(item instanceof Key)) {
 					outcome = Outcome.SELECTED_NOT_KEY;
@@ -92,9 +92,9 @@ public class UnlockLockAction extends LockAction
 					outcome = Outcome.INCORRECT_KEY;
 					userInterface.onLockUnlock(game, player, this);
 				}
-			});
+			});*/
 
-			return;
+			throw new UnsupportedOperationException();
 		}
 
 		throw new UnsupportedOperationException();

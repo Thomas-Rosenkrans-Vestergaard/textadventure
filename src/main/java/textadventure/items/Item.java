@@ -27,13 +27,6 @@ public interface Item extends Option
 	int getType();
 
 	/**
-	 * Returns the amount of {@link Item}s that can fit in a stack of {@link Item}s.
-	 *
-	 * @return The amount of {@link Item}s that can fit in a stack of {@link Item}s.
-	 */
-	int getStackSize();
-
-	/**
 	 * Returns the name that should be displayed in the {@link textadventure.ui.Select} or {@link textadventure.ui.MultiSelect}.
 	 *
 	 * @return The name that should be displayed in the {@link textadventure.ui.Select} or {@link textadventure.ui.MultiSelect}.

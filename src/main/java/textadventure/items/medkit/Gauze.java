@@ -25,16 +25,6 @@ public class Gauze implements Item
 	}
 
 	/**
-	 * Returns the amount of {@link Gauze}s that can fit in a stack of {@link Item}s.
-	 *
-	 * @return The amount of {@link Gauze}s that can fit in a stack of {@link Item}s.
-	 */
-	@Override public int getStackSize()
-	{
-		return 4;
-	}
-
-	/**
 	 * Returns an integer representing the type of the {@link Item}.
 	 *
 	 * @return The integer representing the type of the {@link Item}.

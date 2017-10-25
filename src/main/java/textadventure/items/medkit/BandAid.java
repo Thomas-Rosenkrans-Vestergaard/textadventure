@@ -34,14 +34,4 @@ public class BandAid implements Item
 	{
 		return getClass().hashCode();
 	}
-
-	/**
-	 * Returns the amount of {@link BandAid}s that can fit in a stack of {@link Item}s.
-	 *
-	 * @return The amount of {@link BandAid}s that can fit in a stack of {@link Item}s.
-	 */
-	@Override public int getStackSize()
-	{
-		return 8;
-	}
 }

@@ -74,7 +74,7 @@ public class TakeItemFromChestAction extends ChestAction
 
 		String message = "Chose the item to take.";
 
-		userInterface.select(message, chest, player, item -> {
+		/*userInterface.select(message, chest, player, item -> {
 
 			Backpack backpack = player.getCharacter().getBackpack();
 			try {
@@ -90,7 +90,9 @@ public class TakeItemFromChestAction extends ChestAction
 			outcome = Outcome.SUCCESS;
 			this.item = item;
 			userInterface.onChestTake(game, player, this);
-		});
+		});*/
+
+		throw new UnsupportedOperationException();
 	}
 
 	/**
