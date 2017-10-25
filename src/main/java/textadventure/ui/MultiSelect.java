@@ -1,6 +1,6 @@
 package textadventure.ui;
 
-public interface MultiSelect<T extends Option> extends Select<T>
+public interface MultiSelect<O extends Option> extends Select<O>
 {
 
 	/**

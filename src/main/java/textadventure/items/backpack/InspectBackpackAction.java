@@ -25,7 +25,7 @@ public class InspectBackpackAction extends BackpackAction
 	 *
 	 * @param backpack The {@link Backpack} to execute {@link InspectBackpackAction} on.
 	 */
-	public InspectBackpackAction(Backpack backpack)
+	InspectBackpackAction(Backpack backpack)
 	{
 		super(backpack);
 	}

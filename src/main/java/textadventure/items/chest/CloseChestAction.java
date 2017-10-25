@@ -4,6 +4,9 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.ui.GameInterface;
 
+/**
+ * {@link textadventure.actions.Action} that allows the player to close a {@link Chest}.
+ */
 public class CloseChestAction extends ChestAction
 {
 

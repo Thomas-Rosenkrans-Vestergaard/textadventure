@@ -2,11 +2,11 @@ package textadventure.items;
 
 public class NotEnoughItemsException extends InventoryException
 {
-	private Class<? extends Item> type;
+	private int type;
 	private int requested;
 	private int actual;
 
-	public NotEnoughItemsException(Inventory inventory, Class<? extends Item> type, int requested, int actual)
+	public NotEnoughItemsException(Inventory inventory, int type, int requested, int actual)
 	{
 		super(inventory);
 		this.type = type;
@@ -14,7 +14,7 @@ public class NotEnoughItemsException extends InventoryException
 		this.actual = actual;
 	}
 
-	public Class<? extends Item> getType()
+	public int getType()
 	{
 		return this.type;
 	}

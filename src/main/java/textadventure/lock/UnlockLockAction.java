@@ -3,6 +3,8 @@ package textadventure.lock;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.items.Item;
+import textadventure.items.NotEnoughItemsException;
+import textadventure.items.UnknownItemSlotException;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.GameInterface;
 
@@ -70,21 +72,21 @@ public class UnlockLockAction extends LockAction
 		}
 
 		if (state == Lock.State.LOCKED) {
-			String   message  = "Select the key to use to lock the lock.";
 			Backpack backpack = player.getCharacter().getBackpack();
-			/*userInterface.select(message, backpack, player, item -> {
-
-				if (!(item instanceof Key)) {
-					outcome = Outcome.SELECTED_NOT_KEY;
-					userInterface.onLockUnlock(game, player, this);
-					return;
-				}
-
+			userInterface.select(backpack, player, choice -> {
 				try {
+					Item item = backpack.takeItem(choice);
+					if (!(item instanceof Key)) {
+						outcome = Outcome.SELECTED_NOT_KEY;
+						userInterface.onLockUnlock(game, player, this);
+						return;
+					}
 					Key key = (Key) item;
 					lock.unlock(key);
 					outcome = Outcome.SUCCESS;
 					userInterface.onLockUnlock(game, player, this);
+				} catch (UnknownItemSlotException | NotEnoughItemsException e) {
+					throw new IllegalStateException(e);
 				} catch (AlreadyUnlockedException e) {
 					outcome = Outcome.ALREADY_UNLOCKED;
 					userInterface.onLockUnlock(game, player, this);
@@ -92,9 +94,9 @@ public class UnlockLockAction extends LockAction
 					outcome = Outcome.INCORRECT_KEY;
 					userInterface.onLockUnlock(game, player, this);
 				}
-			});*/
+			});
 
-			throw new UnsupportedOperationException();
+			return;
 		}
 
 		throw new UnsupportedOperationException();

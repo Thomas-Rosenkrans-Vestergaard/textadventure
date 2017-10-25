@@ -1,33 +1,35 @@
 package textadventure.items;
 
-public interface Inventory
+import com.google.common.collect.ImmutableMap;
+import textadventure.ui.Select;
+
+import java.util.Stack;
+
+public interface Inventory extends Select<Item>
 {
+
+	ImmutableMap<Integer, Item> getSlots();
+
+	/**
+	 * Adds a new {@link Item} to the first available {@link Inventory} slot.
+	 *
+	 * @param item The {@link Item} to add to the {@link Inventory}.
+	 * @throws InventoryFullException When the {@link Item} could not be added.
+	 */
 	void addItem(Item item) throws InventoryFullException;
 
 	void addItem(Item item, int slot) throws UnknownItemSlotException, InventoryTypeMismatchException,
 			ItemSlotFullException;
 
-	void takeItem(Item item) throws NotEnoughItemsException;
+	Item takeItem(int slot) throws UnknownItemSlotException, NotEnoughItemsException;
 
-	void takeItem(int slot, int amount) throws UnknownItemSlotException, NotEnoughItemsException;
+	Stack<Item> takeItem(int slot, int amount) throws UnknownItemSlotException, NotEnoughItemsException;
 
 	int getNumberOfItems();
 
 	int getNumberOfItems(int slot) throws UnknownItemSlotException;
 
 	int getNumberOfSlots();
-
-	int getNumberOfEmptySlots();
-
-	int getNumberOfNonEmptySlots();
-
-	int isEmpty();
-
-	int isEmpty(int slot) throws UnknownItemSlotException;
-
-	int isFull();
-
-	int isFull(int slot) throws UnknownItemSlotException;
 
 	void expand(int slots);
 }

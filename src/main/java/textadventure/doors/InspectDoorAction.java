@@ -27,7 +27,7 @@ public class InspectDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to inspect.
 	 */
-	public InspectDoorAction(Door door)
+	InspectDoorAction(Door door)
 	{
 		super(door);
 	}

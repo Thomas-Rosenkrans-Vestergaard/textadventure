@@ -10,7 +10,7 @@ public class MockItem implements Item
 		return null;
 	}
 
-	@Override public int getStackSize()
+	@Override public int getType()
 	{
 		return 0;
 	}

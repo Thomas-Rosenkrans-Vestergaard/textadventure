@@ -2,13 +2,21 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
 
-public class BaseMultiSelect<T extends Option> implements MultiSelect<T>
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Default implementation of the {@link MultiSelect} interface.
+ *
+ * @param <O> The type of {@link Option} selectable in the {@link MultiSelect}.
+ */
+public class BaseMultiSelect<O extends Option> implements MultiSelect<O>
 {
 
 	/**
 	 * The {@link Option}s that can be selected.
 	 */
-	private final ImmutableMap<Integer, T> options;
+	private final Map<Integer, O> options;
 
 	/**
 	 * The minimum amount of {@link Option}s that must be selected.
@@ -27,7 +35,7 @@ public class BaseMultiSelect<T extends Option> implements MultiSelect<T>
 	 * @param minimumOptions The minimum amount of {@link Option}s that must be selected.
 	 * @param maximumOptions The maximum amount of {@link Option}s that can be selected.
 	 */
-	public BaseMultiSelect(ImmutableMap<Integer, T> options, int minimumOptions, int maximumOptions)
+	public BaseMultiSelect(Map<Integer, O> options, int minimumOptions, int maximumOptions)
 	{
 		if (minimumOptions < -1)
 			throw new IllegalArgumentException("Minimum options can not be less than -1.");
@@ -38,6 +46,17 @@ public class BaseMultiSelect<T extends Option> implements MultiSelect<T>
 		this.options = options;
 		this.minimumOptions = minimumOptions;
 		this.maximumOptions = maximumOptions;
+	}
+
+	/**
+	 * Creates a new empty {@link BaseMultiSelect}.
+	 *
+	 * @param minimumOptions The minimum amount of {@link Option}s that must be selected.
+	 * @param maximumOptions The maximum amount of {@link Option}s that can be selected.
+	 */
+	public BaseMultiSelect(int minimumOptions, int maximumOptions)
+	{
+		this(new HashMap<>(), minimumOptions, maximumOptions);
 	}
 
 	/**
@@ -61,12 +80,12 @@ public class BaseMultiSelect<T extends Option> implements MultiSelect<T>
 	}
 
 	/**
-	 * Returns the {@link T}s available in the {@link Select}.
+	 * Returns an immutable map of the {@link Option}s in the {@link MultiSelect}.
 	 *
-	 * @return The {@link T}s available in the {@link Select}.
+	 * @return The immutable map of the {@link Option}s in the {@link MultiSelect}.
 	 */
-	@Override public ImmutableMap<Integer, T> getOptions()
+	@Override public ImmutableMap<Integer, O> getOptions()
 	{
-		return options;
+		return new ImmutableMap.Builder<Integer, O>().putAll(options).build();
 	}
 }

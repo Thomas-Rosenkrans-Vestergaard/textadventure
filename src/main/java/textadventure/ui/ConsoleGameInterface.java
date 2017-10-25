@@ -6,6 +6,7 @@ import textadventure.Character;
 import textadventure.actions.Action;
 import textadventure.actions.ActionResponse;
 import textadventure.doors.*;
+import textadventure.items.Inventory;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.InspectBackpackAction;
@@ -15,6 +16,7 @@ import textadventure.lock.*;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class ConsoleGameInterface implements GameInterface
 {
@@ -493,27 +495,8 @@ public class ConsoleGameInterface implements GameInterface
 		Chest                      chest   = action.getChest();
 
 		if (outcome == InspectChestAction.Outcome.SUCCESS) {
-			/*ImmutableMap<Integer, InventorySlot> items = chest.getSlots();
-			printer.println("------------------------------------------------------------------------------------------------------------------------");
-			printer.println("| Slot | Item name            | Item description                                                                       |");
-			printer.println("------------------------------------------------------------------------------------------------------------------------");
-			items.entrySet().forEach(entry -> {
-				InventorySlot inventorySlot = entry.getValue();
-				if (!inventorySlot.isEmpty()) {
-					try {
-						Stack<Item> item = inventorySlot.takeItem(Item.class, 1);
-						printer.println(String.format("| %-4d | %-20s | %-86s |",
-								entry.getKey(),
-								item.pop().getItemName(),
-								item.pop().getItemDescription()));
-						printer.println("------------------------------------------------------------------------------------------------------------------------");
-					} catch (Exception e) {
-						throw new IllegalStateException();
-					}
-				}
-			});*/
-
-			throw new UnsupportedOperationException();
+			printInventory(chest);
+			return;
 		}
 
 		if (outcome == InspectChestAction.Outcome.CLOSED) {
@@ -565,79 +548,77 @@ public class ConsoleGameInterface implements GameInterface
 		InspectBackpackAction.Outcome outcome = action.getOutcome();
 
 		if (outcome == InspectBackpackAction.Outcome.SUCCESS) {
-			/*ImmutableMap<Integer, InventorySlot> items = action.getBackpack().getSlots();
-			printer.println("------------------------------------------------------------------------------------------------------------------------");
-			printer.println("| Slot | Item name            | Item description                                                                       |");
-			printer.println("------------------------------------------------------------------------------------------------------------------------");
-			items.entrySet().forEach(entry -> {
-				InventorySlot inventorySlot = entry.getValue();
-				if (!inventorySlot.isEmpty()) {
-					try {
-						Stack<Item> item = inventorySlot.takeItem(Item.class, 1);
-						printer.println(String.format("| %-4d | %-20s | %-86s |",
-								entry.getKey(),
-								item.pop().getItemName(),
-								item.pop().getItemDescription()));
-						printer.println("------------------------------------------------------------------------------------------------------------------------");
-					} catch (Exception e) {
-						throw new IllegalStateException();
-					}
-				}
-			});*/
-
-			throw new UnsupportedOperationException();
+			printInventory(action.getBackpack());
+			return;
 		}
 
-//		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException();
+	}
+
+	private void printInventory(Inventory inventory)
+	{
+		ImmutableMap<Integer, Item> items = inventory.getSlots();
+		items.entrySet().forEach(entry -> {
+			printer.println(String.format("%-4d %-20s %-96s",
+					entry.getKey(),
+					entry.getValue().getItemName(),
+					entry.getValue().getItemDescription()));
+		});
 	}
 
 	/**
-	 * Requests a {@link Select} option {@link GameInterface}.
+	 * Prompts the player to select an {@link Option}.
 	 *
-	 * @param message  The message to display before the {@link Player} can select.
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
 	 * @param callback The callback to use to return the selected element.
 	 */
-	@Override
-	public <T extends Option> void select(String message, Select<T> select, Player player, SelectResponse<T> callback)
+	@Override public <O extends Option> void select(Select<O> select, Player player, Consumer<Integer> callback)
 	{
-		ImmutableMap<Integer, T> options = select.getOptions();
+		ImmutableMap<Integer, O> options = select.getOptions();
 
-		printer.println(message);
-		printer.println("Select an item using the ID. Enter 'quit' to exit the selection.");
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
-		printer.println("| #    | Item name            | Item description                                                                       |");
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println("To perform the action you must select one of the following options. You select the item " +
+				"using its identifier (#). To abort from the selection you can enter the 'abort' command.");
 		options.entrySet().forEach(entry -> {
-			printer.println(String.format("| %-4d | %-20s | %-86s |",
+			printer.println(String.format("%-4d %-20s %-96s",
 					entry.getKey(),
 					entry.getValue().getOptionName(),
 					entry.getValue().getOptionDescription()));
-			printer.println("------------------------------------------------------------------------------------------------------------------------");
 		});
 
-		int choice;
+		Integer choice;
 		while (true) {
 			try {
 				String input = scanner.nextLine();
-				if (input.equals("quit"))
-					return;
+				if (input.equals("abort")) return;
 				choice = Integer.parseInt(input);
 				break;
 			} catch (NumberFormatException e) {
 				printer.println("Selection must be a number.");
-				select(message, select, player, callback);
+				select(select, player, callback);
 			}
 		}
 
 		if (!options.containsKey(choice)) {
 			printer.println("Unknown selected value.");
-			select(message, select, player, callback);
+			select(select, player, callback);
 			return;
 		}
 
-		callback.<T>select(options.get(choice));
+		callback.accept(choice);
+	}
+
+	/**
+	 * Prompts the player to select one or more {@link Option}s.
+	 *
+	 * @param select   The {@link Select}.
+	 * @param player   The {@link Player} selecting.
+	 * @param callback The callback to use to return the selected element.
+	 */
+	@Override
+	public <O extends Option> void select(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	/**

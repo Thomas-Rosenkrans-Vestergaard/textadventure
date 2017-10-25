@@ -49,7 +49,7 @@ public class TakeItemFromChestAction extends ChestAction
 	 *
 	 * @param chest The {@link Chest} to take {@link Item}s from.
 	 */
-	public TakeItemFromChestAction(Chest chest)
+	TakeItemFromChestAction(Chest chest)
 	{
 		super(chest);
 	}
@@ -73,8 +73,8 @@ public class TakeItemFromChestAction extends ChestAction
 		}
 
 		String message = "Chose the item to take.";
-
-		/*userInterface.select(message, chest, player, item -> {
+/*
+		userInterface.select(message, chest, player, item -> {
 
 			Backpack backpack = player.getCharacter().getBackpack();
 			try {

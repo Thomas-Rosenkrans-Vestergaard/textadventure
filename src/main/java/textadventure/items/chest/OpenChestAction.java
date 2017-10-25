@@ -38,7 +38,7 @@ public class OpenChestAction extends ChestAction
 	 *
 	 * @param chest The {@link Chest} opened by the {@link OpenChestAction}.
 	 */
-	public OpenChestAction(Chest chest)
+	OpenChestAction(Chest chest)
 	{
 		super(chest);
 	}

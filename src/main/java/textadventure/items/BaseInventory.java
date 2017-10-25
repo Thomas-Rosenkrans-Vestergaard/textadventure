@@ -1,15 +1,26 @@
 package textadventure.items;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class BaseInventory implements Inventory
 {
 
+	/**
+	 * The {@link Item}s in the {@link Inventory}.
+	 */
 	private HashMap<Integer, Stack<Item>> items;
-	private HashMap<Integer, Integer>     types;
-	private int                           numberOfSlots;
-	private int                           numberOfItems;
+
+	/**
+	 * The types of {@link Item}s in the {@link Inventory}.
+	 */
+	private HashMap<Integer, Integer> types;
+
+	private int numberOfSlots;
+	private int numberOfItems;
 
 	public BaseInventory(int numberOfSlots)
 	{
@@ -17,15 +28,45 @@ public class BaseInventory implements Inventory
 		this.types = new HashMap<>(numberOfSlots);
 		this.numberOfSlots = numberOfSlots;
 		this.numberOfItems = 0;
+		populateMaps();
+	}
+
+	/**
+	 * Returns the available in the {@link textadventure.ui.Select}.
+	 *
+	 * @return The available in the {@link textadventure.ui.Select}.
+	 */
+	@Override public ImmutableMap<Integer, Item> getOptions()
+	{
+		return getSlots();
+	}
+
+	@Override public ImmutableMap<Integer, Item> getSlots()
+	{
+		ImmutableMap.Builder<Integer, Item> builder = new ImmutableMap.Builder<>();
+		for (Map.Entry<Integer, Stack<Item>> entry : this.items.entrySet()) {
+			if (entry.getValue().size() > 0)
+				builder.put(entry.getKey(), entry.getValue().peek());
+		}
+
+		return builder.build();
+	}
+
+	private void populateMaps()
+	{
+		for (int x = 0; x < numberOfSlots; x++) {
+			if (!items.containsKey(x)) items.put(x, new Stack<>());
+			if (!types.containsKey(x)) types.put(x, null);
+		}
 	}
 
 	private void validateSlot(int slot) throws UnknownItemSlotException
 	{
 		if (slot < 0)
-			throw new UnknownItemSlotException(this);
+			throw new UnknownItemSlotException(this, slot);
 
 		if (slot >= numberOfSlots)
-			throw new UnknownItemSlotException(this);
+			throw new UnknownItemSlotException(this, slot);
 	}
 
 	@Override public void addItem(Item item) throws InventoryFullException
@@ -33,7 +74,7 @@ public class BaseInventory implements Inventory
 		Integer itemType = item.getType();
 		for (int x = 0; x < numberOfSlots; x++) {
 			Integer slotType = types.get(x);
-			if (slotType == itemType) {
+			if (slotType != null && slotType.equals(itemType)) {
 				items.get(x).push(item);
 				numberOfItems++;
 				return;
@@ -41,8 +82,16 @@ public class BaseInventory implements Inventory
 		}
 
 		for (int x = 0; x < numberOfSlots; x++) {
-
+			Integer slotType = types.get(x);
+			if (slotType == null) {
+				types.put(x, item.getType());
+				items.get(x).push(item);
+				numberOfItems++;
+				return;
+			}
 		}
+
+		throw new InventoryFullException(this);
 	}
 
 	@Override
@@ -73,63 +122,48 @@ public class BaseInventory implements Inventory
 		this.numberOfItems++;
 	}
 
-	@Override public void takeItem(Item item) throws NotEnoughItemsException
+	@Override public Item takeItem(int slot) throws UnknownItemSlotException, NotEnoughItemsException
 	{
-
+		return takeItem(slot, 1).pop();
 	}
 
-	@Override public void takeItem(int slot, int amount) throws UnknownItemSlotException, NotEnoughItemsException
+	@Override public Stack<Item> takeItem(int slot, int amount) throws UnknownItemSlotException, NotEnoughItemsException
 	{
+		validateSlot(slot);
+		Stack<Item> result = new Stack<>();
+		Stack<Item> stack  = items.get(slot);
+		if (stack.size() < amount)
+			throw new NotEnoughItemsException(this, 0, amount, stack.size());
 
+		int moved = 0;
+		while (moved < amount) {
+			result.push(stack.pop());
+			numberOfItems--;
+			moved++;
+		}
+
+		return result;
 	}
 
 	@Override public int getNumberOfItems()
 	{
-		return 0;
+		return numberOfItems;
 	}
 
 	@Override public int getNumberOfItems(int slot) throws UnknownItemSlotException
 	{
-		return 0;
+		validateSlot(slot);
+		return items.get(slot).size();
 	}
 
 	@Override public int getNumberOfSlots()
 	{
-		return 0;
-	}
-
-	@Override public int getNumberOfEmptySlots()
-	{
-		return 0;
-	}
-
-	@Override public int getNumberOfNonEmptySlots()
-	{
-		return 0;
-	}
-
-	@Override public int isEmpty()
-	{
-		return 0;
-	}
-
-	@Override public int isEmpty(int slot) throws UnknownItemSlotException
-	{
-		return 0;
-	}
-
-	@Override public int isFull()
-	{
-		return 0;
-	}
-
-	@Override public int isFull(int slot) throws UnknownItemSlotException
-	{
-		return 0;
+		return numberOfSlots;
 	}
 
 	@Override public void expand(int slots)
 	{
 		this.numberOfSlots += slots;
+		populateMaps();
 	}
 }

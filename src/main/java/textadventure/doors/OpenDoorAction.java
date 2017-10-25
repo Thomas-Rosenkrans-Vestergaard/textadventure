@@ -41,7 +41,7 @@ public class OpenDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to be opened.
 	 */
-	public OpenDoorAction(Door door)
+	OpenDoorAction(Door door)
 	{
 		super(door);
 	}

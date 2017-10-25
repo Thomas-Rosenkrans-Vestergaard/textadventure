@@ -37,7 +37,7 @@ public class UseDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to use.
 	 */
-	public UseDoorAction(Door door)
+	UseDoorAction(Door door)
 	{
 		super(door);
 	}

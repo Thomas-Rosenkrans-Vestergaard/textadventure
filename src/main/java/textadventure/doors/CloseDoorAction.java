@@ -42,7 +42,7 @@ public class CloseDoorAction extends DoorAction
 	 *
 	 * @param door The {@link Door} to be closed.
 	 */
-	public CloseDoorAction(Door door)
+	CloseDoorAction(Door door)
 	{
 		super(door);
 	}

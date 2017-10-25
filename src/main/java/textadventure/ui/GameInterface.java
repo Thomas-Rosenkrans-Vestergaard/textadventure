@@ -1,6 +1,5 @@
 package textadventure.ui;
 
-import textadventure.Property;
 import textadventure.actions.ActionResponse;
 import textadventure.Game;
 import textadventure.Player;
@@ -14,6 +13,9 @@ import textadventure.items.chest.OpenChestAction;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public interface GameInterface
 {
@@ -181,12 +183,22 @@ public interface GameInterface
 	void onBackpackInspect(Game game, Player player, InspectBackpackAction action);
 
 	/**
-	 * Prompts the provided {@link Player} to select some {@link Option}.
+	 * Prompts the player to select an {@link Option}.
 	 *
-	 * @param message  The message displayed to the {@link Player}.
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
 	 * @param callback The callback to use to return the selected element.
+	 * @param <O>      The type of {@link Option}.
 	 */
-	<T extends Option> void select(String message, Select<T> select, Player player, SelectResponse<T> callback);
+	<O extends Option> void select(Select<O> select, Player player, Consumer<Integer> callback);
+
+	/**
+	 * Prompts the player to select one or more {@link Option}s.
+	 *
+	 * @param select   The {@link Select}.
+	 * @param player   The {@link Player} selecting.
+	 * @param callback The callback to use to return the selected element.
+	 * @param <O>      The type of {@link Option}.
+	 */
+	<O extends Option> void select(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback);
 }

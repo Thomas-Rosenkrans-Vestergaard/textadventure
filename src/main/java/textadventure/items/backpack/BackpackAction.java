@@ -15,7 +15,7 @@ public abstract class BackpackAction implements Action
 	 *
 	 * @param backpack The {@link Backpack} to execute {@link Action}s on.
 	 */
-	public BackpackAction(Backpack backpack)
+	BackpackAction(Backpack backpack)
 	{
 		this.backpack = backpack;
 	}
