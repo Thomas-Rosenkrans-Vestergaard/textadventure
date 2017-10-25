@@ -15,6 +15,8 @@ import textadventure.lock.*;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ConsoleGameInterface implements GameInterface
 {
@@ -190,12 +192,18 @@ public class ConsoleGameInterface implements GameInterface
 				continue;
 			}
 
-			String[] arguments = input.split("\\\"")
+			//String[] arguments;
+
+			final Matcher m = Pattern.compile("(\"[a-zA-Z0-9]*\")").matcher(input);
+
+			final List<String> arguments = new ArrayList<>();
+			while (m.find()) {
+				arguments.add(m.group(0));
+			}
 
 
-
-
-			String[] sections = input.split(" ");
+			String tmp = input.substring(0, input.indexOf('"'));
+			String[] sections = tmp.split(" ");
 			if (sections.length < 2) {
 				printer.println("Your action must contain at least one property.");
 				continue;
@@ -224,7 +232,9 @@ public class ConsoleGameInterface implements GameInterface
 				continue;
 			}
 
-			response.respond(action, arguments); // TODO: Take arguments from console
+			String[] argumentsArray = new String[arguments.size()];
+			arguments.toArray(argumentsArray);
+			response.respond(action, argumentsArray); // TODO: Take arguments from console
 		}
 	}
 
