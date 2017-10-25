@@ -10,11 +10,6 @@ public class MockItem implements Item
 		return null;
 	}
 
-	@Override public int getType()
-	{
-		return 0;
-	}
-
 	@Override public String getOptionDescription()
 	{
 		return null;
@@ -23,6 +18,11 @@ public class MockItem implements Item
 	@Override public String getOptionName()
 	{
 		return null;
+	}
+
+	@Override public int getType()
+	{
+		return 0;
 	}
 
 	@Override
