@@ -186,6 +186,16 @@ public class ConsoleGameInterface implements GameInterface
 				continue;
 			}
 
+			if(input.matches("[^a-zA-Z0-9\"]")){
+				printer.print("Yo can't write those characters.");
+				continue;
+			}
+
+			String[] arguments = input.split("\\\"")
+
+
+
+
 			String[] sections = input.split(" ");
 			if (sections.length < 2) {
 				printer.println("Your action must contain at least one property.");
@@ -215,7 +225,7 @@ public class ConsoleGameInterface implements GameInterface
 				continue;
 			}
 
-			response.respond(action, new String[0]); // TODO: Take arguments from console
+			response.respond(action, arguments); // TODO: Take arguments from console
 		}
 	}
 
