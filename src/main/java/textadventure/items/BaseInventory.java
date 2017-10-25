@@ -145,6 +145,29 @@ public class BaseInventory implements Inventory
 		return result;
 	}
 
+	@Override public Item getItem(int slot) throws UnknownItemSlotException, NotEnoughItemsException
+	{
+		return getItem(slot, 1).pop();
+	}
+
+	@Override public Stack<Item> getItem(int slot, int amount) throws UnknownItemSlotException, NotEnoughItemsException
+	{
+		validateSlot(slot);
+		Stack<Item> result = new Stack<>();
+		Stack<Item> stack  = items.get(slot);
+		if (stack.size() < amount)
+			throw new NotEnoughItemsException(this, 0, amount, stack.size());
+
+		int moved = 0;
+		while (moved < amount) {
+			result.push(stack.peek());
+			numberOfItems--;
+			moved++;
+		}
+
+		return result;
+	}
+
 	@Override public int getNumberOfItems()
 	{
 		return numberOfItems;

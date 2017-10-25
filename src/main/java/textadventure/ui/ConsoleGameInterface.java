@@ -599,8 +599,8 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		ImmutableMap<Integer, O> options = select.getOptions();
 
-		printer.println("To perform the action you must select one of the following options. You select the item " +
-				"using its identifier (#). To abort from the selection you can enter the 'abort' command.");
+		printer.println("To perform the action you must select one of the following options. You select the option " +
+				"using its identifier (id). To abort from the selection you can enter the 'abort' command.");
 		options.entrySet().forEach(entry -> {
 			printer.println(String.format("%-4d %-20s %-96s",
 					entry.getKey(),
@@ -608,26 +608,25 @@ public class ConsoleGameInterface implements GameInterface
 					entry.getValue().getOptionDescription()));
 		});
 
-		Integer choice;
 		while (true) {
 			try {
 				String input = scanner.nextLine();
 				if (input.equals("abort")) return;
-				choice = Integer.parseInt(input);
-				break;
+
+				Integer parsed = Integer.parseInt(input);
+				if (!options.containsKey(parsed)) {
+					printer.println("Invalid selection.");
+					continue;
+				}
+
+				callback.accept(parsed);
+				return;
+
 			} catch (NumberFormatException e) {
 				printer.println("Selection must be a number.");
 				select(select, player, callback);
 			}
 		}
-
-		if (!options.containsKey(choice)) {
-			printer.println("Unknown selected value.");
-			select(select, player, callback);
-			return;
-		}
-
-		callback.accept(choice);
 	}
 
 	/**
@@ -640,7 +639,51 @@ public class ConsoleGameInterface implements GameInterface
 	@Override
 	public <O extends Option> void select(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback)
 	{
-		throw new UnsupportedOperationException();
+		int                      minimumOptions = select.getMinOptions();
+		int                      maximumOptions = select.getMaxOptions();
+		ImmutableMap<Integer, O> options        = select.getOptions();
+
+		printer.println("To perform the action you must select some of the following options. You select the option " +
+				"using its identifier (id). To abort from the selection you can enter the 'abort' command. It's " +
+				"possible to select multiple options. To finish from the selection you can enter the 'finish' command" +
+				". The number of selected options must be between " + minimumOptions + " and " + maximumOptions + ".");
+		options.entrySet().forEach(entry -> {
+			printer.println(String.format("%-4d %-20s %-96s",
+					entry.getKey(),
+					entry.getValue().getOptionName(),
+					entry.getValue().getOptionDescription()));
+		});
+
+		List<Integer> choices = new ArrayList<>();
+		while (true) {
+			try {
+				String input = scanner.nextLine();
+				if (input.equals("abort")) return;
+				if (input.equals("finish")) {
+					int choicesSize = choices.size();
+					if (choicesSize >= minimumOptions) {
+						break;
+					}
+				}
+
+				Integer parsed = Integer.parseInt(input);
+				if (!options.containsKey(parsed)) {
+					printer.println("Invalid selection.");
+					continue;
+				}
+
+				choices.add(parsed);
+				if (choices.size() == minimumOptions) {
+					break;
+				}
+
+			} catch (NumberFormatException e) {
+				printer.println("Selection must be a number.");
+				select(select, player, callback);
+			}
+		}
+
+		callback.accept(choices);
 	}
 
 	/**

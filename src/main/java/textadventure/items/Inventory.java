@@ -25,6 +25,10 @@ public interface Inventory extends Select<Item>
 
 	Stack<Item> takeItem(int slot, int amount) throws UnknownItemSlotException, NotEnoughItemsException;
 
+	Item getItem(int slot) throws UnknownItemSlotException, NotEnoughItemsException;
+
+	Stack<Item> getItem(int slot, int amount) throws UnknownItemSlotException, NotEnoughItemsException;
+
 	int getNumberOfItems();
 
 	int getNumberOfItems(int slot) throws UnknownItemSlotException;

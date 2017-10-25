@@ -75,7 +75,7 @@ public class UnlockLockAction extends LockAction
 			Backpack backpack = player.getCharacter().getBackpack();
 			userInterface.select(backpack, player, choice -> {
 				try {
-					Item item = backpack.takeItem(choice);
+					Item item = backpack.getItem(choice);
 					if (!(item instanceof Key)) {
 						outcome = Outcome.SELECTED_NOT_KEY;
 						userInterface.onLockUnlock(game, player, this);

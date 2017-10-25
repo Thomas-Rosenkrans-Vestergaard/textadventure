@@ -29,6 +29,9 @@ public class DiscardItemAction extends BackpackAction
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-		throw new UnsupportedOperationException();
+		if (arguments.length == 1) {
+
+			return;
+		}
 	}
 }

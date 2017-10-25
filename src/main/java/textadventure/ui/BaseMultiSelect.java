@@ -60,6 +60,15 @@ public class BaseMultiSelect<O extends Option> implements MultiSelect<O>
 	}
 
 	/**
+	 * Creates a new empty {@link BaseMultiSelect}. The minimum number of {@link Option}s to select is <code>0</code>.
+	 * The maximum number of {@link Option}s to select is <code>Integer.MAX_VALUE</code>.
+	 */
+	public BaseMultiSelect()
+	{
+		this(0, Integer.MAX_VALUE);
+	}
+
+	/**
 	 * Returns the minimum amount of {@link Option}s that can be selected. <code>-1</code> means that the selection has no limit.
 	 *
 	 * @return The minimum amount of {@link Option}s that can be selected. <code>-1</code> means that the selection has no limit.
