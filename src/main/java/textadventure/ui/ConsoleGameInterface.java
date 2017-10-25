@@ -187,23 +187,25 @@ public class ConsoleGameInterface implements GameInterface
 				continue;
 			}
 
-			if(input.matches("[^a-zA-Z0-9\"]")){
-				printer.print("Yo can't write those characters.");
+			if(!input.matches("^[a-zA-Z0-9\" ]+$")){
+				printer.print("You can't write those characters.\n");
 				continue;
 			}
 
-			//String[] arguments;
-
 			final Matcher m = Pattern.compile("(\"[a-zA-Z0-9]*\")").matcher(input);
-
 			final List<String> arguments = new ArrayList<>();
 			while (m.find()) {
 				arguments.add(m.group(0));
 			}
 
-
+			String[] sections;
+			if (input.contains("\"")){
 			String tmp = input.substring(0, input.indexOf('"'));
-			String[] sections = tmp.split(" ");
+			sections = tmp.split(" ");
+			}else{
+			sections = input.split(" ");
+			}
+
 			if (sections.length < 2) {
 				printer.println("Your action must contain at least one property.");
 				continue;
