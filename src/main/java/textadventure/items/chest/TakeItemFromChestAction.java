@@ -2,6 +2,7 @@ package textadventure.items.chest;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.GameInterface;
@@ -76,13 +77,15 @@ public class TakeItemFromChestAction extends ChestAction
 		userInterface.select(message, chest, player, item -> {
 
 			Backpack backpack = player.getCharacter().getBackpack();
-			if (backpack.countEmptySlots() == 0) {
+			try {
+				backpack.addItem((Item) item);
+
+			} catch (InventoryFullException e) {
 				outcome = Outcome.BACKPACK_FULL;
 				userInterface.onChestTake(game, player, this);
 				return;
 			}
 
-			backpack.addItem(item);
 			chest.removeItem(item);
 			outcome = Outcome.SUCCESS;
 			this.item = item;

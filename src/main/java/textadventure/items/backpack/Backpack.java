@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 /**
  * Represents a {@link Inventory} the {@link textadventure.Player} can carry.
  */
-public class Backpack extends BaseInventory implements Property, Inventory
+public class Backpack extends BaseInventory implements Property
 {
 
 	/**

@@ -1,7 +1,6 @@
-package textadventure.items.exception;
+package textadventure.items;
 
 import textadventure.GameException;
-import textadventure.items.Inventory;
 
 public class InventoryException extends GameException
 {

@@ -7,16 +7,16 @@ public interface Option
 {
 
 	/**
-	 * Returns the name that should be displayed in the {@link Select}.
+	 * Returns the name that should be displayed in the {@link Select} or {@link MultiSelect}.
 	 *
-	 * @return The name that should be displayed in the {@link Select}.
+	 * @return The name that should be displayed in the {@link Select} or {@link MultiSelect}.
 	 */
 	String getOptionName();
 
 	/**
-	 * Returns the description of the {@link Option}. Informs the user what selecting the {@link Option} will do.
+	 * Returns the name that should be displayed in the {@link textadventure.ui.Select} or {@link textadventure.ui.MultiSelect}.
 	 *
-	 * @return The description of the {@link Option}. Informs the user what selecting the {@link Option} will do.
+	 * @return The name that should be displayed in the {@link textadventure.ui.Select} or {@link textadventure.ui.MultiSelect}.
 	 */
 	String getOptionDescription();
 }

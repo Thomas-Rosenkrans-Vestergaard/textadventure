@@ -1,6 +1,4 @@
-package textadventure.items.exception;
-
-import textadventure.items.Inventory;
+package textadventure.items;
 
 public class InventoryFullException extends InventoryException
 {

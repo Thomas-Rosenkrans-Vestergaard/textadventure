@@ -65,26 +65,26 @@ public class BaseInventoryTest
 	public void countSlots() throws Exception
 	{
 		Inventory inventory = new BaseInventory(10);
-		assertEquals(10, inventory.countSlots());
+		assertEquals(10, inventory.countPlaces());
 	}
 
 	@Test
 	public void countNonEmptySlots() throws Exception
 	{
 		Inventory inventory = new BaseInventory(10);
-		assertEquals(0, inventory.countNonEmptySlots());
+		assertEquals(0, inventory.countNonEmptyPlaces());
 		Item item = new MockItem();
 		inventory.addItem(0, item);
-		assertEquals(1, inventory.countNonEmptySlots());
+		assertEquals(1, inventory.countNonEmptyPlaces());
 	}
 
 	@Test
 	public void countEmptySlots() throws Exception
 	{
 		Inventory inventory = new BaseInventory(10);
-		assertEquals(10, inventory.countEmptySlots());
+		assertEquals(10, inventory.countEmptyPlaces());
 		Item item = new MockItem();
 		inventory.addItem(0, item);
-		assertEquals(9, inventory.countEmptySlots());
+		assertEquals(9, inventory.countEmptyPlaces());
 	}
 }

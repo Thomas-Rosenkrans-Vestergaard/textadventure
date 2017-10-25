@@ -77,12 +77,26 @@ public class Key implements Item
 	}
 
 	/**
-	 * Returns the size of a stack of {@link Item}s.
+	 * Returns an integer representing the type of the {@link Item}.
 	 *
-	 * @return The size of a stack of {@link Item}s.
+	 * @return The integer representing the type of the {@link Item}.
+	 */
+	@Override public int getType()
+	{
+		int hashCode = 1;
+		hashCode = 31 * hashCode + code.hashCode();
+		hashCode = 31 * hashCode + getClass().hashCode();
+
+		return hashCode;
+	}
+
+	/**
+	 * Returns the amount of {@link Item}s that can fit in a stack of {@link Item}s.
+	 *
+	 * @return The amount of {@link Item}s that can fit in a stack of {@link Item}s.
 	 */
 	@Override public int getStackSize()
 	{
-		return 1;
+		return -1;
 	}
 }

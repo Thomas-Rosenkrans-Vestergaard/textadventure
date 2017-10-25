@@ -6,6 +6,7 @@ import textadventure.Character;
 import textadventure.actions.Action;
 import textadventure.actions.ActionResponse;
 import textadventure.doors.*;
+import textadventure.items.InventorySlot;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.InspectBackpackAction;
@@ -19,14 +20,14 @@ import java.util.*;
 public class ConsoleGameInterface implements GameInterface
 {
 
-	public static void main(String[] args) throws UnknownRoomException
+	public static void main(String[] args) throws Exception
 	{
 		GameInterface gameInterface = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
 		MazeCreator   mazeCreator   = new MazeCreator();
 		Maze          maze          = mazeCreator.generate();
 		Game          game          = new Game(gameInterface, maze, 5);
 		Backpack      backpack      = new Backpack(10);
-		backpack.addItem(0, new Key("LY4SW"));
+		backpack.addItem(new Key("LY4SW"));
 		Character character = new BaseCharacter("George", backpack, maze.getStartingRoom(), 100, 100, 0, 0, 0, 0, 0, 0, 0);
 		game.addPlayer(new HumanPlayer(character));
 		game.start();
@@ -493,18 +494,25 @@ public class ConsoleGameInterface implements GameInterface
 		Chest                      chest   = action.getChest();
 
 		if (outcome == InspectChestAction.Outcome.SUCCESS) {
-			ImmutableMap<Integer, Item> items = chest.getSlots();
+			ImmutableMap<Integer, InventorySlot> items = chest.getSlots();
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
-			printer.println("| #    | Item name            | Item description                                                                       |");
+			printer.println("| Slot | Item name            | Item description                                                                       |");
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
 			items.entrySet().forEach(entry -> {
-				printer.println(String.format("| %-4d | %-20s | %-86s |",
-						entry.getKey(),
-						entry.getValue().getItemName(),
-						entry.getValue().getItemDescription()));
-				printer.println("------------------------------------------------------------------------------------------------------------------------");
+				InventorySlot inventorySlot = entry.getValue();
+				if (!inventorySlot.isEmpty()) {
+					try {
+						Stack<Item> item = inventorySlot.takeItem(Item.class, 1);
+						printer.println(String.format("| %-4d | %-20s | %-86s |",
+								entry.getKey(),
+								item.pop().getItemName(),
+								item.pop().getItemDescription()));
+						printer.println("------------------------------------------------------------------------------------------------------------------------");
+					} catch (Exception e) {
+						throw new IllegalStateException();
+					}
+				}
 			});
-			return;
 		}
 
 		if (outcome == InspectChestAction.Outcome.CLOSED) {
@@ -556,16 +564,24 @@ public class ConsoleGameInterface implements GameInterface
 		InspectBackpackAction.Outcome outcome = action.getOutcome();
 
 		if (outcome == InspectBackpackAction.Outcome.SUCCESS) {
-			ImmutableMap<Integer, Item> items = action.getBackpack().getSlots();
+			ImmutableMap<Integer, InventorySlot> items = action.getBackpack().getSlots();
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
-			printer.println("| #    | Item name            | Item description                                                                       |");
+			printer.println("| Slot | Item name            | Item description                                                                       |");
 			printer.println("------------------------------------------------------------------------------------------------------------------------");
 			items.entrySet().forEach(entry -> {
-				printer.println(String.format("| %-4d | %-20s | %-86s |",
-						entry.getKey(),
-						entry.getValue().getItemName(),
-						entry.getValue().getItemDescription()));
-				printer.println("------------------------------------------------------------------------------------------------------------------------");
+				InventorySlot inventorySlot = entry.getValue();
+				if (!inventorySlot.isEmpty()) {
+					try {
+						Stack<Item> item = inventorySlot.takeItem(Item.class, 1);
+						printer.println(String.format("| %-4d | %-20s | %-86s |",
+								entry.getKey(),
+								item.pop().getItemName(),
+								item.pop().getItemDescription()));
+						printer.println("------------------------------------------------------------------------------------------------------------------------");
+					} catch (Exception e) {
+						throw new IllegalStateException();
+					}
+				}
 			});
 			return;
 		}
