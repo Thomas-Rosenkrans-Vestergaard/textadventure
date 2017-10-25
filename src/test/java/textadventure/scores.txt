@@ -1,3 +1,0 @@
-Thomas,100
-Adam,500
-Abe,1

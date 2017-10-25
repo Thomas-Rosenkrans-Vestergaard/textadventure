@@ -190,7 +190,7 @@ public class ConsoleGameInterface implements GameInterface
 			}
 
 			if (!input.matches("^[a-zA-Z0-9\" ]+$")) {
-				printer.print("You can't write those characters.\n");
+				printer.print("You can't put those characters.\n");
 				continue;
 			}
 

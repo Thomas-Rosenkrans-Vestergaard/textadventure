@@ -13,7 +13,7 @@ public interface Inventory extends Select<Item>
 	/**
 	 * Adds a new {@link Item} to the first available {@link Inventory} slot.
 	 *
-	 * @param item The {@link Item} to add to the {@link Inventory}.
+	 * @param item The {@link Item} to put to the {@link Inventory}.
 	 * @throws InventoryFullException When the {@link Item} could not be added.
 	 */
 	void addItem(Item item) throws InventoryFullException;

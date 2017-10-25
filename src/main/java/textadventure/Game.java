@@ -57,7 +57,7 @@ public class Game
 	/**
 	 * Adds the provided {@link Player} to the {@link Game}.
 	 *
-	 * @param player The {@link Player} to add to the {@link Game}.
+	 * @param player The {@link Player} to put to the {@link Game}.
 	 */
 	public void addPlayer(Player player)
 	{

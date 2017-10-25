@@ -35,7 +35,7 @@ public class Backpack extends BaseInventory implements Property
 	 * Adds a new {@link Action} to the {@link Property}.
 	 *
 	 * @param name   The name of the {@link Action}.
-	 * @param action The {@link Action} to add to the {@link Property}.
+	 * @param action The {@link Action} to put to the {@link Property}.
 	 */
 	@Override public void addAction(String name, Action action)
 	{
