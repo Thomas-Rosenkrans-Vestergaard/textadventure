@@ -236,7 +236,7 @@ public class ConsoleGameInterface implements GameInterface
 
 			String[] argumentsArray = new String[arguments.size()];
 			arguments.toArray(argumentsArray);
-			response.respond(action, argumentsArray); // TODO: Take arguments from console
+			response.respond(action, argumentsArray);
 		}
 	}
 
