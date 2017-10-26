@@ -1,6 +1,6 @@
 package textadventure.doors;
 
-import textadventure.AbstractPropertyContainer;
+import textadventure.BasePropertyContainer;
 import textadventure.Game;
 import textadventure.lock.Lock;
 import textadventure.lock.LockLockAction;
@@ -11,7 +11,7 @@ import textadventure.ui.GameInterface;
 /**
  * Base implementation of the {@link Door} interface.
  */
-public class BaseDoor extends AbstractPropertyContainer implements Door
+public class BaseDoor extends BasePropertyContainer implements Door
 {
 
 	/**

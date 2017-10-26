@@ -4,7 +4,10 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
 
-public abstract class AbstractPropertyContainer extends AbstractProperty implements PropertyContainer
+/**
+ * Default implementation of the {@link PropertyContainer} interface.
+ */
+public class BasePropertyContainer extends BaseProperty implements PropertyContainer
 {
 
 	/**

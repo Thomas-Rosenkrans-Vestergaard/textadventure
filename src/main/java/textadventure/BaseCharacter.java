@@ -5,7 +5,7 @@ import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.rooms.Room;
 
-public class BaseCharacter extends AbstractPropertyContainer implements Character
+public class BaseCharacter extends BasePropertyContainer implements Character
 {
 
 	/**
@@ -24,14 +24,14 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	private Room currentLocation;
 
 	/**
-	 * The current number of hit points that the {@link Character} has.
-	 */
-	private int currentHP;
-
-	/**
 	 * The maximum number of hit points that the {@link Character} has.
 	 */
 	private int maxHP;
+
+	/**
+	 * The current number of hit points that the {@link Character} has.
+	 */
+	private int currentHP;
 
 	/**
 	 * The level of the {@link Character}.
@@ -44,8 +44,8 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	private int sanity;
 
 	/**
-	 * The strength level of the {@link Character}. Determines the damage done by the
-	 * {@link Character} and the carry capacity of the {@link Character}.
+	 * The strength level of the {@link Character}. Determines the damage done by the {@link Character} and the carry
+	 * capacity of the {@link Character}.
 	 */
 	private int strength;
 
@@ -72,18 +72,19 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	/**
 	 * Creates a new {@link BaseCharacter}.
 	 *
-	 * @param name
-	 * @param backpack
-	 * @param currentLocation
-	 * @param maxHP
-	 * @param currentHP
-	 * @param level
-	 * @param sanity
-	 * @param strength
-	 * @param dexterity
-	 * @param intelligence
-	 * @param stealth
-	 * @param money
+	 * @param name            The name of the {@link Character}.
+	 * @param backpack        The {@link Backpack} of the {@link Character}. Used to store items.
+	 * @param currentLocation The {@link Room} the {@link Character} is currently in.
+	 * @param maxHP           The maximum number of hit points that the {@link Character} has.
+	 * @param currentHP       The current number of hit points that the {@link Character} has.
+	 * @param level           The level of the {@link Character}.
+	 * @param sanity          The sanity level of the {@link Character}.
+	 * @param strength        The strength level of the {@link Character}. Determines the damage done by the
+	 *                        {@link Character} and the carry capacity of the {@link Character}.
+	 * @param dexterity       The dexterity level of the {@link Character}. Determines the chance to dodge incoming attacks.
+	 * @param intelligence    The intelligence level of the {@link Character}.
+	 * @param stealth         The stealth level of the {@link Character}. Determines the chance to pickpocket other {@link Character}s.
+	 * @param money           The amount of money the {@link Character} has.
 	 */
 	public BaseCharacter(
 			String name,
@@ -211,7 +212,6 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	{
 		this.currentLocation = room;
 	}
-
 
 	/**
 	 * Returns the current number of hit points that the {@link Character} has.

@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.stream.Stream;
 
 /**
- * Abstract implementation of the {@link Property} interface.
+ * Default implementation of the {@link Property} interface.
  */
-public abstract class AbstractProperty implements Property
+public abstract class BaseProperty implements Property
 {
 
 	/**

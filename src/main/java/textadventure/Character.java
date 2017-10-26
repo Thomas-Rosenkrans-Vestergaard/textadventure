@@ -3,6 +3,9 @@ package textadventure;
 import textadventure.items.backpack.Backpack;
 import textadventure.rooms.Room;
 
+/**
+ * Represents a controllable in-game person.
+ */
 public interface Character extends PropertyContainer
 {
 

@@ -3,6 +3,9 @@ package textadventure;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
 
+/**
+ * Object that can control {@link Character}s and perform {@link Action}s.
+ */
 public interface Player
 {
 

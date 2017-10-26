@@ -4,6 +4,10 @@ import textadventure.rooms.EndingRoom;
 import textadventure.rooms.Room;
 import textadventure.rooms.StartingRoom;
 
+/**
+ * Object that contain the {@link StartingRoom} and {@link EndingRoom}. Intermediate {@link Room}s are linked using
+ * {@link textadventure.doors.Door}s.
+ */
 public class Maze
 {
 

@@ -1,6 +1,6 @@
 package textadventure.rooms;
 
-import textadventure.AbstractPropertyContainer;
+import textadventure.BasePropertyContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * An implementation of the {@link Room} interface.
  */
-public class BaseRoom extends AbstractPropertyContainer implements Room
+public class BaseRoom extends BasePropertyContainer implements Room
 {
 
 	/**

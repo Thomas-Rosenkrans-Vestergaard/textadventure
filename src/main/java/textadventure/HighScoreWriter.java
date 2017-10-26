@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * Object that can write a {@link Map} of scores to file.
+ */
 public class HighScoreWriter
 {
 	/**

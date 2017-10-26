@@ -3,7 +3,7 @@ package textadventure;
 import textadventure.items.weapons.Weapon;
 
 /**
- * Represents an opponent in-game.
+ * Represents an opponent of the {@link HumanPlayer}.
  */
 public interface Enemy extends Character
 {

@@ -2,6 +2,9 @@ package textadventure;
 
 import com.google.common.collect.ImmutableMap;
 
+/**
+ * Object that contains instances of {@link Property}.
+ */
 public interface PropertyContainer extends Property
 {
 

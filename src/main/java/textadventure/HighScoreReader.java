@@ -6,7 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * Object that can read a file of scores into a {@link Map}.
+ */
 public class HighScoreReader
 {
 

@@ -5,7 +5,7 @@ import textadventure.items.weapons.Weapon;
 import textadventure.rooms.Room;
 
 /**
- * Represents an opponent in-game.
+ * Base implementation of the {@link Enemy} interface.
  */
 public class BaseEnemy extends BaseCharacter implements Enemy
 {

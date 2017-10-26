@@ -4,13 +4,16 @@ import textadventure.actions.Action;
 
 import java.util.stream.Stream;
 
+/**
+ * Object that {@link Character}s can perform {@link Action}s upon.
+ */
 public interface Property
 {
 
 	/**
 	 * Adds a new {@link Action} to the {@link Property}.
 	 *
-	 * @param name The name of the {@link Action}.
+	 * @param name   The name of the {@link Action}.
 	 * @param action The {@link Action} to add to the {@link Property}.
 	 */
 	void addAction(String name, Action action);
