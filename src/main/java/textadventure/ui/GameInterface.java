@@ -9,10 +9,7 @@ import textadventure.doors.InspectDoorAction;
 import textadventure.doors.OpenDoorAction;
 import textadventure.doors.UseDoorAction;
 import textadventure.items.backpack.InspectBackpackAction;
-import textadventure.items.chest.CloseChestAction;
-import textadventure.items.chest.InspectChestAction;
-import textadventure.items.chest.OpenChestAction;
-import textadventure.items.chest.TakeItemFromChestAction;
+import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
@@ -177,6 +174,15 @@ public interface GameInterface
 	void onChestTake(Game game, Player player, TakeItemFromChestAction action);
 
 	/**
+	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link DepositItemsIntoChestAction}.
+	 * @param action The {@link DepositItemsIntoChestAction} instance.
+	 */
+	void onChestDeposit(Game game, Player player, DepositItemsIntoChestAction action);
+
+	/**
 	 * Event when a {@link Player} performs the {@link InspectBackpackAction}.
 	 *
 	 * @param game   The {@link Game} instance.
@@ -203,5 +209,5 @@ public interface GameInterface
 	 * @param callback The send to use to return the selected element.
 	 * @param <O>      The type of {@link Option}.
 	 */
-	<O extends Option> void select(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback);
+	<O extends Option> void multiSelect(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback);
 }

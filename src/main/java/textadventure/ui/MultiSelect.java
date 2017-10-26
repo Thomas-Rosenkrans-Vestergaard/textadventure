@@ -1,5 +1,12 @@
 package textadventure.ui;
 
+/**
+ * Defines an amount of {@link Option}s. Using the {@link GameInterface}, the player can be prompted to select
+ * between the provided options in the {@link Select}. {@link MultiSelect} allows the player to select multiple
+ * {@link Option}s at once.
+ *
+ * @param <O> The type of the option.
+ */
 public interface MultiSelect<O extends Option> extends Select<O>
 {
 

@@ -1,5 +1,6 @@
 package textadventure.ui;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import textadventure.*;
 import textadventure.actions.Action;
@@ -538,7 +539,7 @@ public class ConsoleGameInterface implements GameInterface
 		TakeItemFromChestAction.Outcome outcome = action.getOutcome();
 
 		if (outcome == TakeItemFromChestAction.Outcome.SUCCESS) {
-			printer.println("You succeeded in taking item " + action.getItem().getItemName() + " from the chest.");
+			printer.println("You succeeded in taking item " + itemListToString(action.getItems()) + " from the chest.");
 			return;
 		}
 
@@ -553,6 +554,52 @@ public class ConsoleGameInterface implements GameInterface
 		}
 
 		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link DepositItemsIntoChestAction}.
+	 * @param action The {@link DepositItemsIntoChestAction} instance.
+	 */
+	@Override public void onChestDeposit(Game game, Player player, DepositItemsIntoChestAction action)
+	{
+		DepositItemsIntoChestAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == DepositItemsIntoChestAction.Outcome.SUCCESS) {
+			printer.println("You succeeded in depositing item " + itemListToString(action.getItems()) + " into the chest.");
+			return;
+		}
+
+		if (outcome == DepositItemsIntoChestAction.Outcome.CLOSED) {
+			printer.println("You cannot deposit items into a closed chest.");
+			return;
+		}
+
+		if (outcome == DepositItemsIntoChestAction.Outcome.CHEST_FULL) {
+			printer.println("You attempt to deposit the item, but the chest is full.");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Returns a comma separated string of the names in the provided list of {@link Item}s.
+	 *
+	 * @param items The {@link Item}s.
+	 */
+	private String itemListToString(ImmutableList<Item> items)
+	{
+		StringBuilder builder = new StringBuilder();
+		int           size    = items.size();
+		for (int x = 0; x < size; x++) {
+			builder.append(items.get(x).getItemName());
+			if (x != x - 1) builder.append(", ");
+		}
+
+		return builder.toString();
 	}
 
 	/**
@@ -596,8 +643,8 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		ImmutableMap<Integer, O> options = select.getOptions();
 
-		printer.println("To perform the action you must select one of the following options. You select the option " +
-				"using its identifier (id). To abort from the selection you can enter the 'abort' command.");
+		printer.println("To perform the action you must select one of the following options. You select the " +
+				"option using its identifier (id). To abort from the selection you can enter the 'abort' command.");
 		options.entrySet().forEach(entry -> {
 			printer.println(String.format("%-4d %-20s %-96s",
 					entry.getKey(),
@@ -634,7 +681,7 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param callback The send to use to return the selected element.
 	 */
 	@Override
-	public <O extends Option> void select(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback)
+	public <O extends Option> void multiSelect(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback)
 	{
 		int                      minimumOptions = select.getMinOptions();
 		int                      maximumOptions = select.getMaxOptions();
@@ -653,13 +700,17 @@ public class ConsoleGameInterface implements GameInterface
 
 		List<Integer> choices = new ArrayList<>();
 		while (true) {
+			int choicesSize = choices.size();
+			if (choicesSize >= maximumOptions)
+				break;
 			try {
 				String input = scanner.nextLine();
 				if (input.equals("abort")) return;
 				if (input.equals("finish")) {
-					int choicesSize = choices.size();
 					if (choicesSize >= minimumOptions) {
 						break;
+					} else {
+						printer.println("You have not selected enough options.");
 					}
 				}
 
@@ -676,7 +727,7 @@ public class ConsoleGameInterface implements GameInterface
 
 			} catch (NumberFormatException e) {
 				printer.println("Selection must be a number.");
-				select(select, player, callback);
+				multiSelect(select, player, callback);
 			}
 		}
 

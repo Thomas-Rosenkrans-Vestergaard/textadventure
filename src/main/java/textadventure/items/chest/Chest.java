@@ -88,6 +88,7 @@ public class Chest extends BaseInventory implements PropertyContainer
 		chest.addAction("close", new CloseChestAction(chest, gameInterface::onChestClose));
 		chest.addAction("inspect", new InspectChestAction(chest, gameInterface::onChestInspect));
 		chest.addAction("take", new TakeItemFromChestAction(chest, gameInterface::onChestTake));
+		chest.addAction("deposit", new DepositItemsIntoChestAction(chest, gameInterface::onChestDeposit));
 		chest.addAction("lock", new LockLockAction(lock, gameInterface::onLockLock));
 		chest.addAction("unlock", new UnlockLockAction(lock, gameInterface::onLockUnlock));
 
