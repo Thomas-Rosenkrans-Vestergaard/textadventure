@@ -3,7 +3,6 @@ package textadventure.items.backpack;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
-import textadventure.ui.GameInterface;
 
 public class InspectBackpackAction extends BackpackAction
 {

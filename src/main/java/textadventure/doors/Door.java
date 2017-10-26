@@ -1,6 +1,7 @@
 package textadventure.doors;
 
-import textadventure.*;
+import textadventure.Property;
+import textadventure.PropertyContainer;
 import textadventure.lock.Lock;
 import textadventure.rooms.Room;
 

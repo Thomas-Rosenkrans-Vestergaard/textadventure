@@ -2,7 +2,6 @@ package textadventure;
 
 import textadventure.actions.Action;
 import textadventure.rooms.EndingRoom;
-import textadventure.rooms.StartingRoom;
 import textadventure.ui.GameInterface;
 
 import java.util.ArrayList;

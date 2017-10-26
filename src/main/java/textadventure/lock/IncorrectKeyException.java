@@ -1,6 +1,6 @@
 package textadventure.lock;
 
-import textadventure.*;
+import textadventure.GameException;
 
 class IncorrectKeyException extends GameException
 {

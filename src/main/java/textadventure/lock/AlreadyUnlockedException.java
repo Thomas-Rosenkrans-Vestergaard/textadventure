@@ -1,6 +1,6 @@
 package textadventure.lock;
 
-import textadventure.*;
+import textadventure.GameException;
 
 class AlreadyUnlockedException extends GameException
 {

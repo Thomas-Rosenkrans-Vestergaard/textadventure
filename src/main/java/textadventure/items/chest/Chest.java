@@ -2,9 +2,9 @@ package textadventure.items.chest;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.Game;
+import textadventure.Property;
 import textadventure.PropertyContainer;
 import textadventure.actions.Action;
-import textadventure.Property;
 import textadventure.items.BaseInventory;
 import textadventure.lock.Lock;
 import textadventure.lock.LockLockAction;

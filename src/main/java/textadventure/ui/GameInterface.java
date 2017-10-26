@@ -1,15 +1,18 @@
 package textadventure.ui;
 
-import textadventure.actions.ActionRequestCallback;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.Action;
-import textadventure.doors.*;
+import textadventure.actions.ActionRequestCallback;
+import textadventure.doors.CloseDoorAction;
+import textadventure.doors.InspectDoorAction;
+import textadventure.doors.OpenDoorAction;
+import textadventure.doors.UseDoorAction;
 import textadventure.items.backpack.InspectBackpackAction;
-import textadventure.items.chest.TakeItemFromChestAction;
 import textadventure.items.chest.CloseChestAction;
 import textadventure.items.chest.InspectChestAction;
 import textadventure.items.chest.OpenChestAction;
+import textadventure.items.chest.TakeItemFromChestAction;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;

@@ -2,7 +2,6 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.*;
-import textadventure.Character;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.doors.*;
@@ -10,11 +9,16 @@ import textadventure.items.Inventory;
 import textadventure.items.Item;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
-import textadventure.lock.*;
+import textadventure.lock.InspectLockAction;
+import textadventure.lock.Lock;
+import textadventure.lock.LockLockAction;
+import textadventure.lock.UnlockLockAction;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

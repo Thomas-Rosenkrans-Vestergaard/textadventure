@@ -1,8 +1,8 @@
 package textadventure.doors;
 
-import textadventure.actions.Action;
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.Action;
 import textadventure.actions.ActionPerformCallback;
 
 /**

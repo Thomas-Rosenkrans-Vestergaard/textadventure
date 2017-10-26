@@ -1,7 +1,10 @@
 package textadventure.doors;
 
-import textadventure.*;
-import textadventure.lock.*;
+import textadventure.AbstractPropertyContainer;
+import textadventure.Game;
+import textadventure.lock.Lock;
+import textadventure.lock.LockLockAction;
+import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.Room;
 import textadventure.ui.GameInterface;
 
