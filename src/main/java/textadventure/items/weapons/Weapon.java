@@ -1,4 +1,4 @@
-package textadventure.items;
+package textadventure.items.weapons;
 
 public interface Weapon
 {
