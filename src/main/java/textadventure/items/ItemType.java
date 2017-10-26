@@ -1,8 +1,6 @@
 package textadventure.items;
 
-import textadventure.ui.Option;
-
-public interface ItemType extends Option
+public interface ItemType
 {
 
 	/**
@@ -38,33 +36,6 @@ public interface ItemType extends Option
 	 */
 	default boolean instanceOf(Item item)
 	{
-		if (this == item) return true;
-		if (item == null) return false;
-
-		return getIdentifier() == item.getIdentifier();
-	}
-
-	/**
-	 * Returns the name of the {@link Option} that should be displayed in the {@link textadventure.ui.Select} or
-	 * {@link textadventure.ui.MultiSelect}.
-	 *
-	 * @return The name of the {@link Option} that should be displayed in the {@link textadventure.ui.Select} or
-	 * {@link textadventure.ui.MultiSelect}.
-	 */
-	@Override default String getOptionName()
-	{
-		return getItemName();
-	}
-
-	/**
-	 * Returns the description of the {@link Option} that should be displayed in the {@link textadventure.ui.Select} or
-	 * {@link textadventure.ui.MultiSelect}.
-	 *
-	 * @return The description of the {@link Option} that should be displayed in the {@link textadventure.ui.Select} or
-	 * {@link textadventure.ui.MultiSelect}.
-	 */
-	@Override default String getOptionDescription()
-	{
-		return getItemDescription();
+		return this == item || item != null && getIdentifier() == item.getIdentifier();
 	}
 }

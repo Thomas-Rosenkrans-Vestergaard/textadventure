@@ -9,9 +9,9 @@ import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
 import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
-import textadventure.ui.BaseMultiSelect;
+import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
-import textadventure.ui.MultiSelect;
+import textadventure.ui.Option;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,15 +90,14 @@ public class TakeItemFromChestAction extends ChestAction
 			return;
 		}
 
-		Backpack    backpack    = player.getCharacter().getBackpack();
-		MultiSelect multiSelect = new BaseMultiSelect(chest.getOptions());
-		userInterface.multiSelect(multiSelect, player, choices -> {
+		Backpack backpack = player.getCharacter().getBackpack();
+		userInterface.select(game, player, new BaseSelect<>(chest.asOptions(), selection -> {
 
 			Item currentItem = null;
 
 			try {
-				for (int choice : choices) {
-					currentItem = chest.takeItem(choice);
+				for (Option option : selection) {
+					currentItem = chest.takeItem(option.getOptionIdentifier());
 					this.items.add(currentItem);
 					backpack.addItem(currentItem);
 				}
@@ -112,7 +111,8 @@ public class TakeItemFromChestAction extends ChestAction
 				outcome = Outcome.BACKPACK_FULL;
 				callback.send(game, player, this);
 			}
-		});
+		}));
+
 	}
 
 	/**

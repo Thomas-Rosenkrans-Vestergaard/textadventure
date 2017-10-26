@@ -15,9 +15,6 @@ import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 public interface GameInterface
 {
 
@@ -204,18 +201,9 @@ public interface GameInterface
 	/**
 	 * Prompts the player to select an {@link Option}.
 	 *
-	 * @param select   The {@link Select}.
-	 * @param player   The {@link Player} selecting.
-	 * @param callback The send to use to return the selected element.
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} selecting.
+	 * @param select The {@link Select} object.
 	 */
-	void select(Select select, Player player, Consumer<Integer> callback);
-
-	/**
-	 * Prompts the player to select one or more {@link Option}s.
-	 *
-	 * @param select   The {@link Select}.
-	 * @param player   The {@link Player} selecting.
-	 * @param callback The send to use to return the selected element.
-	 */
-	void multiSelect(MultiSelect select, Player player, Consumer<List<Integer>> callback);
+	void select(Game game, Player player, Select select);
 }

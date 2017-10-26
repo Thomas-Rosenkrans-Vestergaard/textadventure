@@ -1,6 +1,7 @@
 package textadventure.items;
 
 import com.google.common.collect.ImmutableMap;
+import textadventure.ui.BaseOption;
 import textadventure.ui.Option;
 
 import java.util.HashMap;
@@ -318,15 +319,17 @@ public class BaseInventory implements Inventory
 	}
 
 	/**
-	 * Returns the available in the {@link Inventory}.
+	 * Returns the slots in the {@link Inventory} as {@link Option}s.
 	 *
-	 * @return The available in the {@link Inventory}.
+	 * @return The {@link ImmutableMap} of {@link Option}s.
 	 */
-	@Override public ImmutableMap<Integer, Option> getOptions()
+	@Override public ImmutableMap<Integer, Option> asOptions()
 	{
 		ImmutableMap.Builder<Integer, Option> builder = new ImmutableMap.Builder<>();
-		for (Map.Entry<Integer, Stack<Item>> entry : items.entrySet())
-			builder.put(entry.getKey(), types.get(entry.getKey()));
+		items.forEach((position, stack) -> {
+			Item item = stack.peek();
+			builder.put(position, new BaseOption(position, item.getItemName(), item.getItemDescription()));
+		});
 
 		return builder.build();
 	}

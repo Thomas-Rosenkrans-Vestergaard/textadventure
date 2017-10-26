@@ -7,20 +7,23 @@ public interface Option
 {
 
 	/**
-	 * Returns the name of the {@link Option} that should be displayed in the {@link textadventure.ui.Select} or
-	 * {@link textadventure.ui.MultiSelect}.
+	 * Returns the identifier of the {@link Option}. The identifier also serves as the {@link Option#hashCode()}.
 	 *
-	 * @return The name of the {@link Option} that should be displayed in the {@link textadventure.ui.Select} or
-	 * {@link textadventure.ui.MultiSelect}.
+	 * @return The identifier of the {@link Option}. The identifier also serves as the {@link Option#hashCode()}.
+	 */
+	Integer getOptionIdentifier();
+
+	/**
+	 * Returns the name of the {@link Option} that should be displayed in the {@link textadventure.ui.Select}.
+	 *
+	 * @return The name of the {@link Option} that should be displayed in the {@link textadventure.ui.Select}.
 	 */
 	String getOptionName();
 
 	/**
-	 * Returns the description of the {@link Option} that should be displayed in the {@link textadventure.ui.Select} or
-	 * {@link textadventure.ui.MultiSelect}.
+	 * Returns the description of the {@link Option} that should be displayed in the {@link textadventure.ui.Select}.
 	 *
-	 * @return The description of the {@link Option} that should be displayed in the {@link textadventure.ui.Select} or
-	 * {@link textadventure.ui.MultiSelect}.
+	 * @return The description of the {@link Option} that should be displayed in the {@link textadventure.ui.Select}.
 	 */
 	String getOptionDescription();
 }

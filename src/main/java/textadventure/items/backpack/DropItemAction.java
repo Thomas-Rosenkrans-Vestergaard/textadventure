@@ -7,9 +7,11 @@ import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
 import textadventure.items.SlotOutOfRangeException;
+import textadventure.items.chest.TakeItemFromChestAction;
+import textadventure.rooms.Floor;
+import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
-
-import static textadventure.items.backpack.DropItemAction.Outcome.SUCCESS;
+import textadventure.ui.Option;
 
 /**
  * {@link textadventure.actions.Action} that allows a player to discard {@link textadventure.items.Item}(s) from the
@@ -31,8 +33,14 @@ public class DropItemAction extends BackpackAction
 	 */
 	private Outcome outcome;
 
+	/**
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link TakeItemFromChestAction}.
+	 */
 	private ActionPerformCallback<DropItemAction> callback;
 
+	/**
+	 * The {@link Item}(s) that were successfully dropped.
+	 */
 	private Item item;
 
 	/**
@@ -56,20 +64,22 @@ public class DropItemAction extends BackpackAction
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-
 		GameInterface userInterface = game.getGameInterface();
+		Floor         floor         = player.getCharacter().getCurrentLocation().getFloor();
+		Backpack      backpack      = player.getCharacter().getBackpack();
 
-		userInterface.select(player.getCharacter().getCurrentLocation().getFloor(), player, choice -> {
+		userInterface.select(game, player, new BaseSelect<>(floor.asOptions(), selection -> {
 			try {
-				Backpack backpack = player.getCharacter().getBackpack();
-				this.item = backpack.takeItem(choice);
-				player.getCharacter().getCurrentLocation().getFloor().addItem(this.item);
-				outcome = SUCCESS;
+				for (Option option : selection) {
+					this.item = backpack.takeItem(option.getOptionIdentifier());
+					player.getCharacter().getCurrentLocation().getFloor().addItem(this.item);
+				}
+				this.outcome = Outcome.SUCCESS;
 				callback.send(game, player, this);
 			} catch (SlotOutOfRangeException | NotEnoughItemsException | InventoryFullException e) {
 				throw new IllegalStateException();
 			}
-		});
+		}));
 	}
 
 	/**

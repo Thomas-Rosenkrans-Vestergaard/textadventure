@@ -7,6 +7,7 @@ import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
 import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
+import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
 
 public class UnlockLockAction extends LockAction
@@ -82,9 +83,9 @@ public class UnlockLockAction extends LockAction
 
 		if (state == Lock.State.LOCKED) {
 			Backpack backpack = player.getCharacter().getBackpack();
-			userInterface.select(backpack, player, choice -> {
+			userInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), 1, selection -> {
 				try {
-					Item item = backpack.getItem(choice);
+					Item item = backpack.getItem(selection.get(0).getOptionIdentifier());
 					if (!(item instanceof Key)) {
 						outcome = Outcome.SELECTED_NOT_KEY;
 						callback.send(game, player, this);
@@ -94,6 +95,7 @@ public class UnlockLockAction extends LockAction
 					lock.unlock(key);
 					outcome = Outcome.SUCCESS;
 					callback.send(game, player, this);
+
 				} catch (SlotOutOfRangeException | NotEnoughItemsException e) {
 					throw new IllegalStateException(e);
 				} catch (AlreadyUnlockedException e) {
@@ -103,7 +105,7 @@ public class UnlockLockAction extends LockAction
 					outcome = Outcome.INCORRECT_KEY;
 					callback.send(game, player, this);
 				}
-			});
+			}));
 
 			return;
 		}

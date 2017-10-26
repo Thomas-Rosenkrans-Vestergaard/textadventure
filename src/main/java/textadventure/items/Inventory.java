@@ -1,14 +1,14 @@
 package textadventure.items;
 
 import com.google.common.collect.ImmutableMap;
-import textadventure.ui.Select;
+import textadventure.ui.Option;
 
 import java.util.Stack;
 
 /**
  * Represents some type containing {@link Item}(s).
  */
-public interface Inventory extends Select
+public interface Inventory
 {
 
 	/**
@@ -136,4 +136,11 @@ public interface Inventory extends Select
 	 * @return Whether or not the number of slots in the {@link Inventory} could be expanded.
 	 */
 	boolean expand(int slots);
+
+	/**
+	 * Returns the slots in the {@link Inventory} as {@link Option}s.
+	 *
+	 * @return The {@link ImmutableMap} of {@link Option}s.
+	 */
+	ImmutableMap<Integer, Option> asOptions();
 }

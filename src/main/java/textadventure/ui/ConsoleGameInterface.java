@@ -22,7 +22,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -689,80 +688,37 @@ public class ConsoleGameInterface implements GameInterface
 	private void printInventory(Inventory inventory)
 	{
 		ImmutableMap<Integer, ItemType> items = inventory.getSlots();
-		items.entrySet().forEach(entry -> {
-			printer.println(String.format("%-4d %-20s %-96s",
-					entry.getKey(),
-					entry.getValue().getItemName(),
-					entry.getValue().getItemDescription()));
-		});
+		items.forEach((key, value) -> printer.println(String.format("%-4d %-20s %-96s",
+				key,
+				value.getItemName(),
+				value.getItemDescription())));
 	}
 
 	/**
 	 * Prompts the player to select an {@link Option}.
 	 *
-	 * @param select   The {@link Select}.
-	 * @param player   The {@link Player} selecting.
-	 * @param callback The send to use to return the selected element.
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} selecting.
+	 * @param select The {@link Select} object.
 	 */
-	@Override public void select(Select select, Player player, Consumer<Integer> callback)
+	@Override public void select(Game game, Player player, Select select)
 	{
-		ImmutableMap<Integer, Option> options = select.getOptions();
-
-		printer.println("To perform the action you must select one of the following options. You select the " +
-				"option using its identifier (id). To abort from the selection you can enter the 'abort' command.");
-		options.entrySet().forEach(entry -> {
-			printer.println(String.format("%-4d %-20s %-96s",
-					entry.getKey(),
-					entry.getValue().getOptionName(),
-					entry.getValue().getOptionDescription()));
-		});
-
-		while (true) {
-			try {
-				String input = scanner.nextLine();
-				if (input.equals("abort")) return;
-
-				Integer parsed = Integer.parseInt(input);
-				if (!options.containsKey(parsed)) {
-					printer.println("Invalid selection.");
-					continue;
-				}
-
-				callback.accept(parsed);
-				return;
-
-			} catch (NumberFormatException e) {
-				printer.println("Selection must be a number.");
-				select(select, player, callback);
-			}
-		}
-	}
-
-	/**
-	 * Prompts the player to select one or more {@link Option}s.
-	 *
-	 * @param select   The {@link Select}.
-	 * @param player   The {@link Player} selecting.
-	 * @param callback The send to use to return the selected element.
-	 */
-	@Override public void multiSelect(MultiSelect select, Player player, Consumer<List<Integer>> callback)
-	{
-		int                           minimumOptions = select.getMinOptions();
-		int                           maximumOptions = select.getMaxOptions();
+		int                           minimumOptions = select.getMinimumNumberOfOptions();
+		int                           maximumOptions = select.getMaximumNumberOfOptions();
 		ImmutableMap<Integer, Option> options        = select.getOptions();
 
 		printer.println("To perform the action you must select some of the following options. You select the option " +
 				"using its identifier (id). To abort from the selection you can enter the 'abort' command. It's " +
 				"possible to select multiple options. To finish from the selection you can enter the 'finish' command" +
 				". The number of selected options must be between " + minimumOptions + " and " + maximumOptions + ".");
-		options.entrySet().forEach(entry -> {
-			printer.println(String.format("%-4d %-20s %-96s",
-					entry.getKey(),
-					entry.getValue().getOptionName(),
-					entry.getValue().getOptionDescription()));
-		});
+		options.forEach((slot, option) ->
+				printer.println(String.format("%-4d %-20s %-96s",
+						slot,
+						option.getOptionName(),
+						option.getOptionDescription()))
+		);
 
-		List<Integer> choices = new ArrayList<>();
+		List<Option> choices = new ArrayList<>();
 		while (true) {
 			int choicesSize = choices.size();
 			if (choicesSize >= maximumOptions)
@@ -784,18 +740,21 @@ public class ConsoleGameInterface implements GameInterface
 					continue;
 				}
 
-				choices.add(parsed);
+				choices.add(options.get(parsed));
 				if (choices.size() == minimumOptions) {
 					break;
 				}
 
 			} catch (NumberFormatException e) {
 				printer.println("Selection must be a number.");
-				multiSelect(select, player, callback);
+				select(game, player, select);
 			}
 		}
-
-		callback.accept(choices);
+		try {
+			select.select(choices);
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	/**

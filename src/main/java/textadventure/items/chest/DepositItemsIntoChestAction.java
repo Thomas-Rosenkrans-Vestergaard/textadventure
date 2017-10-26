@@ -9,9 +9,9 @@ import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
 import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
-import textadventure.ui.BaseMultiSelect;
+import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
-import textadventure.ui.MultiSelect;
+import textadventure.ui.Option;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 	 * @param chest    The {@link Chest} to deposit {@link Item}s into.
 	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link DepositItemsIntoChestAction}.
 	 */
-	public DepositItemsIntoChestAction(Chest chest, ActionPerformCallback<DepositItemsIntoChestAction> callback)
+	DepositItemsIntoChestAction(Chest chest, ActionPerformCallback<DepositItemsIntoChestAction> callback)
 	{
 		super(chest);
 
@@ -91,20 +91,19 @@ public class DepositItemsIntoChestAction extends ChestAction
 			return;
 		}
 
-		Backpack          backpack    = player.getCharacter().getBackpack();
-		MultiSelect multiSelect = new BaseMultiSelect(backpack.getOptions());
-		userInterface.multiSelect(multiSelect, player, choices -> {
+		Backpack backpack = player.getCharacter().getBackpack();
+		userInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), selection -> {
 
 			Item currentItem = null;
 
 			try {
-				for (int choice : choices) {
-					currentItem = backpack.takeItem(choice);
+				for (Option option : selection) {
+					currentItem = backpack.takeItem(option.getOptionIdentifier());
 					this.items.add(currentItem);
 					chest.addItem(currentItem);
-					outcome = Outcome.SUCCESS;
-					callback.send(game, player, this);
 				}
+				outcome = Outcome.SUCCESS;
+				callback.send(game, player, this);
 			} catch (SlotOutOfRangeException | NotEnoughItemsException e) {
 				throw new IllegalStateException();
 			} catch (InventoryFullException e) {
@@ -112,7 +111,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 				outcome = Outcome.CHEST_FULL;
 				callback.send(game, player, this);
 			}
-		});
+		}));
 	}
 
 	/**
