@@ -17,55 +17,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link textadventure.actions.Action} that allows a player to take item(s) from the {@link Chest}.
+ * {@link textadventure.actions.Action} allowing {@link textadventure.Character}s to deposit {@link Item}s from their
+ * {@link textadventure.items.Inventory} to a provided {@link Chest}.
  */
-public class TakeItemFromChestAction extends ChestAction
+public class DepositItemsIntoChestAction extends ChestAction
 {
+
 	/**
-	 * The possible {@link Outcome}s of the {@link TakeItemFromChestAction}.
+	 * The possible {@link Outcome}s of the {@link DepositItemsIntoChestAction}.
 	 */
 	public enum Outcome
 	{
 
-
 		/**
-		 * The {@link Item}(s) were correctly taken.
+		 * The {@link Item}(s) were correctly deposited.
 		 */
 		SUCCESS,
 
 		/**
-		 * One or more {@link Item}(s) could not fit in the {@link Backpack}.
+		 * One or more {@link Item}(s) could not fit in the {@link Chest}.
 		 */
-		BACKPACK_FULL,
+		CHEST_FULL,
 
 		/**
-		 * No {@link Item}(s) could be taken, since the {@link Chest} is closed.
+		 * No {@link Item}(s) could be deposited, since the {@link Chest} is closed.
 		 */
 		CLOSED,
 	}
 
 	/**
-	 * The {@link Outcome} of the {@link TakeItemFromChestAction}.
+	 * The {@link Outcome} of the {@link DepositItemsIntoChestAction}.
 	 */
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link TakeItemFromChestAction}.
+	 * The {@link ActionPerformCallback} to use as a send after performing the {@link DepositItemsIntoChestAction}.
 	 */
-	private ActionPerformCallback<TakeItemFromChestAction> callback;
+	private ActionPerformCallback<DepositItemsIntoChestAction> callback;
 
 	/**
-	 * The {@link Item}(s) being taken from the {@link Chest}.
+	 * The {@link Item}s that were successfully moved.
 	 */
 	private List<Item> items = new ArrayList<>();
 
 	/**
-	 * Creates a new {@link OpenChestAction}.
+	 * Creates a new {@link DepositItemsIntoChestAction}.
 	 *
-	 * @param chest    The {@link Chest} where the {@link Item} is taken from.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link TakeItemFromChestAction}.
+	 * @param chest    The {@link Chest} to deposit {@link Item}s into.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link DepositItemsIntoChestAction}.
 	 */
-	TakeItemFromChestAction(Chest chest, ActionPerformCallback<TakeItemFromChestAction> callback)
+	public DepositItemsIntoChestAction(Chest chest, ActionPerformCallback<DepositItemsIntoChestAction> callback)
 	{
 		super(chest);
 
@@ -73,11 +74,11 @@ public class TakeItemFromChestAction extends ChestAction
 	}
 
 	/**
-	 * Performs the {@link TakeItemFromChestAction} using the provided parameters.
+	 * Performs the {@link DepositItemsIntoChestAction} using the provided parameters.
 	 *
 	 * @param game      The {@link Game} instance.
-	 * @param player    The {@link Player} performing the {@link TakeItemFromChestAction}.
-	 * @param arguments The arguments provided to the {@link TakeItemFromChestAction}.
+	 * @param player    The {@link Player} performing the {@link DepositItemsIntoChestAction}.
+	 * @param arguments The arguments provided to the {@link DepositItemsIntoChestAction}.
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
@@ -91,25 +92,24 @@ public class TakeItemFromChestAction extends ChestAction
 		}
 
 		Backpack          backpack    = player.getCharacter().getBackpack();
-		MultiSelect<Item> multiSelect = new BaseMultiSelect<>(chest.getOptions());
+		MultiSelect<Item> multiSelect = new BaseMultiSelect<>(backpack.getOptions());
 		userInterface.multiSelect(multiSelect, player, choices -> {
 
 			Item currentItem = null;
 
 			try {
 				for (int choice : choices) {
-					currentItem = chest.takeItem(choice);
+					currentItem = backpack.takeItem(choice);
 					this.items.add(currentItem);
-					backpack.addItem(currentItem);
+					chest.addItem(currentItem);
+					outcome = Outcome.SUCCESS;
+					callback.send(game, player, this);
 				}
-
-				outcome = Outcome.SUCCESS;
-				callback.send(game, player, this);
 			} catch (UnknownItemSlotException | NotEnoughItemsException e) {
 				throw new IllegalStateException();
 			} catch (InventoryFullException e) {
 				returnItem(backpack, currentItem);
-				outcome = Outcome.BACKPACK_FULL;
+				outcome = Outcome.CHEST_FULL;
 				callback.send(game, player, this);
 			}
 		});
@@ -133,9 +133,9 @@ public class TakeItemFromChestAction extends ChestAction
 	}
 
 	/**
-	 * Returns the {@link Outcome} of the {@link TakeItemFromChestAction}.
+	 * Returns the {@link Outcome} of the {@link DepositItemsIntoChestAction}.
 	 *
-	 * @return The {@link Outcome} of the {@link TakeItemFromChestAction}.
+	 * @return The {@link Outcome} of the {@link DepositItemsIntoChestAction}.
 	 */
 	public Outcome getOutcome()
 	{
@@ -143,9 +143,9 @@ public class TakeItemFromChestAction extends ChestAction
 	}
 
 	/**
-	 * Returns the {@link Item}(s) that were correctly taken.
+	 * Returns the {@link Item}(s) that were correctly deposited.
 	 *
-	 * @return The {@link Item}(s) that were correctly taken.
+	 * @return The {@link Item}(s) that were correctly deposited.
 	 */
 	public ImmutableList<Item> getItems()
 	{

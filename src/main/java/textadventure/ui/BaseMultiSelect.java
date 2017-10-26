@@ -2,7 +2,6 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -10,7 +9,7 @@ import java.util.Map;
  *
  * @param <O> The type of {@link Option} selectable in the {@link MultiSelect}.
  */
-public class BaseMultiSelect<O extends Option> implements MultiSelect<O>
+public class BaseMultiSelect<O extends Option> extends BaseSelect<O> implements MultiSelect<O>
 {
 
 	/**
@@ -31,6 +30,16 @@ public class BaseMultiSelect<O extends Option> implements MultiSelect<O>
 	/**
 	 * Creates a new {@link BaseMultiSelect}.
 	 *
+	 * @param options The {@link Option}s.
+	 */
+	public BaseMultiSelect(Map<Integer, O> options)
+	{
+		this(options, 0, options.size());
+	}
+
+	/**
+	 * Creates a new {@link BaseMultiSelect}.
+	 *
 	 * @param options        The {@link Option}s that can be selected.
 	 * @param minimumOptions The minimum amount of {@link Option}s that must be selected.
 	 * @param maximumOptions The maximum amount of {@link Option}s that can be selected.
@@ -43,29 +52,15 @@ public class BaseMultiSelect<O extends Option> implements MultiSelect<O>
 		if (maximumOptions < -1)
 			throw new IllegalArgumentException("Maximum options can not be less than -1.");
 
+		if (maximumOptions > options.size())
+			throw new IllegalArgumentException("Maximum options can not be greater than number of options.");
+
+		if (minimumOptions > maximumOptions || minimumOptions == maximumOptions)
+			throw new IllegalArgumentException("Maximum options must be greater than minimum options.");
+
 		this.options = options;
 		this.minimumOptions = minimumOptions;
 		this.maximumOptions = maximumOptions;
-	}
-
-	/**
-	 * Creates a new empty {@link BaseMultiSelect}.
-	 *
-	 * @param minimumOptions The minimum amount of {@link Option}s that must be selected.
-	 * @param maximumOptions The maximum amount of {@link Option}s that can be selected.
-	 */
-	public BaseMultiSelect(int minimumOptions, int maximumOptions)
-	{
-		this(new HashMap<>(), minimumOptions, maximumOptions);
-	}
-
-	/**
-	 * Creates a new empty {@link BaseMultiSelect}. The minimum number of {@link Option}s to select is <code>0</code>.
-	 * The maximum number of {@link Option}s to select is <code>Integer.MAX_VALUE</code>.
-	 */
-	public BaseMultiSelect()
-	{
-		this(0, Integer.MAX_VALUE);
 	}
 
 	/**
