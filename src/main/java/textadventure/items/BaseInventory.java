@@ -1,6 +1,7 @@
 package textadventure.items;
 
 import com.google.common.collect.ImmutableMap;
+import textadventure.ui.Option;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,62 +16,96 @@ public class BaseInventory implements Inventory
 	private HashMap<Integer, Stack<Item>> items;
 
 	/**
-	 * The types of {@link Item}s in the {@link Inventory}.
+	 * The {@link ItemType} of a slot mapped to its position in the {@link Inventory}.
 	 */
-	private HashMap<Integer, Integer> types;
+	private HashMap<Integer, ItemType> types;
 
+	/**
+	 * The number of slots the {@link Inventory} can contain.
+	 */
 	private int numberOfSlots;
+
+	/**
+	 * The number of empty slots the {@link Inventory} has.
+	 */
+	private int numberOfEmptySlots;
+
+	/**
+	 * The number of {@link Item}s contained in the {@link Inventory}.
+	 */
 	private int numberOfItems;
 
+
+	/**
+	 * Creates a new {@link BaseInventory} using <code>Integer.MAX_VALUE</code> as the number of slots the
+	 * {@link Inventory} can contain.
+	 */
 	public BaseInventory()
 	{
 		this(Integer.MAX_VALUE);
 	}
 
+	/**
+	 * Creates a new {@link BaseInventory}.
+	 *
+	 * @param numberOfSlots The number of slots the {@link Inventory} can contain.
+	 */
 	public BaseInventory(int numberOfSlots)
 	{
 		this.items = new HashMap<>(numberOfSlots);
 		this.types = new HashMap<>(numberOfSlots);
 		this.numberOfSlots = numberOfSlots;
+		this.numberOfEmptySlots = numberOfSlots;
+		this.numberOfEmptySlots = numberOfSlots;
 		this.numberOfItems = 0;
 	}
 
 	/**
-	 * Returns the available in the {@link textadventure.ui.Select}.
+	 * Returns an {@link ImmutableMap} of the slots in the {@link Inventory}. The map entries is information about
+	 * the {@link Item} in the slot mapped to the position of the slot in the {@link Inventory}. Only non-empty slots
+	 * are included.
 	 *
-	 * @return The available in the {@link textadventure.ui.Select}.
+	 * @return The {@link ImmutableMap}.
 	 */
-	@Override public ImmutableMap<Integer, Item> getOptions()
+	@Override public ImmutableMap<Integer, ItemType> getSlots()
 	{
-		return getSlots();
-	}
-
-	@Override public ImmutableMap<Integer, Item> getSlots()
-	{
-		ImmutableMap.Builder<Integer, Item> builder = new ImmutableMap.Builder<>();
-		for (Map.Entry<Integer, Stack<Item>> entry : this.items.entrySet()) {
+		ImmutableMap.Builder<Integer, ItemType> builder = new ImmutableMap.Builder<>();
+		for (Map.Entry<Integer, Stack<Item>> entry : items.entrySet()) {
 			builder.put(entry.getKey(), entry.getValue().peek());
 		}
 
 		return builder.build();
 	}
 
-	private void validateSlot(int slot) throws UnknownItemSlotException
+	/**
+	 * Returns an {@link ImmutableMap} of the slots in the {@link Inventory}. The map entries is the amount of
+	 * {@link Item}s in the slot mapped to the position of the slot in the {@link Inventory}. Only non-empty slots
+	 * are included.
+	 *
+	 * @return The {@link ImmutableMap}.
+	 */
+	@Override public ImmutableMap<Integer, Integer> getSlotAmounts()
 	{
-		if (slot < 0)
-			throw new UnknownItemSlotException(this, slot);
+		ImmutableMap.Builder<Integer, Integer> builder = new ImmutableMap.Builder<>();
+		for (Map.Entry<Integer, Stack<Item>> entry : items.entrySet()) {
+			builder.put(entry.getKey(), entry.getValue().size());
+		}
 
-		if (slot >= numberOfSlots)
-			throw new UnknownItemSlotException(this, slot);
+		return builder.build();
 	}
 
+	/**
+	 * Adds the provided {@link Item} to the first available {@link Inventory} slot.
+	 *
+	 * @param item The {@link Item} to put to the {@link Inventory}.
+	 * @throws InventoryFullException When the {@link Item} could not be added.
+	 */
 	@Override public void addItem(Item item) throws InventoryFullException
 	{
-		Integer itemType = item.getType();
 		for (int x = 0; x < numberOfSlots; x++) {
 			if (items.containsKey(x)) {
-				Integer slotType = types.get(x);
-				if (slotType != null && slotType.equals(itemType)) {
+				ItemType slotType = types.get(x);
+				if (slotType != null && slotType.instanceOf(item)) {
 					items.get(x).push(item);
 					numberOfItems++;
 					return;
@@ -79,114 +114,237 @@ public class BaseInventory implements Inventory
 		}
 
 		for (int x = 0; x < numberOfSlots; x++) {
-			if (items.containsKey(x)) {
-				if (slotType == null) {
-					types.put(x, item.getType());
-					items.get(x).push(item);
-					numberOfItems++;
-					return;
-				}
-			}
-
-			throw new InventoryFullException(this);
-		}
-
-		@Override
-		public void addItem (Item item,int slot) throws
-		UnknownItemSlotException, InventoryTypeMismatchException, ItemSlotFullException
-		{
-			validateSlot(slot);
-			Stack<Item> stack    = items.get(slot);
-			int         size     = stack.size();
-			Integer     slotType = types.get(slot);
-			int         itemType = item.getType();
-
-			if (slotType == null) {
-				types.put(slot, itemType);
+			if (!items.containsKey(x)) {
+				types.put(x, item);
+				Stack<Item> stack = new Stack<>();
 				stack.push(item);
+				items.put(x, stack);
 				numberOfItems++;
+				numberOfEmptySlots--;
 				return;
 			}
-
-			if (slotType != itemType) {
-				throw new InventoryTypeMismatchException(this, slot, slotType, itemType);
-			}
-
-			if (size == numberOfSlots) {
-				throw new ItemSlotFullException(this, numberOfSlots);
-			}
-
-			stack.push(item);
-			this.numberOfItems++;
 		}
 
-		@Override public Item takeItem ( int slot) throws UnknownItemSlotException, NotEnoughItemsException
-		{
-			return takeItem(slot, 1).pop();
-		}
-
-		@Override public Stack<Item> takeItem ( int slot, int amount) throws
-		UnknownItemSlotException, NotEnoughItemsException
-		{
-			validateSlot(slot);
-			Stack<Item> result = new Stack<>();
-			Stack<Item> stack  = items.get(slot);
-			if (stack.size() < amount)
-				throw new NotEnoughItemsException(this, 0, amount, stack.size());
-
-			int moved = 0;
-			while (moved < amount) {
-				result.push(stack.pop());
-				numberOfItems--;
-				moved++;
-			}
-
-			return result;
-		}
-
-		@Override public Item getItem ( int slot) throws UnknownItemSlotException, NotEnoughItemsException
-		{
-			return getItem(slot, 1).pop();
-		}
-
-		@Override public Stack<Item> getItem ( int slot, int amount) throws
-		UnknownItemSlotException, NotEnoughItemsException
-		{
-			validateSlot(slot);
-			Stack<Item> result = new Stack<>();
-			Stack<Item> stack  = items.get(slot);
-			if (stack.size() < amount)
-				throw new NotEnoughItemsException(this, 0, amount, stack.size());
-
-			int moved = 0;
-			while (moved < amount) {
-				result.push(stack.peek());
-				numberOfItems--;
-				moved++;
-			}
-
-			return result;
-		}
-
-		@Override public int getNumberOfItems ()
-		{
-			return numberOfItems;
-		}
-
-		@Override public int getNumberOfItems ( int slot) throws UnknownItemSlotException
-		{
-			validateSlot(slot);
-			return items.get(slot).size();
-		}
-
-		@Override public int getNumberOfSlots ()
-		{
-			return numberOfSlots;
-		}
-
-		@Override public void expand ( int slots)
-		{
-			this.numberOfSlots += slots;
-			populateMaps();
-		}
+		throw new InventoryFullException(this, item);
 	}
+
+	/**
+	 * Adds the provided {@link Item} to the slot at the provided position.
+	 *
+	 * @param item The {@link Item} to add to the {@link Inventory}.
+	 * @param slot The position of the slot where the {@link Item} should be added.
+	 * @throws SlotOutOfRangeException        When the provided slot position is out of the legal range.
+	 * @throws InventoryTypeMismatchException When the type of the {@link Item} to insert doesn't match the type of
+	 *                                        the slot where the {@link Item} should be added.
+	 */
+	@Override public void addItem(Item item, int slot) throws SlotOutOfRangeException, InventoryTypeMismatchException
+	{
+		validateSlot(slot);
+		ItemType slotType = types.get(slot);
+
+		if (slotType == null) {
+			types.put(slot, item);
+			Stack<Item> stack = new Stack<>();
+			stack.push(item);
+			items.put(slot, stack);
+			numberOfItems++;
+			numberOfEmptySlots--;
+			return;
+		}
+
+		Stack<Item> stack = items.get(slot);
+		stack.push(item);
+		this.numberOfItems++;
+	}
+
+
+	/**
+	 * Returns the last inserted {@link Item} from the slot at the provided position. The {@link Item} is removed from
+	 * the slot afterwards.
+	 *
+	 * @param slot The position of the slot from where to take the last {@link Item}.
+	 * @return The {@link Item}.
+	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
+	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 */
+	@Override public Item takeItem(int slot) throws SlotOutOfRangeException, NotEnoughItemsException
+	{
+		return takeItem(slot, 1).pop();
+	}
+
+	/**
+	 * Returns one or more {@link Item}s from the slot at the provided position. The {@link Item}s are removed from the slot
+	 * afterwards.
+	 *
+	 * @param slot   The position of the slot from where to take the last {@link Item}.
+	 * @param amount The amount of {@link Item}s to take from the {@link Inventory}.
+	 * @return The {@link Stack} containing the taken {@link Item}s.
+	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
+	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 */
+	@Override public Stack<Item> takeItem(int slot, int amount) throws SlotOutOfRangeException, NotEnoughItemsException
+	{
+		validateSlot(slot);
+		Stack<Item> result = new Stack<>();
+		Stack<Item> stack  = items.get(slot);
+		if (stack.size() < amount)
+			throw new NotEnoughItemsException(this, types.get(slot), amount, stack.size());
+
+		int moved = 0;
+		while (moved < amount) {
+			result.push(stack.pop());
+			moved++;
+			if (stack.size() == 0) {
+				items.remove(slot);
+				numberOfEmptySlots++;
+			}
+		}
+
+		numberOfItems -= moved;
+
+		return result;
+	}
+
+	/**
+	 * Returns the last inserted {@link Item} from the slot at the provided position.
+	 *
+	 * @param slot The position of the slot from where to take the last {@link Item}.
+	 * @return The {@link Item}.
+	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
+	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 */
+	@Override public Item getItem(int slot) throws SlotOutOfRangeException, NotEnoughItemsException
+	{
+		return getItem(slot, 1).pop();
+	}
+
+	/**
+	 * Returns one or more {@link Item}s from the provided slot position.
+	 *
+	 * @param slot   The position of the slot from where to get the last {@link Item}.
+	 * @param amount The amount of {@link Item}s to get from the {@link Inventory}.
+	 * @return The {@link Stack} containing the taken {@link Item}s.
+	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
+	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 */
+	@Override public Stack<Item> getItem(int slot, int amount) throws SlotOutOfRangeException, NotEnoughItemsException
+	{
+		validateSlot(slot);
+		ItemType    slotType = types.get(slot);
+		Stack<Item> result   = new Stack<>();
+		Stack<Item> stack    = items.get(slot);
+		if (stack.size() < amount)
+			throw new NotEnoughItemsException(this, slotType, amount, stack.size());
+
+		int moved = 0;
+		while (moved < amount) {
+			result.push(stack.peek());
+			numberOfItems--;
+			moved++;
+		}
+
+		return result;
+	}
+
+	/**
+	 * Returns the number of {@link Item}s contained in the {@link Inventory}.
+	 *
+	 * @return The number of {@link Item}s contained in the {@link Inventory}.
+	 */
+	@Override public int getNumberOfItems()
+	{
+		return numberOfItems;
+	}
+
+	/**
+	 * Returns the number of {@link Item}s contained in the slot at the provided position.
+	 *
+	 * @param slot The position of the slot from where to return the number of {@link Item}s.
+	 * @return The number of {@link Item}s contained in the slot with the provided position.
+	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
+	 */
+	@Override public int getNumberOfItems(int slot) throws SlotOutOfRangeException
+	{
+		validateSlot(slot);
+
+		Stack<Item> stack = items.get(slot);
+
+		return stack == null ? 0 : stack.size();
+	}
+
+	/**
+	 * Returns the maximum number of slots in the {@link Inventory}.
+	 *
+	 * @return the maximum number of slots in the {@link Inventory}.
+	 */
+	@Override public int getNumberOfSlots()
+	{
+		return numberOfSlots;
+	}
+
+	/**
+	 * Returns the number of empty slots in the {@link Inventory}.
+	 *
+	 * @return The number of empty slots in the {@link Inventory}.
+	 */
+	@Override public int getNumberOfEmptySlots()
+	{
+		return numberOfEmptySlots;
+	}
+
+	/**
+	 * Returns the number of non-empty slots in the {@link Inventory}.
+	 *
+	 * @return The number of non-empty slots in the {@link Inventory}.
+	 */
+	@Override public int getNumberOfNonEmptySlots()
+	{
+		return numberOfSlots - numberOfEmptySlots;
+	}
+
+	/**
+	 * Expands the number of slots in the {@link Inventory} with the provided number of slots.
+	 *
+	 * @param slots The number of slots to expand the {@link Inventory} with.
+	 * @return Whether or not the number of slots in the {@link Inventory} could be expanded.
+	 */
+	@Override public boolean expand(int slots)
+	{
+		if (numberOfSlots + slots < 0)
+			return false;
+
+		numberOfSlots += slots;
+		return true;
+	}
+
+	/**
+	 * Returns the available in the {@link Inventory}.
+	 *
+	 * @return The available in the {@link Inventory}.
+	 */
+	@Override public ImmutableMap<Integer, Option> getOptions()
+	{
+		ImmutableMap.Builder<Integer, Option> builder = new ImmutableMap.Builder<>();
+		for (Map.Entry<Integer, Stack<Item>> entry : items.entrySet())
+			builder.put(entry.getKey(), types.get(entry.getKey()));
+
+		return builder.build();
+	}
+
+	/**
+	 * Validates that the provided slot position is within a legal range. The valid slot position range is from
+	 * <code>0</code> to <code>numberOfSlots-1</code>.
+	 *
+	 * @param slot The slot position to validate.
+	 * @throws SlotOutOfRangeException When the slot position is out of range.
+	 */
+
+	private void validateSlot(int slot) throws SlotOutOfRangeException
+	{
+		if (slot < 0)
+			throw new SlotOutOfRangeException(this, slot);
+
+		if (slot >= numberOfSlots)
+			throw new SlotOutOfRangeException(this, slot);
+	}
+}

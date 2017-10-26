@@ -1,12 +1,8 @@
 package textadventure.items.weapons;
 
-public interface Weapon
+import textadventure.DamageSource;
+
+public interface Weapon extends DamageSource
 {
 
-	/**
-	 * Returns the amount of damage done by the {@link Weapon}.
-	 *
-	 * @return The amount of damage done by the {@link Weapon}.
-	 */
-	int getDamage();
 }

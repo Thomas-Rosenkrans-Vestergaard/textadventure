@@ -3,12 +3,17 @@ package textadventure.ui;
 import com.google.common.collect.ImmutableMap;
 
 /**
+<<<<<<< Updated upstream
  * Defines an amount of {@link Option}s. Using the {@link GameInterface}, the player can be prompted to select
  * between the provided options in the {@link Select}.
  *
  * @param <O> The type of the option.
+=======
+ * Defines a selectable class. Using the {@link GameInterface}, the player can be prompted to select between the
+ * provided options in the {@link Select}.
+>>>>>>> Stashed changes
  */
-public interface Select<O extends Option>
+public interface Select
 {
 
 	/**
@@ -16,5 +21,5 @@ public interface Select<O extends Option>
 	 *
 	 * @return The available in the {@link Select}.
 	 */
-	ImmutableMap<Integer, O> getOptions();
+	ImmutableMap<Integer, Option> getOptions();
 }

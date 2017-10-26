@@ -3,20 +3,19 @@ package textadventure.ui;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Base implementation of the {@link Select} interface.
- *
- * @param <O> The type of {@link Option} to select from.
  */
-public class BaseSelect<O extends Option> implements Select<O>
+public class BaseSelect implements Select
 {
 
 	/**
 	 * The {@link Option}s in the {@link Select}.
 	 */
-	private Map<Integer, O> options = new HashMap<>();
+	private Map<Integer, Option> options = new HashMap<>();
 
 	/**
 	 * The next free option index.
@@ -28,7 +27,7 @@ public class BaseSelect<O extends Option> implements Select<O>
 	 *
 	 * @param options The {@link Option}s to select from.
 	 */
-	public BaseSelect(Map<Integer, O> options)
+	public BaseSelect(Map<Integer, Option> options)
 	{
 		this.options = options;
 		this.currentOptionIndex = options.size();
@@ -47,9 +46,33 @@ public class BaseSelect<O extends Option> implements Select<O>
 	 *
 	 * @param option The {@link Option} to add.
 	 */
-	public void addOption(O option)
+	public void addOption(Option option)
 	{
 		this.options.put(currentOptionIndex++, option);
+	}
+
+	/**
+	 * Adds an array of {@link Option}s to the {@link Select}.
+	 *
+	 * @param options The {@link Option}s to add to the {@link Select}.
+	 */
+	public void addOptions(Option... options)
+	{
+		for (Option option : options) {
+			addOption(option);
+		}
+	}
+
+	/**
+	 * Adds a list of {@link Option}s to the {@link Select}.
+	 *
+	 * @param options The {@link Option}s to add to the {@link Select}.
+	 */
+	public void addOptions(List<Option> options)
+	{
+		for (Option option : options) {
+			addOption(option);
+		}
 	}
 
 	/**
@@ -57,8 +80,8 @@ public class BaseSelect<O extends Option> implements Select<O>
 	 *
 	 * @return The available in the {@link Select}.
 	 */
-	@Override public ImmutableMap<Integer, O> getOptions()
+	@Override public ImmutableMap<Integer, Option> getOptions()
 	{
-		return new ImmutableMap.Builder<Integer, O>().putAll(options).build();
+		return new ImmutableMap.Builder<Integer, Option>().putAll(options).build();
 	}
 }

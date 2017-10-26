@@ -207,9 +207,8 @@ public interface GameInterface
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
 	 * @param callback The send to use to return the selected element.
-	 * @param <O>      The type of {@link Option}.
 	 */
-	<O extends Option> void select(Select<O> select, Player player, Consumer<Integer> callback);
+	void select(Select select, Player player, Consumer<Integer> callback);
 
 	/**
 	 * Prompts the player to select one or more {@link Option}s.
@@ -217,7 +216,6 @@ public interface GameInterface
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
 	 * @param callback The send to use to return the selected element.
-	 * @param <O>      The type of {@link Option}.
 	 */
-	<O extends Option> void multiSelect(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback);
+	void multiSelect(MultiSelect select, Player player, Consumer<List<Integer>> callback);
 }

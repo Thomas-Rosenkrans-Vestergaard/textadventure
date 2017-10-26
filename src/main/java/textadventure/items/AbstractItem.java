@@ -1,6 +1,9 @@
 package textadventure.items;
 
-public abstract class AbstractItem implements Item
+/**
+ * Abstract implementation of the {@link Item} interface.
+ */
+public abstract class AbstractItem implements ItemType
 {
 
 	/**
@@ -30,40 +33,18 @@ public abstract class AbstractItem implements Item
 	 *
 	 * @return The name of the {@link Item}.
 	 */
-	@Override public String getItemName()
+	public String getName()
 	{
-		return name;
+		return this.name;
 	}
 
 	/**
-	 * Returns a description of the {@link Item}.
+	 * Returns the description of the {@link Item}.
 	 *
 	 * @return The description of the {@link Item}.
 	 */
-	@Override public String getItemDescription()
+	public String getDescription()
 	{
-		return description;
-	}
-
-	/**
-	 * Returns the name that should be displayed in the {@link textadventure.ui.Select}.
-	 *
-	 * @return The name that should be displayed in the {@link textadventure.ui.Select}.
-	 */
-	@Override public String getOptionName()
-	{
-		return name;
-	}
-
-	/**
-	 * Returns the description of the {@link textadventure.ui.Option}. Informs the user what selecting the
-	 * {@link textadventure.ui.Option} will do.
-	 *
-	 * @return The description of the {@link textadventure.ui.Option}. Informs the user what selecting the
-	 * {@link textadventure.ui.Option} will do.
-	 */
-	@Override public String getOptionDescription()
-	{
-		return description;
+		return this.description;
 	}
 }

@@ -23,14 +23,4 @@ public class Gauze implements Item
 	{
 		return "Can be used to stop bleeding from bigger wounds.";
 	}
-
-	/**
-	 * Returns an integer representing the type of the {@link Item}.
-	 *
-	 * @return The integer representing the type of the {@link Item}.
-	 */
-	@Override public int getType()
-	{
-		return getClass().hashCode();
-	}
 }

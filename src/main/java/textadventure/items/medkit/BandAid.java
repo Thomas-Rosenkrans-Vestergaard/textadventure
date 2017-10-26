@@ -16,22 +16,12 @@ public class BandAid implements Item
 	}
 
 	/**
-	 * Returns a description of the {@link Item}.
+	 * Returns the description of the {@link Item}.
 	 *
 	 * @return The description of the {@link Item}.
 	 */
 	@Override public String getItemDescription()
 	{
 		return "Can be used to stop bleeding from small wounds.";
-	}
-
-	/**
-	 * Returns an integer representing the type of the {@link Item}.
-	 *
-	 * @return The integer representing the type of the {@link Item}.
-	 */
-	@Override public int getType()
-	{
-		return getClass().hashCode();
 	}
 }

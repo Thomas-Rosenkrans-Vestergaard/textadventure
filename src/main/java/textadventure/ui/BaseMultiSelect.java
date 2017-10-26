@@ -6,16 +6,14 @@ import java.util.Map;
 
 /**
  * Default implementation of the {@link MultiSelect} interface.
- *
- * @param <O> The type of {@link Option} selectable in the {@link MultiSelect}.
  */
-public class BaseMultiSelect<O extends Option> extends BaseSelect<O> implements MultiSelect<O>
+public class BaseMultiSelect implements MultiSelect
 {
 
 	/**
 	 * The {@link Option}s that can be selected.
 	 */
-	private final Map<Integer, O> options;
+	private final Map<Integer, Option> options;
 
 	/**
 	 * The minimum amount of {@link Option}s that must be selected.
@@ -32,7 +30,7 @@ public class BaseMultiSelect<O extends Option> extends BaseSelect<O> implements 
 	 *
 	 * @param options The {@link Option}s.
 	 */
-	public BaseMultiSelect(Map<Integer, O> options)
+	public BaseMultiSelect(Map<Integer, Option> options)
 	{
 		this(options, 0, options.size());
 	}
@@ -44,7 +42,7 @@ public class BaseMultiSelect<O extends Option> extends BaseSelect<O> implements 
 	 * @param minimumOptions The minimum amount of {@link Option}s that must be selected.
 	 * @param maximumOptions The maximum amount of {@link Option}s that can be selected.
 	 */
-	public BaseMultiSelect(Map<Integer, O> options, int minimumOptions, int maximumOptions)
+	public BaseMultiSelect(Map<Integer, Option> options, int minimumOptions, int maximumOptions)
 	{
 		if (minimumOptions < -1)
 			throw new IllegalArgumentException("Minimum options can not be less than -1.");
@@ -88,8 +86,8 @@ public class BaseMultiSelect<O extends Option> extends BaseSelect<O> implements 
 	 *
 	 * @return The immutable map of the {@link Option}s in the {@link MultiSelect}.
 	 */
-	@Override public ImmutableMap<Integer, O> getOptions()
+	@Override public ImmutableMap<Integer, Option> getOptions()
 	{
-		return new ImmutableMap.Builder<Integer, O>().putAll(options).build();
+		return new ImmutableMap.Builder<Integer, Option>().putAll(options).build();
 	}
 }

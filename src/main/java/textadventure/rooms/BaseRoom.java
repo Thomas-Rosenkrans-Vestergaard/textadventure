@@ -1,7 +1,6 @@
 package textadventure.rooms;
 
 import textadventure.AbstractPropertyContainer;
-import textadventure.items.Inventory;
 
 import java.util.ArrayList;
 import java.util.List;

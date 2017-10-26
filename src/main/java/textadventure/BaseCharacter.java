@@ -69,6 +69,22 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	 */
 	private int money;
 
+	/**
+	 * Creates a new {@link BaseCharacter}.
+	 *
+	 * @param name
+	 * @param backpack
+	 * @param currentLocation
+	 * @param maxHP
+	 * @param currentHP
+	 * @param level
+	 * @param sanity
+	 * @param strength
+	 * @param dexterity
+	 * @param intelligence
+	 * @param stealth
+	 * @param money
+	 */
 	public BaseCharacter(
 			String name,
 			Backpack backpack,
@@ -122,6 +138,16 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 		);
 	}
 
+	/**
+	 * Creates and returns a new {@link BaseCharacter} with a {@link Backpack} {@link Property} and
+	 * {@link DropItemAction}.
+	 *
+	 * @param name            The name of the {@link Character} to create.
+	 * @param backpack        The {@link Backpack} on the {@link Character}.
+	 * @param currentLocation The location of the {@link Character}.
+	 * @param game            The {@link Game} instance.
+	 * @return The newly created {@link BaseCharacter}.
+	 */
 	public Character factory(String name, Backpack backpack, Room currentLocation, Game game)
 	{
 		BaseCharacter baseCharacter = new BaseCharacter(name, backpack, currentLocation);

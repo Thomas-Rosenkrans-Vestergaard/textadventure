@@ -1,12 +1,18 @@
 package textadventure;
 
+import textadventure.items.weapons.Weapon;
+
+/**
+ * Represents an opponent in-game.
+ */
 public interface Enemy extends Character
 {
 
 	/**
-	 * Returns an int representing an attack
+	 * Attacks the {@link Enemy} using the provided {@link textadventure.items.weapons.Weapon}.
+	 *
+	 * @param weapon The {@link Weapon} used to attack the {@link Enemy}.
+	 * @return The amount of damage taken by the {@link Enemy}.
 	 */
-	int attack();
-
-
+	int attack(Weapon weapon);
 }

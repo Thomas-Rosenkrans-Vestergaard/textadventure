@@ -8,6 +8,7 @@ import textadventure.actions.ActionRequestCallback;
 import textadventure.doors.*;
 import textadventure.items.Inventory;
 import textadventure.items.Item;
+import textadventure.items.ItemType;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
@@ -107,7 +108,7 @@ public class ConsoleGameInterface implements GameInterface
 		printer.println();
 		showCommands();
 		showProperties();
-		showActions(game);
+		showActions();
 		printer.println();
 		printer.println(game.getMaze().getStartingRoom().getStartingMessage());
 		printer.println(game.getMaze().getStartingRoom().getRoomDescription());
@@ -179,7 +180,7 @@ public class ConsoleGameInterface implements GameInterface
 			}
 
 			if (input.startsWith("actions")) {
-				showActions(game);
+				showActions();
 				continue;
 			}
 
@@ -637,7 +638,7 @@ public class ConsoleGameInterface implements GameInterface
 
 	private void printInventory(Inventory inventory)
 	{
-		ImmutableMap<Integer, Item> items = inventory.getSlots();
+		ImmutableMap<Integer, ItemType> items = inventory.getSlots();
 		items.entrySet().forEach(entry -> {
 			printer.println(String.format("%-4d %-20s %-96s",
 					entry.getKey(),
@@ -653,9 +654,9 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param player   The {@link Player} selecting.
 	 * @param callback The send to use to return the selected element.
 	 */
-	@Override public <O extends Option> void select(Select<O> select, Player player, Consumer<Integer> callback)
+	@Override public void select(Select select, Player player, Consumer<Integer> callback)
 	{
-		ImmutableMap<Integer, O> options = select.getOptions();
+		ImmutableMap<Integer, Option> options = select.getOptions();
 
 		printer.println("To perform the action you must select one of the following options. You select the " +
 				"option using its identifier (id). To abort from the selection you can enter the 'abort' command.");
@@ -694,12 +695,11 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param player   The {@link Player} selecting.
 	 * @param callback The send to use to return the selected element.
 	 */
-	@Override
-	public <O extends Option> void multiSelect(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback)
+	@Override public void multiSelect(MultiSelect select, Player player, Consumer<List<Integer>> callback)
 	{
-		int                      minimumOptions = select.getMinOptions();
-		int                      maximumOptions = select.getMaxOptions();
-		ImmutableMap<Integer, O> options        = select.getOptions();
+		int                           minimumOptions = select.getMinOptions();
+		int                           maximumOptions = select.getMaxOptions();
+		ImmutableMap<Integer, Option> options        = select.getOptions();
 
 		printer.println("To perform the action you must select some of the following options. You select the option " +
 				"using its identifier (id). To abort from the selection you can enter the 'abort' command. It's " +
@@ -792,10 +792,8 @@ public class ConsoleGameInterface implements GameInterface
 
 	/**
 	 * Show a list of global commands.
-	 *
-	 * @param game The {@link Game} instance.
 	 */
-	private void showActions(Game game)
+	private void showActions()
 	{
 		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();

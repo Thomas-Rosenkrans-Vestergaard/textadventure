@@ -1,11 +1,7 @@
-package textadventure.items.Wearables;
+package textadventure.items.wearables;
 
-import textadventure.items.Item;
-
-public interface Wearable extends Item
+public interface Head extends Wearable
 {
-
-
 	/**
 	 * Return the double representing the protective factor of the {@link Wearable}
 	 *

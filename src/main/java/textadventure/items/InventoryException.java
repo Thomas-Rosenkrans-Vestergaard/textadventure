@@ -2,7 +2,10 @@ package textadventure.items;
 
 import textadventure.GameException;
 
-public class InventoryException extends GameException
+/**
+ * Base exception when handling {@link Inventory} errors.
+ */
+public abstract class InventoryException extends GameException
 {
 
 	/**

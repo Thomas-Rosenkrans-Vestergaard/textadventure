@@ -6,10 +6,7 @@ import textadventure.actions.ActionPerformCallback;
 import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
-import textadventure.items.UnknownItemSlotException;
-import textadventure.items.chest.Chest;
-import textadventure.items.chest.TakeItemFromChestAction;
-import textadventure.rooms.Floor;
+import textadventure.items.SlotOutOfRangeException;
 import textadventure.ui.GameInterface;
 
 import static textadventure.items.backpack.DropItemAction.Outcome.SUCCESS;
@@ -62,14 +59,14 @@ public class DropItemAction extends BackpackAction
 
 		GameInterface userInterface = game.getGameInterface();
 
-		userInterface.select(player.getCharacter().getCurrentLocation().getFloor(), player ,choice ->{
+		userInterface.select(player.getCharacter().getCurrentLocation().getFloor(), player, choice -> {
 			try {
 				Backpack backpack = player.getCharacter().getBackpack();
-				this.item = player.getCharacter().getBackpack().takeItem(choice);
+				this.item = backpack.takeItem(choice);
 				player.getCharacter().getCurrentLocation().getFloor().addItem(this.item);
 				outcome = SUCCESS;
 				callback.send(game, player, this);
-			} catch (UnknownItemSlotException | NotEnoughItemsException | InventoryFullException e) {
+			} catch (SlotOutOfRangeException | NotEnoughItemsException | InventoryFullException e) {
 				throw new IllegalStateException();
 			}
 		});

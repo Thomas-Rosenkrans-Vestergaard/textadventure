@@ -7,7 +7,7 @@ import textadventure.actions.ActionPerformCallback;
 import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
-import textadventure.items.UnknownItemSlotException;
+import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.BaseMultiSelect;
 import textadventure.ui.GameInterface;
@@ -92,7 +92,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 		}
 
 		Backpack          backpack    = player.getCharacter().getBackpack();
-		MultiSelect<Item> multiSelect = new BaseMultiSelect<>(backpack.getOptions());
+		MultiSelect multiSelect = new BaseMultiSelect(backpack.getOptions());
 		userInterface.multiSelect(multiSelect, player, choices -> {
 
 			Item currentItem = null;
@@ -105,7 +105,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 					outcome = Outcome.SUCCESS;
 					callback.send(game, player, this);
 				}
-			} catch (UnknownItemSlotException | NotEnoughItemsException e) {
+			} catch (SlotOutOfRangeException | NotEnoughItemsException e) {
 				throw new IllegalStateException();
 			} catch (InventoryFullException e) {
 				returnItem(backpack, currentItem);

@@ -35,14 +35,4 @@ public class MedKit extends BaseInventory implements Item
 	{
 		return "A small box containing medical supplies.";
 	}
-
-	/**
-	 * Returns an integer representing the type of the {@link Item}.
-	 *
-	 * @return The integer representing the type of the {@link Item}.
-	 */
-	@Override public int getType()
-	{
-		return getClass().hashCode();
-	}
 }

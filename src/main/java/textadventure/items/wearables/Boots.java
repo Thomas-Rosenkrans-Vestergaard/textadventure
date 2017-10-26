@@ -1,4 +1,4 @@
-package textadventure.items.Wearables;
+package textadventure.items.wearables;
 
 public interface Boots extends Wearable
 {

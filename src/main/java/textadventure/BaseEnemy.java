@@ -1,10 +1,31 @@
 package textadventure;
 
 import textadventure.items.backpack.Backpack;
+import textadventure.items.weapons.Weapon;
 import textadventure.rooms.Room;
 
+/**
+ * Represents an opponent in-game.
+ */
 public class BaseEnemy extends BaseCharacter implements Enemy
 {
+
+	/**
+	 * Creates a new {@link BaseEnemy}.
+	 *
+	 * @param name
+	 * @param backpack
+	 * @param currentLocation
+	 * @param maxHP
+	 * @param currentHP
+	 * @param level
+	 * @param sanity
+	 * @param strength
+	 * @param dexterity
+	 * @param intelligence
+	 * @param stealth
+	 * @param money
+	 */
 	public BaseEnemy(String name, Backpack backpack, Room currentLocation, int maxHP, int currentHP, int level, int sanity, int strength, int dexterity, int intelligence, int stealth, int money)
 	{
 		super(name, backpack, currentLocation, maxHP, currentHP, level, sanity, strength, dexterity, intelligence, stealth, money);
@@ -22,12 +43,14 @@ public class BaseEnemy extends BaseCharacter implements Enemy
 		super(name, backpack, currentLocation);
 	}
 
-
 	/**
-	 *Returns an int representing an attack
+	 * Attacks the {@link Enemy} using the provided {@link Weapon}.
+	 *
+	 * @param weapon The {@link Weapon} used to attack the {@link Enemy}.
+	 * @return The amount of damage taken by the {@link Enemy}.
 	 */
-	@Override public int attack()
+	@Override public final int attack(Weapon weapon)
 	{
-		return 0;
+		throw new UnsupportedOperationException();
 	}
 }

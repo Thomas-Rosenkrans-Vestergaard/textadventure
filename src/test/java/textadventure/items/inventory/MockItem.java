@@ -20,7 +20,7 @@ public class MockItem implements Item
 		return null;
 	}
 
-	@Override public int getType()
+	@Override public int getItemType()
 	{
 		return 0;
 	}

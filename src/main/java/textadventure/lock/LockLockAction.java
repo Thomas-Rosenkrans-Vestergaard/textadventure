@@ -5,7 +5,7 @@ import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
-import textadventure.items.UnknownItemSlotException;
+import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.GameInterface;
 
@@ -95,7 +95,7 @@ public class LockLockAction extends LockAction
 					lock.lock(key);
 					outcome = Outcome.SUCCESS;
 					callback.send(game, player, this);
-				} catch (UnknownItemSlotException | NotEnoughItemsException e) {
+				} catch (SlotOutOfRangeException | NotEnoughItemsException e) {
 					throw new IllegalStateException(e);
 				} catch (AlreadyLockedException e) {
 					outcome = Outcome.ALREADY_LOCKED;
