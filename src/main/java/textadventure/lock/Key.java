@@ -44,7 +44,7 @@ public class Key implements Item
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return code;
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class Key implements Item
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return String.format("On the key is written the code %s.", code);
 	}
 
 	/**

@@ -10,3 +10,4 @@ use multiselect where applicable
 generalized takeItemAction
 wearables and weapons , Backpack equip action
 use action arguments where applicable
+remove addFeature, write room descriptions

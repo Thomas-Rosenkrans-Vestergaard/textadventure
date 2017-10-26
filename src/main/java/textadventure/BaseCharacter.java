@@ -148,7 +148,7 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	 * @param game            The {@link Game} instance.
 	 * @return The newly created {@link BaseCharacter}.
 	 */
-	public Character factory(String name, Backpack backpack, Room currentLocation, Game game)
+	public static Character factory(String name, Backpack backpack, Room currentLocation, Game game)
 	{
 		BaseCharacter baseCharacter = new BaseCharacter(name, backpack, currentLocation);
 

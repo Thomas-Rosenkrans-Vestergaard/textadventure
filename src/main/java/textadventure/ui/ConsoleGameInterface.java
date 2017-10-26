@@ -160,86 +160,136 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	@Override public void onActionRequest(Game game, Player player, ActionRequestCallback response)
 	{
+		LOOP:
 		while (true) {
 
 			printer.println("Please enter your next action.");
-			String input = scanner.nextLine().trim().toLowerCase();
+			String   input     = getInput();
+			String[] arguments = getArgumentsFromCommand(input);
+			String[] sections  = getSectionsFromCommand(input);
 
-			if (input.startsWith("instructions")) {
+			if (input.equals("quit")) {
+				System.exit(0);
+				return;
+			}
+
+			if (input.equals("instructions")) {
 				showInstructions();
 				continue;
 			}
 
-			if (input.startsWith("quit")) {
-				System.exit(0);
-			}
-
-			if (input.startsWith("properties")) {
+			if (input.equals("properties")) {
 				showProperties();
 				continue;
 			}
 
-			if (input.startsWith("actions")) {
+			if (input.equals("actions")) {
 				showActions();
 				continue;
 			}
 
-			if (input.startsWith("commands")) {
+			if (input.equals("commands")) {
 				showCommands();
 				continue;
 			}
 
-			if (!input.matches("^[a-zA-Z0-9\" ]+$")) {
-				printer.print("You can't put those characters.\n");
-				continue;
-			}
-
-			final Matcher      m         = Pattern.compile("(\"[a-zA-Z0-9]*\")").matcher(input);
-			final List<String> arguments = new ArrayList<>();
-			while (m.find()) {
-				arguments.add(m.group(0));
-			}
-
-			String[] sections;
-			if (input.contains("\"")) {
-				String tmp = input.substring(0, input.indexOf('"'));
-				sections = tmp.split(" ");
-			} else {
-				sections = input.split(" ");
-			}
-
-			if (sections.length < 2) {
-				printer.println("Your action must contain at least one property.");
-				continue;
-			}
-
-			ImmutableMap<String, Property> properties = player.getCharacter().getProperties();
-			Property                       property   = properties.get(sections[0]);
-			for (int i = 1; i < sections.length - 1; i++) {
+			Property property = player.getCharacter();
+			for (int i = 0; i < sections.length - 1; i++) {
 				if (property instanceof PropertyContainer) {
 					PropertyContainer container = (PropertyContainer) property;
 					property = container.getProperty(sections[i]);
+					if (property == null) {
+						System.out.println(sections[i]);
+						printer.println(
+								String.format("Unknown property '%s'.", sections[i]));
+						continue LOOP;
+					}
+					continue;
 				}
-			}
 
-			if (property == null) {
-				printer.println("Unknown property. Enter properties to see the properties you can access.");
-				continue;
+				printer.println(String.format("Property '%s' cannot have sub-properties.", sections[i - 1]));
+				continue LOOP;
 			}
 
 			String actionName = sections[sections.length - 1];
 			Action action     = property.getAction(actionName);
 			if (action == null) {
-				printer.println(String.format("No action with name '%s' on property '%s'.",
-						actionName,
-						sections[sections.length - 2]));
+				printer.println(
+						String.format(
+								"No action with name '%s' on property '%s'.",
+								actionName,
+								sections.length < 2 ? "character" : sections[sections.length - 2]
+						)
+				);
 				continue;
 			}
 
-			String[] argumentsArray = new String[arguments.size()];
-			arguments.toArray(argumentsArray);
-			response.respond(action, argumentsArray);
+			response.respond(action, arguments);
 		}
+
+	}
+
+	/**
+	 * Checks if the provided input is valid. Legal input follow the pattern <code>^[a-zA-Z0-9" ]+$</code>.
+	 *
+	 * @param input The input to validate.
+	 * @return <code>true</code> of the provided input is valid. Returns <code>false</code> otherwise.
+	 */
+	private boolean validateInput(String input)
+	{
+		return input.matches("^[a-zA-Z0-9\" ]+$");
+	}
+
+	/**
+	 * Returns the next line from the {@link Scanner}. The input is trimmed and converted to lower-case.
+	 *
+	 * @return The next line from the {@link Scanner}. The input is trimmed and converted to lower-case.
+	 */
+	private String getInput()
+	{
+		while (true) {
+			String input = scanner.nextLine().trim().toLowerCase();
+			if (validateInput(input))
+				return input;
+			else
+				printer.println("Input must be given in the pattern ^[a-zA-Z0-9\" ]+$");
+		}
+	}
+
+	/**
+	 * Returns the arguments passes to a command.
+	 *
+	 * @param command The command.
+	 * @return The array of arguments.
+	 */
+	private String[] getArgumentsFromCommand(String command)
+	{
+		final Matcher      matcher   = Pattern.compile("(\"[a-zA-Z0-9]*\")").matcher(command);
+		final List<String> arguments = new ArrayList<>();
+		while (matcher.find()) {
+			arguments.add(matcher.group(0));
+		}
+
+		String[] result = new String[arguments.size()];
+		arguments.toArray(result);
+		return result;
+	}
+
+	/**
+	 * Returns the sections (properties and action) of the provided command.
+	 *
+	 * @param command The command.
+	 * @return The sections (properties and action) of the provided command.
+	 */
+	private String[] getSectionsFromCommand(String command)
+	{
+		int index = command.indexOf('\"');
+
+		if (index != -1) {
+			command = command.substring(0, index);
+		}
+
+		return command.split("[ ]+");
 	}
 
 	/**

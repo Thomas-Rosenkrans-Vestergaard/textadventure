@@ -42,9 +42,9 @@ public class DefaultGame extends Game
 
 			Backpack backpack = Backpack.factory(10, this);
 			backpack.addItem(new Key("LY4SW"));
-			Character character = new BaseCharacter("George", backpack, rooms[3][0]);
+			Character character = BaseCharacter.factory("George", backpack, rooms[3][0], this);
 			this.addPlayer(new HumanPlayer(character));
-			this.setMaze(new Maze((StartingRoom)rooms[3][0], (EndingRoom) rooms[3][4]));
+			this.setMaze(new Maze((StartingRoom) rooms[3][0], (EndingRoom) rooms[3][4]));
 		} catch (InventoryFullException e) {
 			throw new IllegalStateException(e);
 		}

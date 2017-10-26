@@ -30,7 +30,7 @@ public abstract class AbstractPropertyContainer extends AbstractProperty impleme
 	 */
 	@Override public Property getProperty(String name)
 	{
-		return properties.get(name);
+		return getProperties().get(name);
 	}
 
 	/**
