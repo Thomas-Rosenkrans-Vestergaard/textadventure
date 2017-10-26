@@ -2,6 +2,7 @@ package textadventure.items.backpack;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
 
 public class InspectBackpackAction extends BackpackAction
@@ -21,13 +22,21 @@ public class InspectBackpackAction extends BackpackAction
 	private Outcome outcome;
 
 	/**
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link InspectBackpackAction}.
+	 */
+	private ActionPerformCallback<InspectBackpackAction> callback;
+
+	/**
 	 * Creates a new {@link InspectBackpackAction}.
 	 *
-	 * @param backpack The {@link Backpack} to execute {@link InspectBackpackAction} on.
+	 * @param door     The {@link Backpack} to be inspected.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link InspectBackpackAction}.
 	 */
-	InspectBackpackAction(Backpack backpack)
+	InspectBackpackAction(Backpack door, ActionPerformCallback<InspectBackpackAction> callback)
 	{
-		super(backpack);
+		super(door);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -39,9 +48,8 @@ public class InspectBackpackAction extends BackpackAction
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-		GameInterface userInterface = game.getGameInterface();
 		outcome = Outcome.SUCCESS;
-		userInterface.onBackpackInspect(game, player, this);
+		callback.send(game, player, this);
 	}
 
 	/**

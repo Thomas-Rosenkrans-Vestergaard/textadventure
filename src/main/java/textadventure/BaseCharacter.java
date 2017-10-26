@@ -99,6 +99,31 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	}
 
 	/**
+	 * Creates a new {@link Character}.
+	 *
+	 * @param name            The name of the {@link Character}.
+	 * @param backpack        The {@link Backpack} worn by the {@link Character}.
+	 * @param currentLocation The {@link Room} the player is currently in.
+	 */
+	public BaseCharacter(String name, Backpack backpack, Room currentLocation)
+	{
+		this(
+				name,
+				backpack,
+				currentLocation,
+				DEFAULT_MAX_HP,
+				DEFAULT_MAX_HP,
+				DEFAULT_LEVEL,
+				DEFAULT_SANITY,
+				DEFAULT_STRENGTH,
+				DEFAULT_DEXTERITY,
+				DEFAULT_INTELLIGENCE,
+				DEFAULT_STEALTH,
+				DEFAULT_MONEY
+		);
+	}
+
+	/**
 	 * Returns an {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
 	 *
 	 * @return The {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
@@ -107,8 +132,9 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	{
 		ImmutableMap<String, Property> properties = super.getProperties();
 
-		return new ImmutableMap.Builder<String, Property>().putAll(getCurrentLocation().getProperties())
-		                                                   .putAll(properties).build();
+		return new ImmutableMap.Builder<String, Property>()
+				.putAll(getCurrentLocation().getProperties())
+				.putAll(properties).build();
 	}
 
 	/**

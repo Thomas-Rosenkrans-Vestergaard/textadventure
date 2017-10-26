@@ -2,8 +2,11 @@ package textadventure.items.chest;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.ActionPerformCallback;
 import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
+import textadventure.items.NotEnoughItemsException;
+import textadventure.items.UnknownItemSlotException;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.GameInterface;
 
@@ -45,13 +48,21 @@ public class TakeItemFromChestAction extends ChestAction
 	private Item item;
 
 	/**
-	 * Creates a new {@link TakeItemFromChestAction}.
-	 *
-	 * @param chest The {@link Chest} to take {@link Item}s from.
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link TakeItemFromChestAction}.
 	 */
-	TakeItemFromChestAction(Chest chest)
+	private ActionPerformCallback<TakeItemFromChestAction> callback;
+
+	/**
+	 * Creates a new {@link OpenChestAction}.
+	 *
+	 * @param chest    The {@link Chest} where the {@link Item} is taken from.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link TakeItemFromChestAction}.
+	 */
+	TakeItemFromChestAction(Chest chest, ActionPerformCallback<TakeItemFromChestAction> callback)
 	{
 		super(chest);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -68,31 +79,25 @@ public class TakeItemFromChestAction extends ChestAction
 
 		if (state == Chest.State.CLOSED) {
 			outcome = Outcome.CLOSED;
-			userInterface.onChestTake(game, player, this);
+			callback.send(game, player, this);
 			return;
 		}
 
-		String message = "Chose the item to take.";
-/*
-		userInterface.select(message, chest, player, item -> {
+		userInterface.select(chest, player, choice -> {
 
-			Backpack backpack = player.getCharacter().getBackpack();
 			try {
-				backpack.addItem((Item) item);
-
+				Backpack backpack = player.getCharacter().getBackpack();
+				this.item = chest.takeItem(choice);
+				backpack.addItem(this.item);
+				outcome = Outcome.SUCCESS;
+				callback.send(game, player, this);
+			} catch (UnknownItemSlotException | NotEnoughItemsException e) {
+				throw new IllegalStateException();
 			} catch (InventoryFullException e) {
 				outcome = Outcome.BACKPACK_FULL;
-				userInterface.onChestTake(game, player, this);
-				return;
+				callback.send(game, player, this);
 			}
-
-			chest.removeItem(item);
-			outcome = Outcome.SUCCESS;
-			this.item = item;
-			userInterface.onChestTake(game, player, this);
-		});*/
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**

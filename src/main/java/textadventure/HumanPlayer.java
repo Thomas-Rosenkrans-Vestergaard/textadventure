@@ -1,6 +1,6 @@
 package textadventure;
 
-import textadventure.actions.ActionResponse;
+import textadventure.actions.ActionRequestCallback;
 
 public class HumanPlayer extends AbstractPlayer
 {
@@ -21,7 +21,7 @@ public class HumanPlayer extends AbstractPlayer
 	 * @param game     The {@link Game} instance.
 	 */
 	@Override
-	public void takeTurn(Game game, ActionResponse response)
+	public void takeTurn(Game game, ActionRequestCallback response)
 	{
 		game.getGameInterface().onActionRequest(game, this, (action, arguments) -> response.respond(action, arguments));
 	}

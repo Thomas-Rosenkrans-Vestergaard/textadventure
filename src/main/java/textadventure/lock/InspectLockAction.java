@@ -2,6 +2,7 @@ package textadventure.lock;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.ActionPerformCallback;
 
 public class InspectLockAction extends LockAction
 {
@@ -20,13 +21,21 @@ public class InspectLockAction extends LockAction
 	private Outcome outcome;
 
 	/**
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link InspectLockAction}.
+	 */
+	private ActionPerformCallback<InspectLockAction> callback;
+
+	/**
 	 * Creates a new {@link InspectLockAction}.
 	 *
-	 * @param lock The {@link Lock} to inspect.
+	 * @param lock     The {@link Lock} to execute the {@link InspectLockAction} on.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link InspectLockAction}.
 	 */
-	public InspectLockAction(Lock lock)
+	public InspectLockAction(Lock lock, ActionPerformCallback<InspectLockAction> callback)
 	{
 		super(lock);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -39,7 +48,7 @@ public class InspectLockAction extends LockAction
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		outcome = Outcome.SUCCESS;
-		game.getGameInterface().onLockInspect(game, player, this);
+		callback.send(game, player, this);
 	}
 
 	/**

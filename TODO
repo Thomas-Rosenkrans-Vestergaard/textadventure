@@ -4,3 +4,10 @@ Take action arguments from console
 Monsters
 Ground items
 high score file
+generic select
+action unit testing // Hjalmar
+Implementation of DropItemAction // Tobias
+use multiselect where applicable
+generalized takeItemAction
+wearables and weapons , Backpack equip action
+use action arguments where applicable

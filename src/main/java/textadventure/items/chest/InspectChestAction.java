@@ -2,7 +2,7 @@ package textadventure.items.chest;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.ui.GameInterface;
+import textadventure.actions.ActionPerformCallback;
 
 /**
  * {@link textadventure.actions.Action} that allows the player to inspect the {@link Chest}.
@@ -33,13 +33,21 @@ public class InspectChestAction extends ChestAction
 	private Outcome outcome;
 
 	/**
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link InspectChestAction}.
+	 */
+	private ActionPerformCallback<InspectChestAction> callback;
+
+	/**
 	 * Creates a new {@link InspectChestAction}.
 	 *
-	 * @param chest The {@link Chest} to execute the {@link InspectChestAction} on.
+	 * @param chest    The {@link Chest} to be inspected.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link InspectChestAction}.
 	 */
-	public InspectChestAction(Chest chest)
+	InspectChestAction(Chest chest, ActionPerformCallback<InspectChestAction> callback)
 	{
 		super(chest);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -52,17 +60,16 @@ public class InspectChestAction extends ChestAction
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		Chest.State   state         = chest.getState();
-		GameInterface userInterface = game.getGameInterface();
 
 		if (state == Chest.State.CLOSED) {
 			outcome = Outcome.CLOSED;
-			userInterface.onChestInspect(game, player, this);
+			callback.send(game, player, this);
 			return;
 		}
 
 		if (state == Chest.State.OPEN) {
 			outcome = Outcome.SUCCESS;
-			userInterface.onChestInspect(game, player, this);
+			callback.send(game, player, this);
 			return;
 		}
 

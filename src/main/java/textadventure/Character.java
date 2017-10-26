@@ -7,6 +7,51 @@ public interface Character extends PropertyContainer
 {
 
 	/**
+	 * The default number of slots the {@link Character} has in their {@link Backpack} at the start of the game.
+	 */
+	int DEFAULT_SLOTS = 10;
+
+	/**
+	 * The default maximum amount of HP the {@link Character} has at the start of the game.
+	 */
+	int DEFAULT_MAX_HP = 100;
+
+	/**
+	 * The default level of the {@link Character} at the start of the game.
+	 */
+	int DEFAULT_LEVEL = 1;
+
+	/**
+	 * The default sanity of the {@link Character} at the start of the game.
+	 */
+	int DEFAULT_SANITY = 100;
+
+	/**
+	 * The default strength of the {@link Character} at the start of the game.
+	 */
+	int DEFAULT_STRENGTH = 1;
+
+	/**
+	 * The default dexterity of the {@link Character} at the start of the game.
+	 */
+	int DEFAULT_DEXTERITY = 1;
+
+	/**
+	 * The default intelligence of the {@link Character} at the start of the game.
+	 */
+	int DEFAULT_INTELLIGENCE = 1;
+
+	/**
+	 * The default stealth of the {@link Character} at the start of the game.
+	 */
+	int DEFAULT_STEALTH = 1;
+
+	/**
+	 * The default amount of money the {@link Character} has at the start of the game.
+	 */
+	int DEFAULT_MONEY = 0;
+
+	/**
 	 * Returns the name of the {@link Character}.
 	 *
 	 * @return The name of the {@link Character}.

@@ -2,6 +2,7 @@ package textadventure.doors;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.ActionPerformCallback;
 
 /**
  * {@link textadventure.actions.Action} that allows a player to open a {@link Door}.
@@ -37,13 +38,21 @@ public class OpenDoorAction extends DoorAction
 	private Outcome outcome;
 
 	/**
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link OpenDoorAction}.
+	 */
+	private ActionPerformCallback<OpenDoorAction> callback;
+
+	/**
 	 * Creates a new {@link OpenDoorAction}.
 	 *
-	 * @param door The {@link Door} to be opened.
+	 * @param door     The {@link Door} to be opened.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link OpenDoorAction}.
 	 */
-	OpenDoorAction(Door door)
+	OpenDoorAction(Door door, ActionPerformCallback<OpenDoorAction> callback)
 	{
 		super(door);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -58,13 +67,13 @@ public class OpenDoorAction extends DoorAction
 		try {
 			getDoor().open();
 			this.outcome = Outcome.SUCCESS;
-			game.getGameInterface().onDoorOpen(game, player, this);
+			callback.send(game, player, this);
 		} catch (DoorAlreadyOpenException e) {
 			this.outcome = Outcome.ALREADY_OPEN;
-			game.getGameInterface().onDoorOpen(game, player, this);
+			callback.send(game, player, this);
 		} catch (DoorLockedException e) {
 			this.outcome = Outcome.LOCKED;
-			game.getGameInterface().onDoorOpen(game, player, this);
+			callback.send(game, player, this);
 		}
 	}
 

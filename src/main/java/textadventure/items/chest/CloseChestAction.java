@@ -2,7 +2,7 @@ package textadventure.items.chest;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.ui.GameInterface;
+import textadventure.actions.ActionPerformCallback;
 
 /**
  * {@link textadventure.actions.Action} that allows the player to close a {@link Chest}.
@@ -38,13 +38,21 @@ public class CloseChestAction extends ChestAction
 	private Outcome outcome;
 
 	/**
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link CloseChestAction}.
+	 */
+	private ActionPerformCallback<CloseChestAction> callback;
+
+	/**
 	 * Creates a new {@link CloseChestAction}.
 	 *
-	 * @param chest The {@link Chest} to execute the {@link CloseChestAction} on.
+	 * @param chest    The {@link Chest} to be closed.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link CloseChestAction}.
 	 */
-	public CloseChestAction(Chest chest)
+	CloseChestAction(Chest chest, ActionPerformCallback<CloseChestAction> callback)
 	{
 		super(chest);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -56,12 +64,11 @@ public class CloseChestAction extends ChestAction
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-		Chest.State   state         = chest.getState();
-		GameInterface userInterface = game.getGameInterface();
+		Chest.State state = chest.getState();
 
 		if (state == Chest.State.CLOSED) {
 			outcome = Outcome.ALREADY_CLOSED;
-			userInterface.onChestClose(game, player, this);
+			callback.send(game, player, this);
 			return;
 		}
 
@@ -69,15 +76,15 @@ public class CloseChestAction extends ChestAction
 			try {
 				chest.close();
 				outcome = Outcome.SUCCESS;
-				userInterface.onChestClose(game, player, this);
+				callback.send(game, player, this);
 				return;
 			} catch (ChestAlreadyClosedException e) {
 				outcome = Outcome.ALREADY_CLOSED;
-				userInterface.onChestClose(game, player, this);
+				callback.send(game, player, this);
 				return;
 			} catch (ChestLockedException e) {
 				outcome = Outcome.LOCKED;
-				userInterface.onChestClose(game, player, this);
+				callback.send(game, player, this);
 				return;
 			}
 		}

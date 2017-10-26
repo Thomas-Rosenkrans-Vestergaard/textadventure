@@ -2,6 +2,8 @@ package textadventure;
 
 import textadventure.doors.BaseDoor;
 import textadventure.doors.Door;
+import textadventure.items.InventoryFullException;
+import textadventure.items.backpack.Backpack;
 import textadventure.items.chest.Chest;
 import textadventure.lock.Key;
 import textadventure.lock.Lock;
@@ -9,13 +11,14 @@ import textadventure.rooms.BaseRoom;
 import textadventure.rooms.EndingRoom;
 import textadventure.rooms.Room;
 import textadventure.rooms.StartingRoom;
+import textadventure.ui.GameInterface;
 
 import static textadventure.doors.Door.State.CLOSED;
 import static textadventure.doors.Door.State.OPEN;
 import static textadventure.lock.Lock.State.LOCKED;
 import static textadventure.lock.Lock.State.UNLOCKED;
 
-public class MazeCreator
+public class DefaultGame extends Game
 {
 
 	/**
@@ -24,26 +27,38 @@ public class MazeCreator
 	private Room[][] rooms = new Room[6][5];
 
 	/**
-	 * Generates the maze.
+	 * Creates a {@link Game}.
 	 *
-	 * @return The maze.
+	 * @param gameInterface The {@link GameInterface} to use with the {@link Game}.
+	 * @param movesPerTurn  The number of moves per turn per player.
 	 */
-	public Maze generate()
+	public DefaultGame(GameInterface gameInterface, int movesPerTurn)
 	{
-		generateRooms();
-		generateDoors();
-		return new Maze((StartingRoom) rooms[3][0], (EndingRoom) rooms[3][4]);
+		super(gameInterface, movesPerTurn);
+
+		try {
+			generateRooms();
+			generateDoors();
+
+			Backpack backpack = Backpack.factory(10, this);
+			backpack.addItem(new Key("LY4SW"));
+			Character character = new BaseCharacter("George", backpack, rooms[3][0]);
+			this.addPlayer(new HumanPlayer(character));
+			this.setMaze(new Maze((StartingRoom)rooms[3][0], (EndingRoom) rooms[3][4]));
+		} catch (InventoryFullException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	/**
 	 * Generate the rooms in the maze.
 	 */
-	private void generateRooms()
+	private void generateRooms() throws InventoryFullException
 	{
 		rooms[1][0] = new BaseRoom("Room (1,0)", "This small chamber seems divided into three parts. The first has several hooks on the walls from which hang dusty robes. An open curtain separates that space from the next, which has a dry basin set in the floor.");
 		rooms[3][0] = new StartingRoom("Room (3,0)", "A horrendous, overwhelming stench wafts from the room before you. Small cages containing small animals and large insects line the walls. Some of the creatures look sickly and alive but most are clearly dead. Their rotting corpses and the unclean cages no doubt result in the zoo's foul odor. A cat mews weakly from its cage, but the other creatures just silently shrink back into their filthy prisons.");
-		Chest chest = new Chest(10, Chest.State.CLOSED, new Lock("LY4SW", LOCKED));
-		//chest.addItem(new Key("KZSE6X"));
+		Chest chest = Chest.factory(10, Chest.State.CLOSED, Lock.factory("LY4SW", LOCKED, this), this);
+		chest.addItem(new Key("KZSE6X"));
 		rooms[3][0].addProperty("chest", chest);
 		rooms[3][0].addFeature("A dusty military sits in the corner of the room.");
 
@@ -96,14 +111,14 @@ public class MazeCreator
 
 		// Vertical
 
-		door = new BaseDoor(OPEN, new Lock("K5YUZB", UNLOCKED), rooms[1][0], rooms[1][1]);
+		door = BaseDoor.factory(OPEN, Lock.factory("K5YUZB", UNLOCKED, this), rooms[1][0], rooms[1][1], this);
 		rooms[1][0].addProperty(NORTH_DOOR_NAME, door);
 		rooms[1][1].addProperty(SOUTH_DOOR_NAME, door);
 		rooms[1][0].addFeature(NORTH_DOOR_DESC);
 		rooms[1][1].addFeature(SOUTH_DOOR_DESC);
 
 
-		door = new BaseDoor(CLOSED, new Lock("KZSE6X", LOCKED), rooms[3][0], rooms[3][1]);
+		door = BaseDoor.factory(CLOSED, Lock.factory("KZSE6X", LOCKED, this), rooms[3][0], rooms[3][1], this);
 		rooms[3][0].addProperty(NORTH_DOOR_NAME, door);
 		rooms[3][1].addProperty(SOUTH_DOOR_NAME, door);
 		rooms[3][0].addFeature(NORTH_DOOR_DESC);
@@ -111,25 +126,25 @@ public class MazeCreator
 
 		// Horizontal
 
-		door = new BaseDoor(OPEN, new Lock("KN68LL", UNLOCKED), rooms[1][1], rooms[2][1]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KN68LL", UNLOCKED, this), rooms[1][1], rooms[2][1], this);
 		rooms[1][1].addProperty(EAST_DOOR_NAME, door);
 		rooms[2][1].addProperty(WEST_DOOR_NAME, door);
 		rooms[1][1].addFeature(EAST_DOOR_DESC);
 		rooms[2][1].addFeature(WEST_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("KXICTX", UNLOCKED), rooms[2][1], rooms[3][1]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KXICTX", UNLOCKED, this), rooms[2][1], rooms[3][1], this);
 		rooms[2][1].addProperty(EAST_DOOR_NAME, door);
 		rooms[3][1].addProperty(WEST_DOOR_NAME, door);
 		rooms[2][1].addFeature(EAST_DOOR_DESC);
 		rooms[3][1].addFeature(WEST_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("KMV3F1", UNLOCKED), rooms[3][1], rooms[4][1]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KMV3F1", UNLOCKED, this), rooms[3][1], rooms[4][1], this);
 		rooms[3][1].addProperty(EAST_DOOR_NAME, door);
 		rooms[4][1].addProperty(WEST_DOOR_NAME, door);
 		rooms[3][1].addFeature(EAST_DOOR_DESC);
 		rooms[4][1].addFeature(WEST_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("KTJX8C", UNLOCKED), rooms[4][1], rooms[5][1]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KTJX8C", UNLOCKED, this), rooms[4][1], rooms[5][1], this);
 		rooms[4][1].addProperty(EAST_DOOR_NAME, door);
 		rooms[5][1].addProperty(WEST_DOOR_NAME, door);
 		rooms[4][1].addFeature(EAST_DOOR_DESC);
@@ -137,19 +152,19 @@ public class MazeCreator
 
 		// Vertical
 
-		door = new BaseDoor(OPEN, new Lock("K1WIWL", UNLOCKED), rooms[1][1], rooms[1][2]);
+		door = BaseDoor.factory(OPEN, Lock.factory("K1WIWL", UNLOCKED, this), rooms[1][1], rooms[1][2], this);
 		rooms[1][1].addProperty(NORTH_DOOR_NAME, door);
 		rooms[1][2].addProperty(SOUTH_DOOR_NAME, door);
 		rooms[1][1].addFeature(NORTH_DOOR_DESC);
 		rooms[1][2].addFeature(SOUTH_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("K8BGK7", UNLOCKED), rooms[2][1], rooms[2][2]);
+		door = BaseDoor.factory(OPEN, Lock.factory("K8BGK7", UNLOCKED, this), rooms[2][1], rooms[2][2], this);
 		rooms[2][1].addProperty(NORTH_DOOR_NAME, door);
 		rooms[2][2].addProperty(SOUTH_DOOR_NAME, door);
 		rooms[2][1].addFeature(NORTH_DOOR_DESC);
 		rooms[2][2].addFeature(SOUTH_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("K3DNE6", UNLOCKED), rooms[4][1], rooms[4][2]);
+		door = BaseDoor.factory(OPEN, Lock.factory("K3DNE6", UNLOCKED, this), rooms[4][1], rooms[4][2], this);
 		rooms[4][1].addProperty(NORTH_DOOR_NAME, door);
 		rooms[4][2].addProperty(SOUTH_DOOR_NAME, door);
 		rooms[4][1].addFeature(NORTH_DOOR_DESC);
@@ -157,25 +172,25 @@ public class MazeCreator
 
 		// Horizontal
 
-		door = new BaseDoor(OPEN, new Lock("KT6UH3", UNLOCKED), rooms[1][2], rooms[2][2]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KT6UH3", UNLOCKED, this), rooms[1][2], rooms[2][2], this);
 		rooms[1][2].addProperty(EAST_DOOR_NAME, door);
 		rooms[2][2].addProperty(WEST_DOOR_NAME, door);
 		rooms[1][2].addFeature(EAST_DOOR_DESC);
 		rooms[2][2].addFeature(WEST_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("KB71RC", UNLOCKED), rooms[2][2], rooms[3][2]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KB71RC", UNLOCKED, this), rooms[2][2], rooms[3][2], this);
 		rooms[2][2].addProperty(EAST_DOOR_NAME, door);
 		rooms[3][2].addProperty(WEST_DOOR_NAME, door);
 		rooms[2][2].addFeature(EAST_DOOR_DESC);
 		rooms[3][2].addFeature(WEST_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("KJ8O29", UNLOCKED), rooms[3][2], rooms[4][2]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KJ8O29", UNLOCKED, this), rooms[3][2], rooms[4][2], this);
 		rooms[3][2].addProperty(EAST_DOOR_NAME, door);
 		rooms[4][2].addProperty(WEST_DOOR_NAME, door);
 		rooms[3][2].addFeature(EAST_DOOR_DESC);
 		rooms[4][2].addFeature(WEST_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("KOOKW5", UNLOCKED), rooms[4][2], rooms[5][2]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KOOKW5", UNLOCKED, this), rooms[4][2], rooms[5][2], this);
 		rooms[4][2].addProperty(EAST_DOOR_NAME, door);
 		rooms[5][2].addProperty(WEST_DOOR_NAME, door);
 		rooms[4][2].addFeature(EAST_DOOR_DESC);
@@ -183,7 +198,7 @@ public class MazeCreator
 
 		// Vertical
 
-		door = new BaseDoor(OPEN, new Lock("KAT55Y", UNLOCKED), rooms[1][2], rooms[1][3]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KAT55Y", UNLOCKED, this), rooms[1][2], rooms[1][3], this);
 		rooms[1][2].addProperty(NORTH_DOOR_NAME, door);
 		rooms[1][3].addProperty(SOUTH_DOOR_NAME, door);
 		rooms[1][2].addFeature(NORTH_DOOR_DESC);
@@ -191,31 +206,31 @@ public class MazeCreator
 
 		// Horizontal
 
-		door = new BaseDoor(OPEN, new Lock("KDV046", UNLOCKED), rooms[0][3], rooms[1][3]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KDV046", UNLOCKED, this), rooms[0][3], rooms[1][3], this);
 		rooms[0][3].addProperty(EAST_DOOR_NAME, door);
 		rooms[1][3].addProperty(WEST_DOOR_NAME, door);
 		rooms[0][3].addFeature(EAST_DOOR_DESC);
 		rooms[1][3].addFeature(WEST_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("K08L4C", UNLOCKED), rooms[1][3], rooms[2][3]);
+		door = BaseDoor.factory(OPEN, Lock.factory("K08L4C", UNLOCKED, this), rooms[1][3], rooms[2][3], this);
 		rooms[1][3].addProperty(EAST_DOOR_NAME, door);
 		rooms[2][3].addProperty(WEST_DOOR_NAME, door);
 		rooms[1][3].addFeature(EAST_DOOR_DESC);
 		rooms[2][3].addFeature(WEST_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("KOME75", UNLOCKED), rooms[2][3], rooms[3][3]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KOME75", UNLOCKED, this), rooms[2][3], rooms[3][3], this);
 		rooms[2][3].addProperty(EAST_DOOR_NAME, door);
 		rooms[3][3].addProperty(WEST_DOOR_NAME, door);
 		rooms[2][3].addFeature(EAST_DOOR_DESC);
 		rooms[3][3].addFeature(WEST_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("KPQXPS", UNLOCKED), rooms[3][3], rooms[4][3]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KPQXPS", UNLOCKED, this), rooms[3][3], rooms[4][3], this);
 		rooms[3][3].addProperty(EAST_DOOR_NAME, door);
 		rooms[4][3].addProperty(WEST_DOOR_NAME, door);
 		rooms[3][3].addFeature(EAST_DOOR_DESC);
 		rooms[4][3].addFeature(WEST_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("K3ZH4R", UNLOCKED), rooms[4][3], rooms[5][3]);
+		door = BaseDoor.factory(OPEN, Lock.factory("K3ZH4R", UNLOCKED, this), rooms[4][3], rooms[5][3], this);
 		rooms[4][3].addProperty(EAST_DOOR_NAME, door);
 		rooms[5][3].addProperty(WEST_DOOR_NAME, door);
 		rooms[4][3].addFeature(EAST_DOOR_DESC);
@@ -223,13 +238,13 @@ public class MazeCreator
 
 		// Vertical
 
-		door = new BaseDoor(OPEN, new Lock("KEFVH2", UNLOCKED), rooms[2][3], rooms[2][4]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KEFVH2", UNLOCKED, this), rooms[2][3], rooms[2][4], this);
 		rooms[2][3].addProperty(NORTH_DOOR_NAME, door);
 		rooms[2][4].addProperty(SOUTH_DOOR_NAME, door);
 		rooms[2][3].addFeature(NORTH_DOOR_DESC);
 		rooms[2][4].addFeature(SOUTH_DOOR_DESC);
 
-		door = new BaseDoor(OPEN, new Lock("KVW42D", UNLOCKED), rooms[3][3], rooms[3][4]);
+		door = BaseDoor.factory(OPEN, Lock.factory("KVW42D", UNLOCKED, this), rooms[3][3], rooms[3][4], this);
 		rooms[3][3].addProperty(NORTH_DOOR_NAME, door);
 		rooms[3][4].addProperty(SOUTH_DOOR_NAME, door);
 		rooms[3][3].addFeature(NORTH_DOOR_DESC);

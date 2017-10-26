@@ -2,6 +2,7 @@ package textadventure.doors;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.ActionPerformCallback;
 
 /**
  * {@link textadventure.actions.Action} that allows a player to gather information about a {@link Door}.
@@ -23,13 +24,21 @@ public class InspectDoorAction extends DoorAction
 	private Outcome outcome;
 
 	/**
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link InspectDoorAction}.
+	 */
+	private ActionPerformCallback<InspectDoorAction> callback;
+
+	/**
 	 * Creates a new {@link InspectDoorAction}.
 	 *
-	 * @param door The {@link Door} to inspect.
+	 * @param door     The {@link Door} to inspect.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link InspectDoorAction}.
 	 */
-	InspectDoorAction(Door door)
+	InspectDoorAction(Door door, ActionPerformCallback<InspectDoorAction> callback)
 	{
 		super(door);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -42,7 +51,7 @@ public class InspectDoorAction extends DoorAction
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		outcome = Outcome.SUCCESS;
-		game.getGameInterface().onDoorInspect(game, player, this);
+		callback.send(game, player, this);
 	}
 
 	/**

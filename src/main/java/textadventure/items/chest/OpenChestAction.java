@@ -2,7 +2,7 @@ package textadventure.items.chest;
 
 import textadventure.Game;
 import textadventure.Player;
-import textadventure.ui.GameInterface;
+import textadventure.actions.ActionPerformCallback;
 
 public class OpenChestAction extends ChestAction
 {
@@ -34,13 +34,21 @@ public class OpenChestAction extends ChestAction
 	private Outcome outcome;
 
 	/**
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link OpenChestAction}.
+	 */
+	private ActionPerformCallback<OpenChestAction> callback;
+
+	/**
 	 * Creates a new {@link OpenChestAction}.
 	 *
-	 * @param chest The {@link Chest} opened by the {@link OpenChestAction}.
+	 * @param chest    The {@link Chest} to be opened.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link OpenChestAction}.
 	 */
-	OpenChestAction(Chest chest)
+	OpenChestAction(Chest chest, ActionPerformCallback<OpenChestAction> callback)
 	{
 		super(chest);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -52,12 +60,11 @@ public class OpenChestAction extends ChestAction
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-		Chest.State   state         = chest.getState();
-		GameInterface userInterface = game.getGameInterface();
+		Chest.State state = chest.getState();
 
 		if (state == Chest.State.OPEN) {
 			outcome = Outcome.ALREADY_OPEN;
-			userInterface.onChestOpen(game, player, this);
+			callback.send(game, player, this);
 			return;
 		}
 
@@ -65,15 +72,15 @@ public class OpenChestAction extends ChestAction
 			try {
 				chest.open();
 				outcome = Outcome.SUCCESS;
-				userInterface.onChestOpen(game, player, this);
+				callback.send(game, player, this);
 				return;
 			} catch (ChestAlreadyOpenException e) {
 				outcome = Outcome.ALREADY_OPEN;
-				userInterface.onChestOpen(game, player, this);
+				callback.send(game, player, this);
 				return;
 			} catch (ChestLockedException e) {
 				outcome = Outcome.LOCKED;
-				userInterface.onChestOpen(game, player, this);
+				callback.send(game, player, this);
 				return;
 			}
 		}

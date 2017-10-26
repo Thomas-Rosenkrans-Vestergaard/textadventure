@@ -2,6 +2,7 @@ package textadventure.lock;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
 import textadventure.items.UnknownItemSlotException;
@@ -44,13 +45,21 @@ public class LockLockAction extends LockAction
 	private Outcome outcome;
 
 	/**
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link LockLockAction}.
+	 */
+	private ActionPerformCallback<LockLockAction> callback;
+
+	/**
 	 * Creates a new {@link LockLockAction}.
 	 *
-	 * @param lock The {@link Lock} to execute the {@link LockLockAction} on.
+	 * @param lock     The {@link Lock} to execute the {@link LockLockAction} on.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link LockLockAction}.
 	 */
-	public LockLockAction(Lock lock)
+	public LockLockAction(Lock lock, ActionPerformCallback<LockLockAction> callback)
 	{
 		super(lock);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -67,7 +76,7 @@ public class LockLockAction extends LockAction
 
 		if (state == Lock.State.LOCKED) {
 			outcome = Outcome.ALREADY_LOCKED;
-			userInterface.onLockLock(game, player, this);
+			callback.send(game, player, this);
 			return;
 		}
 
@@ -78,22 +87,22 @@ public class LockLockAction extends LockAction
 					Item item = backpack.getItem(choice);
 					if (!(item instanceof Key)) {
 						outcome = Outcome.SELECTED_NOT_KEY;
-						userInterface.onLockLock(game, player, this);
+						callback.send(game, player, this);
 						return;
 					}
 
 					Key key = (Key) item;
 					lock.lock(key);
 					outcome = Outcome.SUCCESS;
-					userInterface.onLockLock(game, player, this);
+					callback.send(game, player, this);
 				} catch (UnknownItemSlotException | NotEnoughItemsException e) {
 					throw new IllegalStateException(e);
 				} catch (AlreadyLockedException e) {
 					outcome = Outcome.ALREADY_LOCKED;
-					userInterface.onLockLock(game, player, this);
+					callback.send(game, player, this);
 				} catch (IncorrectKeyException e) {
 					outcome = Outcome.INCORRECT_KEY;
-					userInterface.onLockLock(game, player, this);
+					callback.send(game, player, this);
 				}
 			});
 

@@ -3,6 +3,7 @@ package textadventure.doors;
 import textadventure.*;
 import textadventure.lock.*;
 import textadventure.rooms.Room;
+import textadventure.ui.GameInterface;
 
 /**
  * Base implementation of the {@link Door} interface.
@@ -44,15 +45,34 @@ public class BaseDoor extends AbstractPropertyContainer implements Door
 		this.state = state;
 		this.roomA = roomA;
 		this.roomB = roomB;
+	}
 
-		addAction("open", new OpenDoorAction(this));
-		addAction("close", new CloseDoorAction(this));
-		addAction("use", new UseDoorAction(this));
-		addAction("inspect", new InspectDoorAction(this));
-		addAction("lock", new LockLockAction(lock));
-		addAction("unlock", new UnlockLockAction(lock));
+	/**
+	 * Creates a new {@link BaseDoor} with the {@link OpenDoorAction}, {@link CloseDoorAction},
+	 * {@link UseDoorAction}, {@link InspectDoorAction}, {@link LockLockAction} and {@link UnlockLockAction}.
+	 *
+	 * @param state The {@link textadventure.doors.Door.State} that the {@link Door} is in.
+	 * @param lock  The {@link Lock} placed on the {@link Door}.
+	 * @param roomA The first room (<code>roomA</code>).
+	 * @param roomB The second room (<code>roomB</code>).
+	 * @param game  The {@link Game} instance.
+	 * @return The newly created instance of {@link BaseDoor}.
+	 */
+	public static Door factory(State state, Lock lock, Room roomA, Room roomB, Game game)
+	{
 
-		addProperty("lock", lock);
+		BaseDoor      door          = new BaseDoor(state, lock, roomA, roomB);
+		GameInterface gameInterface = game.getGameInterface();
+		door.addAction("open", new OpenDoorAction(door, gameInterface::onDoorOpen));
+		door.addAction("close", new CloseDoorAction(door, gameInterface::onDoorClose));
+		door.addAction("use", new UseDoorAction(door, gameInterface::onDoorUse));
+		door.addAction("inspect", new InspectDoorAction(door, gameInterface::onDoorInspect));
+		door.addAction("lock", new LockLockAction(lock, gameInterface::onLockLock));
+		door.addAction("unlock", new UnlockLockAction(lock, gameInterface::onLockUnlock));
+
+		door.addProperty("lock", lock);
+
+		return door;
 	}
 
 	/**

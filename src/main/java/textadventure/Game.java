@@ -2,6 +2,7 @@ package textadventure;
 
 import textadventure.actions.Action;
 import textadventure.rooms.EndingRoom;
+import textadventure.rooms.StartingRoom;
 import textadventure.ui.GameInterface;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class Game
 	private List<Player> players = new ArrayList<>();
 
 	/**
-	 * The {@link Maze} the {@link Game} is played within.
+	 * The {@link Maze} the game is played in.
 	 */
 	private Maze maze;
 
@@ -31,7 +32,7 @@ public class Game
 	private int movesPerTurn;
 
 	/**
-	 * The current {@link Player} waiting to respond.
+	 * The current {@link Player} waiting to send.
 	 */
 	private Player currentPlayer;
 
@@ -46,10 +47,9 @@ public class Game
 	 * @param gameInterface The {@link GameInterface} to use for input-output.
 	 * @param movesPerTurn  The amount of moves per {@link Player} before the turn ends.
 	 */
-	public Game(GameInterface gameInterface, Maze maze, int movesPerTurn)
+	public Game(GameInterface gameInterface, int movesPerTurn)
 	{
 		this.gameInterface = gameInterface;
-		this.maze = maze;
 		this.movesPerTurn = movesPerTurn;
 		gameInterface.onInit(this);
 	}
@@ -156,16 +156,6 @@ public class Game
 	}
 
 	/**
-	 * Returns the {@link Maze} that the {@link Game} is played within.
-	 *
-	 * @return The {@link Maze} that the {@link Game} is played within.
-	 */
-	public Maze getMaze()
-	{
-		return this.maze;
-	}
-
-	/**
 	 * Returns the {@link GameInterface} used as input-output for the game.
 	 *
 	 * @return The {@link GameInterface} used as input-output for the game.
@@ -173,5 +163,25 @@ public class Game
 	public GameInterface getGameInterface()
 	{
 		return this.gameInterface;
+	}
+
+	/**
+	 * Returns the {@link Maze} the game is played in.
+	 *
+	 * @return the {@link Maze} the game is played in.
+	 */
+	public Maze getMaze()
+	{
+		return this.maze;
+	}
+
+	/**
+	 * Sets the {@link Maze} the game is played in.
+	 *
+	 * @param maze The {@link Maze} instance to set.
+	 */
+	public void setMaze(Maze maze)
+	{
+		this.maze = maze;
 	}
 }

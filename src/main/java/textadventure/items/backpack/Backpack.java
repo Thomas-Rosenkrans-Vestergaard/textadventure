@@ -1,9 +1,11 @@
 package textadventure.items.backpack;
 
+import textadventure.Game;
 import textadventure.Property;
 import textadventure.actions.Action;
 import textadventure.items.BaseInventory;
 import textadventure.items.Inventory;
+import textadventure.ui.GameInterface;
 
 import java.util.HashMap;
 import java.util.stream.Stream;
@@ -27,8 +29,23 @@ public class Backpack extends BaseInventory implements Property
 	public Backpack(int countSlots)
 	{
 		super(countSlots);
+	}
 
-		addAction("inspect", new InspectBackpackAction(this));
+	/**
+	 * Creates and returns a new {@link Backpack} with the {@link InspectBackpackAction}.
+	 *
+	 * @param countSlots The number of slots in the {@link Backpack}.
+	 * @param game       The {@link Game} instance.
+	 * @return The newly created {@link Backpack}.
+	 */
+	public static Backpack factory(int countSlots, Game game)
+	{
+		Backpack      backpack      = new Backpack(countSlots);
+		GameInterface gameInterface = game.getGameInterface();
+
+		backpack.addAction("inspect", new InspectBackpackAction(backpack, gameInterface::onBackpackInspect));
+
+		return backpack;
 	}
 
 	/**

@@ -4,11 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import textadventure.*;
 import textadventure.Character;
 import textadventure.actions.Action;
-import textadventure.actions.ActionResponse;
+import textadventure.actions.ActionRequestCallback;
 import textadventure.doors.*;
 import textadventure.items.Inventory;
 import textadventure.items.Item;
-import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.*;
@@ -26,13 +25,7 @@ public class ConsoleGameInterface implements GameInterface
 	public static void main(String[] args) throws Exception
 	{
 		GameInterface gameInterface = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
-		MazeCreator   mazeCreator   = new MazeCreator();
-		Maze          maze          = mazeCreator.generate();
-		Game          game          = new Game(gameInterface, maze, 5);
-		Backpack      backpack      = new Backpack(10);
-		backpack.addItem(new Key("LY4SW"));
-		Character character = new BaseCharacter("George", backpack, maze.getStartingRoom(), 100, 100, 0, 0, 0, 0, 0, 0, 0);
-		game.addPlayer(new HumanPlayer(character));
+		DefaultGame   game          = new DefaultGame(gameInterface, 5);
 		game.start();
 	}
 
@@ -156,9 +149,9 @@ public class ConsoleGameInterface implements GameInterface
 	 *
 	 * @param game     The {@link Game} instance.
 	 * @param player   The {@link Player} who requests the {@link Action}.
-	 * @param response The {@link ActionResponse} to respond with.
+	 * @param response The {@link ActionRequestCallback} to send with.
 	 */
-	@Override public void onActionRequest(Game game, Player player, ActionResponse response)
+	@Override public void onActionRequest(Game game, Player player, ActionRequestCallback response)
 	{
 		while (true) {
 
@@ -593,7 +586,7 @@ public class ConsoleGameInterface implements GameInterface
 	 *
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
-	 * @param callback The callback to use to return the selected element.
+	 * @param callback The send to use to return the selected element.
 	 */
 	@Override public <O extends Option> void select(Select<O> select, Player player, Consumer<Integer> callback)
 	{
@@ -634,7 +627,7 @@ public class ConsoleGameInterface implements GameInterface
 	 *
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
-	 * @param callback The callback to use to return the selected element.
+	 * @param callback The send to use to return the selected element.
 	 */
 	@Override
 	public <O extends Option> void select(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback)

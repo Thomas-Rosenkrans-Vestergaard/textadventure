@@ -2,6 +2,7 @@ package textadventure.doors;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.ActionPerformCallback;
 import textadventure.rooms.Room;
 
 /**
@@ -33,13 +34,21 @@ public class UseDoorAction extends DoorAction
 	private Outcome outcome;
 
 	/**
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link UseDoorAction}.
+	 */
+	private ActionPerformCallback<UseDoorAction> callback;
+
+	/**
 	 * Creates a new {@link UseDoorAction}.
 	 *
-	 * @param door The {@link Door} to use.
+	 * @param door     The {@link Door} to be used.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link UseDoorAction}.
 	 */
-	UseDoorAction(Door door)
+	UseDoorAction(Door door, ActionPerformCallback<UseDoorAction> callback)
 	{
 		super(door);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -62,14 +71,14 @@ public class UseDoorAction extends DoorAction
 
 		if (state == Door.State.CLOSED) {
 			outcome = Outcome.CLOSED;
-			game.getGameInterface().onDoorUse(game, player, this);
+			callback.send(game, player, this);
 			return;
 		}
 
 		if (state == Door.State.OPEN) {
 			outcome = Outcome.SUCCESS;
 			player.getCharacter().setCurrentLocation(targetRoom);
-			game.getGameInterface().onDoorUse(game, player, this);
+			callback.send(game, player, this);
 			return;
 		}
 

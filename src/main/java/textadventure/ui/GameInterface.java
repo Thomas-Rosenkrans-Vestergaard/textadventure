@@ -1,6 +1,6 @@
 package textadventure.ui;
 
-import textadventure.actions.ActionResponse;
+import textadventure.actions.ActionRequestCallback;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.Action;
@@ -70,9 +70,9 @@ public interface GameInterface
 	 *
 	 * @param game     The {@link Game} instance.
 	 * @param player   The {@link Player} who requests the {@link Action}.
-	 * @param response The {@link ActionResponse} to respond with.
+	 * @param response The {@link ActionRequestCallback} to send with.
 	 */
-	void onActionRequest(Game game, Player player, ActionResponse response);
+	void onActionRequest(Game game, Player player, ActionRequestCallback response);
 
 	/**
 	 * Event when a {@link Player} performs the {@link OpenDoorAction}.
@@ -187,7 +187,7 @@ public interface GameInterface
 	 *
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
-	 * @param callback The callback to use to return the selected element.
+	 * @param callback The send to use to return the selected element.
 	 * @param <O>      The type of {@link Option}.
 	 */
 	<O extends Option> void select(Select<O> select, Player player, Consumer<Integer> callback);
@@ -197,7 +197,7 @@ public interface GameInterface
 	 *
 	 * @param select   The {@link Select}.
 	 * @param player   The {@link Player} selecting.
-	 * @param callback The callback to use to return the selected element.
+	 * @param callback The send to use to return the selected element.
 	 * @param <O>      The type of {@link Option}.
 	 */
 	<O extends Option> void select(MultiSelect<O> select, Player player, Consumer<List<Integer>> callback);

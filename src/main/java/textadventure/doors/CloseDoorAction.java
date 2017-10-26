@@ -3,6 +3,7 @@ package textadventure.doors;
 import textadventure.actions.Action;
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.ActionPerformCallback;
 
 /**
  * {@link Action} that allows a player to close a {@link Door}.
@@ -38,13 +39,21 @@ public class CloseDoorAction extends DoorAction
 	private Outcome outcome;
 
 	/**
-	 * Creates a new {@link CloseDoorAction}.
-	 *
-	 * @param door The {@link Door} to be closed.
+	 * {@link ActionPerformCallback} to use as a send after performing the {@link CloseDoorAction}.
 	 */
-	CloseDoorAction(Door door)
+	private ActionPerformCallback<CloseDoorAction> callback;
+
+	/**
+	 * Creates a new {@link OpenDoorAction}.
+	 *
+	 * @param door     The {@link Door} to be closed.
+	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link CloseDoorAction}.
+	 */
+	CloseDoorAction(Door door, ActionPerformCallback<CloseDoorAction> callback)
 	{
 		super(door);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -59,13 +68,13 @@ public class CloseDoorAction extends DoorAction
 		try {
 			getDoor().close();
 			this.outcome = Outcome.SUCCESS;
-			game.getGameInterface().onDoorClose(game, player, this);
+			callback.send(game, player, this);
 		} catch (DoorAlreadyClosedException e) {
 			this.outcome = Outcome.ALREADY_CLOSED;
-			game.getGameInterface().onDoorClose(game, player, this);
+			callback.send(game, player, this);
 		} catch (DoorLockedException e) {
 			this.outcome = Outcome.LOCKED;
-			game.getGameInterface().onDoorClose(game, player, this);
+			callback.send(game, player, this);
 		}
 	}
 

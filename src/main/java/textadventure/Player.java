@@ -1,7 +1,7 @@
 package textadventure;
 
 import textadventure.actions.Action;
-import textadventure.actions.ActionResponse;
+import textadventure.actions.ActionRequestCallback;
 
 public interface Player
 {
@@ -19,5 +19,5 @@ public interface Player
 	 * @param game     The {@link Game} instance.
 	 * @param response The callback to use for returning an appropriate {@link Action}.
 	 */
-	void takeTurn(Game game, ActionResponse response);
+	void takeTurn(Game game, ActionRequestCallback response);
 }
