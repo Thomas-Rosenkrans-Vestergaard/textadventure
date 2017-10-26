@@ -2,6 +2,17 @@ package textadventure.items.backpack;
 
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.ActionPerformCallback;
+import textadventure.items.InventoryFullException;
+import textadventure.items.Item;
+import textadventure.items.NotEnoughItemsException;
+import textadventure.items.UnknownItemSlotException;
+import textadventure.items.chest.Chest;
+import textadventure.items.chest.TakeItemFromChestAction;
+import textadventure.rooms.Floor;
+import textadventure.ui.GameInterface;
+
+import static textadventure.items.backpack.DropItemAction.Outcome.SUCCESS;
 
 /**
  * {@link textadventure.actions.Action} that allows a player to discard {@link textadventure.items.Item}(s) from the
@@ -23,14 +34,20 @@ public class DropItemAction extends BackpackAction
 	 */
 	private Outcome outcome;
 
+	private ActionPerformCallback<DropItemAction> callback;
+
+	private Item item;
+
 	/**
 	 * Creates a new {@link DropItemAction}.
 	 *
 	 * @param backpack The {@link Backpack} to discard {@link textadventure.items.Item}s from.
 	 */
-	public DropItemAction(Backpack backpack)
+	public DropItemAction(Backpack backpack, ActionPerformCallback<DropItemAction> callback)
 	{
 		super(backpack);
+
+		this.callback = callback;
 	}
 
 	/**
@@ -42,7 +59,20 @@ public class DropItemAction extends BackpackAction
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-		throw new UnsupportedOperationException();
+
+		GameInterface userInterface = game.getGameInterface();
+
+		userInterface.select(player.getCharacter().getCurrentLocation().getFloor(), player ,choice ->{
+			try {
+				Backpack backpack = player.getCharacter().getBackpack();
+				this.item = player.getCharacter().getBackpack().takeItem(choice);
+				player.getCharacter().getCurrentLocation().getFloor().addItem(this.item);
+				outcome = SUCCESS;
+				callback.send(game, player, this);
+			} catch (UnknownItemSlotException | NotEnoughItemsException | InventoryFullException e) {
+				throw new IllegalStateException();
+			}
+		});
 	}
 
 	/**
@@ -53,5 +83,15 @@ public class DropItemAction extends BackpackAction
 	public Outcome getOutcome()
 	{
 		return this.outcome;
+	}
+
+	/**
+	 * Returns the {@link Item} that was dropped.
+	 *
+	 * @return The {@link Item} that was dropped.
+	 */
+	public Item getItem()
+	{
+		return item;
 	}
 }

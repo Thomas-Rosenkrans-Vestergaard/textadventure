@@ -22,13 +22,17 @@ public class BaseInventory implements Inventory
 	private int numberOfSlots;
 	private int numberOfItems;
 
+	public BaseInventory()
+	{
+		this(Integer.MAX_VALUE);
+	}
+
 	public BaseInventory(int numberOfSlots)
 	{
 		this.items = new HashMap<>(numberOfSlots);
 		this.types = new HashMap<>(numberOfSlots);
 		this.numberOfSlots = numberOfSlots;
 		this.numberOfItems = 0;
-		populateMaps();
 	}
 
 	/**
@@ -45,19 +49,10 @@ public class BaseInventory implements Inventory
 	{
 		ImmutableMap.Builder<Integer, Item> builder = new ImmutableMap.Builder<>();
 		for (Map.Entry<Integer, Stack<Item>> entry : this.items.entrySet()) {
-			if (entry.getValue().size() > 0)
-				builder.put(entry.getKey(), entry.getValue().peek());
+			builder.put(entry.getKey(), entry.getValue().peek());
 		}
 
 		return builder.build();
-	}
-
-	private void populateMaps()
-	{
-		for (int x = 0; x < numberOfSlots; x++) {
-			if (!items.containsKey(x)) items.put(x, new Stack<>());
-			if (!types.containsKey(x)) types.put(x, null);
-		}
 	}
 
 	private void validateSlot(int slot) throws UnknownItemSlotException
@@ -73,120 +68,125 @@ public class BaseInventory implements Inventory
 	{
 		Integer itemType = item.getType();
 		for (int x = 0; x < numberOfSlots; x++) {
-			Integer slotType = types.get(x);
-			if (slotType != null && slotType.equals(itemType)) {
-				items.get(x).push(item);
-				numberOfItems++;
-				return;
+			if (items.containsKey(x)) {
+				Integer slotType = types.get(x);
+				if (slotType != null && slotType.equals(itemType)) {
+					items.get(x).push(item);
+					numberOfItems++;
+					return;
+				}
 			}
 		}
 
 		for (int x = 0; x < numberOfSlots; x++) {
-			Integer slotType = types.get(x);
+			if (items.containsKey(x)) {
+				if (slotType == null) {
+					types.put(x, item.getType());
+					items.get(x).push(item);
+					numberOfItems++;
+					return;
+				}
+			}
+
+			throw new InventoryFullException(this);
+		}
+
+		@Override
+		public void addItem (Item item,int slot) throws
+		UnknownItemSlotException, InventoryTypeMismatchException, ItemSlotFullException
+		{
+			validateSlot(slot);
+			Stack<Item> stack    = items.get(slot);
+			int         size     = stack.size();
+			Integer     slotType = types.get(slot);
+			int         itemType = item.getType();
+
 			if (slotType == null) {
-				types.put(x, item.getType());
-				items.get(x).push(item);
+				types.put(slot, itemType);
+				stack.push(item);
 				numberOfItems++;
 				return;
 			}
-		}
 
-		throw new InventoryFullException(this);
-	}
+			if (slotType != itemType) {
+				throw new InventoryTypeMismatchException(this, slot, slotType, itemType);
+			}
 
-	@Override
-	public void addItem(Item item, int slot) throws UnknownItemSlotException, InventoryTypeMismatchException, ItemSlotFullException
-	{
-		validateSlot(slot);
-		Stack<Item> stack    = items.get(slot);
-		int         size     = stack.size();
-		Integer     slotType = types.get(slot);
-		int         itemType = item.getType();
+			if (size == numberOfSlots) {
+				throw new ItemSlotFullException(this, numberOfSlots);
+			}
 
-		if (slotType == null) {
-			types.put(slot, itemType);
 			stack.push(item);
-			numberOfItems++;
-			return;
+			this.numberOfItems++;
 		}
 
-		if (slotType != itemType) {
-			throw new InventoryTypeMismatchException(this, slot, slotType, itemType);
+		@Override public Item takeItem ( int slot) throws UnknownItemSlotException, NotEnoughItemsException
+		{
+			return takeItem(slot, 1).pop();
 		}
 
-		if (size == numberOfSlots) {
-			throw new ItemSlotFullException(this, numberOfSlots);
+		@Override public Stack<Item> takeItem ( int slot, int amount) throws
+		UnknownItemSlotException, NotEnoughItemsException
+		{
+			validateSlot(slot);
+			Stack<Item> result = new Stack<>();
+			Stack<Item> stack  = items.get(slot);
+			if (stack.size() < amount)
+				throw new NotEnoughItemsException(this, 0, amount, stack.size());
+
+			int moved = 0;
+			while (moved < amount) {
+				result.push(stack.pop());
+				numberOfItems--;
+				moved++;
+			}
+
+			return result;
 		}
 
-		stack.push(item);
-		this.numberOfItems++;
-	}
-
-	@Override public Item takeItem(int slot) throws UnknownItemSlotException, NotEnoughItemsException
-	{
-		return takeItem(slot, 1).pop();
-	}
-
-	@Override public Stack<Item> takeItem(int slot, int amount) throws UnknownItemSlotException, NotEnoughItemsException
-	{
-		validateSlot(slot);
-		Stack<Item> result = new Stack<>();
-		Stack<Item> stack  = items.get(slot);
-		if (stack.size() < amount)
-			throw new NotEnoughItemsException(this, 0, amount, stack.size());
-
-		int moved = 0;
-		while (moved < amount) {
-			result.push(stack.pop());
-			numberOfItems--;
-			moved++;
+		@Override public Item getItem ( int slot) throws UnknownItemSlotException, NotEnoughItemsException
+		{
+			return getItem(slot, 1).pop();
 		}
 
-		return result;
-	}
+		@Override public Stack<Item> getItem ( int slot, int amount) throws
+		UnknownItemSlotException, NotEnoughItemsException
+		{
+			validateSlot(slot);
+			Stack<Item> result = new Stack<>();
+			Stack<Item> stack  = items.get(slot);
+			if (stack.size() < amount)
+				throw new NotEnoughItemsException(this, 0, amount, stack.size());
 
-	@Override public Item getItem(int slot) throws UnknownItemSlotException, NotEnoughItemsException
-	{
-		return getItem(slot, 1).pop();
-	}
+			int moved = 0;
+			while (moved < amount) {
+				result.push(stack.peek());
+				numberOfItems--;
+				moved++;
+			}
 
-	@Override public Stack<Item> getItem(int slot, int amount) throws UnknownItemSlotException, NotEnoughItemsException
-	{
-		validateSlot(slot);
-		Stack<Item> result = new Stack<>();
-		Stack<Item> stack  = items.get(slot);
-		if (stack.size() < amount)
-			throw new NotEnoughItemsException(this, 0, amount, stack.size());
-
-		int moved = 0;
-		while (moved < amount) {
-			result.push(stack.peek());
-			numberOfItems--;
-			moved++;
+			return result;
 		}
 
-		return result;
-	}
+		@Override public int getNumberOfItems ()
+		{
+			return numberOfItems;
+		}
 
-	@Override public int getNumberOfItems()
-	{
-		return numberOfItems;
-	}
+		@Override public int getNumberOfItems ( int slot) throws UnknownItemSlotException
+		{
+			validateSlot(slot);
+			return items.get(slot).size();
+		}
 
-	@Override public int getNumberOfItems(int slot) throws UnknownItemSlotException
-	{
-		validateSlot(slot);
-		return items.get(slot).size();
-	}
+		@Override public int getNumberOfSlots ()
+		{
+			return numberOfSlots;
+		}
 
-	@Override public int getNumberOfSlots()
-	{
-		return numberOfSlots;
+		@Override public void expand ( int slots)
+		{
+			this.numberOfSlots += slots;
+			populateMaps();
+		}
 	}
-
-	@Override public void expand(int slots)
-	{
-		this.numberOfSlots += slots;
-		populateMaps();
-	}
-}

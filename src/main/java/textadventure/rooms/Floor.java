@@ -11,11 +11,9 @@ public class Floor extends BaseInventory
 
 	/**
 	 * Creates a new {@link Floor}.
-	 *
-	 * @param numberOfSlots The number of available slots in the {@link textadventure.items.Inventory}.
 	 */
-	public Floor(int numberOfSlots)
+	public Floor()
 	{
-		super(numberOfSlots);
+		super();
 	}
 }

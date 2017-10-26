@@ -8,6 +8,7 @@ import textadventure.doors.CloseDoorAction;
 import textadventure.doors.InspectDoorAction;
 import textadventure.doors.OpenDoorAction;
 import textadventure.doors.UseDoorAction;
+import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
@@ -174,11 +175,11 @@ public interface GameInterface
 	void onChestTake(Game game, Player player, TakeItemFromChestAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
+	 * Event when a {@link Player} performs the {@link DropItemAction}.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link DepositItemsIntoChestAction}.
-	 * @param action The {@link DepositItemsIntoChestAction} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link DropItemAction}.
+	 * @param action The {@link DropItemAction} instance.
 	 */
 	void onChestDeposit(Game game, Player player, DepositItemsIntoChestAction action);
 
@@ -187,9 +188,18 @@ public interface GameInterface
 	 *
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} who attempted to perform the {@link InspectBackpackAction}.
-	 * @param action The {@link InspectBackpackAction} instance.
+	 * @param action The {@link InspectBackpackAction} inst ance.
 	 */
 	void onBackpackInspect(Game game, Player player, InspectBackpackAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link DepositItemsIntoChestAction}.
+	 * @param action The {@link DepositItemsIntoChestAction} instance.
+	 */
+	void onItemDrop(Game game, Player player, DropItemAction action);
 
 	/**
 	 * Prompts the player to select an {@link Option}.

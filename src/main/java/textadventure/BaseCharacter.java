@@ -2,6 +2,7 @@ package textadventure;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.items.backpack.Backpack;
+import textadventure.items.backpack.DropItemAction;
 import textadventure.rooms.Room;
 
 public class BaseCharacter extends AbstractPropertyContainer implements Character
@@ -94,8 +95,6 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 		this.intelligence = intelligence;
 		this.stealth = stealth;
 		this.money = money;
-
-		addProperty("backpack", backpack);
 	}
 
 	/**
@@ -121,6 +120,16 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 				DEFAULT_STEALTH,
 				DEFAULT_MONEY
 		);
+	}
+
+	public Character factory(String name, Backpack backpack, Room currentLocation, Game game)
+	{
+		BaseCharacter baseCharacter = new BaseCharacter(name, backpack, currentLocation);
+
+		baseCharacter.addProperty("backpack", backpack);
+		baseCharacter.addAction("drop", new DropItemAction(backpack, game.getGameInterface()::onItemDrop));
+
+		return baseCharacter;
 	}
 
 	/**

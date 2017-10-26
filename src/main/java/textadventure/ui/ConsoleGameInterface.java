@@ -8,6 +8,7 @@ import textadventure.actions.ActionRequestCallback;
 import textadventure.doors.*;
 import textadventure.items.Inventory;
 import textadventure.items.Item;
+import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
@@ -619,6 +620,19 @@ public class ConsoleGameInterface implements GameInterface
 		}
 
 		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link DepositItemsIntoChestAction}.
+	 * @param action The {@link DepositItemsIntoChestAction} instance.
+	 */
+	@Override public void onItemDrop(Game game, Player player, DropItemAction action)
+	{
+		System.out.println("dropped");
+		System.out.println(action.getOutcome());
 	}
 
 	private void printInventory(Inventory inventory)

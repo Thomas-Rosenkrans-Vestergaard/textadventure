@@ -1,6 +1,7 @@
 package textadventure.rooms;
 
 import textadventure.AbstractPropertyContainer;
+import textadventure.items.Inventory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,8 @@ public class BaseRoom extends AbstractPropertyContainer implements Room
 	 * The description of the {@link Room}.
 	 */
 	private final String description;
+
+	private final Floor floor = new Floor();
 
 	/**
 	 * The features in the room.
@@ -64,6 +67,16 @@ public class BaseRoom extends AbstractPropertyContainer implements Room
 
 		builder.append('\n');
 		return builder.toString();
+	}
+
+	/**
+	 * Returns the {@link Floor} of the {@link Room}.
+	 *
+	 * @return The {@link Floor} of the {@link Room}.
+	 */
+	@Override public Floor getFloor()
+	{
+		return floor;
 	}
 
 	/**
