@@ -2,9 +2,10 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * Default implementation of the {@link Select} interface.
@@ -15,7 +16,7 @@ public class BaseSelect<T extends Option> implements Select<T>
 	/**
 	 * The {@link Option}s that can be selected.
 	 */
-	private final Map<Integer, T> options;
+	private final Set<T> options;
 
 	/**
 	 * The minimum number of {@link Option}s that must be selected.
@@ -38,7 +39,7 @@ public class BaseSelect<T extends Option> implements Select<T>
 	 * @param options  The {@link Option}s that can be selected.
 	 * @param response The event called when the selected {@link Option}(s) have been validated.
 	 **/
-	public BaseSelect(Map<Integer, T> options, SelectResponse<T> response)
+	public BaseSelect(Set<T> options, SelectResponse<T> response)
 	{
 		this(options, 0, options.size(), response);
 	}
@@ -50,7 +51,7 @@ public class BaseSelect<T extends Option> implements Select<T>
 	 * @param exactOptions The number of {@link Option}s that must be selected.
 	 * @param response     The event called when the selected {@link Option}(s) have been validated.
 	 */
-	public BaseSelect(Map<Integer, T> options, int exactOptions, SelectResponse<T> response)
+	public BaseSelect(Set<T> options, int exactOptions, SelectResponse<T> response)
 	{
 		this(options, exactOptions, exactOptions, response);
 	}
@@ -63,7 +64,7 @@ public class BaseSelect<T extends Option> implements Select<T>
 	 * @param maximumNumber The maximum number of {@link Option}s that can be selected.
 	 * @param response      The event called when the selected {@link Option}(s) have been validated.
 	 */
-	public BaseSelect(Map<Integer, T> options, int minimumNumber, int maximumNumber, SelectResponse<T> response)
+	public BaseSelect(Set<T> options, int minimumNumber, int maximumNumber, SelectResponse<T> response)
 	{
 		if (minimumNumber < -1)
 			throw new IllegalArgumentException("Minimum number of options can not be less than -1.");
@@ -97,11 +98,12 @@ public class BaseSelect<T extends Option> implements Select<T>
 	{
 		int size = selected.size();
 		if (size < minimumNumber || size > maximumNumber)
-			throw new SelectionAmountOutOfBounds(this, minimumNumber, maximumNumber, size, selected);
+			throw new SelectionAmountOutOfBounds(this, minimumNumber, maximumNumber, size, new ImmutableSet
+					.Builder<Option>().addAll(selected).build());
 
 		for (Option option : selected)
-			if (!options.containsKey(option.getOptionIdentifier()))
-				throw new UnknownOptionException(this, new ImmutableList.Builder<Option>().addAll(options.values()).build(), option);
+			if (!options.contains(option))
+				throw new UnknownOptionException(this, new ImmutableSet.Builder<Option>().addAll(options).build(), option);
 
 		response.response(selected);
 	}
@@ -133,6 +135,11 @@ public class BaseSelect<T extends Option> implements Select<T>
 	 */
 	@Override public ImmutableMap<Integer, T> getOptions()
 	{
-		return new ImmutableMap.Builder<Integer, T>().putAll(options).build();
+		ImmutableMap.Builder<Integer, T> builder = new ImmutableMap.Builder<>();
+		for (T option : options) {
+			builder.put(option.getOptionIdentifier(), option);
+		}
+
+		return builder.build();
 	}
 }

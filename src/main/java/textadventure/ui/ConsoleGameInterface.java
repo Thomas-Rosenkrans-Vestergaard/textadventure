@@ -2,6 +2,7 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import textadventure.*;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
@@ -31,6 +32,12 @@ public class ConsoleGameInterface implements GameInterface
 
 	public static void main(String[] args) throws Exception
 	{
+		/*ImmutableSet.Builder<Option> builder = new ImmutableSet.Builder<>();
+		builder.add(new BaseOption(1, "a", "b"));
+		ImmutableSet<Option> set = builder.build();
+		System.out.println(set.contains(new BaseOption(1, "a", "b")));*/
+
+
 		GameInterface gameInterface = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
 		DefaultGame   game          = new DefaultGame(gameInterface, 5);
 		game.start();

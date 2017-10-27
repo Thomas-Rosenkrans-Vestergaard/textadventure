@@ -1,6 +1,7 @@
 package textadventure.items;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import textadventure.ui.BaseOption;
 import textadventure.ui.Option;
 
@@ -322,14 +323,14 @@ public class BaseInventory implements Inventory
 	/**
 	 * Returns the slots in the {@link Inventory} as {@link Option}s.
 	 *
-	 * @return The {@link ImmutableMap} of {@link Option}s.
+	 * @return The {@link ImmutableSet} of {@link Option}s.
 	 */
-	@Override public ImmutableMap<Integer, Option> asOptions()
+	@Override public ImmutableSet<Option> asOptions()
 	{
-		ImmutableMap.Builder<Integer, Option> builder = new ImmutableMap.Builder<>();
+		ImmutableSet.Builder<Option> builder = new ImmutableSet.Builder<>();
 		items.forEach((position, stack) -> {
 			Item item = stack.peek();
-			builder.put(position, new BaseOption(position, item.getItemName(), item.getItemDescription()));
+			builder.add(new BaseOption(position, item.getItemName(), item.getItemDescription()));
 		});
 
 		return builder.build();

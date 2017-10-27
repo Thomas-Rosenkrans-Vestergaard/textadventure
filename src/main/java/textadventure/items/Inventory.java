@@ -1,6 +1,7 @@
 package textadventure.items;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import textadventure.ui.Option;
 
 import java.util.Stack;
@@ -140,7 +141,7 @@ public interface Inventory
 	/**
 	 * Returns the slots in the {@link Inventory} as {@link Option}s.
 	 *
-	 * @return The {@link ImmutableMap} of {@link Option}s.
+	 * @return The {@link ImmutableSet} of {@link Option}s.
 	 */
-	ImmutableMap<Integer, Option> asOptions();
+	ImmutableSet<Option> asOptions();
 }
