@@ -1,6 +1,7 @@
 Backpack upgrades
 Monsters
 high score file
-action unit testing // Hjalmar
+action unit testing
 generalized takeItemAction
 remove addFeature, write room descriptions
+'abort' to abort out of current action

@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class Pipe implements Weapon
+public class Pipe implements BluntWeapon
 {
 	/**
 	 * Returns The name of the {@link Pipe}.
@@ -9,7 +9,7 @@ public class Pipe implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Pipe";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Pipe implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "Warning, not for tobacco, unless you're desperate.";
 	}
 
 	/**
@@ -31,4 +31,5 @@ public class Pipe implements Weapon
 	{
 		return 0;
 	}
+
 }

@@ -9,6 +9,7 @@ import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
 import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
+import textadventure.items.backpack.DropItemAction;
 import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
 import textadventure.ui.Option;
@@ -43,6 +44,10 @@ public class DepositItemsIntoChestAction extends ChestAction
 		 * No {@link Item}(s) could be deposited, since the {@link Chest} is closed.
 		 */
 		CLOSED,
+		/**
+		 * Argument is not an int
+		 */
+		ARGUMENT_NOT_INT,
 	}
 
 	/**
@@ -91,7 +96,15 @@ public class DepositItemsIntoChestAction extends ChestAction
 			return;
 		}
 
+
 		Backpack backpack = player.getCharacter().getBackpack();
+
+
+		if (arguments.length == 1) {
+			withArguments(game, player, chest, backpack, arguments[0]);
+			return;
+		}
+
 		userInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), selection -> {
 
 			Item currentItem = null;
@@ -112,6 +125,36 @@ public class DepositItemsIntoChestAction extends ChestAction
 				callback.send(game, player, this);
 			}
 		}));
+	}
+
+	/**
+	 * *Performs the {@link DepositItemsIntoChestAction} using the argument it was given.
+	 *
+	 * @param game The {@link Game} instance.
+	 * @param player The {@link Player} performing the {@link DepositItemsIntoChestAction}.
+	 * @param chest The {@link Chest} the items get deposited into.
+	 * @param backpack The {@link Backpack} the items get taken from.
+	 * @param argument The arguments provided to the {@link DepositItemsIntoChestAction}.
+	 */
+	private void withArguments(Game game, Player player, Chest chest, Backpack backpack, String argument)
+	{
+		Item currentItem = null;
+		try {
+			currentItem = backpack.takeItem(Integer.parseInt(argument));
+			this.items.add(currentItem);
+			chest.addItem(currentItem);
+			outcome = Outcome.SUCCESS;
+			callback.send(game, player, this);
+		} catch (SlotOutOfRangeException | NotEnoughItemsException e) {
+			throw new IllegalStateException();
+		} catch (InventoryFullException e) {
+			returnItem(backpack, currentItem);
+			outcome = Outcome.CHEST_FULL;
+			callback.send(game, player, this);
+		} catch (NumberFormatException e) {
+			outcome = DepositItemsIntoChestAction.Outcome.ARGUMENT_NOT_INT;
+			callback.send(game, player, this);
+		}
 	}
 
 	/**

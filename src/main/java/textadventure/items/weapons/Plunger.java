@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class Plunger implements Weapon
+public class Plunger implements BluntWeapon
 {
 	/**
 	 * Returns The name of the {@link Plunger}.
@@ -9,7 +9,7 @@ public class Plunger implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Plunger";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Plunger implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "The smell alone is dangerous.";
 	}
 
 	/**
@@ -31,4 +31,6 @@ public class Plunger implements Weapon
 	{
 		return 0;
 	}
+
+
 }

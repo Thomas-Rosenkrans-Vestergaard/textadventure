@@ -7,6 +7,7 @@ import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
 import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
+import textadventure.items.chest.DepositItemsIntoChestAction;
 import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
 
@@ -38,6 +39,10 @@ public class LockLockAction extends LockAction
 		 * The {@link Key} selected from the {@link Player} does not fit the {@link Lock}.
 		 */
 		INCORRECT_KEY,
+		/**
+		 * Argument is not an int
+		 */
+		ARGUMENT_NOT_INT,
 	}
 
 	/**
@@ -82,7 +87,14 @@ public class LockLockAction extends LockAction
 		}
 
 		if (state == Lock.State.UNLOCKED) {
+
 			Backpack backpack = player.getCharacter().getBackpack();
+
+			if (arguments.length == 1) {
+				withArguments(game, player, backpack, arguments[0]);
+				return;
+			}
+
 			userInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), 1, selection -> {
 
 				try {
@@ -112,6 +124,45 @@ public class LockLockAction extends LockAction
 		}
 
 		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 *Performs the {@link LockLockAction} using the provided argument
+	 *
+	 * @param game The {@link Game} instance.
+	 * @param player The {@link Player} performing the {@link LockLockAction}.
+	 * @param backpack The {@link Backpack} the key is used from.
+	 * @param argument The arguments provided to the {@link LockLockAction}.
+	 */
+	private void withArguments(Game game, Player player, Backpack backpack, String argument)
+	{
+		try {
+			Item item = backpack.getItem(Integer.parseInt(argument));
+
+			if (!(item instanceof Key)) {
+				outcome = Outcome.SELECTED_NOT_KEY;
+				callback.send(game, player, this);
+				return;
+			}
+
+			Key key = (Key) item;
+			lock.lock(key);
+			outcome = Outcome.SUCCESS;
+			callback.send(game, player, this);
+
+		} catch (SlotOutOfRangeException | NotEnoughItemsException e) {
+			throw new IllegalStateException(e);
+		} catch (AlreadyLockedException e) {
+			outcome = Outcome.ALREADY_LOCKED;
+			callback.send(game, player, this);
+		} catch (IncorrectKeyException e) {
+			outcome = Outcome.INCORRECT_KEY;
+			callback.send(game, player, this);
+		}catch (NumberFormatException e) {
+			outcome = LockLockAction.Outcome.ARGUMENT_NOT_INT;
+			callback.send(game, player, this);
+		}
+
 	}
 
 	/**

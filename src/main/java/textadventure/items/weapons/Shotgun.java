@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class Shotgun implements Weapon
+public class Shotgun implements ProjectileWeapon
 {
 	/**
 	 * Returns The name of the {@link Shotgun}.
@@ -9,7 +9,7 @@ public class Shotgun implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Shotgun";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Shotgun implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "Apparently not used for hunting.";
 	}
 
 	/**

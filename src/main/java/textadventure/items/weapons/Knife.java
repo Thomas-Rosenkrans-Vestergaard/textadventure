@@ -1,6 +1,8 @@
 package textadventure.items.weapons;
 
-public class Knife implements Weapon
+import textadventure.items.Item;
+
+public class Knife implements EdgedWeapon
 {
 	/**
 	 * Returns The name of the {@link Knife}.
@@ -9,7 +11,7 @@ public class Knife implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Knife";
 	}
 
 	/**
@@ -19,7 +21,7 @@ public class Knife implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "Good for butter, if there was any.";
 	}
 
 	/**
@@ -28,6 +30,12 @@ public class Knife implements Weapon
 	 * @return The amount of damage done by the {@link Knife} to a {@link textadventure.Character}.
 	 */
 	@Override public int getDamage()
+	{
+		return 0;
+	}
+
+
+	@Override public int sharpen(Item whetstone)
 	{
 		return 0;
 	}
