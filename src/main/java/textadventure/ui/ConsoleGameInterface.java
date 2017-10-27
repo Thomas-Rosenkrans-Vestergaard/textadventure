@@ -718,7 +718,7 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		ImmutableMap<Integer, ItemType> items = inventory.getSlots();
 		if (items.isEmpty()){
-			printer.print("Your backpack is empty.");
+			printer.println("Your backpack is empty.");
 		}else{
 			items.forEach((key, value) -> printer.println(String.format("%-4d %-20s %-96s",
 					key,
