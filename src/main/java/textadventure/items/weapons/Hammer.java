@@ -9,7 +9,7 @@ public class Hammer implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Hammer";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Hammer implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "Has broken many nails.";
 	}
 
 	/**

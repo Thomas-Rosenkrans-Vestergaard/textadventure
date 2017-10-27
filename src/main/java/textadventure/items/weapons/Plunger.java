@@ -9,7 +9,7 @@ public class Plunger implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Plunger";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Plunger implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "The smell alone is dangerous.";
 	}
 
 	/**

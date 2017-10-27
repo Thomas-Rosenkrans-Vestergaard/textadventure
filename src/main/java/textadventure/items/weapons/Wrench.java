@@ -10,7 +10,7 @@ public class Wrench implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Wrench";
 	}
 
 	/**
@@ -20,7 +20,7 @@ public class Wrench implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "Seems to be made of aluminium.";
 	}
 
 	/**

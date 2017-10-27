@@ -9,7 +9,7 @@ public class Pistol implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Pistol";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Pistol implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "Not fully assembled, but it might work.";
 	}
 
 	/**
