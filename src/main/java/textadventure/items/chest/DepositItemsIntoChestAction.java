@@ -51,7 +51,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 	private Outcome outcome;
 
 	/**
-	 * The {@link ActionPerformCallback} to use as a send after performing the {@link DepositItemsIntoChestAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link DepositItemsIntoChestAction}.
 	 */
 	private ActionPerformCallback<DepositItemsIntoChestAction> callback;
 
@@ -64,7 +64,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 	 * Creates a new {@link DepositItemsIntoChestAction}.
 	 *
 	 * @param chest    The {@link Chest} to deposit {@link Item}s into.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link DepositItemsIntoChestAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link DepositItemsIntoChestAction}.
 	 */
 	DepositItemsIntoChestAction(Chest chest, ActionPerformCallback<DepositItemsIntoChestAction> callback)
 	{

@@ -1,7 +1,6 @@
 package textadventure.items.backpack;
 
 import com.google.common.collect.ImmutableList;
-import textadventure.Character;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
@@ -16,43 +15,42 @@ import textadventure.ui.GameInterface;
 import textadventure.ui.Option;
 
 /**
- * {@link textadventure.actions.Action} that allows a player to drop {@link textadventure.items.Item}(s) from the
- * {@link Backpack}. The {@link Item}s are then added to the {@link Floor} in the <code>currentLocation</code>.
+ * {@link textadventure.actions.Action} that allows a player to pickup items {@link textadventure.items.Item}(s) from
+ * the {@link Floor}.
  */
-public class DropItemAction extends BackpackAction
+public class PickupItemAction extends BackpackAction
 {
 
 	/**
-	 * The possible {@link Outcome}s of the {@link DropItemAction}.
+	 * The possible {@link Outcome}s of the {@link PickupItemAction}.
 	 */
 	public enum Outcome
 	{
 		SUCCESS,
+		INVENTORY_FULL,
 	}
 
 	/**
-	 * The {@link Outcome} of the {@link DropItemAction}.
+	 * The {@link Outcome} of the {@link PickupItemAction}.
 	 */
 	private Outcome outcome;
 
 	/**
 	 * {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
 	 */
-	private ActionPerformCallback<DropItemAction> callback;
+	private ActionPerformCallback<PickupItemAction> callback;
 
 	/**
-	 * The {@link Item}(s) that were dropped.
+	 * The {@link Item}(s) that were picked up.
 	 */
 	private ImmutableList.Builder<Item> items = new ImmutableList.Builder<>();
 
 	/**
-	 * Creates a new {@link DropItemAction}.
+	 * Creates a new {@link PickupItemAction}.
 	 *
 	 * @param backpack The {@link Backpack} to discard {@link textadventure.items.Item}s from.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the
-	 *                 {@link TakeItemFromChestAction}.
 	 */
-	public DropItemAction(Backpack backpack, ActionPerformCallback<DropItemAction> callback)
+	public PickupItemAction(Backpack backpack, ActionPerformCallback<PickupItemAction> callback)
 	{
 		super(backpack);
 
@@ -60,25 +58,25 @@ public class DropItemAction extends BackpackAction
 	}
 
 	/**
-	 * Performs the {@link DropItemAction} using the provided parameters.
+	 * Performs the {@link PickupItemAction} using the provided parameters.
 	 *
 	 * @param game      The {@link Game} instance.
-	 * @param player    The {@link Player} performing the {@link DropItemAction}.
-	 * @param arguments The arguments provided to the {@link DropItemAction}.
+	 * @param player    The {@link Player} performing the {@link PickupItemAction}.
+	 * @param arguments The arguments provided to the {@link PickupItemAction}.
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-		Character     character     = player.getCharacter();
 		GameInterface gameInterface = game.getGameInterface();
-		Floor         floor         = character.getCurrentLocation().getFloor();
-		Backpack      backpack      = character.getBackpack();
-		gameInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), selection -> {
+		Floor         floor         = player.getCharacter().getCurrentLocation().getFloor();
+		Backpack      backpack      = getBackpack();
+		gameInterface.select(game, player, new BaseSelect<>(floor.asOptions(), selection -> {
 			try {
 				for (Option option : selection) {
-					Item item = backpack.takeItem(option.getOptionIdentifier());
-					floor.addItem(item);
+					Item item = floor.takeItem(option.getOptionIdentifier());
+					backpack.addItem(item);
 					this.items.add(item);
 				}
+
 				this.outcome = Outcome.SUCCESS;
 				callback.send(game, player, this);
 			} catch (SlotOutOfRangeException | NotEnoughItemsException | InventoryFullException e) {
@@ -88,9 +86,9 @@ public class DropItemAction extends BackpackAction
 	}
 
 	/**
-	 * Returns the {@link Outcome} of the {@link DropItemAction}.
+	 * Returns the {@link Outcome} of the {@link PickupItemAction}.
 	 *
-	 * @return The {@link Outcome} of the {@link DropItemAction}.
+	 * @return The {@link Outcome} of the {@link PickupItemAction}.
 	 */
 	public Outcome getOutcome()
 	{
@@ -98,9 +96,9 @@ public class DropItemAction extends BackpackAction
 	}
 
 	/**
-	 * Returns the {@link Item}(s) that were dropped.
+	 * Returns the {@link Item}(s) that were picked up.
 	 *
-	 * @return The {@link Item}(s) that were dropped.
+	 * @return The {@link Item}(s) that were picked up.
 	 */
 	public ImmutableList<Item> getItems()
 	{

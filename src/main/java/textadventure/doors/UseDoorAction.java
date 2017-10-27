@@ -34,7 +34,7 @@ public class UseDoorAction extends DoorAction
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link UseDoorAction}.
+	 * {@link ActionPerformCallback} to invoke after performing the {@link UseDoorAction}.
 	 */
 	private ActionPerformCallback<UseDoorAction> callback;
 
@@ -42,7 +42,7 @@ public class UseDoorAction extends DoorAction
 	 * Creates a new {@link UseDoorAction}.
 	 *
 	 * @param door     The {@link Door} to be used.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link UseDoorAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link UseDoorAction}.
 	 */
 	UseDoorAction(Door door, ActionPerformCallback<UseDoorAction> callback)
 	{

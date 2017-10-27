@@ -39,7 +39,7 @@ public class CloseDoorAction extends DoorAction
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link CloseDoorAction}.
+	 * {@link ActionPerformCallback} to invoke after performing the {@link CloseDoorAction}.
 	 */
 	private ActionPerformCallback<CloseDoorAction> callback;
 
@@ -47,7 +47,7 @@ public class CloseDoorAction extends DoorAction
 	 * Creates a new {@link OpenDoorAction}.
 	 *
 	 * @param door     The {@link Door} to be closed.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link CloseDoorAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link CloseDoorAction}.
 	 */
 	CloseDoorAction(Door door, ActionPerformCallback<CloseDoorAction> callback)
 	{

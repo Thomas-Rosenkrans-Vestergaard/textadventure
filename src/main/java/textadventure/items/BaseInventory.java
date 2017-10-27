@@ -36,7 +36,6 @@ public class BaseInventory implements Inventory
 	 */
 	private int numberOfItems;
 
-
 	/**
 	 * Creates a new {@link BaseInventory} using <code>Integer.MAX_VALUE</code> as the number of slots the
 	 * {@link Inventory} can contain.
@@ -104,9 +103,9 @@ public class BaseInventory implements Inventory
 	@Override public void addItem(Item item) throws InventoryFullException
 	{
 		for (int x = 0; x < numberOfSlots; x++) {
-			if (items.containsKey(x)) {
+			if (types.containsKey(x)) {
 				ItemType slotType = types.get(x);
-				if (slotType != null && slotType.instanceOf(item)) {
+				if (slotType.instanceOf(item)) {
 					items.get(x).push(item);
 					numberOfItems++;
 					return;
@@ -115,7 +114,7 @@ public class BaseInventory implements Inventory
 		}
 
 		for (int x = 0; x < numberOfSlots; x++) {
-			if (!items.containsKey(x)) {
+			if (!types.containsKey(x)) {
 				types.put(x, item);
 				Stack<Item> stack = new Stack<>();
 				stack.push(item);
@@ -193,10 +192,12 @@ public class BaseInventory implements Inventory
 
 		int moved = 0;
 		while (moved < amount) {
-			result.push(stack.pop());
+			Item item = stack.pop();
+			result.push(item);
 			moved++;
 			if (stack.size() == 0) {
 				items.remove(slot);
+				types.remove(slot);
 				numberOfEmptySlots++;
 			}
 		}

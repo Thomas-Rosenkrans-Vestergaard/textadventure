@@ -11,6 +11,7 @@ import textadventure.items.Item;
 import textadventure.items.ItemType;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.InspectBackpackAction;
+import textadventure.items.backpack.PickupItemAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.Lock;
@@ -198,7 +199,6 @@ public class ConsoleGameInterface implements GameInterface
 					PropertyContainer container = (PropertyContainer) property;
 					property = container.getProperty(sections[i]);
 					if (property == null) {
-						System.out.println(sections[i]);
 						printer.println(
 								String.format("Unknown property '%s'.", sections[i]));
 						continue LOOP;
@@ -637,23 +637,6 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Returns a comma separated string of the names in the provided list of {@link Item}s.
-	 *
-	 * @param items The {@link Item}s.
-	 */
-	private String itemListToString(ImmutableList<Item> items)
-	{
-		StringBuilder builder = new StringBuilder();
-		int           size    = items.size();
-		for (int x = 0; x < size; x++) {
-			builder.append(items.get(x).getItemName());
-			if (x != x - 1) builder.append(", ");
-		}
-
-		return builder.toString();
-	}
-
-	/**
 	 * Event when a {@link Player} performs the {@link InspectBackpackAction}.
 	 *
 	 * @param game   The {@link Game} instance.
@@ -673,16 +656,62 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
+	 * Returns a comma separated string of the names in the provided list of {@link Item}s.
+	 *
+	 * @param items The {@link Item}s.
+	 */
+	private String itemListToString(ImmutableList<? extends ItemType> items)
+	{
+		StringBuilder builder = new StringBuilder();
+		int           size    = items.size();
+		for (int x = 0; x < size; x++) {
+			builder.append(items.get(x).getItemName());
+			if (x != size - 1) builder.append(", ");
+		}
+
+		return builder.toString();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link DropItemAction}.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link DepositItemsIntoChestAction}.
-	 * @param action The {@link DepositItemsIntoChestAction} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link DropItemAction}.
+	 * @param action The {@link DropItemAction} instance.
 	 */
 	@Override public void onItemDrop(Game game, Player player, DropItemAction action)
 	{
-		System.out.println("dropped");
-		System.out.println(action.getOutcome());
+		DropItemAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == DropItemAction.Outcome.SUCCESS) {
+			ImmutableList<Item> items = action.getItems();
+			printer.println(String.format("You successfully dropped up %d item(s) (%s).", items.size(), itemListToString
+					(items)));
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Event when a {@link Player} performs the {@link PickupItemAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link PickupItemAction}.
+	 * @param action The {@link PickupItemAction} instance.
+	 */
+	@Override public void onItemPickup(Game game, Player player, PickupItemAction action)
+	{
+		PickupItemAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == PickupItemAction.Outcome.SUCCESS) {
+			ImmutableList<Item> items = action.getItems();
+			printer.println(String.format("You successfully picked up %d item(s) (%s).", items.size(), itemListToString
+					(items)));
+			return;
+		}
+
+		throw new UnsupportedOperationException();
 	}
 
 	private void printInventory(Inventory inventory)

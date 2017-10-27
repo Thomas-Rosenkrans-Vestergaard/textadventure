@@ -3,7 +3,9 @@ package textadventure;
 import com.google.common.collect.ImmutableMap;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.DropItemAction;
+import textadventure.items.backpack.PickupItemAction;
 import textadventure.rooms.Room;
+import textadventure.ui.GameInterface;
 
 public class BaseCharacter extends BasePropertyContainer implements Character
 {
@@ -151,12 +153,14 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	 */
 	public static Character factory(String name, Backpack backpack, Room currentLocation, Game game)
 	{
-		BaseCharacter baseCharacter = new BaseCharacter(name, backpack, currentLocation);
+		BaseCharacter character     = new BaseCharacter(name, backpack, currentLocation);
+		GameInterface gameInterface = game.getGameInterface();
 
-		baseCharacter.addProperty("backpack", backpack);
-		baseCharacter.addAction("drop", new DropItemAction(backpack, game.getGameInterface()::onItemDrop));
+		character.addProperty("backpack", backpack);
+		character.addAction("drop", new DropItemAction(backpack, gameInterface::onItemDrop));
+		character.addAction("pickup", new PickupItemAction(backpack, gameInterface::onItemPickup));
 
-		return baseCharacter;
+		return character;
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class InspectChestAction extends ChestAction
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link InspectChestAction}.
+	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectChestAction}.
 	 */
 	private ActionPerformCallback<InspectChestAction> callback;
 
@@ -41,7 +41,7 @@ public class InspectChestAction extends ChestAction
 	 * Creates a new {@link InspectChestAction}.
 	 *
 	 * @param chest    The {@link Chest} to be inspected.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link InspectChestAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link InspectChestAction}.
 	 */
 	InspectChestAction(Chest chest, ActionPerformCallback<InspectChestAction> callback)
 	{
