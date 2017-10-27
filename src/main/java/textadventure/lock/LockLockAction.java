@@ -126,6 +126,14 @@ public class LockLockAction extends LockAction
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 *Performs the {@link LockLockAction} using the provided argument
+	 *
+	 * @param game The {@link Game} instance.
+	 * @param player The {@link Player} performing the {@link LockLockAction}.
+	 * @param backpack The {@link Backpack} the key is used from.
+	 * @param argument The arguments provided to the {@link LockLockAction}.
+	 */
 	private void withArguments(Game game, Player player, Backpack backpack, String argument)
 	{
 		try {
