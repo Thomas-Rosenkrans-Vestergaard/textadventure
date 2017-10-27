@@ -26,7 +26,16 @@ public class PickupItemAction extends BackpackAction
 	 */
 	public enum Outcome
 	{
+
+		/**
+		 * The {@link Item}(s) were correctly picked up.
+		 */
 		SUCCESS,
+
+		/**
+		 * One or more {@link Item} could not be picked up, since the {@link Backpack} of the {@link Character} was
+		 * full.
+		 */
 		INVENTORY_FULL,
 	}
 

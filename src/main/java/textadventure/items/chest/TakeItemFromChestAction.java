@@ -82,7 +82,7 @@ public class TakeItemFromChestAction extends ChestAction
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		Chest.State   state         = chest.getState();
-		GameInterface userInterface = game.getGameInterface();
+		GameInterface gameInterface = game.getGameInterface();
 
 		if (state == Chest.State.CLOSED) {
 			outcome = Outcome.CLOSED;
@@ -91,7 +91,7 @@ public class TakeItemFromChestAction extends ChestAction
 		}
 
 		Backpack backpack = player.getCharacter().getBackpack();
-		userInterface.select(game, player, new BaseSelect<>(chest.asOptions(), selection -> {
+		gameInterface.select(game, player, new BaseSelect<>(chest.asOptions(), selection -> {
 
 			Item currentItem = null;
 

@@ -103,23 +103,22 @@ public class BaseInventory implements Inventory
 	 */
 	@Override public void addItem(Item item) throws InventoryFullException
 	{
-		for (int x = 0; x < numberOfSlots; x++) {
-			if (types.containsKey(x)) {
-				ItemType slotType = types.get(x);
-				if (slotType.instanceOf(item)) {
-					items.get(x).push(item);
-					numberOfItems++;
-					return;
-				}
+		for (Map.Entry<Integer, ItemType> entry : types.entrySet()) {
+			int      index    = entry.getKey();
+			ItemType slotType = entry.getValue();
+			if (slotType.instanceOf(item)) {
+				items.get(index).push(item);
+				numberOfItems++;
+				return;
 			}
 		}
 
-		for (int x = 0; x < numberOfSlots; x++) {
-			if (!types.containsKey(x)) {
-				types.put(x, item);
+		for (int index = 0; index < numberOfSlots; index++) {
+			if (!types.containsKey(index)) {
+				types.put(index, item);
 				Stack<Item> stack = new Stack<>();
 				stack.push(item);
-				items.put(x, stack);
+				items.put(index, stack);
 				numberOfItems++;
 				numberOfEmptySlots--;
 				return;
@@ -337,13 +336,28 @@ public class BaseInventory implements Inventory
 	}
 
 	/**
+	 * Returns the slots in the {@link Inventory} with the provided {@link Class} type.
+	 *
+	 * @param type The type of the {@link Item} to return.
+	 * @return The slots in the {@link Inventory} with the provided {@link Class} type.
+	 */
+	/*@Override public <T extends Option> ImmutableSet<T> asOptions(Class<T> type)
+	{
+		ImmutableSet.Builder<T> builder = new ImmutableSet.Builder<>();
+		items.forEach((position, stack) -> {
+			Item item = stack.peek();
+			if (type.isInstance(item))
+				builder.add(new BaseOption(position, item.getItemName(), item.getItemDescription()));
+		});
+	}*/
+
+	/**
 	 * Validates that the provided slot position is within a legal range. The valid slot position range is from
 	 * <code>0</code> to <code>numberOfSlots-1</code>.
 	 *
 	 * @param slot The slot position to validate.
 	 * @throws SlotOutOfRangeException When the slot position is out of range.
 	 */
-
 	private void validateSlot(int slot) throws SlotOutOfRangeException
 	{
 		if (slot < 0)

@@ -77,7 +77,7 @@ public class UnlockLockAction extends LockAction
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-		GameInterface userInterface = game.getGameInterface();
+		GameInterface gameInterface = game.getGameInterface();
 		Lock.State    state         = lock.getState();
 
 		if (state == Lock.State.UNLOCKED) {
@@ -94,7 +94,7 @@ public class UnlockLockAction extends LockAction
 				return;
 			}
 
-			userInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), 1, selection -> {
+			gameInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), 1, selection -> {
 				try {
 					Item item = backpack.getItem(selection.get(0).getOptionIdentifier());
 					if (!(item instanceof Key)) {

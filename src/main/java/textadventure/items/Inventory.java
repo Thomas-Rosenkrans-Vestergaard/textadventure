@@ -144,4 +144,13 @@ public interface Inventory
 	 * @return The {@link ImmutableSet} of {@link Option}s.
 	 */
 	ImmutableSet<Option> asOptions();
+
+	/**
+	 * Returns the slots in the {@link Inventory} with the provided {@link Class} type.
+	 *
+	 * @param type The type of the {@link Item} to return.
+	 * @param <T>  The type.
+	 * @return The slots in the {@link Inventory} with the provided {@link Class} type.
+	 */
+	/*<T extends Option> ImmutableSet<T> asOptions(Class<T> type);*/
 }

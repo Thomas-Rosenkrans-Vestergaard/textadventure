@@ -1,5 +1,7 @@
 package textadventure.items;
 
+import textadventure.ui.Option;
+
 public interface ItemType
 {
 

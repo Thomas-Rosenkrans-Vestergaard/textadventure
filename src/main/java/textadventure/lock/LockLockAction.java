@@ -38,6 +38,7 @@ public class LockLockAction extends LockAction
 		 * The {@link Key} selected from the {@link Player} does not fit the {@link Lock}.
 		 */
 		INCORRECT_KEY,
+
 		/**
 		 * Argument is not an int
 		 */
@@ -76,7 +77,7 @@ public class LockLockAction extends LockAction
 	 */
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
-		GameInterface userInterface = game.getGameInterface();
+		GameInterface gameInterface = game.getGameInterface();
 		Lock.State    state         = lock.getState();
 
 		if (state == Lock.State.LOCKED) {
@@ -94,7 +95,7 @@ public class LockLockAction extends LockAction
 				return;
 			}
 
-			userInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), 1, selection -> {
+			gameInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), 1, selection -> {
 
 				try {
 					Item item = backpack.getItem(selection.get(0).getOptionIdentifier());
@@ -159,7 +160,6 @@ public class LockLockAction extends LockAction
 			outcome = LockLockAction.Outcome.ARGUMENT_NOT_INT;
 			callback.send(game, player, this);
 		}
-
 	}
 
 	/**

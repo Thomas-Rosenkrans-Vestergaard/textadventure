@@ -9,6 +9,7 @@ import textadventure.doors.InspectDoorAction;
 import textadventure.doors.OpenDoorAction;
 import textadventure.doors.UseDoorAction;
 import textadventure.items.backpack.DropItemAction;
+import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.backpack.PickupItemAction;
 import textadventure.items.chest.*;
@@ -186,9 +187,18 @@ public interface GameInterface
 	 *
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} who attempted to perform the {@link InspectBackpackAction}.
-	 * @param action The {@link InspectBackpackAction} inst ance.
+	 * @param action The {@link InspectBackpackAction} instance.
 	 */
 	void onBackpackInspect(Game game, Player player, InspectBackpackAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link ExpandBackpackAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link ExpandBackpackAction}.
+	 * @param action The {@link ExpandBackpackAction} instance.
+	 */
+	void onBackpackExpand(Game game, Player player, ExpandBackpackAction action);
 
 	/**
 	 * Event when a {@link Player} performs the {@link DropItemAction}.

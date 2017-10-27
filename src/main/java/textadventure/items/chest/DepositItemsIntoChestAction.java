@@ -43,8 +43,9 @@ public class DepositItemsIntoChestAction extends ChestAction
 		 * No {@link Item}(s) could be deposited, since the {@link Chest} is closed.
 		 */
 		CLOSED,
+
 		/**
-		 * Argument is not an int
+		 * The provided argument could not be parsed to an integer.
 		 */
 		ARGUMENT_NOT_INT,
 	}
@@ -87,7 +88,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 	@Override public void perform(Game game, Player player, String[] arguments)
 	{
 		Chest.State   state         = chest.getState();
-		GameInterface userInterface = game.getGameInterface();
+		GameInterface gameInterface = game.getGameInterface();
 
 		if (state == Chest.State.CLOSED) {
 			outcome = Outcome.CLOSED;
@@ -104,7 +105,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 			return;
 		}
 
-		userInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), selection -> {
+		gameInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), selection -> {
 
 			Item currentItem = null;
 
@@ -127,7 +128,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 	}
 
 	/**
-	 * *Performs the {@link DepositItemsIntoChestAction} using the argument it was given.
+	 * *Performs the {@link DepositItemsIntoChestAction} using the provided argument.
 	 *
 	 * @param game The {@link Game} instance.
 	 * @param player The {@link Player} performing the {@link DepositItemsIntoChestAction}.

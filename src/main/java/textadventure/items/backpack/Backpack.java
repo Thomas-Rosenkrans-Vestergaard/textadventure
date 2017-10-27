@@ -44,6 +44,7 @@ public class Backpack extends BaseInventory implements Property
 		GameInterface gameInterface = game.getGameInterface();
 
 		backpack.addAction("inspect", new InspectBackpackAction(backpack, gameInterface::onBackpackInspect));
+		backpack.addAction("expand", new ExpandBackpackAction(backpack, gameInterface::onBackpackExpand));
 
 		return backpack;
 	}

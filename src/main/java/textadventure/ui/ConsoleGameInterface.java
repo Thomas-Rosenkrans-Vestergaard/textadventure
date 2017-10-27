@@ -10,6 +10,7 @@ import textadventure.items.Inventory;
 import textadventure.items.Item;
 import textadventure.items.ItemType;
 import textadventure.items.backpack.DropItemAction;
+import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.backpack.PickupItemAction;
 import textadventure.items.chest.*;
@@ -31,12 +32,6 @@ public class ConsoleGameInterface implements GameInterface
 
 	public static void main(String[] args) throws Exception
 	{
-		/*ImmutableSet.Builder<Option> builder = new ImmutableSet.Builder<>();
-		builder.add(new BaseOption(1, "a", "b"));
-		ImmutableSet<Option> set = builder.build();
-		System.out.println(set.contains(new BaseOption(1, "a", "b")));*/
-
-
 		GameInterface gameInterface = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
 		DefaultGame   game          = new DefaultGame(gameInterface, 5);
 		game.start();
@@ -235,17 +230,6 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Checks if the provided input is valid. Legal input follow the pattern <code>^[a-zA-Z0-9{} ]+$</code>.
-	 *
-	 * @param input The input to validate.
-	 * @return <code>true</code> of the provided input is valid. Returns <code>false</code> otherwise.
-	 */
-	private boolean validateInput(String input)
-	{
-		return input.matches("^[a-zA-Z0-9{} ]+$");
-	}
-
-	/**
 	 * Returns the next line from the {@link Scanner}. The input is trimmed and converted to lower-case.
 	 *
 	 * @return The next line from the {@link Scanner}. The input is trimmed and converted to lower-case.
@@ -254,9 +238,9 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		while (true) {
 			String input = scanner.nextLine().trim().toLowerCase();
-			if (input.matches("^[a-zA-Z0-9{} ]+$"))
+			if (input.matches("^[a-zA-Z0-9{}\\- ]+$"))
 				return input;
-			printer.println("Input must be given in the pattern ^[a-zA-Z0-9{} ]+$");
+			printer.println("Input must only contain letters, numbers, curly brackets and dashes.");
 		}
 	}
 
@@ -268,7 +252,7 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private String[] getArgumentsFromCommand(String command)
 	{
-		final Matcher      matcher   = Pattern.compile("(\\{([a-zA-Z0-9]*)\\})").matcher(command);
+		final Matcher      matcher   = Pattern.compile("(\\{([a-zA-Z0-9\\-]*)\\})").matcher(command);
 		final List<String> arguments = new ArrayList<>();
 		while (matcher.find())
 			arguments.add(matcher.group(2));
@@ -453,7 +437,7 @@ public class ConsoleGameInterface implements GameInterface
 		}
 
 		if (outcome == UnlockLockAction.Outcome.ARGUMENT_NOT_INT) {
-			printer.println("The provided argument must be of type integer.");
+			printer.println("The provided argument must be an integer.");
 			return;
 		}
 
@@ -665,6 +649,40 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
+	 * Event when a {@link Player} performs the {@link ExpandBackpackAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link ExpandBackpackAction}.
+	 * @param action The {@link ExpandBackpackAction} instance.
+	 */
+	@Override public void onBackpackExpand(Game game, Player player, ExpandBackpackAction action)
+	{
+		ExpandBackpackAction.Outcome outcome = action.getOutcome();
+
+		if (outcome == ExpandBackpackAction.Outcome.SUCCESS) {
+			printer.println(String.format("Your backpack was successfully expanded to %d slots.", action.getBackpack().getNumberOfSlots()));
+			return;
+		}
+
+		if (outcome == ExpandBackpackAction.Outcome.ARGUMENT_NOT_INT) {
+			printer.println("The provided argument must be an integer.");
+			return;
+		}
+
+		if (outcome == ExpandBackpackAction.Outcome.EMPTY_BACKPACK_SLOT) {
+			printer.println("The provided argument pointed to an empty backpack stack.");
+			return;
+		}
+
+		if (outcome == ExpandBackpackAction.Outcome.SELECTED_NOT_EXPANSION) {
+			printer.println("The selected item was not a backpack expansion.");
+			return;
+		}
+
+		throw new UnsupportedOperationException();
+	}
+
+	/**
 	 * Returns a comma separated string of the names in the provided list of {@link Item}s.
 	 *
 	 * @param items The {@link Item}s.
@@ -700,7 +718,7 @@ public class ConsoleGameInterface implements GameInterface
 		}
 
 		if (outcome == DropItemAction.Outcome.ARGUMENT_NOT_INT) {
-			printer.println("The argument you gave wasn't an int");
+			printer.println("The provided argument must be an integer.");
 			return;
 		}
 
@@ -751,9 +769,9 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	@Override public void select(Game game, Player player, Select select)
 	{
-		int                           minimumOptions = select.getMinimumNumberOfOptions();
-		int                           maximumOptions = select.getMaximumNumberOfOptions();
-		ImmutableMap<Integer, Option> options        = select.getOptions();
+		int                                     minimumOptions = select.getMinimumNumberOfOptions();
+		int                                     maximumOptions = select.getMaximumNumberOfOptions();
+		ImmutableMap<Integer, ? extends Option> options        = select.getOptions();
 
 		printer.println("To perform the action you must select some of the following options. You select the option " +
 				"using its identifier (id). To abort from the selection you can enter the 'abort' command. It's " +

@@ -1,9 +1,10 @@
-package textadventure.items.medkit;
+package textadventure.items.medical;
 
 import textadventure.items.Item;
 
-public class Gauze implements Item
+public class BandAid implements Item
 {
+
 	/**
 	 * Returns the name of the {@link Item}.
 	 *
@@ -11,16 +12,16 @@ public class Gauze implements Item
 	 */
 	@Override public String getItemName()
 	{
-		return "gauze";
+		return "band-aid";
 	}
 
 	/**
-	 * Returns a description of the {@link Item}.
+	 * Returns the description of the {@link Item}.
 	 *
 	 * @return The description of the {@link Item}.
 	 */
 	@Override public String getItemDescription()
 	{
-		return "Can be used to stop bleeding from bigger wounds.";
+		return "Can be used to stop bleeding from small wounds.";
 	}
 }

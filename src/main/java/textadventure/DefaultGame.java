@@ -4,6 +4,7 @@ import textadventure.doors.BaseDoor;
 import textadventure.doors.Door;
 import textadventure.items.InventoryFullException;
 import textadventure.items.backpack.Backpack;
+import textadventure.items.backpack.BackpackExpansion;
 import textadventure.items.chest.Chest;
 import textadventure.lock.Key;
 import textadventure.lock.Lock;
@@ -42,6 +43,7 @@ public class DefaultGame extends Game
 
 			Backpack backpack = Backpack.factory(10, this);
 			backpack.addItem(new Key("LY4SW"));
+			backpack.addItem(new BackpackExpansion(5));
 			Character character = BaseCharacter.factory("George", backpack, rooms[3][0], this);
 			this.addPlayer(new HumanPlayer(character));
 			this.setMaze(new Maze((StartingRoom) rooms[3][0], (EndingRoom) rooms[3][4]));
