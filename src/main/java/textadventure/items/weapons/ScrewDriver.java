@@ -9,7 +9,7 @@ public class ScrewDriver implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Screwdriver";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class ScrewDriver implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "It's pointy.";
 	}
 
 	/**

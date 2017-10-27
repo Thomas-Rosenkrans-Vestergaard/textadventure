@@ -9,7 +9,7 @@ public class Fork implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Fork";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Fork implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "A substitute for chopsticks.";
 	}
 
 	/**

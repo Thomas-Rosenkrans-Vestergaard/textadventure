@@ -9,7 +9,7 @@ public class Shotgun implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Shotgun";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Shotgun implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "Apparently not used for hunting.";
 	}
 
 	/**

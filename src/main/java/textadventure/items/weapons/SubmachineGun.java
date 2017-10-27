@@ -9,7 +9,7 @@ public class SubmachineGun implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Submachine gun";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class SubmachineGun implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "High fire rate, may get too hot to the touch.";
 	}
 
 	/**

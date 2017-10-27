@@ -9,7 +9,7 @@ public class Fist implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Fist";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Fist implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "The standard choice.";
 	}
 
 	/**

@@ -9,7 +9,7 @@ public class GlassBottle implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Glass bottle";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class GlassBottle implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "Very fragile, but lies around everywhere.";
 	}
 
 	/**

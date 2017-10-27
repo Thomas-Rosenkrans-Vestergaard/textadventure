@@ -9,7 +9,7 @@ public class Baton implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Baton";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Baton implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "Efficient for handling riots.";
 	}
 
 	/**
