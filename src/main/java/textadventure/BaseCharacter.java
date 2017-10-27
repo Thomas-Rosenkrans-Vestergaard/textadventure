@@ -4,6 +4,9 @@ import com.google.common.collect.ImmutableMap;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.PickupItemAction;
+import textadventure.items.weapons.Fist;
+import textadventure.items.weapons.Weapon;
+import textadventure.items.wearables.*;
 import textadventure.rooms.Room;
 import textadventure.ui.GameInterface;
 
@@ -72,6 +75,37 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	private int money;
 
 	/**
+	 * the boots you wear on the {@link Character}.
+	 */
+	private Boots boots;
+
+	/**
+	 * the armour you wear on the {@link Character}.
+	 */
+	private Torso torso;
+
+	/**
+	 * the headgear you wear on the {@link Character}.
+	 */
+	private Headwear headwear;
+
+	/**
+	 * the gloves you wear on the {@link Character}.
+	 */
+	private Gloves gloves;
+
+	/**
+	 * the pants you wear on the {@link Character}.
+	 */
+	private Pants pants;
+
+	/**
+	 * the weapon waer on the {@link Character}
+	 */
+	private Weapon weapon;
+
+
+	/**
 	 * Creates a new {@link BaseCharacter}.
 	 *
 	 * @param name            The name of the {@link Character}.
@@ -91,6 +125,12 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	public BaseCharacter(
 			String name,
 			Backpack backpack,
+			Headwear headwear,
+			Torso torso,
+			Gloves gloves,
+			Pants pants,
+			Boots boots,
+			Weapon weapon,
 			Room currentLocation,
 			int maxHP,
 			int currentHP,
@@ -104,6 +144,12 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	{
 		this.name = name;
 		this.backpack = backpack;
+		this.headwear = headwear;
+		this.torso = torso;
+		this.gloves = gloves;
+		this.pants = pants;
+		this.boots = boots;
+		this.weapon = weapon;
 		this.currentLocation = currentLocation;
 		this.maxHP = maxHP;
 		this.currentHP = currentHP;
@@ -128,6 +174,12 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		this(
 				name,
 				backpack,
+				new WornDownCargoCap(),
+				new WornDownCargoTshirt(),
+				null,
+				new WornDownCargoPants(),
+				new WornDownCargoBoots(),
+				new Fist(),
 				currentLocation,
 				DEFAULT_MAX_HP,
 				DEFAULT_MAX_HP,
@@ -196,6 +248,100 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	{
 		return backpack;
 	}
+
+	/**
+	 * Returns the {@link Boots} of the {@link java.lang.Character}.
+	 *
+	 * @return The {@link Boots} of the {@link java.lang.Character}.
+	 */
+	@Override public Boots getBoots()
+	{
+		return boots;
+	}
+
+
+	@Override public Boots setBoots()
+	{
+		return boots;
+	}
+
+
+	/**
+	 * Returns the {@link Torso} of the {@link java.lang.Character}.
+	 *
+	 * @return The {@link Torso} of the {@link java.lang.Character}.
+	 */
+	@Override public Torso getTorso()
+	{
+		return torso;
+	}
+
+	@Override public Torso SetTorso()
+	{
+		return torso;
+	}
+
+
+	/**
+	 * Returns the {@link Gloves} of the {@link java.lang.Character}.
+	 *
+	 * @return The {@link Gloves} of the {@link java.lang.Character}.
+	 */
+	@Override public Gloves getGloves()
+	{
+		return gloves;
+	}
+
+	@Override public Gloves setGloves()
+	{
+		return gloves;
+	}
+
+	/**
+	 * Returns the {@link Headwear} of the {@link java.lang.Character}.
+	 *
+	 * @return The {@link Headwear} of the {@link java.lang.Character}.
+	 */
+	@Override public Headwear getHeadwear()
+	{
+		return headwear;
+	}
+
+	@Override public Headwear setHeadwear()
+	{
+		return headwear;
+	}
+
+	/**
+	 * Returns the {@link Gloves} of the {@link java.lang.Character}.
+	 *
+	 * @return The {@link Gloves} of the {@link java.lang.Character}.
+	 */
+	@Override public Pants getPants()
+	{
+		return pants;
+	}
+
+	@Override public Pants setPants()
+	{
+		return pants;
+	}
+
+	/**
+	 * return the {@link Weapon} of the {@link java.lang.Character}
+	 *
+	 * @return The {@link Weapon} of the {@link java.lang.Character}
+	 */
+	@Override public Weapon getWeapon()
+	{
+		return weapon;
+	}
+
+	@Override public Weapon setWeapon()
+	{
+		return weapon;
+	}
+
 
 	/**
 	 * Returns the {@link Room} the {@link Character} is currently in.

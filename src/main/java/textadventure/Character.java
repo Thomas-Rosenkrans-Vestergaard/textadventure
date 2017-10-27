@@ -1,6 +1,9 @@
 package textadventure;
 
 import textadventure.items.backpack.Backpack;
+import textadventure.items.weapons.Fist;
+import textadventure.items.weapons.Weapon;
+import textadventure.items.wearables.*;
 import textadventure.rooms.Room;
 
 /**
@@ -67,6 +70,50 @@ public interface Character extends PropertyContainer
 	 * @return The {@link Backpack} of the {@link Character}.
 	 */
 	Backpack getBackpack();
+
+	/** Returns the {@link Boots} of the {@link Character}.
+	 *
+	 * @return The {@link Boots} of the {@link Character}.
+	 */
+	Boots getBoots();
+	Boots setBoots();
+
+	/** Returns the {@link Torso} of the {@link Character}.
+	 *
+	 * @return The {@link Torso} of the {@link Character}.
+	 */
+	Torso getTorso();
+	Torso SetTorso();
+
+	/** Returns the {@link Gloves} of the {@link Character}.
+	 *
+	 * @return The {@link Gloves} of the {@link Character}.
+	 */
+	Gloves getGloves();
+	Gloves setGloves();
+
+	/** Returns the {@link Headwear} of the {@link Character}.
+	 *
+	 * @return The {@link Headwear} of the {@link Character}.
+	 */
+	Headwear getHeadwear();
+	Headwear setHeadwear();
+
+	/** Returns the {@link Gloves} of the {@link Character}.
+	 *
+	 * @return The {@link Gloves} of the {@link Character}.
+	 */
+	Pants getPants();
+	Pants setPants();
+
+	/**
+	 * return the {@link Weapon} of the {@link Character}
+	 *
+	 * @return The {@link Weapon} of the {@link Character}
+	 */
+	Weapon getWeapon();
+	Weapon setWeapon();
+
 
 	/**
 	 * Returns the {@link Room} the {@link Character} is currently in.
@@ -146,5 +193,6 @@ public interface Character extends PropertyContainer
 	 * @return The amount of money the {@link Character} has.
 	 */
 	int getMoney();
+
 }
 
