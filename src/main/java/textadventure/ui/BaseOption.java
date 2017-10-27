@@ -1,7 +1,5 @@
 package textadventure.ui;
 
-import java.util.HashMap;
-
 /**
  * The default implementation of the {@link Option} interface.
  */
@@ -67,16 +65,25 @@ public class BaseOption implements Option
 		return description;
 	}
 
+	/**
+	 * Returns the identifier of the {@link Option}.
+	 *
+	 * @return The identifier of the {@link Option}.
+	 */
 	@Override public int hashCode()
 	{
 		return identifier;
 	}
 
+	/**
+	 * Compares equality with the provided {@link Object}. The two objects are only equal when <code>obj</code> is an
+	 * instance of {@link Option} and their {@link Option#getOptionIdentifier()} are equal.
+	 *
+	 * @param obj The other object.
+	 * @return <code>True</code> when equal, <code>false</code> when not.
+	 */
 	@Override public boolean equals(Object obj)
 	{
-		if (obj == null || !(obj instanceof Option))
-			return false;
-
-		return identifier == ((Option) obj).getOptionIdentifier();
+		return obj != null && obj instanceof Option && identifier == ((Option) obj).getOptionIdentifier();
 	}
 }
