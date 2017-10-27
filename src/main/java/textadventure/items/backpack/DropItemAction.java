@@ -28,6 +28,7 @@ public class DropItemAction extends BackpackAction
 	public enum Outcome
 	{
 		SUCCESS,
+		ARGUMENT_NOT_INT,
 	}
 
 	/**
@@ -72,6 +73,12 @@ public class DropItemAction extends BackpackAction
 		GameInterface gameInterface = game.getGameInterface();
 		Floor         floor         = character.getCurrentLocation().getFloor();
 		Backpack      backpack      = character.getBackpack();
+
+		if (arguments.length == 1) {
+			withArgument(game, player, floor, backpack, arguments[0]);
+			return;
+		}
+
 		gameInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), selection -> {
 			try {
 				for (Option option : selection) {
@@ -85,6 +92,31 @@ public class DropItemAction extends BackpackAction
 				throw new IllegalStateException();
 			}
 		}));
+
+	}
+
+	/**
+	 *Performs the {@link DropItemAction} using the argument it was given.
+	 *
+	 * @param game The {@link Game} instance.
+	 * @param player The {@link Player} performing the {@link DropItemAction}.
+	 * @param floor The {@link Floor} the items get dropped to.
+	 * @param backpack The {@link Backpack} the items get taken from.
+	 * @param argument The arguments provided to the {@link DropItemAction}.
+	 */
+	private void withArgument(Game game, Player player, Floor floor, Backpack backpack, String argument)
+	{
+		try {
+			int argTemp = Integer.parseInt(argument.replaceAll("\"", ""));
+			Item item = backpack.takeItem(argTemp);
+			floor.addItem(item);
+			this.items.add(item);
+			this.outcome = Outcome.SUCCESS;
+			callback.send(game, player, this);
+		} catch (NumberFormatException | NotEnoughItemsException | InventoryFullException | SlotOutOfRangeException e) {
+			outcome = Outcome.ARGUMENT_NOT_INT;
+			callback.send(game, player, this);
+		}
 	}
 
 	/**

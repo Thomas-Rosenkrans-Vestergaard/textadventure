@@ -690,6 +690,11 @@ public class ConsoleGameInterface implements GameInterface
 			return;
 		}
 
+		if(outcome == DropItemAction.Outcome.ARGUMENT_NOT_INT){
+			printer.println("The argument you gave wasn't an int");
+			return;
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
