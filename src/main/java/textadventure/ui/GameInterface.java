@@ -219,7 +219,7 @@ public interface GameInterface
 	void onItemPickup(Game game, Player player, PickupItemAction action);
 
 	/**
-	 * Prompts the player to select an {@link Option}.
+	 * Prompts the player to selectIndices an {@link Option}.
 	 *
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} selecting.

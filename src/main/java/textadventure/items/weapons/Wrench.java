@@ -4,9 +4,9 @@ public class Wrench implements BluntWeapon
 {
 
 	/**
-	 * Returns The name of the {@link Wrench}.
+	 * Returns the name of the {@link Wrench}.
 	 *
-	 * @return the name of the {@link Wrench}.
+	 * @return The name of the {@link Wrench}.
 	 */
 	@Override public String getItemName()
 	{
@@ -14,9 +14,9 @@ public class Wrench implements BluntWeapon
 	}
 
 	/**
-	 * Returns The description of the {@link Wrench}.
+	 * Returns the description of the {@link Wrench}.
 	 *
-	 * @return the description of the {@link Wrench}.
+	 * @return The description of the {@link Wrench}.
 	 */
 	@Override public String getItemDescription()
 	{

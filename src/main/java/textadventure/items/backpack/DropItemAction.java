@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import textadventure.Character;
 import textadventure.Game;
 import textadventure.Player;
+import textadventure.actions.Action;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
@@ -19,7 +20,7 @@ import textadventure.ui.Option;
  * {@link textadventure.actions.Action} that allows a player to drop {@link textadventure.items.Item}(s) from the
  * {@link Backpack}. The {@link Item}s are then added to the {@link Floor} in the <code>currentLocation</code>.
  */
-public class DropItemAction extends BackpackAction
+public class DropItemAction implements Action
 {
 
 	/**
@@ -27,8 +28,21 @@ public class DropItemAction extends BackpackAction
 	 */
 	public enum Outcome
 	{
+
+		/**
+		 * The {@link Character} successfully dropped the {@link Item}s.
+		 */
 		SUCCESS,
+
+		/**
+		 * The index argument provided to the {@link DropItemAction} is not formatted correctly.
+		 */
 		ARGUMENT_NOT_INT,
+
+		/**
+		 * The index argument provided to the {@link DropItemAction} is not contained in the {@link Option}s.
+		 */
+		UNKNOWN_INDEX
 	}
 
 	/**
@@ -80,27 +94,31 @@ public class DropItemAction extends BackpackAction
 		}
 
 		gameInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), selection -> {
+
 			try {
+
 				for (Option option : selection) {
-					Item item = backpack.takeItem(option.getOptionIdentifier());
+					Item item = backpack.takeItem(option.getOptionIndex());
 					floor.addItem(item);
 					this.items.add(item);
 				}
+
 				this.outcome = Outcome.SUCCESS;
 				callback.send(game, player, this);
+
 			} catch (SlotOutOfRangeException | NotEnoughItemsException | InventoryFullException e) {
-				throw new IllegalStateException();
+				throw new IllegalStateException(e);
 			}
 		}));
 
 	}
 
 	/**
-	 *Performs the {@link DropItemAction} using the argument it was given.
+	 * Performs the {@link DropItemAction} using the argument it was given.
 	 *
-	 * @param game The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link DropItemAction}.
-	 * @param floor The {@link Floor} the items get dropped to.
+	 * @param game     The {@link Game} instance.
+	 * @param player   The {@link Player} performing the {@link DropItemAction}.
+	 * @param floor    The {@link Floor} the items get dropped to.
 	 * @param backpack The {@link Backpack} the items get taken from.
 	 * @param argument The arguments provided to the {@link DropItemAction}.
 	 */
@@ -112,10 +130,11 @@ public class DropItemAction extends BackpackAction
 			this.items.add(item);
 			this.outcome = Outcome.SUCCESS;
 			callback.send(game, player, this);
-		} catch (NumberFormatException | NotEnoughItemsException | InventoryFullException | SlotOutOfRangeException e) {
+		} catch (NumberFormatException e) {
 			outcome = Outcome.ARGUMENT_NOT_INT;
 			callback.send(game, player, this);
-		}
+		} catch (NotEnoughItemsException e) {
+		} catch (NotEnoughItemsException | InventoryFullException | SlotOutOfRangeException e)
 	}
 
 	/**

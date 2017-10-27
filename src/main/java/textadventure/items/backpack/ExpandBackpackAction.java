@@ -89,7 +89,7 @@ public class ExpandBackpackAction extends BackpackAction
 		gameInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), 1, selection -> {
 
 			try {
-				Item item = backpack.takeItem(selection.get(0).getOptionIdentifier());
+				Item item = backpack.takeItem(selection.get(0).getOptionIndex());
 
 				if (!(item instanceof BackpackExpansion)) {
 					outcome = Outcome.SELECTED_NOT_EXPANSION;

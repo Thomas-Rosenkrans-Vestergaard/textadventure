@@ -20,7 +20,7 @@ public interface Player
 	 * Delegates a turn to the {@link Player}.
 	 *
 	 * @param game     The {@link Game} instance.
-	 * @param response The select to use for returning an appropriate {@link Action}.
+	 * @param response The selectIndices to use for returning an appropriate {@link Action}.
 	 */
 	void takeTurn(Game game, ActionRequestCallback response);
 }

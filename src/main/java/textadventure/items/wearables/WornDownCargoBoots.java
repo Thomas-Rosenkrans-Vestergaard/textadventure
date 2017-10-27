@@ -8,7 +8,7 @@ public class WornDownCargoBoots implements Boots
 	/**
 	 * Return the double representing the protective factor of the {@link Wearable}
 	 *
-	 * @return the double representing the protective factor of the {@link Wearable}
+	 * @return The double representing the protective factor of the {@link Wearable}
 	 */
 	@Override public double getProtectiveFactor()
 	{
@@ -26,9 +26,9 @@ public class WornDownCargoBoots implements Boots
 	}
 
 	/**
-	 * Returns The name of the {@link ItemType}.
+	 * Returns the name of the {@link ItemType}.
 	 *
-	 * @return the name of the {@link ItemType}.
+	 * @return The name of the {@link ItemType}.
 	 */
 	@Override public String getItemName()
 	{
@@ -36,9 +36,9 @@ public class WornDownCargoBoots implements Boots
 	}
 
 	/**
-	 * Returns The description of the {@link ItemType}.
+	 * Returns the description of the {@link ItemType}.
 	 *
-	 * @return the description of the {@link ItemType}.
+	 * @return The description of the {@link ItemType}.
 	 */
 	@Override public String getItemDescription()
 	{

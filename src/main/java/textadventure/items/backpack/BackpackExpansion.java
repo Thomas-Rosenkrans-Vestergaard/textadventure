@@ -2,6 +2,10 @@ package textadventure.items.backpack;
 
 import textadventure.items.Item;
 
+/**
+ * An {@link Item} allowing {@link Charactser}s to expand their {@link Backpack}. The {@link Backpack} is expanded
+ * using the {@link ExpandBackpackAction}.
+ */
 public class BackpackExpansion implements Item
 {
 
@@ -35,9 +39,9 @@ public class BackpackExpansion implements Item
 	}
 
 	/**
-	 * Returns The name of the {@link BackpackExpansion}.
+	 * Returns the name of the {@link BackpackExpansion}.
 	 *
-	 * @return the name of the {@link BackpackExpansion}.
+	 * @return The name of the {@link BackpackExpansion}.
 	 */
 	@Override public String getItemName()
 	{
@@ -45,9 +49,9 @@ public class BackpackExpansion implements Item
 	}
 
 	/**
-	 * Returns The description of the {@link BackpackExpansion}.
+	 * Returns the description of the {@link BackpackExpansion}.
 	 *
-	 * @return the description of the {@link BackpackExpansion}.
+	 * @return The description of the {@link BackpackExpansion}.
 	 */
 	@Override public String getItemDescription()
 	{

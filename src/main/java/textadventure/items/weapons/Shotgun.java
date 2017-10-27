@@ -3,9 +3,9 @@ package textadventure.items.weapons;
 public class Shotgun implements ProjectileWeapon
 {
 	/**
-	 * Returns The name of the {@link Shotgun}.
+	 * Returns the name of the {@link Shotgun}.
 	 *
-	 * @return the name of the {@link Shotgun}.
+	 * @return The name of the {@link Shotgun}.
 	 */
 	@Override public String getItemName()
 	{
@@ -13,9 +13,9 @@ public class Shotgun implements ProjectileWeapon
 	}
 
 	/**
-	 * Returns The description of the {@link Shotgun}.
+	 * Returns the description of the {@link Shotgun}.
 	 *
-	 * @return the description of the {@link Shotgun}.
+	 * @return The description of the {@link Shotgun}.
 	 */
 	@Override public String getItemDescription()
 	{

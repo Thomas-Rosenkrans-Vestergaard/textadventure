@@ -81,7 +81,7 @@ public class PickupItemAction extends BackpackAction
 		gameInterface.select(game, player, new BaseSelect<>(floor.asOptions(), selection -> {
 			try {
 				for (Option option : selection) {
-					Item item = floor.takeItem(option.getOptionIdentifier());
+					Item item = floor.takeItem(option.getOptionIndex());
 					backpack.addItem(item);
 					this.items.add(item);
 				}

@@ -14,7 +14,7 @@ public class BaseOptionTest
 		String name        = "OptionName";
 		String description = "OptionDescription";
 		Option option      = new BaseOption(identifier, name, description);
-		assertEquals(identifier, (long) option.getOptionIdentifier());
+		assertEquals(identifier, (long) option.getOptionIndex());
 	}
 
 	@Test

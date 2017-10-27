@@ -3,9 +3,9 @@ package textadventure.items.weapons;
 public class Fist implements BluntWeapon
 {
 	/**
-	 * Returns The name of the {@link Fist}.
+	 * Returns the name of the {@link Fist}.
 	 *
-	 * @return the name of the {@link Fist}.
+	 * @return The name of the {@link Fist}.
 	 */
 	@Override public String getItemName()
 	{
@@ -13,9 +13,9 @@ public class Fist implements BluntWeapon
 	}
 
 	/**
-	 * Returns The description of the {@link Fist}.
+	 * Returns the description of the {@link Fist}.
 	 *
-	 * @return the description of the {@link Fist}.
+	 * @return The description of the {@link Fist}.
 	 */
 	@Override public String getItemDescription()
 	{

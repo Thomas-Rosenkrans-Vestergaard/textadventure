@@ -3,9 +3,9 @@ package textadventure.items.weapons;
 public class Baton implements BluntWeapon
 {
 	/**
-	 * Returns The name of the {@link Baton}.
+	 * Returns the name of the {@link Baton}.
 	 *
-	 * @return the name of the {@link Baton}.
+	 * @return The name of the {@link Baton}.
 	 */
 	@Override public String getItemName()
 	{
@@ -13,9 +13,9 @@ public class Baton implements BluntWeapon
 	}
 
 	/**
-	 * Returns The description of the {@link Baton}.
+	 * Returns the description of the {@link Baton}.
 	 *
-	 * @return the description of the {@link Baton}.
+	 * @return The description of the {@link Baton}.
 	 */
 	@Override public String getItemDescription()
 	{

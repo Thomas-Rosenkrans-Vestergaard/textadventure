@@ -108,7 +108,7 @@ public class Lock extends BaseProperty
 	}
 
 	/**
-	 * Returns The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with
+	 * Returns the code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with
 	 * matching codes.
 	 *
 	 * @return The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with

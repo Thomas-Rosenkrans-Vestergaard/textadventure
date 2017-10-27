@@ -5,10 +5,10 @@ import com.google.common.collect.ImmutableMap;
 import java.util.List;
 
 /**
- * Defines a selectable object. Using the {@link GameInterface}, the player can be prompted to select between the
+ * Defines a selectable object. Using the {@link GameInterface}, the player can be prompted to selectIndices between the
  * provided options in the {@link Select}.
  */
-public interface Select<T extends Option>
+public interface Select<T>
 {
 
 	/**
@@ -23,7 +23,7 @@ public interface Select<T extends Option>
 		 *
 		 * @param selection The selected {@link Option}(s).
 		 */
-		void response(List<T> selection);
+		void response(List<? extends Option<T>> selection);
 	}
 
 	/**
@@ -31,7 +31,7 @@ public interface Select<T extends Option>
 	 *
 	 * @return The available {@link Option}s that can be selected.
 	 */
-	ImmutableMap<Integer, T> getOptions();
+	ImmutableMap<Integer, Option<T>> getOptions();
 
 	/**
 	 * Returns the minimum number of {@link Option}s that must be selected.
@@ -48,13 +48,46 @@ public interface Select<T extends Option>
 	int getMaximumNumberOfOptions();
 
 	/**
-	 * Select the provided {@link Option}(s).
+	 * Select the {@link Option}(s) mapped to the provided index.
 	 *
-	 * @param selected The key(s) of the selected {@link Option}(s).
+	 * @param index The index of the {@link Option} to select.
+	 * @throws SelectionAmountOutOfBounds When the number of selections are outside the legal number defined by the
+	 *                                    {@link Select}.
+	 * @throws UnknownIndexException      When the selected indices aren't contained in the set of possible
+	 *                                    {@link Option}s.
+	 */
+	void selectIndex(Integer index) throws SelectionAmountOutOfBounds, UnknownIndexException;
+
+	/**
+	 * Select the {@link Option}(s) mapped to the provided indices.
+	 *
+	 * @param indices The indices of the  {@link Option}(s) to select.
+	 * @throws SelectionAmountOutOfBounds When the number of selected {@link Option}s are outside the legal number
+	 *                                    defined by the {@link Select}.
+	 * @throws UnknownIndexException      When one of the selected indices aren't contained in the set of possible
+	 *                                    {@link Option}s.
+	 */
+	void selectIndices(List<Integer> indices) throws SelectionAmountOutOfBounds, UnknownIndexException;
+
+	/**
+	 * Select the provided {@link Option}.
+	 *
+	 * @param option The selected {@link Option}.
 	 * @throws SelectionAmountOutOfBounds When the number of selected {@link Option}s are outside the legal number
 	 *                                    defined by the {@link Select}.
 	 * @throws UnknownOptionException     When one of the selected {@link Option}s is not contained in the possible
 	 *                                    {@link Option}s.
 	 */
-	void select(List<T> selected) throws SelectionAmountOutOfBounds, UnknownOptionException;
+	void selectValue(Option<T> option) throws SelectionAmountOutOfBounds, UnknownOptionException;
+
+	/**
+	 * Select the provided {@link Option}(s).
+	 *
+	 * @param options The selected {@link Option}(s).
+	 * @throws SelectionAmountOutOfBounds When the number of selected {@link Option}s are outside the legal number
+	 *                                    defined by the {@link Select}.
+	 * @throws UnknownOptionException     When one of the selected {@link Option}s is not contained in the possible
+	 *                                    {@link Option}s.
+	 */
+	void selectValues(List<Option<T>> options) throws SelectionAmountOutOfBounds, UnknownOptionException;
 }

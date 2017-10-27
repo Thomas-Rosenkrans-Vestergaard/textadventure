@@ -5,9 +5,9 @@ import textadventure.items.Item;
 public class ScrewDriver implements EdgedWeapon
 {
 	/**
-	 * Returns The name of the {@link ScrewDriver}.
+	 * Returns the name of the {@link ScrewDriver}.
 	 *
-	 * @return the name of the {@link ScrewDriver}.
+	 * @return The name of the {@link ScrewDriver}.
 	 */
 	@Override public String getItemName()
 	{
@@ -15,9 +15,9 @@ public class ScrewDriver implements EdgedWeapon
 	}
 
 	/**
-	 * Returns The description of the {@link ScrewDriver}.
+	 * Returns the description of the {@link ScrewDriver}.
 	 *
-	 * @return the description of the {@link ScrewDriver}.
+	 * @return The description of the {@link ScrewDriver}.
 	 */
 	@Override public String getItemDescription()
 	{

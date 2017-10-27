@@ -1,31 +1,36 @@
 package textadventure.items;
 
 /**
- * Thrown when an illegal slot number is provided to the {@link Inventory}.
+ * Thrown when an provided slot number is outside the permitted range of the {@link Inventory}.
  */
 public class SlotOutOfRangeException extends InventoryException
 {
 
 	/**
-	 * The unknown slot number.
+	 * The provided slot number.
 	 */
-	private int unknownSlot;
+	private int providedSlot;
 
 	/**
 	 * Creates a new {@link SlotOutOfRangeException}.
 	 *
-	 * @param inventory
-	 * @param unknownSlot
+	 * @param inventory    The {@link Inventory} where the exception occurred.
+	 * @param providedSlot The provided slot number.
 	 */
-	public SlotOutOfRangeException(Inventory inventory, int unknownSlot)
+	public SlotOutOfRangeException(Inventory inventory, int providedSlot)
 	{
 		super(inventory);
 
-		this.unknownSlot = unknownSlot;
+		this.providedSlot = providedSlot;
 	}
 
-	public int getUnknownSlot()
+	/**
+	 * Returns the provided slot number.
+	 *
+	 * @return The provided slot number.
+	 */
+	public int getProvidedSlot()
 	{
-		return this.unknownSlot;
+		return this.providedSlot;
 	}
 }

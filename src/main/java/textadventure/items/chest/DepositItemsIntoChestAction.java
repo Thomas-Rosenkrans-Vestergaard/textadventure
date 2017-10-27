@@ -111,7 +111,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 
 			try {
 				for (Option option : selection) {
-					currentItem = backpack.takeItem(option.getOptionIdentifier());
+					currentItem = backpack.takeItem(option.getOptionIndex());
 					this.items.add(currentItem);
 					chest.addItem(currentItem);
 				}

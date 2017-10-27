@@ -2,6 +2,9 @@ package textadventure.items.backpack;
 
 import textadventure.actions.Action;
 
+/**
+ * The base class for {@link Action}s performed on {@link Backpack}s.
+ */
 public abstract class BackpackAction implements Action
 {
 

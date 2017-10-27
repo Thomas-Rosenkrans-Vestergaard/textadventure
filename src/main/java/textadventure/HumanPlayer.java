@@ -22,7 +22,7 @@ public class HumanPlayer extends AbstractPlayer
 	 * Delegates a turn to the {@link Player}.
 	 *
 	 * @param game     The {@link Game} instance.
-	 * @param callback The select to use after having chosen an {@link textadventure.actions.Action}.
+	 * @param callback The selectIndices to use after having chosen an {@link textadventure.actions.Action}.
 	 */
 	@Override public void takeTurn(Game game, ActionRequestCallback callback)
 	{

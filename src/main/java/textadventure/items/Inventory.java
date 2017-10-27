@@ -112,7 +112,7 @@ public interface Inventory
 	/**
 	 * Returns the maximum number of slots in the {@link Inventory}.
 	 *
-	 * @return the maximum number of slots in the {@link Inventory}.
+	 * @return The maximum number of slots in the {@link Inventory}.
 	 */
 	int getNumberOfSlots();
 
@@ -143,7 +143,7 @@ public interface Inventory
 	 *
 	 * @return The {@link ImmutableSet} of {@link Option}s.
 	 */
-	ImmutableSet<Option> asOptions();
+	ImmutableSet<Option<Object>> asOptions();
 
 	/**
 	 * Returns the slots in the {@link Inventory} with the provided {@link Class} type.
@@ -152,5 +152,5 @@ public interface Inventory
 	 * @param <T>  The type.
 	 * @return The slots in the {@link Inventory} with the provided {@link Class} type.
 	 */
-	/*<T extends Option> ImmutableSet<T> asOptions(Class<T> type);*/
+	<T> ImmutableSet<Option<T>> asOptions(Class<T> type);
 }

@@ -1,5 +1,6 @@
 package textadventure.lock;
 
+import com.google.common.collect.ImmutableSet;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
@@ -7,8 +8,9 @@ import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
 import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
-import textadventure.ui.BaseSelect;
-import textadventure.ui.GameInterface;
+import textadventure.ui.*;
+
+import java.util.List;
 
 public class LockLockAction extends LockAction
 {
@@ -20,14 +22,14 @@ public class LockLockAction extends LockAction
 	{
 
 		/**
-		 * The {@link Player} successfully locked the {@link Lock}.
-		 */
-		SUCCESS,
-
-		/**
 		 * The {@link Lock} was already {@link Lock.State#LOCKED}.
 		 */
 		ALREADY_LOCKED,
+
+		/**
+		 * Argument is not an int
+		 */
+		ARGUMENT_NOT_INT,
 
 		/**
 		 * The {@link Item} selected from the {@link Player} is not a {@link Key}.
@@ -40,9 +42,9 @@ public class LockLockAction extends LockAction
 		INCORRECT_KEY,
 
 		/**
-		 * Argument is not an int
+		 * The {@link Player} successfully locked the {@link Lock}.
 		 */
-		ARGUMENT_NOT_INT,
+		SUCCESS,
 	}
 
 	/**
@@ -95,24 +97,12 @@ public class LockLockAction extends LockAction
 				return;
 			}
 
-			gameInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), 1, selection -> {
-
+			ImmutableSet<Option<Key>> options = backpack.asOptions(Key.class);
+			gameInterface.select(game, player, new BaseSelect<>(options, 1, selection -> {
 				try {
-					Item item = backpack.getItem(selection.get(0).getOptionIdentifier());
-
-					if (!(item instanceof Key)) {
-						outcome = Outcome.SELECTED_NOT_KEY;
-						callback.send(game, player, this);
-						return;
-					}
-
-					Key key = (Key) item;
-					lock.lock(key);
+					lock.lock(selection.get(0).getT());
 					outcome = Outcome.SUCCESS;
 					callback.send(game, player, this);
-
-				} catch (SlotOutOfRangeException | NotEnoughItemsException e) {
-					throw new IllegalStateException(e);
 				} catch (AlreadyLockedException e) {
 					outcome = Outcome.ALREADY_LOCKED;
 					callback.send(game, player, this);
@@ -135,30 +125,31 @@ public class LockLockAction extends LockAction
 	private void withArguments(Game game, Player player, Backpack backpack, String argument)
 	{
 		try {
-			Item item = backpack.getItem(Integer.parseInt(argument));
 
-			if (!(item instanceof Key)) {
-				outcome = Outcome.SELECTED_NOT_KEY;
-				callback.send(game, player, this);
-				return;
-			}
+			ImmutableSet<Option<Key>> options = backpack.asOptions(Key.class);
+			Select<Key> select = new BaseSelect<>(options, 1, selection -> {
+				try {
+					lock.lock(selection.get(0).getT());
+					outcome = Outcome.SUCCESS;
+					callback.send(game, player, this);
+				} catch (AlreadyLockedException e) {
+					outcome = Outcome.ALREADY_LOCKED;
+					callback.send(game, player, this);
+				} catch (IncorrectKeyException e) {
+					outcome = Outcome.INCORRECT_KEY;
+					callback.send(game, player, this);
+				}
+			});
 
-			Key key = (Key) item;
-			lock.lock(key);
-			outcome = Outcome.SUCCESS;
-			callback.send(game, player, this);
+			select.selectIndex(Integer.parseInt(argument));
 
-		} catch (SlotOutOfRangeException | NotEnoughItemsException e) {
-			throw new IllegalStateException(e);
-		} catch (AlreadyLockedException e) {
-			outcome = Outcome.ALREADY_LOCKED;
-			callback.send(game, player, this);
-		} catch (IncorrectKeyException e) {
-			outcome = Outcome.INCORRECT_KEY;
-			callback.send(game, player, this);
 		} catch (NumberFormatException e) {
 			outcome = LockLockAction.Outcome.ARGUMENT_NOT_INT;
 			callback.send(game, player, this);
+		} catch (SelectionAmountOutOfBounds e) {
+
+		} catch (UnknownIndexException e) {
+
 		}
 	}
 

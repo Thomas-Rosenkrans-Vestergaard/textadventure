@@ -16,16 +16,16 @@ public interface ItemType
 	}
 
 	/**
-	 * Returns The name of the {@link ItemType}.
+	 * Returns the name of the {@link ItemType}.
 	 *
-	 * @return the name of the {@link ItemType}.
+	 * @return The name of the {@link ItemType}.
 	 */
 	String getItemName();
 
 	/**
-	 * Returns The description of the {@link ItemType}.
+	 * Returns the description of the {@link ItemType}.
 	 *
-	 * @return the description of the {@link ItemType}.
+	 * @return The description of the {@link ItemType}.
 	 */
 	String getItemDescription();
 

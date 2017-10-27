@@ -38,9 +38,9 @@ public class Key implements Item
 	}
 
 	/**
-	 * Returns The name of the {@link ItemType}.
+	 * Returns the name of the {@link ItemType}.
 	 *
-	 * @return the name of the {@link ItemType}.
+	 * @return The name of the {@link ItemType}.
 	 */
 	@Override public String getItemName()
 	{
@@ -48,9 +48,9 @@ public class Key implements Item
 	}
 
 	/**
-	 * Returns The description of the {@link ItemType}.
+	 * Returns the description of the {@link ItemType}.
 	 *
-	 * @return the description of the {@link ItemType}.
+	 * @return The description of the {@link ItemType}.
 	 */
 	@Override public String getItemDescription()
 	{

@@ -5,9 +5,9 @@ import textadventure.items.Item;
 public class Knife implements EdgedWeapon
 {
 	/**
-	 * Returns The name of the {@link Knife}.
+	 * Returns the name of the {@link Knife}.
 	 *
-	 * @return the name of the {@link Knife}.
+	 * @return The name of the {@link Knife}.
 	 */
 	@Override public String getItemName()
 	{
@@ -15,9 +15,9 @@ public class Knife implements EdgedWeapon
 	}
 
 	/**
-	 * Returns The description of the {@link Knife}.
+	 * Returns the description of the {@link Knife}.
 	 *
-	 * @return the description of the {@link Knife}.
+	 * @return The description of the {@link Knife}.
 	 */
 	@Override public String getItemDescription()
 	{

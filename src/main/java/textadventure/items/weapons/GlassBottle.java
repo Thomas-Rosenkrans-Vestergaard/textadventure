@@ -3,9 +3,9 @@ package textadventure.items.weapons;
 public class GlassBottle implements Weapon
 {
 	/**
-	 * Returns The name of the {@link GlassBottle}.
+	 * Returns the name of the {@link GlassBottle}.
 	 *
-	 * @return the name of the {@link GlassBottle}.
+	 * @return The name of the {@link GlassBottle}.
 	 */
 	@Override public String getItemName()
 	{
@@ -13,9 +13,9 @@ public class GlassBottle implements Weapon
 	}
 
 	/**
-	 * Returns The description of the {@link GlassBottle}.
+	 * Returns the description of the {@link GlassBottle}.
 	 *
-	 * @return the description of the {@link GlassBottle}.
+	 * @return The description of the {@link GlassBottle}.
 	 */
 	@Override public String getItemDescription()
 	{

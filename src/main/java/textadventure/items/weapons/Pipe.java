@@ -3,9 +3,9 @@ package textadventure.items.weapons;
 public class Pipe implements BluntWeapon
 {
 	/**
-	 * Returns The name of the {@link Pipe}.
+	 * Returns the name of the {@link Pipe}.
 	 *
-	 * @return the name of the {@link Pipe}.
+	 * @return The name of the {@link Pipe}.
 	 */
 	@Override public String getItemName()
 	{
@@ -13,9 +13,9 @@ public class Pipe implements BluntWeapon
 	}
 
 	/**
-	 * Returns The description of the {@link Pipe}.
+	 * Returns the description of the {@link Pipe}.
 	 *
-	 * @return the description of the {@link Pipe}.
+	 * @return The description of the {@link Pipe}.
 	 */
 	@Override public String getItemDescription()
 	{

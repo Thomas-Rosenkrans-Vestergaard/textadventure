@@ -3,9 +3,9 @@ package textadventure.items.weapons;
 public class SubmachineGun implements ProjectileWeapon
 {
 	/**
-	 * Returns The name of the {@link SubmachineGun}.
+	 * Returns the name of the {@link SubmachineGun}.
 	 *
-	 * @return the name of the {@link SubmachineGun}.
+	 * @return The name of the {@link SubmachineGun}.
 	 */
 	@Override public String getItemName()
 	{
@@ -13,9 +13,9 @@ public class SubmachineGun implements ProjectileWeapon
 	}
 
 	/**
-	 * Returns The description of the {@link SubmachineGun}.
+	 * Returns the description of the {@link SubmachineGun}.
 	 *
-	 * @return the description of the {@link SubmachineGun}.
+	 * @return The description of the {@link SubmachineGun}.
 	 */
 	@Override public String getItemDescription()
 	{

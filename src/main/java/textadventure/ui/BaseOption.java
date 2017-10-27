@@ -3,7 +3,7 @@ package textadventure.ui;
 /**
  * The default implementation of the {@link Option} interface.
  */
-public class BaseOption implements Option
+public class BaseOption<T> implements Option<T>
 {
 
 	/**
@@ -22,17 +22,24 @@ public class BaseOption implements Option
 	private String description;
 
 	/**
+	 * The actual {@link Option} value.
+	 */
+	private T value;
+
+	/**
 	 * Creates a new {@link BaseOption}.
 	 *
 	 * @param identifier  The identifier of the {@link Option}.
 	 * @param name        The name of the {@link Option}.
 	 * @param description The description of the {@link Option}.
+	 * @param value       The actual value of {@link Option}.
 	 */
-	public BaseOption(int identifier, String name, String description)
+	public BaseOption(int identifier, String name, String description, T value)
 	{
 		this.identifier = identifier;
 		this.name = name;
 		this.description = description;
+		this.value = value;
 	}
 
 	/**
@@ -40,7 +47,7 @@ public class BaseOption implements Option
 	 *
 	 * @return The identifier of the {@link Option}. The identifier also serves as the {@link Option#hashCode()}.
 	 */
-	@Override public Integer getOptionIdentifier()
+	@Override public Integer getOptionIndex()
 	{
 		return identifier;
 	}
@@ -66,6 +73,16 @@ public class BaseOption implements Option
 	}
 
 	/**
+	 * Returns the actual {@link Option} value.
+	 *
+	 * @return The actual {@link Option} value.
+	 */
+	@Override public T getT()
+	{
+		return value;
+	}
+
+	/**
 	 * Returns the identifier of the {@link Option}.
 	 *
 	 * @return The identifier of the {@link Option}.
@@ -77,13 +94,13 @@ public class BaseOption implements Option
 
 	/**
 	 * Compares equality with the provided {@link Object}. The two objects are only equal when <code>obj</code> is an
-	 * instance of {@link Option} and their {@link Option#getOptionIdentifier()} are equal.
+	 * instance of {@link Option} and their {@link Option#getOptionIndex()} are equal.
 	 *
 	 * @param obj The other object.
 	 * @return <code>True</code> when equal, <code>false</code> when not.
 	 */
 	@Override public boolean equals(Object obj)
 	{
-		return obj != null && obj instanceof Option && identifier == ((Option) obj).getOptionIdentifier();
+		return obj != null && obj instanceof Option && identifier == ((Option) obj).getOptionIndex();
 	}
 }

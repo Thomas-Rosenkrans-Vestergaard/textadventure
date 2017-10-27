@@ -277,7 +277,7 @@ public class BaseInventory implements Inventory
 	/**
 	 * Returns the maximum number of slots in the {@link Inventory}.
 	 *
-	 * @return the maximum number of slots in the {@link Inventory}.
+	 * @return The maximum number of slots in the {@link Inventory}.
 	 */
 	@Override public int getNumberOfSlots()
 	{
@@ -324,12 +324,12 @@ public class BaseInventory implements Inventory
 	 *
 	 * @return The {@link ImmutableSet} of {@link Option}s.
 	 */
-	@Override public ImmutableSet<Option> asOptions()
+	@Override public ImmutableSet<Option<Object>> asOptions()
 	{
-		ImmutableSet.Builder<Option> builder = new ImmutableSet.Builder<>();
+		ImmutableSet.Builder<Option<Object>> builder = new ImmutableSet.Builder<>();
 		items.forEach((position, stack) -> {
 			Item item = stack.peek();
-			builder.add(new BaseOption(position, item.getItemName(), item.getItemDescription()));
+			builder.add(new BaseOption(position, item.getItemName(), item.getItemDescription(), item));
 		});
 
 		return builder.build();
@@ -341,15 +341,17 @@ public class BaseInventory implements Inventory
 	 * @param type The type of the {@link Item} to return.
 	 * @return The slots in the {@link Inventory} with the provided {@link Class} type.
 	 */
-	/*@Override public <T extends Option> ImmutableSet<T> asOptions(Class<T> type)
+	@Override public <T> ImmutableSet<Option<T>> asOptions(Class<T> type)
 	{
-		ImmutableSet.Builder<T> builder = new ImmutableSet.Builder<>();
+		ImmutableSet.Builder<Option<T>> builder = new ImmutableSet.Builder<>();
 		items.forEach((position, stack) -> {
 			Item item = stack.peek();
 			if (type.isInstance(item))
-				builder.add(new BaseOption(position, item.getItemName(), item.getItemDescription()));
+				builder.add(new BaseOption<T>(position, item.getItemName(), item.getItemDescription(), type.cast(item)));
 		});
-	}*/
+
+		return builder.build();
+	}
 
 	/**
 	 * Validates that the provided slot position is within a legal range. The valid slot position range is from

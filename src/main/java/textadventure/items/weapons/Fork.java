@@ -5,9 +5,9 @@ import textadventure.items.Item;
 public class Fork implements EdgedWeapon
 {
 	/**
-	 * Returns The name of the {@link Fork}.
+	 * Returns the name of the {@link Fork}.
 	 *
-	 * @return the name of the {@link Fork}.
+	 * @return The name of the {@link Fork}.
 	 */
 	@Override public String getItemName()
 	{
@@ -15,9 +15,9 @@ public class Fork implements EdgedWeapon
 	}
 
 	/**
-	 * Returns The description of the {@link Fork}.
+	 * Returns the description of the {@link Fork}.
 	 *
-	 * @return the description of the {@link Fork}.
+	 * @return The description of the {@link Fork}.
 	 */
 	@Override public String getItemDescription()
 	{

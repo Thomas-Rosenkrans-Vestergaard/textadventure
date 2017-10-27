@@ -238,9 +238,9 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		while (true) {
 			String input = scanner.nextLine().trim().toLowerCase();
-			if (input.matches("^[a-zA-Z0-9{}\\- ]+$"))
+			if (input.matches("^[a-zA-Z0-9'\\- ]+$"))
 				return input;
-			printer.println("Input must only contain letters, numbers, curly brackets and dashes.");
+			printer.println("Input must only contain letters, numbers, apostrophes and dashes.");
 		}
 	}
 
@@ -252,7 +252,7 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private String[] getArgumentsFromCommand(String command)
 	{
-		final Matcher      matcher   = Pattern.compile("(\\{([a-zA-Z0-9\\-]*)\\})").matcher(command);
+		final Matcher      matcher   = Pattern.compile("('([a-zA-Z0-9\\-]*)')").matcher(command);
 		final List<String> arguments = new ArrayList<>();
 		while (matcher.find())
 			arguments.add(matcher.group(2));
@@ -270,7 +270,7 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private String[] getSectionsFromCommand(String command)
 	{
-		int index = command.indexOf('{');
+		int index = command.indexOf('\'');
 
 		if (index != -1) {
 			command = command.substring(0, index);
@@ -432,7 +432,7 @@ public class ConsoleGameInterface implements GameInterface
 		UnlockLockAction.Outcome outcome = action.getOutcome();
 
 		if (outcome == UnlockLockAction.Outcome.SUCCESS) {
-			printer.println("You successfully unlock the lock using the provided key.");
+			printer.println("You successfully unlocked the lock using the provided key.");
 			return;
 		}
 
@@ -761,7 +761,7 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Prompts the player to select an {@link Option}.
+	 * Prompts the player to selectIndices an {@link Option}.
 	 *
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} selecting.
@@ -773,9 +773,9 @@ public class ConsoleGameInterface implements GameInterface
 		int                                     maximumOptions = select.getMaximumNumberOfOptions();
 		ImmutableMap<Integer, ? extends Option> options        = select.getOptions();
 
-		printer.println("To perform the action you must select some of the following options. You select the option " +
+		printer.println("To perform the action you must selectIndices some of the following options. You selectIndices the option " +
 				"using its identifier (id). To abort from the selection you can enter the 'abort' command. It's " +
-				"possible to select multiple options. To finish from the selection you can enter the 'finish' command" +
+				"possible to selectIndices multiple options. To finish from the selection you can enter the 'finish' command" +
 				". The number of selected options must be between " + minimumOptions + " and " + maximumOptions + ".");
 		options.forEach((slot, option) ->
 				printer.println(String.format("%-4d %-20s %-96s",
@@ -817,7 +817,7 @@ public class ConsoleGameInterface implements GameInterface
 			}
 		}
 		try {
-			select.select(choices);
+			select.selectIndices(choices);
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}

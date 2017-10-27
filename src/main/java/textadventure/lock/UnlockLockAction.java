@@ -96,7 +96,7 @@ public class UnlockLockAction extends LockAction
 
 			gameInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), 1, selection -> {
 				try {
-					Item item = backpack.getItem(selection.get(0).getOptionIdentifier());
+					Item item = backpack.getItem(selection.get(0).getOptionIndex());
 					if (!(item instanceof Key)) {
 						outcome = Outcome.SELECTED_NOT_KEY;
 						callback.send(game, player, this);

@@ -11,25 +11,25 @@ public class UnknownOptionException extends SelectException
 	/**
 	 * The possible {@link Option}(s) that could be selected.
 	 */
-	private ImmutableSet<? extends Option> possibleOptions;
+	private ImmutableSet<? extends Option> options;
 
 	/**
 	 * The key of the selected {@link Option}.
 	 */
-	private Option selectedOption;
+	private Option selection;
 
 	/**
 	 * Creates a new {@link UnknownOptionException}.
 	 *
-	 * @param select          The {@link Select} where the {@link UnknownOptionException}
-	 * @param possibleOptions The possible {@link Option}(s) that could be selected.
-	 * @param selectedOption  The selected {@link Option}.
+	 * @param select    The {@link Select} where the {@link UnknownOptionException}
+	 * @param options   The possible {@link Option}(s) that could be selected.
+	 * @param selection The selected {@link Option}.
 	 */
-	public UnknownOptionException(Select select, ImmutableSet<? extends Option> possibleOptions, Option selectedOption)
+	public UnknownOptionException(Select select, ImmutableSet<? extends Option> options, Option selection)
 	{
 		super(select);
-		this.possibleOptions = possibleOptions;
-		this.selectedOption = selectedOption;
+		this.options = options;
+		this.selection = selection;
 	}
 
 	/**
@@ -37,9 +37,9 @@ public class UnknownOptionException extends SelectException
 	 *
 	 * @return The possible {@link Option}(s) that could be selected.
 	 */
-	public ImmutableSet<? extends Option> getPossibleOptions()
+	public ImmutableSet<? extends Option> getOptions()
 	{
-		return possibleOptions;
+		return options;
 	}
 
 	/**
@@ -47,8 +47,8 @@ public class UnknownOptionException extends SelectException
 	 *
 	 * @return The selected {@link Option}.
 	 */
-	public Option getSelectedOption()
+	public Option getSelection()
 	{
-		return this.selectedOption;
+		return this.selection;
 	}
 }

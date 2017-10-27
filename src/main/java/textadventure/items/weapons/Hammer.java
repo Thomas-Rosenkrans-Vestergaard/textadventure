@@ -3,9 +3,9 @@ package textadventure.items.weapons;
 public class Hammer implements BluntWeapon
 {
 	/**
-	 * Returns The name of the {@link Hammer}.
+	 * Returns the name of the {@link Hammer}.
 	 *
-	 * @return the name of the {@link Hammer}.
+	 * @return The name of the {@link Hammer}.
 	 */
 	@Override public String getItemName()
 	{
@@ -13,9 +13,9 @@ public class Hammer implements BluntWeapon
 	}
 
 	/**
-	 * Returns The description of the {@link Hammer}.
+	 * Returns the description of the {@link Hammer}.
 	 *
-	 * @return the description of the {@link Hammer}.
+	 * @return The description of the {@link Hammer}.
 	 */
 	@Override public String getItemDescription()
 	{

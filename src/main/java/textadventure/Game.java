@@ -167,7 +167,7 @@ public class Game
 	/**
 	 * Returns the {@link Maze} the game is played in.
 	 *
-	 * @return the {@link Maze} the game is played in.
+	 * @return The {@link Maze} the game is played in.
 	 */
 	public Maze getMaze()
 	{
