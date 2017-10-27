@@ -724,10 +724,15 @@ public class ConsoleGameInterface implements GameInterface
 	private void printInventory(Inventory inventory)
 	{
 		ImmutableMap<Integer, ItemType> items = inventory.getSlots();
-		items.forEach((key, value) -> printer.println(String.format("%-4d %-20s %-96s",
-				key,
-				value.getItemName(),
-				value.getItemDescription())));
+		if (items.isEmpty()){
+			printer.println("Your backpack is empty.");
+		}else{
+			items.forEach((key, value) -> printer.println(String.format("%-4d %-20s %-96s",
+					key,
+					value.getItemName(),
+					value.getItemDescription())));
+		}
+
 	}
 
 	/**
