@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class Wrench implements Weapon
+public class Wrench implements BluntWeapon
 {
 
 	/**
@@ -10,7 +10,7 @@ public class Wrench implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Wrench";
 	}
 
 	/**
@@ -20,7 +20,7 @@ public class Wrench implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "Seems to be made of aluminium.";
 	}
 
 	/**
@@ -32,4 +32,5 @@ public class Wrench implements Weapon
 	{
 		return 0;
 	}
+
 }

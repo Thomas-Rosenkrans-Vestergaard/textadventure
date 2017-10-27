@@ -1,7 +1,9 @@
 package textadventure.ui;
 
 /**
- * Represents a {@link Select}able {@link Option}.
+ * Represents a {@link Select}able {@link Option}. Any implementations must delegate {@link Option#hashCode()} to
+ * {@link Option#getOptionIdentifier()}. {@link Option#equals(Object)} must likewise compare the results from
+ * {@link Option#getOptionIdentifier()}.
  */
 public interface Option
 {

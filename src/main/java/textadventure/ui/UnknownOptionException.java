@@ -1,6 +1,7 @@
 package textadventure.ui;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * Exception thrown when the selected {@link Option}(s) were not found in the possible {@link Option}(s).
@@ -11,7 +12,7 @@ public class UnknownOptionException extends SelectException
 	/**
 	 * The possible {@link Option}(s) that could be selected.
 	 */
-	private ImmutableList<? extends Option> possibleOptions;
+	private ImmutableSet<? extends Option> possibleOptions;
 
 	/**
 	 * The key of the selected {@link Option}.
@@ -25,7 +26,7 @@ public class UnknownOptionException extends SelectException
 	 * @param possibleOptions The possible {@link Option}(s) that could be selected.
 	 * @param selectedOption  The selected {@link Option}.
 	 */
-	public UnknownOptionException(Select select, ImmutableList<? extends Option> possibleOptions, Option selectedOption)
+	public UnknownOptionException(Select select, ImmutableSet<? extends Option> possibleOptions, Option selectedOption)
 	{
 		super(select);
 		this.possibleOptions = possibleOptions;
@@ -37,7 +38,7 @@ public class UnknownOptionException extends SelectException
 	 *
 	 * @return The possible {@link Option}(s) that could be selected.
 	 */
-	public ImmutableList<? extends Option> getPossibleOptions()
+	public ImmutableSet<? extends Option> getPossibleOptions()
 	{
 		return possibleOptions;
 	}

@@ -1,6 +1,7 @@
 package textadventure.ui;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class SelectionAmountOutOfBounds extends SelectException
 	/**
 	 * The {@link Option}(s) that were selected.
 	 */
-	private ImmutableList<?> selection;
+	private ImmutableSet<?> selection;
 
 	/**
 	 * Creates a new {@link SelectionAmountOutOfBounds}.
@@ -40,13 +41,13 @@ public class SelectionAmountOutOfBounds extends SelectException
 	 * @param actualNumber  The actual number of {@link Option}(s) that were selected.
 	 * @param selection     The selected {@link Option}(s).
 	 */
-	public SelectionAmountOutOfBounds(Select select, int minimumNumber, int maximumNumber, int actualNumber, List<? extends Option> selection)
+	public SelectionAmountOutOfBounds(Select select, int minimumNumber, int maximumNumber, int actualNumber, ImmutableSet<? extends Option> selection)
 	{
 		super(select);
 		this.minimumNumber = minimumNumber;
 		this.maximumNumber = maximumNumber;
 		this.actualNumber = actualNumber;
-		this.selection = new ImmutableList.Builder<>().addAll(selection).build();
+		this.selection = selection;
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class SelectionAmountOutOfBounds extends SelectException
 	 *
 	 * @return the {@link Option}(s) that were selected.
 	 */
-	public ImmutableList<?> getSelection()
+	public ImmutableSet<?> getSelection()
 	{
 		return this.selection;
 	}

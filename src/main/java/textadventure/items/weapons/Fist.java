@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class Fist implements Weapon
+public class Fist implements BluntWeapon
 {
 	/**
 	 * Returns The name of the {@link Fist}.
@@ -9,7 +9,7 @@ public class Fist implements Weapon
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Fist";
 	}
 
 	/**
@@ -19,7 +19,7 @@ public class Fist implements Weapon
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "The standard choice.";
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package textadventure.ui;
 
+import java.util.HashMap;
+
 /**
  * The default implementation of the {@link Option} interface.
  */
@@ -68,5 +70,13 @@ public class BaseOption implements Option
 	@Override public int hashCode()
 	{
 		return identifier;
+	}
+
+	@Override public boolean equals(Object obj)
+	{
+		if (obj == null || !(obj instanceof Option))
+			return false;
+
+		return identifier == ((Option) obj).getOptionIdentifier();
 	}
 }
