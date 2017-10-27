@@ -21,7 +21,7 @@ public class InspectLockAction extends LockAction
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link InspectLockAction}.
+	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectLockAction}.
 	 */
 	private ActionPerformCallback<InspectLockAction> callback;
 
@@ -29,7 +29,7 @@ public class InspectLockAction extends LockAction
 	 * Creates a new {@link InspectLockAction}.
 	 *
 	 * @param lock     The {@link Lock} to execute the {@link InspectLockAction} on.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link InspectLockAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link InspectLockAction}.
 	 */
 	public InspectLockAction(Lock lock, ActionPerformCallback<InspectLockAction> callback)
 	{

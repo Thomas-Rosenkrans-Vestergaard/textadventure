@@ -9,7 +9,6 @@ import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
-import textadventure.ui.Option;
 
 public class LockLockAction extends LockAction
 {
@@ -47,7 +46,7 @@ public class LockLockAction extends LockAction
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link LockLockAction}.
+	 * {@link ActionPerformCallback} to invoke after performing the {@link LockLockAction}.
 	 */
 	private ActionPerformCallback<LockLockAction> callback;
 
@@ -55,7 +54,7 @@ public class LockLockAction extends LockAction
 	 * Creates a new {@link LockLockAction}.
 	 *
 	 * @param lock     The {@link Lock} to execute the {@link LockLockAction} on.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link LockLockAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link LockLockAction}.
 	 */
 	public LockLockAction(Lock lock, ActionPerformCallback<LockLockAction> callback)
 	{

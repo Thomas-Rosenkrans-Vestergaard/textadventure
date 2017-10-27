@@ -24,7 +24,7 @@ public class InspectDoorAction extends DoorAction
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link InspectDoorAction}.
+	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectDoorAction}.
 	 */
 	private ActionPerformCallback<InspectDoorAction> callback;
 
@@ -32,7 +32,7 @@ public class InspectDoorAction extends DoorAction
 	 * Creates a new {@link InspectDoorAction}.
 	 *
 	 * @param door     The {@link Door} to inspect.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link InspectDoorAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link InspectDoorAction}.
 	 */
 	InspectDoorAction(Door door, ActionPerformCallback<InspectDoorAction> callback)
 	{

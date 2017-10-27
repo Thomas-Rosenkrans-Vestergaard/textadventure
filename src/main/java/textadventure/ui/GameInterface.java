@@ -10,6 +10,7 @@ import textadventure.doors.OpenDoorAction;
 import textadventure.doors.UseDoorAction;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.InspectBackpackAction;
+import textadventure.items.backpack.PickupItemAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
@@ -190,13 +191,22 @@ public interface GameInterface
 	void onBackpackInspect(Game game, Player player, InspectBackpackAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
+	 * Event when a {@link Player} performs the {@link DropItemAction}.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link DepositItemsIntoChestAction}.
-	 * @param action The {@link DepositItemsIntoChestAction} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link DropItemAction}.
+	 * @param action The {@link DropItemAction} instance.
 	 */
 	void onItemDrop(Game game, Player player, DropItemAction action);
+
+	/**
+	 * Event when a {@link Player} performs the {@link PickupItemAction}.
+	 *
+	 * @param game   The {@link Game} instance.
+	 * @param player The {@link Player} who attempted to perform the {@link PickupItemAction}.
+	 * @param action The {@link PickupItemAction} instance.
+	 */
+	void onItemPickup(Game game, Player player, PickupItemAction action);
 
 	/**
 	 * Prompts the player to select an {@link Option}.

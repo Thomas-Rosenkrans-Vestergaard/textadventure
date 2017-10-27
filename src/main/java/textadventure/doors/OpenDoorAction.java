@@ -38,7 +38,7 @@ public class OpenDoorAction extends DoorAction
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link OpenDoorAction}.
+	 * {@link ActionPerformCallback} to invoke after performing the {@link OpenDoorAction}.
 	 */
 	private ActionPerformCallback<OpenDoorAction> callback;
 
@@ -46,7 +46,7 @@ public class OpenDoorAction extends DoorAction
 	 * Creates a new {@link OpenDoorAction}.
 	 *
 	 * @param door     The {@link Door} to be opened.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link OpenDoorAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link OpenDoorAction}.
 	 */
 	OpenDoorAction(Door door, ActionPerformCallback<OpenDoorAction> callback)
 	{

@@ -46,7 +46,7 @@ public class UnlockLockAction extends LockAction
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link UnlockLockAction}.
+	 * {@link ActionPerformCallback} to invoke after performing the {@link UnlockLockAction}.
 	 */
 	private ActionPerformCallback<UnlockLockAction> callback;
 
@@ -54,7 +54,7 @@ public class UnlockLockAction extends LockAction
 	 * Creates a new {@link UnlockLockAction}.
 	 *
 	 * @param lock     The {@link Lock} to execute the {@link UnlockLockAction} on.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link UnlockLockAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link UnlockLockAction}.
 	 */
 	public UnlockLockAction(Lock lock, ActionPerformCallback<UnlockLockAction> callback)
 	{

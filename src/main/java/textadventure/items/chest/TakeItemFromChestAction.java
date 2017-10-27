@@ -50,7 +50,7 @@ public class TakeItemFromChestAction extends ChestAction
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link TakeItemFromChestAction}.
+	 * {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
 	 */
 	private ActionPerformCallback<TakeItemFromChestAction> callback;
 
@@ -63,7 +63,7 @@ public class TakeItemFromChestAction extends ChestAction
 	 * Creates a new {@link OpenChestAction}.
 	 *
 	 * @param chest    The {@link Chest} where the {@link Item} is taken from.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link TakeItemFromChestAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
 	 */
 	TakeItemFromChestAction(Chest chest, ActionPerformCallback<TakeItemFromChestAction> callback)
 	{

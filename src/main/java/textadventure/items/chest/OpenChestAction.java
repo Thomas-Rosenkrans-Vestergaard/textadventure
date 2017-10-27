@@ -34,7 +34,7 @@ public class OpenChestAction extends ChestAction
 	private Outcome outcome;
 
 	/**
-	 * {@link ActionPerformCallback} to use as a send after performing the {@link OpenChestAction}.
+	 * {@link ActionPerformCallback} to invoke after performing the {@link OpenChestAction}.
 	 */
 	private ActionPerformCallback<OpenChestAction> callback;
 
@@ -42,7 +42,7 @@ public class OpenChestAction extends ChestAction
 	 * Creates a new {@link OpenChestAction}.
 	 *
 	 * @param chest    The {@link Chest} to be opened.
-	 * @param callback The {@link ActionPerformCallback} to use as a send after performing the {@link OpenChestAction}.
+	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link OpenChestAction}.
 	 */
 	OpenChestAction(Chest chest, ActionPerformCallback<OpenChestAction> callback)
 	{
