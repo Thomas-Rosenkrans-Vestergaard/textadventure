@@ -126,10 +126,10 @@ public class UnlockLockAction extends LockAction
 
 
 	/**
-	 *Performs the {@link UnlockLockAction} using the provided argument
+	 * Performs the {@link UnlockLockAction} using the provided argument
 	 *
-	 * @param game The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link UnlockLockAction}.
+	 * @param game     The {@link Game} instance.
+	 * @param player   The {@link Player} performing the {@link UnlockLockAction}.
 	 * @param backpack The {@link Backpack} the key is used from.
 	 * @param argument The arguments provided to the {@link UnlockLockAction}.
 	 */
@@ -155,7 +155,7 @@ public class UnlockLockAction extends LockAction
 		} catch (IncorrectKeyException e) {
 			outcome = Outcome.INCORRECT_KEY;
 			callback.send(game, player, this);
-		}catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			outcome = UnlockLockAction.Outcome.ARGUMENT_NOT_INT;
 			callback.send(game, player, this);
 		}

@@ -121,15 +121,13 @@ public class LockLockAction extends LockAction
 				}
 			}));
 		}
-
-		throw new UnsupportedOperationException();
 	}
 
 	/**
-	 *Performs the {@link LockLockAction} using the provided argument
+	 * Performs the {@link LockLockAction} using the provided argument
 	 *
-	 * @param game The {@link Game} instance.
-	 * @param player The {@link Player} performing the {@link LockLockAction}.
+	 * @param game     The {@link Game} instance.
+	 * @param player   The {@link Player} performing the {@link LockLockAction}.
 	 * @param backpack The {@link Backpack} the key is used from.
 	 * @param argument The arguments provided to the {@link LockLockAction}.
 	 */
@@ -157,7 +155,7 @@ public class LockLockAction extends LockAction
 		} catch (IncorrectKeyException e) {
 			outcome = Outcome.INCORRECT_KEY;
 			callback.send(game, player, this);
-		}catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			outcome = LockLockAction.Outcome.ARGUMENT_NOT_INT;
 			callback.send(game, player, this);
 		}

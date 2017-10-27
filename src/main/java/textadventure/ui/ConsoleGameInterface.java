@@ -235,14 +235,14 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Checks if the provided input is valid. Legal input follow the pattern <code>^[a-zA-Z0-9" ]+$</code>.
+	 * Checks if the provided input is valid. Legal input follow the pattern <code>^[a-zA-Z0-9{} ]+$</code>.
 	 *
 	 * @param input The input to validate.
 	 * @return <code>true</code> of the provided input is valid. Returns <code>false</code> otherwise.
 	 */
 	private boolean validateInput(String input)
 	{
-		return input.matches("^[a-zA-Z0-9\" ]+$");
+		return input.matches("^[a-zA-Z0-9{} ]+$");
 	}
 
 	/**
@@ -254,10 +254,9 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		while (true) {
 			String input = scanner.nextLine().trim().toLowerCase();
-			if (validateInput(input))
+			if (input.matches("^[a-zA-Z0-9{} ]+$"))
 				return input;
-			else
-				printer.println("Input must be given in the pattern ^[a-zA-Z0-9\" ]+$");
+			printer.println("Input must be given in the pattern ^[a-zA-Z0-9{} ]+$");
 		}
 	}
 
@@ -269,11 +268,10 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private String[] getArgumentsFromCommand(String command)
 	{
-		final Matcher      matcher   = Pattern.compile("\"([a-zA-Z0-9]*)\"").matcher(command);
+		final Matcher      matcher   = Pattern.compile("(\\{([a-zA-Z0-9]*)\\})").matcher(command);
 		final List<String> arguments = new ArrayList<>();
-		while (matcher.find()) {
-			arguments.add(matcher.group(0).replaceAll("\"", ""));
-		}
+		while (matcher.find())
+			arguments.add(matcher.group(2));
 
 		String[] result = new String[arguments.size()];
 		arguments.toArray(result);
@@ -288,7 +286,7 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private String[] getSectionsFromCommand(String command)
 	{
-		int index = command.indexOf('\"');
+		int index = command.indexOf('{');
 
 		if (index != -1) {
 			command = command.substring(0, index);
@@ -451,6 +449,11 @@ public class ConsoleGameInterface implements GameInterface
 
 		if (outcome == UnlockLockAction.Outcome.SUCCESS) {
 			printer.println("You successfully unlock the lock using the provided key.");
+			return;
+		}
+
+		if (outcome == UnlockLockAction.Outcome.ARGUMENT_NOT_INT) {
+			printer.println("The provided argument must be of type integer.");
 			return;
 		}
 
