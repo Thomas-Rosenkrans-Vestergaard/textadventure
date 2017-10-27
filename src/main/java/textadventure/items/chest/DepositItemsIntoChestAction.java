@@ -140,8 +140,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 	{
 		Item currentItem = null;
 		try {
-			int argTemp = Integer.parseInt(argument);
-			currentItem = backpack.takeItem(argTemp);
+			currentItem = backpack.takeItem(Integer.parseInt(argument));
 			this.items.add(currentItem);
 			chest.addItem(currentItem);
 			outcome = Outcome.SUCCESS;

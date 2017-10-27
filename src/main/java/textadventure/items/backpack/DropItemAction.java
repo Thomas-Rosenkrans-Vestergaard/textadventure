@@ -107,8 +107,7 @@ public class DropItemAction extends BackpackAction
 	private void withArgument(Game game, Player player, Floor floor, Backpack backpack, String argument)
 	{
 		try {
-			int argTemp = Integer.parseInt(argument);
-			Item item = backpack.takeItem(argTemp);
+			Item item = backpack.takeItem(Integer.parseInt(argument));
 			floor.addItem(item);
 			this.items.add(item);
 			this.outcome = Outcome.SUCCESS;
