@@ -2,6 +2,7 @@ package textadventure;
 
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
+import textadventure.items.wearables.*;
 import textadventure.rooms.Room;
 
 /**
@@ -15,6 +16,11 @@ public class BaseEnemy extends BaseCharacter implements Enemy
 	 *
 	 * @param name
 	 * @param backpack
+	 * @param headwear
+	 * @param torso
+	 * @param gloves
+	 * @param pants
+	 * @param boots
 	 * @param currentLocation
 	 * @param maxHP
 	 * @param currentHP
@@ -26,9 +32,25 @@ public class BaseEnemy extends BaseCharacter implements Enemy
 	 * @param stealth
 	 * @param money
 	 */
-	public BaseEnemy(String name, Backpack backpack, Room currentLocation, int maxHP, int currentHP, int level, int sanity, int strength, int dexterity, int intelligence, int stealth, int money)
+	public BaseEnemy(String name, Backpack backpack, Headwear headwear, Torso torso, Gloves gloves, Pants pants,
+	                 Boots boots,
+	                 Weapon
+	                 weapon,
+	                 Room
+			currentLocation,
+	                 int maxHP,
+	                 int
+			currentHP, int
+			level,
+	                 int
+			sanity, int strength, int dexterity, int intelligence, int stealth, int money)
 	{
-		super(name, backpack, currentLocation, maxHP, currentHP, level, sanity, strength, dexterity, intelligence, stealth, money);
+		super(name, backpack, headwear, torso, gloves, pants, boots, weapon, currentLocation, maxHP, currentHP, level,
+				sanity,
+				strength,
+				dexterity,
+				intelligence,
+				stealth, money);
 	}
 
 	/**
