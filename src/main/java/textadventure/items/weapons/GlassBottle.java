@@ -1,7 +1,5 @@
 package textadventure.items.weapons;
 
-import textadventure.items.Item;
-
 public class GlassBottle implements Weapon
 {
 	/**

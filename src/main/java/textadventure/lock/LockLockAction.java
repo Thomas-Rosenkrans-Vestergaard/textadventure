@@ -7,7 +7,6 @@ import textadventure.items.Item;
 import textadventure.items.NotEnoughItemsException;
 import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
-import textadventure.items.chest.DepositItemsIntoChestAction;
 import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
 

@@ -1,9 +1,6 @@
 package textadventure.ui;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-
-import java.util.List;
 
 /**
  * Exception thrown when the number of selected {@link Option}(s) it outside of the range set by the {@link Select}

@@ -2,7 +2,6 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import textadventure.*;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
