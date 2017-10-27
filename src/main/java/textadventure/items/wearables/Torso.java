@@ -1,6 +1,6 @@
 package textadventure.items.wearables;
 
-public interface Chest extends Wearable
+public interface Torso extends Wearable
 {
 	/**
 	 * Return the double representing the protective factor of the {@link Wearable}
