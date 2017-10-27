@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class Plunger implements Weapon
+public class Plunger implements BluntWeapon
 {
 	/**
 	 * Returns The name of the {@link Plunger}.
@@ -31,4 +31,6 @@ public class Plunger implements Weapon
 	{
 		return 0;
 	}
+
+
 }

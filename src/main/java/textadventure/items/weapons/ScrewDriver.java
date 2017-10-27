@@ -1,6 +1,8 @@
 package textadventure.items.weapons;
 
-public class ScrewDriver implements Weapon
+import textadventure.items.Item;
+
+public class ScrewDriver implements EdgedWeapon
 {
 	/**
 	 * Returns The name of the {@link ScrewDriver}.
@@ -31,4 +33,11 @@ public class ScrewDriver implements Weapon
 	{
 		return 0;
 	}
+
+
+	@Override public int sharpen(Item whetstone)
+	{
+		return 0;
+	}
 }
+

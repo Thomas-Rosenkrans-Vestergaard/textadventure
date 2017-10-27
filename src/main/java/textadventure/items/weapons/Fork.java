@@ -1,6 +1,8 @@
 package textadventure.items.weapons;
 
-public class Fork implements Weapon
+import textadventure.items.Item;
+
+public class Fork implements EdgedWeapon
 {
 	/**
 	 * Returns The name of the {@link Fork}.
@@ -31,4 +33,11 @@ public class Fork implements Weapon
 	{
 		return 0;
 	}
+
+
+	@Override public int sharpen(Item whetstone)
+	{
+		return 0;
+	}
+
 }

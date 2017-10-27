@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class SubmachineGun implements Weapon
+public class SubmachineGun implements ProjectileWeapon
 {
 	/**
 	 * Returns The name of the {@link SubmachineGun}.

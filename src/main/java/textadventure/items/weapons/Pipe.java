@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class Pipe implements Weapon
+public class Pipe implements BluntWeapon
 {
 	/**
 	 * Returns The name of the {@link Pipe}.
@@ -31,4 +31,5 @@ public class Pipe implements Weapon
 	{
 		return 0;
 	}
+
 }

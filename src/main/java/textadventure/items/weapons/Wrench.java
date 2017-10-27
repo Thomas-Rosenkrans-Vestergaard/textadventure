@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class Wrench implements Weapon
+public class Wrench implements BluntWeapon
 {
 
 	/**
@@ -32,4 +32,5 @@ public class Wrench implements Weapon
 	{
 		return 0;
 	}
+
 }

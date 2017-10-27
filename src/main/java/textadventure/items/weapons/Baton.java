@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class Baton implements Weapon
+public class Baton implements BluntWeapon
 {
 	/**
 	 * Returns The name of the {@link Baton}.

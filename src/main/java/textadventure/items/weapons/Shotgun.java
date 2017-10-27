@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-public class Shotgun implements Weapon
+public class Shotgun implements ProjectileWeapon
 {
 	/**
 	 * Returns The name of the {@link Shotgun}.
