@@ -1,14 +1,8 @@
-Implement monsters
 Backpack upgrades
 Monsters
-Ground items
 high score file
 action unit testing // Hjalmar
 Implementation of DropItemAction // Tobias
 generalized takeItemAction
-wearables and weapons , Backpack equip action
-use action arguments where applicable
 remove addFeature, write room descriptions
-pickup item // TObias
 'abort' to abort out of current action
-try some ImmutableHashSet for the BaseSelect class backing
