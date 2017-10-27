@@ -263,10 +263,10 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private String[] getArgumentsFromCommand(String command)
 	{
-		final Matcher      matcher   = Pattern.compile("(\"[a-zA-Z0-9]*\")").matcher(command);
+		final Matcher      matcher   = Pattern.compile("\"([a-zA-Z0-9]*)\"").matcher(command);
 		final List<String> arguments = new ArrayList<>();
 		while (matcher.find()) {
-			arguments.add(matcher.group(0));
+			arguments.add(matcher.group(0).replaceAll("\"", ""));
 		}
 
 		String[] result = new String[arguments.size()];
@@ -690,7 +690,7 @@ public class ConsoleGameInterface implements GameInterface
 			return;
 		}
 
-		if(outcome == DropItemAction.Outcome.ARGUMENT_NOT_INT){
+		if (outcome == DropItemAction.Outcome.ARGUMENT_NOT_INT) {
 			printer.println("The argument you gave wasn't an int");
 			return;
 		}
@@ -722,9 +722,9 @@ public class ConsoleGameInterface implements GameInterface
 	private void printInventory(Inventory inventory)
 	{
 		ImmutableMap<Integer, ItemType> items = inventory.getSlots();
-		if (items.isEmpty()){
+		if (items.isEmpty()) {
 			printer.println("Your backpack is empty.");
-		}else{
+		} else {
 			items.forEach((key, value) -> printer.println(String.format("%-4d %-20s %-96s",
 					key,
 					value.getItemName(),
