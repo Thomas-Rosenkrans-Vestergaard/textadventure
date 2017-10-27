@@ -259,12 +259,15 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		return boots;
 	}
 
-
-	@Override public Boots setBoots()
+	/**
+	 * Sets the {@link Boots} of the {@link java.lang.Character}.
+	 *
+	 * @param boots The {@link Boots} to set.
+	 */
+	@Override public void setBoots(Boots boots)
 	{
-		return boots;
+		this.boots = boots;
 	}
-
 
 	/**
 	 * Returns the {@link Torso} of the {@link java.lang.Character}.
@@ -276,11 +279,15 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		return torso;
 	}
 
-	@Override public Torso SetTorso()
+	/**
+	 * Sets the {@link Torso} of the {@link java.lang.Character}.
+	 *
+	 * @param torso The {@link Torso} to set.
+	 */
+	@Override public void setTorso(Torso torso)
 	{
-		return torso;
+		this.torso = torso;
 	}
-
 
 	/**
 	 * Returns the {@link Gloves} of the {@link java.lang.Character}.
@@ -292,9 +299,14 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		return gloves;
 	}
 
-	@Override public Gloves setGloves()
+	/**
+	 * Sets the {@link Gloves} of the {@link java.lang.Character}.
+	 *
+	 * @param gloves The {@link Gloves} to set.
+	 */
+	@Override public void setGloves(Gloves gloves)
 	{
-		return gloves;
+		this.gloves = gloves;
 	}
 
 	/**
@@ -307,9 +319,14 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		return headwear;
 	}
 
-	@Override public Headwear setHeadwear()
+	/**
+	 * Sets the {@link Headwear} of the {@link java.lang.Character}.
+	 *
+	 * @param headwear The {@link Headwear} to set.
+	 */
+	@Override public void setHeadwear(Headwear headwear)
 	{
-		return headwear;
+		this.headwear = headwear;
 	}
 
 	/**
@@ -322,9 +339,14 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		return pants;
 	}
 
-	@Override public Pants setPants()
+	/**
+	 * Sets the {@link Pants} of the {@link java.lang.Character}.
+	 *
+	 * @param pants The {@link Pants} to set.
+	 */
+	@Override public void setPants(Pants pants)
 	{
-		return pants;
+		this.pants = pants;
 	}
 
 	/**
@@ -337,11 +359,15 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		return weapon;
 	}
 
-	@Override public Weapon setWeapon()
+	/**
+	 * Sets the {@link Weapon} of the {@link java.lang.Character}.
+	 *
+	 * @param weapon The {@link Weapon} to set.
+	 */
+	@Override public void setWeapon(Weapon weapon)
 	{
-		return weapon;
+		this.weapon = weapon;
 	}
-
 
 	/**
 	 * Returns the {@link Room} the {@link Character} is currently in.

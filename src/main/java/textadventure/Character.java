@@ -1,7 +1,6 @@
 package textadventure;
 
 import textadventure.items.backpack.Backpack;
-import textadventure.items.weapons.Fist;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
 import textadventure.rooms.Room;
@@ -71,49 +70,89 @@ public interface Character extends PropertyContainer
 	 */
 	Backpack getBackpack();
 
-	/** Returns the {@link Boots} of the {@link Character}.
+	/**
+	 * Returns the {@link Boots} of the {@link Character}.
 	 *
 	 * @return The {@link Boots} of the {@link Character}.
 	 */
 	Boots getBoots();
-	Boots setBoots();
 
-	/** Returns the {@link Torso} of the {@link Character}.
+	/**
+	 * Sets the {@link Boots} of the {@link Character}.
+	 *
+	 * @param boots The {@link Boots} to set.
+	 */
+	void setBoots(Boots boots);
+
+	/**
+	 * Returns the {@link Torso} of the {@link Character}.
 	 *
 	 * @return The {@link Torso} of the {@link Character}.
 	 */
 	Torso getTorso();
-	Torso SetTorso();
 
-	/** Returns the {@link Gloves} of the {@link Character}.
+	/**
+	 * Sets the {@link Torso} of the {@link Character}.
+	 *
+	 * @param torso The {@link Torso} to set.
+	 */
+	void setTorso(Torso torso);
+
+	/**
+	 * Returns the {@link Gloves} of the {@link Character}.
 	 *
 	 * @return The {@link Gloves} of the {@link Character}.
 	 */
 	Gloves getGloves();
-	Gloves setGloves();
 
-	/** Returns the {@link Headwear} of the {@link Character}.
+	/**
+	 * Sets the {@link Gloves} of the {@link Character}.
+	 *
+	 * @param gloves The {@link Gloves} to set.
+	 */
+	void setGloves(Gloves gloves);
+	
+	/**
+	 * Returns the {@link Headwear} of the {@link Character}.
 	 *
 	 * @return The {@link Headwear} of the {@link Character}.
 	 */
 	Headwear getHeadwear();
-	Headwear setHeadwear();
 
-	/** Returns the {@link Gloves} of the {@link Character}.
+	/**
+	 * Sets the {@link Headwear} of the {@link Character}.
+	 *
+	 * @param headwear The {@link Headwear} to set.
+	 */
+	void setHeadwear(Headwear headwear);
+	
+	/**
+	 * Returns the {@link Gloves} of the {@link Character}.
 	 *
 	 * @return The {@link Gloves} of the {@link Character}.
 	 */
 	Pants getPants();
-	Pants setPants();
 
+	/**
+	 * Sets the {@link Pants} of the {@link Character}.
+	 *
+	 * @param pants The {@link Pants} to set.
+	 */
+	void setPants(Pants pants);
+	
 	/**
 	 * return the {@link Weapon} of the {@link Character}
 	 *
 	 * @return The {@link Weapon} of the {@link Character}
 	 */
 	Weapon getWeapon();
-	Weapon setWeapon();
 
+	/**
+	 * Sets the {@link Weapon} of the {@link Character}.
+	 *
+	 * @param weapon The {@link Weapon} to set.
+	 */
+	void setWeapon(Weapon weapon);
 
 	/**
 	 * Returns the {@link Room} the {@link Character} is currently in.
@@ -193,6 +232,4 @@ public interface Character extends PropertyContainer
 	 * @return The amount of money the {@link Character} has.
 	 */
 	int getMoney();
-
 }
-
