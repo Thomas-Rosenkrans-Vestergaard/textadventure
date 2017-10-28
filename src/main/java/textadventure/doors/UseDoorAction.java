@@ -4,6 +4,7 @@ import textadventure.Character;
 import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.rooms.Room;
+import textadventure.ui.GameInterface;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to use a {@link Door} to move to another
@@ -33,11 +34,11 @@ public class UseDoorAction extends DoorAction
 	/**
 	 * Performs the {@link UseDoorAction} using the provided arguments.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link UseDoorAction}.
-	 * @param arguments The arguments provided to the {@link UseDoorAction}.
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} performing the {@link UseDoorAction}.
+	 * @param arguments     The arguments provided to the {@link UseDoorAction}.
 	 */
-	@Override public void perform(Game game, Character character, String[] arguments)
+	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
 		Door       door        = getDoor();
 		Room       currentRoom = character.getCurrentLocation();
@@ -56,6 +57,6 @@ public class UseDoorAction extends DoorAction
 			character.setCurrentLocation(targetRoom);
 		}
 
-		callback.send(game, character, this);
+		callback.send(character, this);
 	}
 }

@@ -2,9 +2,7 @@ package textadventure.items.backpack;
 
 import com.google.common.collect.ImmutableSet;
 import textadventure.Character;
-import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
-import textadventure.items.Item;
 import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
 import textadventure.ui.Option;
@@ -46,15 +44,14 @@ public class ExpandBackpackAction extends BackpackAction
 	/**
 	 * Performs the {@link ExpandBackpackAction} using the provided arguments.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link ExpandBackpackAction}.
-	 * @param arguments The arguments provided to the {@link ExpandBackpackAction}.
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} performing the {@link ExpandBackpackAction}.
+	 * @param arguments     The arguments provided to the {@link ExpandBackpackAction}.
 	 */
-	@Override public void perform(Game game, Character character, String[] arguments)
+	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
-		GameInterface                           gameInterface = game.getGameInterface();
-		Backpack                                backpack      = character.getBackpack();
-		ImmutableSet<Option<BackpackExpansion>> options       = backpack.asOptions(BackpackExpansion.class);
+		Backpack                                backpack = character.getBackpack();
+		ImmutableSet<Option<BackpackExpansion>> options  = backpack.asOptions(BackpackExpansion.class);
 
 		Select<BackpackExpansion> select = new BaseSelect<>(options, 1, selection -> {
 
@@ -80,11 +77,11 @@ public class ExpandBackpackAction extends BackpackAction
 				return;
 			}
 
-			gameInterface.select(game, character, select);
+			gameInterface.select(character, select);
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(game, character, this);
+			callback.send(character, this);
 		}
 	}
 

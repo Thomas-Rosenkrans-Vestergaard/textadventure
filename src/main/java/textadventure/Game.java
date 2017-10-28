@@ -128,7 +128,7 @@ public class Game
 	 */
 	private void handleActionResponse(Action action, String[] arguments)
 	{
-		action.perform(this, this.currentPlayer.getCharacter(), arguments);
+		action.perform(gameInterface, this.currentPlayer.getCharacter(), arguments);
 
 		if (currentPlayer.getCharacter().getCurrentLocation() instanceof EndingRoom) {
 			gameInterface.onGameEnd(this);

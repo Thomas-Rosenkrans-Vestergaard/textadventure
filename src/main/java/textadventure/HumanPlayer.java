@@ -26,6 +26,6 @@ public class HumanPlayer extends AbstractPlayer
 	 */
 	@Override public void takeTurn(Game game, ActionRequestCallback callback)
 	{
-		game.getGameInterface().onActionRequest(game, this.getCharacter(), callback::respond);
+		game.getGameInterface().onActionRequest(this.getCharacter(), callback::respond);
 	}
 }

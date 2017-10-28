@@ -1,8 +1,8 @@
 package textadventure.items.backpack;
 
 import textadventure.Character;
-import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
+import textadventure.ui.GameInterface;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link textadventure.Character} to inspect the
@@ -30,14 +30,14 @@ public class InspectBackpackAction extends BackpackAction
 	}
 
 	/**
-	 * Performs the {@link PickupItemAction} using the provided arguments.
+	 * Performs the {@link InspectBackpackAction} using the provided arguments.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link PickupItemAction}.
-	 * @param arguments The arguments provided to the {@link PickupItemAction}.
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} performing the {@link InspectBackpackAction}.
+	 * @param arguments     The arguments provided to the {@link InspectBackpackAction}.
 	 */
-	@Override public void perform(Game game, Character character, String[] arguments)
+	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
-		callback.send(game, character, this);
+		callback.send(character, this);
 	}
 }

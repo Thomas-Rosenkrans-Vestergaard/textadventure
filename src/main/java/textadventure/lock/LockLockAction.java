@@ -2,7 +2,6 @@ package textadventure.lock;
 
 import com.google.common.collect.ImmutableSet;
 import textadventure.Character;
-import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.*;
@@ -35,18 +34,17 @@ public class LockLockAction extends LockAction
 	/**
 	 * Performs the {@link LockLockAction} using the provided arguments.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link LockLockAction}.
-	 * @param arguments The arguments provided to the {@link LockLockAction}.
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} performing the {@link LockLockAction}.
+	 * @param arguments     The arguments provided to the {@link LockLockAction}.
 	 */
-	@Override public void perform(Game game, Character character, String[] arguments)
+	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
-		GameInterface gameInterface = game.getGameInterface();
-		Lock.State    state         = lock.getState();
+		Lock.State state = lock.getState();
 
 		if (state == Lock.State.LOCKED) {
 			setException(new LockAlreadyLockedException(lock));
-			callback.send(game, character, this);
+			callback.send(character, this);
 			return;
 		}
 
@@ -70,14 +68,14 @@ public class LockLockAction extends LockAction
 					return;
 				}
 
-				gameInterface.select(game, character, select);
+				gameInterface.select(character, select);
 
 			} catch (UnknownIndexException e) {
 				setException(new SelectionNotKeyException());
 			} catch (Exception e) {
 				setException(e);
 			} finally {
-				callback.send(game, character, this);
+				callback.send(character, this);
 			}
 		}
 	}

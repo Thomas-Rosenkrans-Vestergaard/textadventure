@@ -3,6 +3,7 @@ package textadventure.items.chest;
 import textadventure.Character;
 import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
+import textadventure.ui.GameInterface;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link textadventure.Character} to inspect a {@link Chest}.
@@ -31,22 +32,22 @@ public class InspectChestAction extends ChestAction
 	/**
 	 * Performs the {@link InspectChestAction} using the provided arguments.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link InspectChestAction}.
-	 * @param arguments The arguments provided to the {@link InspectChestAction}.
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} performing the {@link InspectChestAction}.
+	 * @param arguments     The arguments provided to the {@link InspectChestAction}.
 	 */
-	@Override public void perform(Game game, Character character, String[] arguments)
+	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
 		Chest.State state = chest.getState();
 
 		if (state == Chest.State.CLOSED) {
 			setException(new ChestClosedException(chest));
-			callback.send(game, character, this);
+			callback.send(character, this);
 			return;
 		}
 
 		if (state == Chest.State.OPEN) {
-			callback.send(game, character, this);
+			callback.send(character, this);
 			return;
 		}
 

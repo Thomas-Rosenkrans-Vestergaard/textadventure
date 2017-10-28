@@ -147,13 +147,12 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Called when a {@link Player} requests an {@link Action} from the {@link GameInterface}.
+	 * Called when a {@link Character} requests an {@link Action} from the {@link GameInterface}.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Player} who requests the {@link Action}.
+	 * @param character The {@link Character} who requests the {@link Action}.
 	 * @param response  The {@link ActionRequestCallback} to send with.
 	 */
-	@Override public void onActionRequest(Game game, Character character, ActionRequestCallback response)
+	@Override public void onActionRequest(Character character, ActionRequestCallback response)
 	{
 		LOOP:
 		while (true) {
@@ -224,63 +223,12 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Returns the next line from the {@link Scanner}. The input is trimmed and converted to lower-case.
-	 *
-	 * @return The next line from the {@link Scanner}. The input is trimmed and converted to lower-case.
-	 */
-	private String getInput()
-	{
-		while (true) {
-			String input = scanner.nextLine().trim().toLowerCase();
-			if (input.matches("^[a-zA-Z0-9'\\- ]+$"))
-				return input;
-			printer.println("Input must only contain letters, numbers, apostrophes and dashes.");
-		}
-	}
-
-	/**
-	 * Returns the arguments passes to a command.
-	 *
-	 * @param command The command.
-	 * @return The array of arguments.
-	 */
-	private String[] getArgumentsFromCommand(String command)
-	{
-		final Matcher      matcher   = Pattern.compile("('([a-zA-Z0-9\\-]*)')").matcher(command);
-		final List<String> arguments = new ArrayList<>();
-		while (matcher.find())
-			arguments.add(matcher.group(2));
-
-		String[] result = new String[arguments.size()];
-		arguments.toArray(result);
-		return result;
-	}
-
-	/**
-	 * Returns the sections (properties and action) of the provided command.
-	 *
-	 * @param command The command.
-	 * @return The sections (properties and action) of the provided command.
-	 */
-	private String[] getSectionsFromCommand(String command)
-	{
-		int index = command.indexOf('\'');
-
-		if (index != -1) {
-			command = command.substring(0, index);
-		}
-
-		return command.split("[ ]+");
-	}
-
-	/**
 	 * Event when a {@link Character} performs the {@link OpenDoorAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link OpenDoorAction}.
 	 * @param action    The {@link OpenDoorAction} instance.
 	 */
-	@Override public void onDoorOpen(Game game, Character character, OpenDoorAction action)
+	@Override public void onDoorOpen(Character character, OpenDoorAction action)
 	{
 		action.onSuccess(() -> {
 			printer.println("You attempted and succeeded in opening the door.");
@@ -299,11 +247,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link CloseDoorAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link CloseDoorAction}.
 	 * @param action    The {@link CloseDoorAction} instance.
 	 */
-	@Override public void onDoorClose(Game game, Character character, CloseDoorAction action)
+	@Override public void onDoorClose(Character character, CloseDoorAction action)
 	{
 		action.onSuccess(() -> {
 			printer.println("You attempted and succeeded in closing the door.");
@@ -322,11 +269,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link UseDoorAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link UseDoorAction}.
 	 * @param action    The {@link UseDoorAction} instance.
 	 */
-	@Override public void onDoorUse(Game game, Character character, UseDoorAction action)
+	@Override public void onDoorUse(Character character, UseDoorAction action)
 	{
 		action.onSuccess(() -> {
 			printer.println("You successfully entered a new room using the door.");
@@ -341,11 +287,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link InspectDoorAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link InspectDoorAction}.
 	 * @param action    The {@link InspectDoorAction} instance.
 	 */
-	@Override public void onDoorInspect(Game game, Character character, InspectDoorAction action)
+	@Override public void onDoorInspect(Character character, InspectDoorAction action)
 	{
 		action.onSuccess(() -> {
 			String doorState = action.getDoor().getState().name().toLowerCase();
@@ -356,11 +301,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link LockLockAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link LockLockAction}.
 	 * @param action    The {@link LockLockAction} instance.
 	 */
-	@Override public void onLockLock(Game game, Character character, LockLockAction action)
+	@Override public void onLockLock(Character character, LockLockAction action)
 	{
 		action.onSuccess(() -> {
 			printer.println("You successfully lock the lock using the provided key.");
@@ -384,13 +328,11 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link UnlockLockAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link UnlockLockAction}.
 	 * @param action    The {@link UnlockLockAction} instance.
 	 */
-	@Override public void onLockUnlock(Game game, Character character, UnlockLockAction action)
+	@Override public void onLockUnlock(Character character, UnlockLockAction action)
 	{
-
 		action.onSuccess(() -> {
 			printer.println("You successfully unlocked the lock using the provided key.");
 		});
@@ -412,18 +354,15 @@ public class ConsoleGameInterface implements GameInterface
 		action.onException(IncorrectKeyException.class, e -> {
 			printer.println("You attempt to turn the lock, but discover that you have the wrong key.");
 		});
-
-		System.out.println(action.getException());
 	}
 
 	/**
 	 * Event when a {@link Character} performs the {@link InspectLockAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link InspectLockAction}.
 	 * @param action    The {@link InspectLockAction} instance.
 	 */
-	@Override public void onLockInspect(Game game, Character character, InspectLockAction action)
+	@Override public void onLockInspect(Character character, InspectLockAction action)
 	{
 		action.onSuccess(() -> {
 			Lock lock = action.getLock();
@@ -439,11 +378,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link OpenChestAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link OpenChestAction}.
 	 * @param action    The {@link OpenChestAction} instance.
 	 */
-	@Override public void onChestOpen(Game game, Character character, OpenChestAction action)
+	@Override public void onChestOpen(Character character, OpenChestAction action)
 	{
 		action.onSuccess(() -> {
 			printer.println("You successfully opened the chest.");
@@ -462,11 +400,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link CloseChestAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link CloseChestAction}.
 	 * @param action    The {@link CloseChestAction} instance.
 	 */
-	@Override public void onChestClose(Game game, Character character, CloseChestAction action)
+	@Override public void onChestClose(Character character, CloseChestAction action)
 	{
 		action.onSuccess(() -> {
 			printer.println("You successfully closed the chest.");
@@ -485,13 +422,11 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link InspectChestAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link InspectChestAction}.
 	 * @param action    The {@link InspectChestAction} instance.
 	 */
-	@Override public void onChestInspect(Game game, Character character, InspectChestAction action)
+	@Override public void onChestInspect(Character character, InspectChestAction action)
 	{
-
 		action.onSuccess(() -> {
 			printer.println("You succeed in inspecting the chest.");
 			printInventory(action.getChest());
@@ -505,11 +440,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link TakeItemFromChestAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link TakeItemFromChestAction}.
 	 * @param action    The {@link TakeItemFromChestAction} instance.
 	 */
-	@Override public void onChestTake(Game game, Character character, TakeItemFromChestAction action)
+	@Override public void onChestTake(Character character, TakeItemFromChestAction action)
 	{
 		action.onSuccess(() -> {
 			printer.println("You succeeded in taking item " + itemListToString(action.getItems()) + " from the chest.");
@@ -527,11 +461,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link DropItemAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link DropItemAction}.
 	 * @param action    The {@link DropItemAction} instance.
 	 */
-	@Override public void onChestDeposit(Game game, Character character, DepositItemsIntoChestAction action)
+	@Override public void onChestDeposit(Character character, DepositItemsIntoChestAction action)
 	{
 		action.onSuccess(() -> {
 			printer.println("You succeeded in depositing item " + itemListToString(action.getItems()) + " into the chest.");
@@ -549,11 +482,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link InspectBackpackAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link InspectBackpackAction}.
 	 * @param action    The {@link InspectBackpackAction} instance.
 	 */
-	@Override public void onBackpackInspect(Game game, Character character, InspectBackpackAction action)
+	@Override public void onBackpackInspect(Character character, InspectBackpackAction action)
 	{
 		action.onSuccess(() -> {
 			printer.println("You succeed in inspecting your backpack.");
@@ -564,11 +496,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link ExpandBackpackAction}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} who attempted to perform the {@link ExpandBackpackAction}.
 	 * @param action    The {@link ExpandBackpackAction} instance.
 	 */
-	@Override public void onBackpackExpand(Game game, Character character, ExpandBackpackAction action)
+	@Override public void onBackpackExpand(Character character, ExpandBackpackAction action)
 	{
 		action.onSuccess(() -> {
 			printer.println(String.format("Your backpack was successfully expanded to %d slots.", action.getBackpack().getNumberOfSlots()));
@@ -588,30 +519,12 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Returns a comma separated string of the names in the provided list of {@link Item}s.
+	 * Event when a {@link Character} performs the {@link DropItemAction}.
 	 *
-	 * @param items The {@link Item}s.
-	 */
-	private String itemListToString(ImmutableList<? extends ItemType> items)
-	{
-		StringBuilder builder = new StringBuilder();
-		int           size    = items.size();
-		for (int x = 0; x < size; x++) {
-			builder.append(items.get(x).getItemName());
-			if (x != size - 1) builder.append(", ");
-		}
-
-		return builder.toString();
-	}
-
-	/**
-	 * Event when a {@link Player} performs the {@link DropItemAction}.
-	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Player} who attempted to perform the {@link DropItemAction}.
+	 * @param character The {@link Character} who attempted to perform the {@link DropItemAction}.
 	 * @param action    The {@link DropItemAction} instance.
 	 */
-	@Override public void onItemDrop(Game game, Character character, DropItemAction action)
+	@Override public void onItemDrop(Character character, DropItemAction action)
 	{
 		action.onSuccess(() -> {
 			ImmutableList<Item> items = action.getItems();
@@ -626,13 +539,12 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link PickupItemAction}.
+	 * Event when a {@link Character} performs the {@link PickupItemAction}.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Player} who attempted to perform the {@link PickupItemAction}.
+	 * @param character The {@link Character} who attempted to perform the {@link PickupItemAction}.
 	 * @param action    The {@link PickupItemAction} instance.
 	 */
-	@Override public void onItemPickup(Game game, Character character, PickupItemAction action)
+	@Override public void onItemPickup(Character character, PickupItemAction action)
 	{
 		action.onSuccess(() -> {
 			ImmutableList<Item> items = action.getItems();
@@ -661,11 +573,10 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Prompts the character to select one or more {@link Option}.
 	 *
-	 * @param game      The {@link Game} instance.
 	 * @param character The {@link Character} selecting.
 	 * @param select    The {@link Select} object.
 	 */
-	@Override public void select(Game game, Character character, Select select)
+	@Override public void select(Character character, Select select)
 	{
 		int                                     minimumOptions = select.getMinimumNumberOfOptions();
 		int                                     maximumOptions = select.getMaximumNumberOfOptions();
@@ -711,7 +622,7 @@ public class ConsoleGameInterface implements GameInterface
 
 			} catch (NumberFormatException e) {
 				printer.println("Selection must be a number.");
-				select(game, character, select);
+				select(character, select);
 			}
 		}
 		try {
@@ -820,5 +731,72 @@ public class ConsoleGameInterface implements GameInterface
 		printer.println("\twest                          A door in the western part of the room.");
 		printer.println("\teast                          A door in the eastern part of the room.");
 		printer.println("\tdoor/chest lock               A lock on a door or chest preventing it from being opened.");
+	}
+
+	/**
+	 * Returns a comma separated string of the names in the provided list of {@link Item}s.
+	 *
+	 * @param items The {@link Item}s.
+	 */
+	private String itemListToString(ImmutableList<? extends ItemType> items)
+	{
+		StringBuilder builder = new StringBuilder();
+		int           size    = items.size();
+		for (int x = 0; x < size; x++) {
+			builder.append(items.get(x).getItemName());
+			if (x != size - 1) builder.append(", ");
+		}
+
+		return builder.toString();
+	}
+
+	/**
+	 * Returns the next line from the {@link Scanner}. The input is trimmed and converted to lower-case.
+	 *
+	 * @return The next line from the {@link Scanner}. The input is trimmed and converted to lower-case.
+	 */
+	private String getInput()
+	{
+		while (true) {
+			String input = scanner.nextLine().trim().toLowerCase();
+			if (input.matches("^[a-zA-Z0-9'\\- ]+$"))
+				return input;
+			printer.println("Input must only contain letters, numbers, apostrophes and dashes.");
+		}
+	}
+
+	/**
+	 * Returns the arguments passes to a command.
+	 *
+	 * @param command The command.
+	 * @return The array of arguments.
+	 */
+	private String[] getArgumentsFromCommand(String command)
+	{
+		final Matcher      matcher   = Pattern.compile("('([a-zA-Z0-9\\-]*)')").matcher(command);
+		final List<String> arguments = new ArrayList<>();
+		while (matcher.find())
+			arguments.add(matcher.group(2));
+
+		String[] result = new String[arguments.size()];
+		arguments.toArray(result);
+		return result;
+	}
+
+	/**
+	 * Returns the sections (properties and action) of the provided command.
+	 *
+	 * @param command The command.
+	 * @return The sections (properties and action) of the provided command.
+	 */
+	private String[] getSectionsFromCommand(String command)
+	{
+		int index = command.indexOf('\'');
+
+		if (index != -1) {
+			command = command.substring(0, index);
+		}
+
+		return command.split("[ ]+");
 	}
 }

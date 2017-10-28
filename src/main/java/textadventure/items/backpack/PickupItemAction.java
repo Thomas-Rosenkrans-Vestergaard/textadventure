@@ -3,7 +3,6 @@ package textadventure.items.backpack;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import textadventure.Character;
-import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
 import textadventure.items.chest.TakeItemFromChestAction;
@@ -48,16 +47,15 @@ public class PickupItemAction extends BackpackAction
 	/**
 	 * Performs the {@link PickupItemAction} using the provided arguments.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link PickupItemAction}.
-	 * @param arguments The arguments provided to the {@link PickupItemAction}.
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} performing the {@link PickupItemAction}.
+	 * @param arguments     The arguments provided to the {@link PickupItemAction}.
 	 */
-	@Override public void perform(Game game, Character character, String[] arguments)
+	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
-		GameInterface              gameInterface = game.getGameInterface();
-		Floor                      floor         = character.getCurrentLocation().getFloor();
-		Backpack                   backpack      = getBackpack();
-		ImmutableSet<Option<Item>> options       = floor.asOptions(Item.class);
+		Floor                      floor    = character.getCurrentLocation().getFloor();
+		Backpack                   backpack = getBackpack();
+		ImmutableSet<Option<Item>> options  = floor.asOptions(Item.class);
 
 		Select<Item> select = new BaseSelect<>(options, selection -> {
 			try {
@@ -82,11 +80,11 @@ public class PickupItemAction extends BackpackAction
 				return;
 			}
 
-			gameInterface.select(game, character, select);
+			gameInterface.select(character, select);
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(game, character, this);
+			callback.send(character, this);
 		}
 	}
 

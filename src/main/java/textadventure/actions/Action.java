@@ -1,7 +1,7 @@
 package textadventure.actions;
 
 import textadventure.Character;
-import textadventure.Game;
+import textadventure.ui.GameInterface;
 
 import java.util.function.Consumer;
 
@@ -11,11 +11,11 @@ public interface Action
 	/**
 	 * Performs the {@link Action} using the provided arguments.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link Action}.
-	 * @param arguments The arguments provided to the {@link Action}.
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} performing the {@link Action}.
+	 * @param arguments     The arguments provided to the {@link Action}.
 	 */
-	void perform(Game game, Character character, String[] arguments);
+	void perform(GameInterface gameInterface, Character character, String[] arguments);
 
 	/**
 	 * Provides some code to call when an exception {@link T} has occurred.

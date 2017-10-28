@@ -3,7 +3,6 @@ package textadventure.items.chest;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import textadventure.Character;
-import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
@@ -48,19 +47,18 @@ public class DepositItemsIntoChestAction extends ChestAction
 	/**
 	 * Performs the {@link DepositItemsIntoChestAction} using the provided arguments.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link DepositItemsIntoChestAction}.
-	 * @param arguments The arguments provided to the {@link DepositItemsIntoChestAction}.
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} performing the {@link DepositItemsIntoChestAction}.
+	 * @param arguments     The arguments provided to the {@link DepositItemsIntoChestAction}.
 	 */
-	@Override public void perform(Game game, Character character, String[] arguments)
+	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
-		Chest.State   state         = chest.getState();
-		GameInterface gameInterface = game.getGameInterface();
-		Backpack      backpack      = character.getBackpack();
+		Chest.State state    = chest.getState();
+		Backpack    backpack = character.getBackpack();
 
 		if (state == Chest.State.CLOSED) {
 			setException(new ChestClosedException(chest));
-			callback.send(game, character, this);
+			callback.send(character, this);
 			return;
 		}
 
@@ -90,12 +88,12 @@ public class DepositItemsIntoChestAction extends ChestAction
 				return;
 			}
 
-			gameInterface.select(game, character, select);
+			gameInterface.select(character, select);
 
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(game, character, this);
+			callback.send(character, this);
 		}
 	}
 

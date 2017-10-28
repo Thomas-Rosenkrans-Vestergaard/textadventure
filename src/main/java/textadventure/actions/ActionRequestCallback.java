@@ -1,14 +1,14 @@
 package textadventure.actions;
 
+import textadventure.Character;
 import textadventure.Game;
-import textadventure.Player;
 
 @FunctionalInterface
 public interface ActionRequestCallback
 {
 
 	/**
-	 * Callback for the {@link textadventure.ui.GameInterface#onActionRequest(Game, Player, ActionRequestCallback)}.
+	 * Callback for the {@link textadventure.ui.GameInterface#onActionRequest(Character, ActionRequestCallback)}.
 	 * method
 	 *
 	 * @param action    The {@link Action} to send with.

@@ -1,9 +1,9 @@
 package textadventure.doors;
 
 import textadventure.Character;
-import textadventure.Game;
 import textadventure.actions.Action;
 import textadventure.actions.ActionPerformCallback;
+import textadventure.ui.GameInterface;
 
 /**
  * {@link Action} that allows a {@link Character} to close a {@link Door}.
@@ -30,20 +30,20 @@ public class CloseDoorAction extends DoorAction
 	}
 
 	/**
-	 * Performs the {@link Action} using the provided arguments.
+	 * Performs the {@link CloseDoorAction} using the provided arguments.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link Action}.
-	 * @param arguments The arguments provided to the {@link Action}.
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} performing the {@link CloseDoorAction}.
+	 * @param arguments     The arguments provided to the {@link CloseDoorAction}.
 	 */
-	@Override public void perform(Game game, Character character, String[] arguments)
+	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
 		try {
 			getDoor().close();
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(game, character, this);
+			callback.send(character, this);
 		}
 	}
 }

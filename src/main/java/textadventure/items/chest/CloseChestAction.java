@@ -1,8 +1,8 @@
 package textadventure.items.chest;
 
 import textadventure.Character;
-import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
+import textadventure.ui.GameInterface;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to close a {@link Chest}.
@@ -31,18 +31,18 @@ public class CloseChestAction extends ChestAction
 	/**
 	 * Performs the {@link CloseChestAction} using the provided arguments.
 	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link CloseChestAction}.
-	 * @param arguments The arguments provided to the {@link CloseChestAction}.
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} performing the {@link CloseChestAction}.
+	 * @param arguments     The arguments provided to the {@link CloseChestAction}.
 	 */
-	@Override public void perform(Game game, Character character, String[] arguments)
+	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
 		Chest       chest = getChest();
 		Chest.State state = chest.getState();
 
 		if (state == Chest.State.CLOSED) {
 			setException(new ChestAlreadyClosedException(chest));
-			callback.send(game, character, this);
+			callback.send(character, this);
 			return;
 		}
 
@@ -52,7 +52,7 @@ public class CloseChestAction extends ChestAction
 			} catch (Exception e) {
 				setException(e);
 			} finally {
-				callback.send(game, character, this);
+				callback.send(character, this);
 			}
 		}
 	}
