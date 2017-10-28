@@ -12,11 +12,12 @@ import textadventure.doors.UseDoorAction;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
-import textadventure.items.backpack.PickupItemAction;
+import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
+import textadventure.rooms.InspectFloorAction;
 
 public interface GameInterface
 {
@@ -73,6 +74,14 @@ public interface GameInterface
 	 * @param response  The {@link ActionRequestCallback} to send with.
 	 */
 	void onActionRequest(Character character, ActionRequestCallback response);
+
+	/**
+	 * Event when a {@link Character} performs the {@link InspectFloorAction}.
+	 *
+	 * @param character The {@link Character} who attempted to perform the {@link InspectFloorAction}.
+	 * @param action    The {@link InspectFloorAction} instance.
+	 */
+	void onFloorInspect(Character character, InspectFloorAction action);
 
 	/**
 	 * Event when a {@link Character} performs the {@link OpenDoorAction}.
@@ -195,12 +204,12 @@ public interface GameInterface
 	void onItemDrop(Character character, DropItemAction action);
 
 	/**
-	 * Event when a {@link Character} performs the {@link PickupItemAction}.
+	 * Event when a {@link Character} performs the {@link PickUpItemAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link PickupItemAction}.
-	 * @param action    The {@link PickupItemAction} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link PickUpItemAction}.
+	 * @param action    The {@link PickUpItemAction} instance.
 	 */
-	void onItemPickup(Character character, PickupItemAction action);
+	void onItemPickup(Character character, PickUpItemAction action);
 
 	/**
 	 * Prompts the character to select one or more {@link Option}.

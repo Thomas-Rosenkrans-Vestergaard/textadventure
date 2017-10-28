@@ -1,7 +1,6 @@
 package textadventure.items.chest;
 
 import textadventure.Character;
-import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
 
@@ -22,7 +21,7 @@ public class InspectChestAction extends ChestAction
 	 * @param chest    The {@link Chest} to be inspected.
 	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link InspectChestAction}.
 	 */
-	InspectChestAction(Chest chest, ActionPerformCallback<InspectChestAction> callback)
+	public InspectChestAction(Chest chest, ActionPerformCallback<InspectChestAction> callback)
 	{
 		super(chest);
 

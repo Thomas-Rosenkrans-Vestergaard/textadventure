@@ -24,12 +24,5 @@ public interface Room extends PropertyContainer
 	 *
 	 * @return The {@link Floor} of the {@link Room}.
 	 */
-	Floor getFloor();
-
-	/**
-	 * Adds a new feature to the room.
-	 *
-	 * @param description The description of the feature.
-	 */
-	void addFeature(String description);
+	Floor getRoomFloor();
 }

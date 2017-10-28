@@ -1,15 +1,11 @@
 package textadventure.items.chest;
 
 import com.google.common.collect.ImmutableMap;
-import textadventure.Game;
 import textadventure.Property;
 import textadventure.PropertyContainer;
 import textadventure.actions.Action;
 import textadventure.items.BaseInventory;
 import textadventure.lock.Lock;
-import textadventure.lock.LockLockAction;
-import textadventure.lock.UnlockLockAction;
-import textadventure.ui.GameInterface;
 
 import java.util.HashMap;
 import java.util.stream.Stream;
@@ -71,35 +67,6 @@ public class Chest extends BaseInventory implements PropertyContainer
 		super(slots);
 		this.state = state;
 		this.lock = lock;
-	}
-
-	/**
-	 * Creates and returns a new {@link Chest} with the {@link OpenChestAction}, {@link CloseChestAction},
-	 * {@link InspectChestAction}, {@link TakeItemFromChestAction}, {@link TakeItemFromChestAction},
-	 * {@link LockLockAction}, {@link LockLockAction} and {@link UnlockLockAction}.
-	 *
-	 * @param countSlots The number of slots available in the {@link Chest}.
-	 * @param state      The {@link State} of the {@link Chest}.
-	 * @param lock       The {@link Lock} on the {@link Chest}.
-	 * @param game       The {@link Game} instance.
-	 * @return The newly created {@link Chest}.
-	 */
-	public static Chest factory(int countSlots, State state, Lock lock, Game game)
-	{
-		Chest         chest         = new Chest(countSlots, state, lock);
-		GameInterface gameInterface = game.getGameInterface();
-
-		chest.addAction("open", new OpenChestAction(chest, gameInterface::onChestOpen));
-		chest.addAction("close", new CloseChestAction(chest, gameInterface::onChestClose));
-		chest.addAction("inspect", new InspectChestAction(chest, gameInterface::onChestInspect));
-		chest.addAction("take", new TakeItemFromChestAction(chest, gameInterface::onChestTake));
-		chest.addAction("deposit", new DepositItemsIntoChestAction(chest, gameInterface::onChestDeposit));
-		chest.addAction("lock", new LockLockAction(lock, gameInterface::onLockLock));
-		chest.addAction("unlock", new UnlockLockAction(lock, gameInterface::onLockUnlock));
-
-		chest.addProperty("lock", lock);
-
-		return chest;
 	}
 
 	/**

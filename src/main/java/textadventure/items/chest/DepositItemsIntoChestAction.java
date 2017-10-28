@@ -37,7 +37,7 @@ public class DepositItemsIntoChestAction extends ChestAction
 	 * @param chest    The {@link Chest} to deposit {@link Item}s into.
 	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link DepositItemsIntoChestAction}.
 	 */
-	DepositItemsIntoChestAction(Chest chest, ActionPerformCallback<DepositItemsIntoChestAction> callback)
+	public DepositItemsIntoChestAction(Chest chest, ActionPerformCallback<DepositItemsIntoChestAction> callback)
 	{
 		super(chest);
 

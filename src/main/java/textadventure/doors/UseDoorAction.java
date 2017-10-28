@@ -23,7 +23,7 @@ public class UseDoorAction extends DoorAction
 	 * @param door     The {@link Door} to be used.
 	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link UseDoorAction}.
 	 */
-	UseDoorAction(Door door, ActionPerformCallback<UseDoorAction> callback)
+	public UseDoorAction(Door door, ActionPerformCallback<UseDoorAction> callback)
 	{
 		super(door);
 

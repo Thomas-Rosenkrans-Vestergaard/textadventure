@@ -3,9 +3,9 @@ package textadventure.items.wearables;
 import java.awt.*;
 
 /**
- * The default {@link Torsowear}.
+ * The default {@link TorsoWear}.
  */
-public class WornDownSweatshirt extends AbstractWearable implements Torsowear
+public class WornDownSweatshirt extends AbstractWearable implements TorsoWear
 {
 
 	/**

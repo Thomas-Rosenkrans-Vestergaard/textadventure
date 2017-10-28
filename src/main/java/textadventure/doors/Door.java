@@ -59,6 +59,34 @@ public interface Door extends PropertyContainer, Property
 	Lock getLock();
 
 	/**
+	 * Returns one of the {@link Room}s the {@link Door} connects.
+	 *
+	 * @return One of the {@link Room}s the {@link Door} connects.
+	 */
+	Room getRoomA();
+
+	/**
+	 * Returns the other {@link Room}s the {@link Door} connects.
+	 *
+	 * @return The other {@link Room}s the {@link Door} connects.
+	 */
+	Room getRoomB();
+
+	/**
+	 * Sets one of the {@link Room}s the {@link Door} connects.
+	 *
+	 * @param a One of the {@link Room}s the {@link Door} connects.
+	 */
+	void setRoomA(Room a);
+
+	/**
+	 * Sets the other {@link Room}s the {@link Door} connects.
+	 *
+	 * @param b The other {@link Room}s the {@link Door} connects.
+	 */
+	void setRoomB(Room b);
+
+	/**
 	 * Returns the {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}.
 	 *
 	 * @param room The opposite {@link Room}.

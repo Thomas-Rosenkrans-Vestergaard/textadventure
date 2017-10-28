@@ -1,7 +1,6 @@
 package textadventure.lock;
 
 import textadventure.Character;
-import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
 

@@ -1,16 +1,15 @@
 package textadventure.items.weapons;
 
-import textadventure.items.Item;
-
 /**
  * Represent a type of {@link Weapon}
  */
 public interface EdgedWeapon extends Weapon
 {
 	/**
-	 * Increas the dmg of the {@link EdgedWeapon}
-	 * @param whetstone
-	 * @return Increas the dmg of the {@link EdgedWeapon}
+	 * Increases the damage done by the {@link EdgedWeapon}.
+	 *
+	 * @param whetstone The {@link Whetstone} used to sharpen the {@link EdgedWeapon}.
+	 * @return The damage increase.
 	 */
-	int sharpen(Item whetstone);
+	int sharpen(Whetstone whetstone);
 }

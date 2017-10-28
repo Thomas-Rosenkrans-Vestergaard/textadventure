@@ -11,9 +11,10 @@ import textadventure.items.*;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
-import textadventure.items.backpack.PickupItemAction;
+import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.chest.*;
 import textadventure.lock.*;
+import textadventure.rooms.InspectFloorAction;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -219,7 +220,20 @@ public class ConsoleGameInterface implements GameInterface
 
 			response.respond(action, arguments);
 		}
+	}
 
+	/**
+	 * Event when a {@link Character} performs the {@link InspectFloorAction}.
+	 *
+	 * @param character The {@link Character} who attempted to perform the {@link InspectFloorAction}.
+	 * @param action    The {@link InspectFloorAction} instance.
+	 */
+	@Override public void onFloorInspect(Character character, InspectFloorAction action)
+	{
+		action.onSuccess(() -> {
+			printer.println("You inspect the floor.");
+			printInventory(action.getFloor());
+		});
 	}
 
 	/**
@@ -539,12 +553,12 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Event when a {@link Character} performs the {@link PickupItemAction}.
+	 * Event when a {@link Character} performs the {@link PickUpItemAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link PickupItemAction}.
-	 * @param action    The {@link PickupItemAction} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link PickUpItemAction}.
+	 * @param action    The {@link PickUpItemAction} instance.
 	 */
-	@Override public void onItemPickup(Character character, PickupItemAction action)
+	@Override public void onItemPickup(Character character, PickUpItemAction action)
 	{
 		action.onSuccess(() -> {
 			ImmutableList<Item> items = action.getItems();

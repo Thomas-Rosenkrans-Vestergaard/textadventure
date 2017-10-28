@@ -85,18 +85,18 @@ public interface Character extends PropertyContainer
 	void setBoots(Boots boots);
 
 	/**
-	 * Returns the {@link Torsowear} of the {@link Character}.
+	 * Returns the {@link TorsoWear} of the {@link Character}.
 	 *
-	 * @return The {@link Torsowear} of the {@link Character}.
+	 * @return The {@link TorsoWear} of the {@link Character}.
 	 */
-	Torsowear getTorso();
+	TorsoWear getTorsoWear();
 
 	/**
-	 * Sets the {@link Torsowear} of the {@link Character}.
+	 * Sets the {@link TorsoWear} of the {@link Character}.
 	 *
-	 * @param torso The {@link Torsowear} to set.
+	 * @param torso The {@link TorsoWear} to set.
 	 */
-	void setTorso(Torsowear torso);
+	void setTorso(TorsoWear torso);
 
 	/**
 	 * Returns the {@link Gloves} of the {@link Character}.
@@ -111,21 +111,21 @@ public interface Character extends PropertyContainer
 	 * @param gloves The {@link Gloves} to set.
 	 */
 	void setGloves(Gloves gloves);
-	
-	/**
-	 * Returns the {@link Headwear} of the {@link Character}.
-	 *
-	 * @return The {@link Headwear} of the {@link Character}.
-	 */
-	Headwear getHeadwear();
 
 	/**
-	 * Sets the {@link Headwear} of the {@link Character}.
+	 * Returns the {@link HeadWear} of the {@link Character}.
 	 *
-	 * @param headwear The {@link Headwear} to set.
+	 * @return The {@link HeadWear} of the {@link Character}.
 	 */
-	void setHeadwear(Headwear headwear);
-	
+	HeadWear getHeadWear();
+
+	/**
+	 * Sets the {@link HeadWear} of the {@link Character}.
+	 *
+	 * @param headWear The {@link HeadWear} to set.
+	 */
+	void setHeadWear(HeadWear headWear);
+
 	/**
 	 * Returns the {@link Gloves} of the {@link Character}.
 	 *
@@ -139,7 +139,7 @@ public interface Character extends PropertyContainer
 	 * @param pants The {@link Pants} to set.
 	 */
 	void setPants(Pants pants);
-	
+
 	/**
 	 * return the {@link Weapon} of the {@link Character}
 	 *

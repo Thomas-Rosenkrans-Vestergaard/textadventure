@@ -1,7 +1,10 @@
 package textadventure.items.weapons;
 
-public class Baton implements BluntWeapon
+import textadventure.items.Item;
+
+public class Baton implements BluntWeapon, Item
 {
+
 	/**
 	 * Returns the name of the {@link Baton}.
 	 *

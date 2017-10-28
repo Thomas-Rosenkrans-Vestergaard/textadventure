@@ -1,6 +1,8 @@
 package textadventure.items.weapons;
 
-public class Hammer implements BluntWeapon
+import textadventure.items.Item;
+
+public class Hammer implements BluntWeapon, Item
 {
 	/**
 	 * Returns the name of the {@link Hammer}.

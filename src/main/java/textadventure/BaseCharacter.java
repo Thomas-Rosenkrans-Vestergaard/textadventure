@@ -3,7 +3,7 @@ package textadventure;
 import com.google.common.collect.ImmutableMap;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.DropItemAction;
-import textadventure.items.backpack.PickupItemAction;
+import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.weapons.Fist;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
@@ -12,6 +12,9 @@ import textadventure.ui.GameInterface;
 
 import java.awt.*;
 
+/**
+ * The default implementation of the {@link Character} interface.
+ */
 public class BaseCharacter extends BasePropertyContainer implements Character
 {
 
@@ -77,32 +80,32 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	private int money;
 
 	/**
-	 * the boots you wear on the {@link Character}.
+	 * The {@link Boots} worn by the {@link Character}.
 	 */
 	private Boots boots;
 
 	/**
-	 * the armour you wear on the {@link Character}.
+	 * The {@link TorsoWear} worn by the {@link Character}.
 	 */
-	private Torsowear torso;
+	private TorsoWear torsoWear;
 
 	/**
-	 * the headgear you wear on the {@link Character}.
+	 * The {@link HeadWear} worn by the {@link Character}.
 	 */
-	private Headwear headwear;
+	private HeadWear headWear;
 
 	/**
-	 * the gloves you wear on the {@link Character}.
+	 * The {@link Gloves} worn by the {@link Character}.
 	 */
 	private Gloves gloves;
 
 	/**
-	 * the pants you wear on the {@link Character}.
+	 * The {@link Pants} worn on the {@link Character}.
 	 */
 	private Pants pants;
 
 	/**
-	 * the weapon waer on the {@link Character}
+	 * The {@link Weapon} equipped by the {@link Character}
 	 */
 	private Weapon weapon;
 
@@ -127,8 +130,8 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	public BaseCharacter(
 			String name,
 			Backpack backpack,
-			Headwear headwear,
-			Torsowear torso,
+			HeadWear headWear,
+			TorsoWear torsoWear,
 			Gloves gloves,
 			Pants pants,
 			Boots boots,
@@ -146,8 +149,8 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	{
 		this.name = name;
 		this.backpack = backpack;
-		this.headwear = headwear;
-		this.torso = torso;
+		this.headWear = headWear;
+		this.torsoWear = torsoWear;
 		this.gloves = gloves;
 		this.pants = pants;
 		this.boots = boots;
@@ -196,28 +199,6 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Creates and returns a new {@link BaseCharacter} with a {@link Backpack} {@link Property} and
-	 * {@link DropItemAction}.
-	 *
-	 * @param name            The name of the {@link Character} to create.
-	 * @param backpack        The {@link Backpack} on the {@link Character}.
-	 * @param currentLocation The location of the {@link Character}.
-	 * @param game            The {@link Game} instance.
-	 * @return The newly created {@link BaseCharacter}.
-	 */
-	public static Character factory(String name, Backpack backpack, Room currentLocation, Game game)
-	{
-		BaseCharacter character     = new BaseCharacter(name, backpack, currentLocation);
-		GameInterface gameInterface = game.getGameInterface();
-
-		character.addProperty("backpack", backpack);
-		character.addAction("drop", new DropItemAction(backpack, gameInterface::onItemDrop));
-		character.addAction("pickup", new PickupItemAction(backpack, gameInterface::onItemPickup));
-
-		return character;
-	}
-
-	/**
 	 * Returns an {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
 	 *
 	 * @return The {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
@@ -252,9 +233,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the {@link Boots} of the {@link java.lang.Character}.
+	 * Returns the {@link Boots} of the {@link Character}.
 	 *
-	 * @return The {@link Boots} of the {@link java.lang.Character}.
+	 * @return The {@link Boots} of the {@link Character}.
 	 */
 	@Override public Boots getBoots()
 	{
@@ -262,7 +243,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Sets the {@link Boots} of the {@link java.lang.Character}.
+	 * Sets the {@link Boots} of the {@link Character}.
 	 *
 	 * @param boots The {@link Boots} to set.
 	 */
@@ -272,29 +253,29 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the {@link Torsowear} of the {@link java.lang.Character}.
+	 * Returns the {@link TorsoWear} of the {@link Character}.
 	 *
-	 * @return The {@link Torsowear} of the {@link java.lang.Character}.
+	 * @return The {@link TorsoWear} of the {@link Character}.
 	 */
-	@Override public Torsowear getTorso()
+	@Override public TorsoWear getTorsoWear()
 	{
-		return torso;
+		return torsoWear;
 	}
 
 	/**
-	 * Sets the {@link Torsowear} of the {@link java.lang.Character}.
+	 * Sets the {@link TorsoWear} of the {@link Character}.
 	 *
-	 * @param torso The {@link Torsowear} to set.
+	 * @param torsoWear The {@link TorsoWear} to set.
 	 */
-	@Override public void setTorso(Torsowear torso)
+	@Override public void setTorso(TorsoWear torsoWear)
 	{
-		this.torso = torso;
+		this.torsoWear = torsoWear;
 	}
 
 	/**
-	 * Returns the {@link Gloves} of the {@link java.lang.Character}.
+	 * Returns the {@link Gloves} of the {@link Character}.
 	 *
-	 * @return The {@link Gloves} of the {@link java.lang.Character}.
+	 * @return The {@link Gloves} of the {@link Character}.
 	 */
 	@Override public Gloves getGloves()
 	{
@@ -302,7 +283,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Sets the {@link Gloves} of the {@link java.lang.Character}.
+	 * Sets the {@link Gloves} of the {@link Character}.
 	 *
 	 * @param gloves The {@link Gloves} to set.
 	 */
@@ -312,29 +293,29 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the {@link Headwear} of the {@link java.lang.Character}.
+	 * Returns the {@link HeadWear} of the {@link Character}.
 	 *
-	 * @return The {@link Headwear} of the {@link java.lang.Character}.
+	 * @return The {@link HeadWear} of the {@link Character}.
 	 */
-	@Override public Headwear getHeadwear()
+	@Override public HeadWear getHeadWear()
 	{
-		return headwear;
+		return headWear;
 	}
 
 	/**
-	 * Sets the {@link Headwear} of the {@link java.lang.Character}.
+	 * Sets the {@link HeadWear} of the {@link Character}.
 	 *
-	 * @param headwear The {@link Headwear} to set.
+	 * @param headWear The {@link HeadWear} to set.
 	 */
-	@Override public void setHeadwear(Headwear headwear)
+	@Override public void setHeadWear(HeadWear headWear)
 	{
-		this.headwear = headwear;
+		this.headWear = headWear;
 	}
 
 	/**
-	 * Returns the {@link Gloves} of the {@link java.lang.Character}.
+	 * Returns the {@link Gloves} of the {@link Character}.
 	 *
-	 * @return The {@link Gloves} of the {@link java.lang.Character}.
+	 * @return The {@link Gloves} of the {@link Character}.
 	 */
 	@Override public Pants getPants()
 	{
@@ -342,7 +323,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Sets the {@link Pants} of the {@link java.lang.Character}.
+	 * Sets the {@link Pants} of the {@link Character}.
 	 *
 	 * @param pants The {@link Pants} to set.
 	 */
@@ -352,9 +333,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * return the {@link Weapon} of the {@link java.lang.Character}
+	 * return the {@link Weapon} of the {@link Character}
 	 *
-	 * @return The {@link Weapon} of the {@link java.lang.Character}
+	 * @return The {@link Weapon} of the {@link Character}
 	 */
 	@Override public Weapon getWeapon()
 	{
@@ -362,7 +343,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Sets the {@link Weapon} of the {@link java.lang.Character}.
+	 * Sets the {@link Weapon} of the {@link Character}.
 	 *
 	 * @param weapon The {@link Weapon} to set.
 	 */

@@ -2,6 +2,7 @@ package textadventure.doors;
 
 import org.junit.Test;
 import textadventure.lock.Lock;
+import textadventure.rooms.BaseRoom;
 import textadventure.rooms.MockRoom;
 import textadventure.rooms.Room;
 
@@ -15,7 +16,7 @@ public class BaseDoorTest
 	{
 		Room a    = new MockRoom();
 		Room b    = new MockRoom();
-		Lock lock = new UnlockedLock();
+		Lock lock = new Lock(null, Lock.State.UNLOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		door.open();
 	}
@@ -25,7 +26,7 @@ public class BaseDoorTest
 	{
 		Room a    = new MockRoom();
 		Room b    = new MockRoom();
-		Lock lock = new UnlockedLock();
+		Lock lock = new Lock(null, Lock.State.UNLOCKED);
 		Door door = new BaseDoor(Door.State.OPEN, lock, a, b);
 		door.open();
 	}
@@ -35,7 +36,7 @@ public class BaseDoorTest
 	{
 		Room a    = new MockRoom();
 		Room b    = new MockRoom();
-		Lock lock = new LockedLock();
+		Lock lock = new Lock(null, Lock.State.UNLOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		door.open();
 	}
@@ -45,7 +46,7 @@ public class BaseDoorTest
 	{
 		Room a    = new MockRoom();
 		Room b    = new MockRoom();
-		Lock lock = new UnlockedLock();
+		Lock lock = new Lock(null, Lock.State.UNLOCKED);
 		Door door = new BaseDoor(Door.State.OPEN, lock, a, b);
 		door.close();
 	}
@@ -55,7 +56,7 @@ public class BaseDoorTest
 	{
 		Room a    = new MockRoom();
 		Room b    = new MockRoom();
-		Lock lock = new UnlockedLock();
+		Lock lock = new Lock(null, Lock.State.UNLOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		door.close();
 	}
@@ -65,7 +66,7 @@ public class BaseDoorTest
 	{
 		Room a    = new MockRoom();
 		Room b    = new MockRoom();
-		Lock lock = new LockedLock();
+		Lock lock = new Lock(null, Lock.State.LOCKED);
 		Door door = new BaseDoor(Door.State.OPEN, lock, a, b);
 		door.close();
 	}
@@ -75,7 +76,7 @@ public class BaseDoorTest
 	{
 		Room a    = new MockRoom();
 		Room b    = new MockRoom();
-		Lock lock = new LockedLock();
+		Lock lock = new Lock(null, Lock.State.LOCKED);
 		assertEquals(Door.State.OPEN, new BaseDoor(Door.State.OPEN, lock, a, b).getState());
 		assertEquals(Door.State.CLOSED, new BaseDoor(Door.State.CLOSED, lock, a, b).getState());
 	}
@@ -85,9 +86,49 @@ public class BaseDoorTest
 	{
 		Room a    = new MockRoom();
 		Room b    = new MockRoom();
-		Lock lock = new LockedLock();
+		Lock lock = new Lock(null, Lock.State.LOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		assertSame(lock, door.getLock());
+	}
+
+	@Test
+	public void getRoomA() throws Exception
+	{
+		Room room = new BaseRoom(null, null);
+		Door door = new BaseDoor(null, null, null, null);
+		assertNull(door.getRoomA());
+		door.setRoomA(room);
+		assertSame(room, door.getRoomA());
+	}
+
+	@Test
+	public void getRoomB() throws Exception
+	{
+		Room room = new BaseRoom(null, null);
+		Door door = new BaseDoor(null, null, null, null);
+		assertNull(door.getRoomB());
+		door.setRoomB(room);
+		assertSame(room, door.getRoomB());
+	}
+
+	@Test
+	public void setRoomA() throws Exception
+	{
+		Room room = new BaseRoom(null, null);
+		Door door = new BaseDoor(null, null, null, null);
+		assertNull(door.getRoomA());
+		door.setRoomA(room);
+		assertSame(room, door.getRoomA());
+	}
+
+	@Test
+	public void setRoomB() throws Exception
+	{
+		Room room = new BaseRoom(null, null);
+		Door door = new BaseDoor(null, null, null, null);
+		assertNull(door.getRoomB());
+		door.setRoomB(room);
+		assertSame(room, door.getRoomB());
 	}
 
 	@Test
@@ -95,25 +136,9 @@ public class BaseDoorTest
 	{
 		Room a    = new MockRoom();
 		Room b    = new MockRoom();
-		Lock lock = new LockedLock();
+		Lock lock = new Lock(null, Lock.State.LOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		assertSame(a, door.getInverseRoom(b));
 		assertSame(b, door.getInverseRoom(a));
-	}
-
-	class LockedLock extends Lock
-	{
-		LockedLock()
-		{
-			super("MockLockCode", State.LOCKED);
-		}
-	}
-
-	class UnlockedLock extends Lock
-	{
-		UnlockedLock()
-		{
-			super("MockLockCode", State.UNLOCKED);
-		}
 	}
 }

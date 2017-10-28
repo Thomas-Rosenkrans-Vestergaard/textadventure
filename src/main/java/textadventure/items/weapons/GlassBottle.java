@@ -1,6 +1,8 @@
 package textadventure.items.weapons;
 
-public class GlassBottle implements Weapon
+import textadventure.items.Item;
+
+public class GlassBottle implements StabWeapon, Item
 {
 	/**
 	 * Returns the name of the {@link GlassBottle}.

@@ -1,6 +1,8 @@
 package textadventure.items.weapons;
 
-public class Plunger implements BluntWeapon
+import textadventure.items.Item;
+
+public class Plunger implements BluntWeapon, Item
 {
 	/**
 	 * Returns the name of the {@link Plunger}.

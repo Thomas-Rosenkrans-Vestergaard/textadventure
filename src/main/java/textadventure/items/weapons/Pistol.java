@@ -1,6 +1,8 @@
 package textadventure.items.weapons;
 
-public class Pistol implements ProjectileWeapon
+import textadventure.items.Item;
+
+public class Pistol implements ProjectileWeapon, Item
 {
 	/**
 	 * Returns the name of the {@link Pistol}.

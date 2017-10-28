@@ -34,8 +34,8 @@ public class BaseEnemy extends BaseCharacter implements Enemy
 	 */
 	public BaseEnemy(String name,
 	                 Backpack backpack,
-	                 Headwear headwear,
-	                 Torsowear torso,
+	                 HeadWear headwear,
+	                 TorsoWear torso,
 	                 Gloves gloves,
 	                 Pants pants,
 	                 Boots boots,

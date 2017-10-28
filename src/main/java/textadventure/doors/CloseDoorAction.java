@@ -22,7 +22,7 @@ public class CloseDoorAction extends DoorAction
 	 * @param door     The {@link Door} to be closed.
 	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link CloseDoorAction}.
 	 */
-	CloseDoorAction(Door door, ActionPerformCallback<CloseDoorAction> callback)
+	public CloseDoorAction(Door door, ActionPerformCallback<CloseDoorAction> callback)
 	{
 		super(door);
 

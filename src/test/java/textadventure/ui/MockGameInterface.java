@@ -11,7 +11,7 @@ import textadventure.doors.UseDoorAction;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
-import textadventure.items.backpack.PickupItemAction;
+import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
@@ -130,7 +130,7 @@ public class MockGameInterface implements GameInterface
 
 	}
 
-	@Override public void onItemPickup(Character character, PickupItemAction action)
+	@Override public void onItemPickup(Character character, PickUpItemAction action)
 	{
 
 	}

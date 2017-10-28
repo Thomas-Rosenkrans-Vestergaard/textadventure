@@ -3,9 +3,9 @@ package textadventure.items.wearables;
 import java.awt.*;
 
 /**
- * The default {@link Headwear}.
+ * The default {@link HeadWear}.
  */
-public class WornDownCap extends AbstractWearable implements Headwear
+public class WornDownCap extends AbstractWearable implements HeadWear
 {
 
 	/**

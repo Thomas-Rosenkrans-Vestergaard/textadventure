@@ -37,7 +37,7 @@ public class TakeItemFromChestAction extends ChestAction
 	 * @param chest    The {@link Chest} where the {@link Item} is taken from.
 	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
 	 */
-	TakeItemFromChestAction(Chest chest, ActionPerformCallback<TakeItemFromChestAction> callback)
+	public TakeItemFromChestAction(Chest chest, ActionPerformCallback<TakeItemFromChestAction> callback)
 	{
 		super(chest);
 

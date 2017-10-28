@@ -21,7 +21,7 @@ public class CloseChestAction extends ChestAction
 	 * @param chest    The {@link Chest} to be closed.
 	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link CloseChestAction}.
 	 */
-	CloseChestAction(Chest chest, ActionPerformCallback<CloseChestAction> callback)
+	public CloseChestAction(Chest chest, ActionPerformCallback<CloseChestAction> callback)
 	{
 		super(chest);
 

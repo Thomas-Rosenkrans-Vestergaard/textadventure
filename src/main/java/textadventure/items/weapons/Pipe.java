@@ -1,6 +1,8 @@
 package textadventure.items.weapons;
 
-public class Pipe implements BluntWeapon
+import textadventure.items.Item;
+
+public class Pipe implements BluntWeapon, Item
 {
 	/**
 	 * Returns the name of the {@link Pipe}.

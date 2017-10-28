@@ -2,8 +2,9 @@ package textadventure.items.weapons;
 
 import textadventure.items.Item;
 
-public class Knife implements EdgedWeapon
+public class Knife implements EdgedWeapon, StabWeapon, Item
 {
+
 	/**
 	 * Returns the name of the {@link Knife}.
 	 *
@@ -34,8 +35,13 @@ public class Knife implements EdgedWeapon
 		return 0;
 	}
 
-
-	@Override public int sharpen(Item whetstone)
+	/**
+	 * Increases the damage done by the {@link EdgedWeapon}.
+	 *
+	 * @param whetstone The {@link Whetstone} used to sharpen the {@link EdgedWeapon}.
+	 * @return The damage increase.
+	 */
+	@Override public int sharpen(Whetstone whetstone)
 	{
 		return 0;
 	}

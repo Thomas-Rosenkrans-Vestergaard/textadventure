@@ -21,7 +21,7 @@ public class OpenChestAction extends ChestAction
 	 * @param chest    The {@link Chest} to be opened.
 	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link OpenChestAction}.
 	 */
-	OpenChestAction(Chest chest, ActionPerformCallback<OpenChestAction> callback)
+	public OpenChestAction(Chest chest, ActionPerformCallback<OpenChestAction> callback)
 	{
 		super(chest);
 

@@ -1,6 +1,6 @@
 package textadventure.items.wearables;
 
-public interface Headwear extends Wearable
+public interface HeadWear extends Wearable
 {
 
 }

@@ -1,6 +1,8 @@
 package textadventure.items.weapons;
 
-public class Wrench implements BluntWeapon
+import textadventure.items.Item;
+
+public class Wrench implements BluntWeapon, Item
 {
 
 	/**

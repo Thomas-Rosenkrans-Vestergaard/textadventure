@@ -19,13 +19,13 @@ import java.util.List;
  * {@link textadventure.actions.Action} that allows a {@link Character} to pick up {@link Item}s from the
  * {@link Floor}, placing the {@link Item}s in their {@link Backpack}.
  */
-public class PickupItemAction extends BackpackAction
+public class PickUpItemAction extends BackpackAction
 {
 
 	/**
 	 * {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
 	 */
-	private ActionPerformCallback<PickupItemAction> callback;
+	private ActionPerformCallback<PickUpItemAction> callback;
 
 	/**
 	 * The {@link Item}s that were picked up.
@@ -33,11 +33,11 @@ public class PickupItemAction extends BackpackAction
 	private ImmutableList.Builder<Item> items = new ImmutableList.Builder<>();
 
 	/**
-	 * Creates a new {@link PickupItemAction}.
+	 * Creates a new {@link PickUpItemAction}.
 	 *
 	 * @param backpack The {@link Backpack} to drop {@link textadventure.items.Item}s from.
 	 */
-	public PickupItemAction(Backpack backpack, ActionPerformCallback<PickupItemAction> callback)
+	public PickUpItemAction(Backpack backpack, ActionPerformCallback<PickUpItemAction> callback)
 	{
 		super(backpack);
 
@@ -45,15 +45,15 @@ public class PickupItemAction extends BackpackAction
 	}
 
 	/**
-	 * Performs the {@link PickupItemAction} using the provided arguments.
+	 * Performs the {@link PickUpItemAction} using the provided arguments.
 	 *
 	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link PickupItemAction}.
-	 * @param arguments     The arguments provided to the {@link PickupItemAction}.
+	 * @param character     The {@link Character} performing the {@link PickUpItemAction}.
+	 * @param arguments     The arguments provided to the {@link PickUpItemAction}.
 	 */
 	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
-		Floor                      floor    = character.getCurrentLocation().getFloor();
+		Floor                      floor    = character.getCurrentLocation().getRoomFloor();
 		Backpack                   backpack = getBackpack();
 		ImmutableSet<Option<Item>> options  = floor.asOptions(Item.class);
 

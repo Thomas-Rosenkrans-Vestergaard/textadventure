@@ -2,9 +2,6 @@ package textadventure.rooms;
 
 import textadventure.BasePropertyContainer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * An implementation of the {@link Room} interface.
  */
@@ -25,12 +22,21 @@ public class BaseRoom extends BasePropertyContainer implements Room
 	 * The {@link Floor} of the {@link Room}. This object is an {@link textadventure.items.Inventory}
 	 * {@link textadventure.Character}s can drop {@link textadventure.items.Item}s onto.
 	 */
-	private final Floor floor = new Floor();
+	private final Floor floor;
 
 	/**
-	 * The features in the room.
+	 * Creates a new {@link BaseRoom}.
+	 *
+	 * @param name        The name of the {@link Room}.
+	 * @param description The description of the {@link Room}.
+	 * @param floor       The {@link Floor} of the {@link Room}.
 	 */
-	private final List<String> features = new ArrayList<>();
+	public BaseRoom(String name, String description, Floor floor)
+	{
+		this.name = name;
+		this.description = description;
+		this.floor = floor;
+	}
 
 	/**
 	 * Creates a new {@link BaseRoom}.
@@ -40,8 +46,7 @@ public class BaseRoom extends BasePropertyContainer implements Room
 	 */
 	public BaseRoom(String name, String description)
 	{
-		this.name = name;
-		this.description = description;
+		this(name, description, new Floor());
 	}
 
 	/**
@@ -61,15 +66,7 @@ public class BaseRoom extends BasePropertyContainer implements Room
 	 */
 	@Override public String getRoomDescription()
 	{
-		StringBuilder builder = new StringBuilder();
-		builder.append(description);
-		for (String feature : features) {
-			builder.append('\n');
-			builder.append(feature);
-		}
-
-		builder.append('\n');
-		return builder.toString();
+		return description;
 	}
 
 	/**
@@ -77,18 +74,8 @@ public class BaseRoom extends BasePropertyContainer implements Room
 	 *
 	 * @return The {@link Floor} of the {@link Room}.
 	 */
-	@Override public Floor getFloor()
+	@Override public Floor getRoomFloor()
 	{
 		return floor;
-	}
-
-	/**
-	 * Adds a new feature to the room.
-	 *
-	 * @param description The description of the feature.
-	 */
-	@Override public void addFeature(String description)
-	{
-		features.add(description);
 	}
 }

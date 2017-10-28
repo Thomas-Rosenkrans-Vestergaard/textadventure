@@ -56,7 +56,7 @@ public class DropItemAction extends BackpackAction
 	 */
 	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
-		Floor    floor    = character.getCurrentLocation().getFloor();
+		Floor    floor    = character.getCurrentLocation().getRoomFloor();
 		Backpack backpack = character.getBackpack();
 
 		ImmutableSet<Option<Item>> options = backpack.asOptions();
