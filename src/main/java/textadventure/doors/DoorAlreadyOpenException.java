@@ -1,11 +1,18 @@
 package textadventure.doors;
 
-import textadventure.GameException;
-
 /**
- * Thrown by {@link Door}s when a player attempted to open an already open {@link Door}.
+ * Thrown by {@link Door}s when a {@link Character} attempted to {@link Door#open()} a {@link Door.State#OPEN} {@link Door}.
  */
-class DoorAlreadyOpenException extends GameException
+public class DoorAlreadyOpenException extends DoorException
 {
 
+	/**
+	 * Creates a new {@link DoorAlreadyOpenException}.
+	 *
+	 * @param door The {@link Door} that was already {@link Door.State#OPEN}.
+	 */
+	public DoorAlreadyOpenException(Door door)
+	{
+		super(door);
+	}
 }

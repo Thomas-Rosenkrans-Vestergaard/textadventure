@@ -2,22 +2,18 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import textadventure.Character;
 import textadventure.*;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.doors.*;
-import textadventure.items.Inventory;
-import textadventure.items.Item;
-import textadventure.items.ItemType;
+import textadventure.items.*;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.backpack.PickupItemAction;
 import textadventure.items.chest.*;
-import textadventure.lock.InspectLockAction;
-import textadventure.lock.Lock;
-import textadventure.lock.LockLockAction;
-import textadventure.lock.UnlockLockAction;
+import textadventure.lock.*;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -33,7 +29,7 @@ public class ConsoleGameInterface implements GameInterface
 	public static void main(String[] args) throws Exception
 	{
 		GameInterface gameInterface = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
-		DefaultGame   game          = new DefaultGame(gameInterface, 5);
+		DefaultGame   game          = new DefaultGame(gameInterface);
 		game.start();
 	}
 
@@ -129,25 +125,23 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Called when the turn rotates.
+	 * Event when a {@link Player} starts their turn.
 	 *
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} whose turn it is.
 	 */
-	@Override
-	public void onTurnStart(Game game, Player player)
+	@Override public void onTurnStart(Game game, Player player)
 	{
 
 	}
 
 	/**
-	 * Called when a {@link Player} loses their turn.
+	 * Event when a {@link Player} ends their turn.
 	 *
 	 * @param game   The {@link Game} instance.
 	 * @param player The {@link Player} whose turn ended.
 	 */
-	@Override
-	public void onTurnEnd(Game game, Player player)
+	@Override public void onTurnEnd(Game game, Player player)
 	{
 
 	}
@@ -155,11 +149,11 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Called when a {@link Player} requests an {@link Action} from the {@link GameInterface}.
 	 *
-	 * @param game     The {@link Game} instance.
-	 * @param player   The {@link Player} who requests the {@link Action}.
-	 * @param response The {@link ActionRequestCallback} to send with.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Player} who requests the {@link Action}.
+	 * @param response  The {@link ActionRequestCallback} to send with.
 	 */
-	@Override public void onActionRequest(Game game, Player player, ActionRequestCallback response)
+	@Override public void onActionRequest(Game game, Character character, ActionRequestCallback response)
 	{
 		LOOP:
 		while (true) {
@@ -194,7 +188,7 @@ public class ConsoleGameInterface implements GameInterface
 				continue;
 			}
 
-			Property property = player.getCharacter();
+			Property property = character;
 			for (int i = 0; i < sections.length - 1; i++) {
 				if (property instanceof PropertyContainer) {
 					PropertyContainer container = (PropertyContainer) property;
@@ -280,406 +274,317 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link OpenDoorAction}.
+	 * Event when a {@link Character} performs the {@link OpenDoorAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link OpenDoorAction}.
-	 * @param action The {@link OpenDoorAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link OpenDoorAction}.
+	 * @param action    The {@link OpenDoorAction} instance.
 	 */
-	@Override public void onDoorOpen(Game game, Player player, OpenDoorAction action)
+	@Override public void onDoorOpen(Game game, Character character, OpenDoorAction action)
 	{
-		OpenDoorAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == OpenDoorAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			printer.println("You attempted and succeeded in opening the door.");
-			return;
-		}
+		});
 
-		if (outcome == OpenDoorAction.Outcome.ALREADY_OPEN) {
+		action.onException(DoorAlreadyOpenException.class, e -> {
 			printer.println("You attempted to open the door, even though the door is already open.");
 			printer.println("You start to question your sanity.");
-			return;
-		}
+		});
 
-		if (outcome == OpenDoorAction.Outcome.LOCKED) {
+		action.onException(DoorLockedException.class, e -> {
 			printer.println("You attempted to open the door, but discover that the door is locked.");
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link CloseDoorAction}.
+	 * Event when a {@link Character} performs the {@link CloseDoorAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link CloseDoorAction}.
-	 * @param action The {@link CloseDoorAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link CloseDoorAction}.
+	 * @param action    The {@link CloseDoorAction} instance.
 	 */
-	@Override public void onDoorClose(Game game, Player player, CloseDoorAction action)
+	@Override public void onDoorClose(Game game, Character character, CloseDoorAction action)
 	{
-		CloseDoorAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == CloseDoorAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			printer.println("You attempted and succeeded in closing the door.");
-			return;
-		}
+		});
 
-		if (outcome == CloseDoorAction.Outcome.ALREADY_CLOSED) {
+		action.onException(DoorAlreadyClosedException.class, e -> {
 			printer.println("You attempted to close the door, even though the door is already closed.");
 			printer.println("You start to question your sanity.");
-			return;
-		}
+		});
 
-		if (outcome == CloseDoorAction.Outcome.LOCKED) {
+		action.onException(DoorLockedException.class, e -> {
 			printer.println("You attempted to close the door, but discover that the door is locked.");
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link UseDoorAction}.
+	 * Event when a {@link Character} performs the {@link UseDoorAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link UseDoorAction}.
-	 * @param action The {@link UseDoorAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link UseDoorAction}.
+	 * @param action    The {@link UseDoorAction} instance.
 	 */
-	@Override public void onDoorUse(Game game, Player player, UseDoorAction action)
+	@Override public void onDoorUse(Game game, Character character, UseDoorAction action)
 	{
-		UseDoorAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == UseDoorAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			printer.println("You successfully entered a new room using the door.");
-			printer.println(player.getCharacter().getCurrentLocation().getRoomDescription());
-			return;
-		}
+			printer.println(character.getCurrentLocation().getRoomDescription());
+		});
 
-		if (outcome == UseDoorAction.Outcome.CLOSED) {
+		action.onException(DoorClosedException.class, e -> {
 			printer.println("You attempted the use the door, but discover that the door is closed.");
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link InspectDoorAction}.
+	 * Event when a {@link Character} performs the {@link InspectDoorAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link InspectDoorAction}.
-	 * @param action The {@link InspectDoorAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link InspectDoorAction}.
+	 * @param action    The {@link InspectDoorAction} instance.
 	 */
-	@Override public void onDoorInspect(Game game, Player player, InspectDoorAction action)
+	@Override public void onDoorInspect(Game game, Character character, InspectDoorAction action)
 	{
-		InspectDoorAction.Outcome outcome = action.getOutcome();
-		Door                      door    = action.getDoor();
-
-		if (outcome == InspectDoorAction.Outcome.SUCCESS) {
-			printer.println(String.format("You inspect the door, learning that the door is %s.", door.getState().name().toLowerCase()));
-			return;
-		}
-
-		throw new IllegalStateException();
+		action.onSuccess(() -> {
+			String doorState = action.getDoor().getState().name().toLowerCase();
+			printer.println(String.format("You inspect the door, learning that the door is %s.", doorState));
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link LockLockAction}.
+	 * Event when a {@link Character} performs the {@link LockLockAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link LockLockAction}.
-	 * @param action The {@link LockLockAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link LockLockAction}.
+	 * @param action    The {@link LockLockAction} instance.
 	 */
-	@Override public void onLockLock(Game game, Player player, LockLockAction action)
+	@Override public void onLockLock(Game game, Character character, LockLockAction action)
 	{
-		LockLockAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == LockLockAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			printer.println("You successfully lock the lock using the provided key.");
-			return;
-		}
+		});
 
-		if (outcome == LockLockAction.Outcome.ALREADY_LOCKED) {
+		action.onException(LockAlreadyLockedException.class, e -> {
 			printer.println("You attempted to lock the lock, even though the lock is already locked.");
 			printer.println("You start to question your sanity.");
-			return;
-		}
+		});
 
-		if (outcome == LockLockAction.Outcome.SELECTED_NOT_KEY) {
+		action.onException(UnknownIndexException.class, e -> {
 			printer.println("The item you attempted to lock the lock with is not a key.");
 			printer.println("You start to questing your sanity.");
-			return;
-		}
+		});
 
-		if (outcome == LockLockAction.Outcome.INCORRECT_KEY) {
+		action.onException(IncorrectKeyException.class, e -> {
 			printer.println("You attempt to turn the lock, but discover that you have the wrong key.");
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link UnlockLockAction}.
+	 * Event when a {@link Character} performs the {@link UnlockLockAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link UnlockLockAction}.
-	 * @param action The {@link UnlockLockAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link UnlockLockAction}.
+	 * @param action    The {@link UnlockLockAction} instance.
 	 */
-	@Override public void onLockUnlock(Game game, Player player, UnlockLockAction action)
+	@Override public void onLockUnlock(Game game, Character character, UnlockLockAction action)
 	{
-		UnlockLockAction.Outcome outcome = action.getOutcome();
 
-		if (outcome == UnlockLockAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			printer.println("You successfully unlocked the lock using the provided key.");
-			return;
-		}
+		});
 
-		if (outcome == UnlockLockAction.Outcome.ARGUMENT_NOT_INT) {
+		action.onException(NumberFormatException.class, e -> {
 			printer.println("The provided argument must be an integer.");
-			return;
-		}
+		});
 
-		if (outcome == UnlockLockAction.Outcome.ALREADY_UNLOCKED) {
+		action.onException(LockAlreadyUnlockedException.class, e -> {
 			printer.println("You attempted to unlock the lock, even though the lock is already unlocked.");
 			printer.println("You start to question your sanity.");
-			return;
-		}
+		});
 
-		if (outcome == UnlockLockAction.Outcome.SELECTED_NOT_KEY) {
+		action.onException(UnknownIndexException.class, e -> {
 			printer.println("The item you attempted to unlock the lock with is not a key.");
 			printer.println("You start to questing your sanity.");
-			return;
-		}
+		});
 
-		if (outcome == UnlockLockAction.Outcome.INCORRECT_KEY) {
+		action.onException(IncorrectKeyException.class, e -> {
 			printer.println("You attempt to turn the lock, but discover that you have the wrong key.");
-			return;
-		}
+		});
 
-		throw new UnsupportedOperationException();
+		System.out.println(action.getException());
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link InspectLockAction}.
+	 * Event when a {@link Character} performs the {@link InspectLockAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link InspectLockAction}.
-	 * @param action The {@link InspectLockAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link InspectLockAction}.
+	 * @param action    The {@link InspectLockAction} instance.
 	 */
-	@Override public void onLockInspect(Game game, Player player, InspectLockAction action)
+	@Override public void onLockInspect(Game game, Character character, InspectLockAction action)
 	{
-		InspectLockAction.Outcome outcome = action.getOutcome();
-		Lock                      lock    = action.getLock();
-
-		if (outcome == InspectLockAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
+			Lock lock = action.getLock();
 			printer.println(
 					String.format("You inspect the lock learning that the lock is %s. You notice that '%s' is written on the lock.",
 							lock.getState().name().toLowerCase(),
 							lock.getCode()
 					)
 			);
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link OpenChestAction}.
+	 * Event when a {@link Character} performs the {@link OpenChestAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link OpenChestAction}.
-	 * @param action The {@link OpenChestAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link OpenChestAction}.
+	 * @param action    The {@link OpenChestAction} instance.
 	 */
-	@Override public void onChestOpen(Game game, Player player, OpenChestAction action)
+	@Override public void onChestOpen(Game game, Character character, OpenChestAction action)
 	{
-		OpenChestAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == OpenChestAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			printer.println("You successfully opened the chest.");
-			return;
-		}
+		});
 
-		if (outcome == OpenChestAction.Outcome.ALREADY_OPEN) {
+		action.onException(ChestAlreadyOpenException.class, e -> {
 			printer.println("You attempted to open the chest, even though the chest is already open.");
 			printer.println("You start to question your sanity.");
-			return;
-		}
+		});
 
-		if (outcome == OpenChestAction.Outcome.LOCKED) {
+		action.onException(ChestLockedException.class, e -> {
 			printer.println("You attempt to open the chest, but discover that the chest is locked.");
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link CloseChestAction}.
+	 * Event when a {@link Character} performs the {@link CloseChestAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link CloseChestAction}.
-	 * @param action The {@link CloseChestAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link CloseChestAction}.
+	 * @param action    The {@link CloseChestAction} instance.
 	 */
-	@Override public void onChestClose(Game game, Player player, CloseChestAction action)
+	@Override public void onChestClose(Game game, Character character, CloseChestAction action)
 	{
-		CloseChestAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == CloseChestAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			printer.println("You successfully closed the chest.");
-			return;
-		}
+		});
 
-		if (outcome == CloseChestAction.Outcome.ALREADY_CLOSED) {
+		action.onException(DoorAlreadyClosedException.class, e -> {
 			printer.println("You attempted to close the chest, even though the chest is already closed.");
 			printer.println("You start to question your sanity.");
-			return;
-		}
+		});
 
-		if (outcome == CloseChestAction.Outcome.LOCKED) {
+		action.onException(DoorLockedException.class, e -> {
 			printer.println("You attempt to close the chest, but discover that the chest is locked.");
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link InspectChestAction}.
+	 * Event when a {@link Character} performs the {@link InspectChestAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link InspectChestAction}.
-	 * @param action The {@link InspectChestAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link InspectChestAction}.
+	 * @param action    The {@link InspectChestAction} instance.
 	 */
-	@Override public void onChestInspect(Game game, Player player, InspectChestAction action)
+	@Override public void onChestInspect(Game game, Character character, InspectChestAction action)
 	{
-		InspectChestAction.Outcome outcome = action.getOutcome();
-		Chest                      chest   = action.getChest();
 
-		if (outcome == InspectChestAction.Outcome.SUCCESS) {
-			printInventory(chest);
-			return;
-		}
+		action.onSuccess(() -> {
+			printer.println("You succeed in inspecting the chest.");
+			printInventory(action.getChest());
+		});
 
-		if (outcome == InspectChestAction.Outcome.CLOSED) {
+		action.onException(ChestClosedException.class, e -> {
 			printer.println("You attempt to inspect the chest, but discover that the chest is closed.");
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
+	 * Event when a {@link Character} performs the {@link TakeItemFromChestAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link TakeItemFromChestAction}.
-	 * @param action The {@link TakeItemFromChestAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link TakeItemFromChestAction}.
+	 * @param action    The {@link TakeItemFromChestAction} instance.
 	 */
-	@Override public void onChestTake(Game game, Player player, TakeItemFromChestAction action)
+	@Override public void onChestTake(Game game, Character character, TakeItemFromChestAction action)
 	{
-		TakeItemFromChestAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == TakeItemFromChestAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			printer.println("You succeeded in taking item " + itemListToString(action.getItems()) + " from the chest.");
-			return;
-		}
+		});
 
-		if (outcome == TakeItemFromChestAction.Outcome.CLOSED) {
+		action.onException(ChestClosedException.class, e -> {
 			printer.println("You cannot take items from a closed chest.");
-			return;
-		}
+		});
 
-		if (outcome == TakeItemFromChestAction.Outcome.BACKPACK_FULL) {
-			printer.println("You attempt to take the item, but you cannot fit it in your backpack.");
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		action.onException(InventoryFullException.class, e -> {
+			printer.println("You attempt to take the items, but you cannot fit them in your backpack.");
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
+	 * Event when a {@link Character} performs the {@link DropItemAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link DepositItemsIntoChestAction}.
-	 * @param action The {@link DepositItemsIntoChestAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link DropItemAction}.
+	 * @param action    The {@link DropItemAction} instance.
 	 */
-	@Override public void onChestDeposit(Game game, Player player, DepositItemsIntoChestAction action)
+	@Override public void onChestDeposit(Game game, Character character, DepositItemsIntoChestAction action)
 	{
-		DepositItemsIntoChestAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == DepositItemsIntoChestAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			printer.println("You succeeded in depositing item " + itemListToString(action.getItems()) + " into the chest.");
-			return;
-		}
+		});
 
-		if (outcome == DepositItemsIntoChestAction.Outcome.CLOSED) {
+		action.onException(ChestClosedException.class, e -> {
 			printer.println("You cannot deposit items into a closed chest.");
-			return;
-		}
+		});
 
-		if (outcome == DepositItemsIntoChestAction.Outcome.CHEST_FULL) {
+		action.onException(InventoryFullException.class, e -> {
 			printer.println("You attempt to deposit the item, but the chest is full.");
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link InspectBackpackAction}.
+	 * Event when a {@link Character} performs the {@link InspectBackpackAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link InspectBackpackAction}.
-	 * @param action The {@link InspectBackpackAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link InspectBackpackAction}.
+	 * @param action    The {@link InspectBackpackAction} instance.
 	 */
-	@Override public void onBackpackInspect(Game game, Player player, InspectBackpackAction action)
+	@Override public void onBackpackInspect(Game game, Character character, InspectBackpackAction action)
 	{
-		InspectBackpackAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == InspectBackpackAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
+			printer.println("You succeed in inspecting your backpack.");
 			printInventory(action.getBackpack());
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
-	 * Event when a {@link Player} performs the {@link ExpandBackpackAction}.
+	 * Event when a {@link Character} performs the {@link ExpandBackpackAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link ExpandBackpackAction}.
-	 * @param action The {@link ExpandBackpackAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link ExpandBackpackAction}.
+	 * @param action    The {@link ExpandBackpackAction} instance.
 	 */
-	@Override public void onBackpackExpand(Game game, Player player, ExpandBackpackAction action)
+	@Override public void onBackpackExpand(Game game, Character character, ExpandBackpackAction action)
 	{
-		ExpandBackpackAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == ExpandBackpackAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			printer.println(String.format("Your backpack was successfully expanded to %d slots.", action.getBackpack().getNumberOfSlots()));
-			return;
-		}
+		});
 
-		if (outcome == ExpandBackpackAction.Outcome.ARGUMENT_NOT_INT) {
+		action.onException(NumberFormatException.class, e -> {
 			printer.println("The provided argument must be an integer.");
-			return;
-		}
+		});
 
-		if (outcome == ExpandBackpackAction.Outcome.EMPTY_BACKPACK_SLOT) {
+		action.onException(NotEnoughItemsException.class, e -> {
 			printer.println("The provided argument pointed to an empty backpack stack.");
-			return;
-		}
+		});
 
-		if (outcome == ExpandBackpackAction.Outcome.SELECTED_NOT_EXPANSION) {
+		action.onException(SlotOutOfRangeException.class, e -> {
 			printer.println("The selected item was not a backpack expansion.");
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
@@ -702,72 +607,65 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Player} performs the {@link DropItemAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link DropItemAction}.
-	 * @param action The {@link DropItemAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Player} who attempted to perform the {@link DropItemAction}.
+	 * @param action    The {@link DropItemAction} instance.
 	 */
-	@Override public void onItemDrop(Game game, Player player, DropItemAction action)
+	@Override public void onItemDrop(Game game, Character character, DropItemAction action)
 	{
-		DropItemAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == DropItemAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			ImmutableList<Item> items = action.getItems();
 			printer.println(String.format("You successfully dropped up %d item(s) (%s).", items.size(), itemListToString
 					(items)));
-			return;
-		}
+		});
 
-		if (outcome == DropItemAction.Outcome.ARGUMENT_NOT_INT) {
+		action.onException(NumberFormatException.class, e -> {
 			printer.println("The provided argument must be an integer.");
 			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
 	/**
 	 * Event when a {@link Player} performs the {@link PickupItemAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link PickupItemAction}.
-	 * @param action The {@link PickupItemAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Player} who attempted to perform the {@link PickupItemAction}.
+	 * @param action    The {@link PickupItemAction} instance.
 	 */
-	@Override public void onItemPickup(Game game, Player player, PickupItemAction action)
+	@Override public void onItemPickup(Game game, Character character, PickupItemAction action)
 	{
-		PickupItemAction.Outcome outcome = action.getOutcome();
-
-		if (outcome == PickupItemAction.Outcome.SUCCESS) {
+		action.onSuccess(() -> {
 			ImmutableList<Item> items = action.getItems();
 			printer.println(String.format("You successfully picked up %d item(s) (%s).", items.size(), itemListToString
 					(items)));
-			return;
-		}
-
-		throw new UnsupportedOperationException();
+		});
 	}
 
+	/**
+	 * @param inventory
+	 */
 	private void printInventory(Inventory inventory)
 	{
 		ImmutableMap<Integer, ItemType> items = inventory.getSlots();
 		if (items.isEmpty()) {
-			printer.println("Your backpack is empty.");
-		} else {
-			items.forEach((key, value) -> printer.println(String.format("%-4d %-20s %-96s",
-					key,
-					value.getItemName(),
-					value.getItemDescription())));
+			printer.println("The inventory is empty.");
+			return;
 		}
 
+		items.forEach((key, value) -> printer.println(String.format("%-4d %-20s %-96s",
+				key,
+				value.getItemName(),
+				value.getItemDescription())));
 	}
 
 	/**
-	 * Prompts the player to selectIndices an {@link Option}.
+	 * Prompts the character to select one or more {@link Option}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} selecting.
-	 * @param select The {@link Select} object.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} selecting.
+	 * @param select    The {@link Select} object.
 	 */
-	@Override public void select(Game game, Player player, Select select)
+	@Override public void select(Game game, Character character, Select select)
 	{
 		int                                     minimumOptions = select.getMinimumNumberOfOptions();
 		int                                     maximumOptions = select.getMaximumNumberOfOptions();
@@ -813,11 +711,11 @@ public class ConsoleGameInterface implements GameInterface
 
 			} catch (NumberFormatException e) {
 				printer.println("Selection must be a number.");
-				select(game, player, select);
+				select(game, character, select);
 			}
 		}
 		try {
-			select.selectIndices(choices);
+			select.selectOptions(choices);
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		}

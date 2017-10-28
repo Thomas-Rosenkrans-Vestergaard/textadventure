@@ -1,11 +1,18 @@
 package textadventure.items.chest;
 
-import textadventure.GameException;
-
 /**
- * Thrown by {@link Chest} when some {@link textadventure.actions.Action} attempted to open an already opened {@link Chest}.
+ * Thrown when {@link Chest#open()} is called on a {@link Chest.State#OPEN} {@link Chest}.
  */
-public class ChestAlreadyOpenException extends GameException
+public class ChestAlreadyOpenException extends ChestException
 {
 
+	/**
+	 * Creates a new {@link ChestAlreadyOpenException}.
+	 *
+	 * @param chest The {@link Chest} that was {@link Chest.State#OPEN}.
+	 */
+	public ChestAlreadyOpenException(Chest chest)
+	{
+		super(chest);
+	}
 }

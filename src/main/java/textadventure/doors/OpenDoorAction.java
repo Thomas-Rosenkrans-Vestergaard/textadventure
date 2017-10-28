@@ -1,41 +1,14 @@
 package textadventure.doors;
 
+import textadventure.Character;
 import textadventure.Game;
-import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
 
 /**
- * {@link textadventure.actions.Action} that allows a player to open a {@link Door}.
+ * {@link textadventure.actions.Action} that allows a {@link Character} to open a {@link Door}.
  */
 public class OpenDoorAction extends DoorAction
 {
-
-	/**
-	 * The possible {@link Outcome}s of the {@link OpenDoorAction}.
-	 */
-	public enum Outcome
-	{
-
-		/**
-		 * The {@link Door} was successfully opened.
-		 */
-		SUCCESS,
-
-		/**
-		 * The {@link Door} could not be opened, since the {@link Door} was locked.
-		 */
-		LOCKED,
-
-		/**
-		 * The {@link Door} was already closed.
-		 */
-		ALREADY_OPEN,
-	}
-
-	/**
-	 * The {@link Outcome} of the {@link OpenDoorAction}.
-	 */
-	private Outcome outcome;
 
 	/**
 	 * {@link ActionPerformCallback} to invoke after performing the {@link OpenDoorAction}.
@@ -48,7 +21,7 @@ public class OpenDoorAction extends DoorAction
 	 * @param door     The {@link Door} to be opened.
 	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link OpenDoorAction}.
 	 */
-	OpenDoorAction(Door door, ActionPerformCallback<OpenDoorAction> callback)
+	public OpenDoorAction(Door door, ActionPerformCallback<OpenDoorAction> callback)
 	{
 		super(door);
 
@@ -56,34 +29,20 @@ public class OpenDoorAction extends DoorAction
 	}
 
 	/**
-	 * Performs the {@link OpenDoorAction} using the provided parameters.
+	 * Performs the {@link OpenDoorAction} using the provided argument.
 	 *
 	 * @param game      The {@link Game} instance.
-	 * @param player    The {@link Player} performing the {@link OpenDoorAction}.
+	 * @param character The {@link Character} performing the {@link OpenDoorAction}.
 	 * @param arguments The arguments provided to the {@link OpenDoorAction}.
 	 */
-	@Override public void perform(Game game, Player player, String[] arguments)
+	@Override public void perform(Game game, Character character, String[] arguments)
 	{
 		try {
 			getDoor().open();
-			this.outcome = Outcome.SUCCESS;
-			callback.send(game, player, this);
-		} catch (DoorAlreadyOpenException e) {
-			this.outcome = Outcome.ALREADY_OPEN;
-			callback.send(game, player, this);
-		} catch (DoorLockedException e) {
-			this.outcome = Outcome.LOCKED;
-			callback.send(game, player, this);
+		} catch (Exception e) {
+			setException(e);
+		} finally {
+			callback.send(game, character, this);
 		}
-	}
-
-	/**
-	 * Returns the {@link Outcome} of the {@link OpenDoorAction}.
-	 *
-	 * @return The {@link Outcome} of the {@link OpenDoorAction}.
-	 */
-	public Outcome getOutcome()
-	{
-		return this.outcome;
 	}
 }

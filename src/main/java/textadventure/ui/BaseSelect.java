@@ -93,12 +93,11 @@ public class BaseSelect<T> implements Select<T>
 	 * Select the {@link Option}(s) mapped to the provided index.
 	 *
 	 * @param index The index of the {@link Option} to select.
-	 * @throws SelectionAmountOutOfBounds When the number of selections are outside the legal number defined by the
-	 *                                    {@link Select}.
-	 * @throws UnknownIndexException      When the selected indices aren't contained in the set of possible
-	 *                                    {@link Option}s.
+	 * @throws SelectionAmountOutOfBounds When too few or too many elements were selected.
+	 * @throws UnknownIndexException      When a selected element were not contained is the list of possibilities.
 	 */
-	@Override public void selectIndex(Integer index) throws SelectionAmountOutOfBounds, UnknownIndexException
+	@Override
+	public void selectIndex(Integer index) throws SelectionAmountOutOfBounds, UnknownIndexException
 	{
 		ArrayList<Integer> indices = new ArrayList<>();
 		indices.add(index);
@@ -106,13 +105,11 @@ public class BaseSelect<T> implements Select<T>
 	}
 
 	/**
-	 * Select the {@link Option}(s) mapped to the provided indices.
+	 * Select the {@link Option}s mapped to the provided indices.
 	 *
-	 * @param indices The key(s) of the selected {@link Option}(s).
-	 * @throws SelectionAmountOutOfBounds When the number of selected {@link Option}s are outside the legal number
-	 *                                    defined by the {@link Select}.
-	 * @throws UnknownIndexException      When one of the selected indices aren't contained in the set of possible
-	 *                                    {@link Option}s.
+	 * @param indices The indices of the  {@link Option}s to select.
+	 * @throws SelectionAmountOutOfBounds When too few or too many elements were selected.
+	 * @throws UnknownIndexException      When a selected element were not contained is the list of possibilities.
 	 */
 	@Override
 	public void selectIndices(List<Integer> indices) throws SelectionAmountOutOfBounds, UnknownIndexException
@@ -126,36 +123,33 @@ public class BaseSelect<T> implements Select<T>
 				throw new UnknownIndexException(this, ImmutableSet.copyOf(indices), index);
 
 
-		response.response(indices.stream().map(index -> optionsMap.get(index)).collect(Collectors.toList()));
+		response.response(indices.stream().map(optionsMap::get).collect(Collectors.toList()));
 	}
 
 	/**
 	 * Select the provided {@link Option}.
 	 *
 	 * @param option The selected {@link Option}.
-	 * @throws SelectionAmountOutOfBounds When the number of selected {@link Option}s are outside the legal number
-	 *                                    defined by the {@link Select}.
-	 * @throws UnknownOptionException     When one of the selected {@link Option}s is not contained in the possible
-	 *                                    {@link Option}s.
+	 * @throws SelectionAmountOutOfBounds When too few or too many elements were selected.
+	 * @throws UnknownOptionException     When a selected element were not contained is the list of possibilities.
 	 */
-	@Override public void selectValue(Option<T> option) throws SelectionAmountOutOfBounds, UnknownOptionException
+	@Override
+	public void selectOption(Option<T> option) throws SelectionAmountOutOfBounds, UnknownOptionException
 	{
 		ArrayList<Option<T>> options = new ArrayList<>();
 		options.add(option);
-		selectValues(options);
+		selectOptions(options);
 	}
 
 	/**
-	 * Select the provided {@link Option}(s).
+	 * Select the provided {@link Option}s.
 	 *
-	 * @param options The selected {@link Option}(s).
-	 * @throws SelectionAmountOutOfBounds When the number of selected {@link Option}s are outside the legal number
-	 *                                    defined by the {@link Select}.
-	 * @throws UnknownOptionException     When one of the selected {@link Option}s is not contained in the possible
-	 *                                    {@link Option}s.
+	 * @param options The selected {@link Option}s.
+	 * @throws SelectionAmountOutOfBounds When too few or too many elements were selected.
+	 * @throws UnknownOptionException     When a selected element were not contained is the list of possibilities.
 	 */
 	@Override
-	public void selectValues(List<Option<T>> options) throws SelectionAmountOutOfBounds, UnknownOptionException
+	public void selectOptions(List<Option<T>> options) throws SelectionAmountOutOfBounds, UnknownOptionException
 	{
 		int size = options.size();
 		if (size < minimumNumber || size > maximumNumber)

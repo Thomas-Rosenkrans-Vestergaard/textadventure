@@ -3,8 +3,8 @@ package textadventure.items.backpack;
 import textadventure.items.Item;
 
 /**
- * An {@link Item} allowing {@link Charactser}s to expand their {@link Backpack}. The {@link Backpack} is expanded
- * using the {@link ExpandBackpackAction}.
+ * An {@link Item} allowing {@link textadventure.Character}s to expand their {@link Backpack}. The {@link Backpack}
+ * is expanded using the {@link ExpandBackpackAction}.
  */
 public class BackpackExpansion implements Item
 {
@@ -12,20 +12,19 @@ public class BackpackExpansion implements Item
 	/**
 	 * The amount of slots added by the {@link BackpackExpansion}.
 	 */
-	private int upgradeAmount;
+	private int upgrade;
 
 	/**
 	 * Creates a new {@link BackpackExpansion}.
 	 *
-	 * @param upgradeAmount The amount of slots added by the {@link BackpackExpansion}.
+	 * @param upgrade The amount of slots added by the {@link BackpackExpansion}.
 	 */
-	public BackpackExpansion(int upgradeAmount)
+	public BackpackExpansion(int upgrade)
 	{
-		if (upgradeAmount < 1) {
+		if (upgrade < 1)
 			throw new IllegalArgumentException("Upgrade amount must be positive.");
-		}
 
-		this.upgradeAmount = upgradeAmount;
+		this.upgrade = upgrade;
 	}
 
 	/**
@@ -33,9 +32,9 @@ public class BackpackExpansion implements Item
 	 *
 	 * @return The amount of slots added by the {@link BackpackExpansion}.
 	 */
-	public int getUpgradeAmount()
+	public int getUpgrade()
 	{
-		return upgradeAmount;
+		return upgrade;
 	}
 
 	/**
@@ -45,7 +44,7 @@ public class BackpackExpansion implements Item
 	 */
 	@Override public String getItemName()
 	{
-		return "backpack-expansion:" + upgradeAmount;
+		return "backpack-expansion:" + upgrade;
 	}
 
 	/**
@@ -55,6 +54,6 @@ public class BackpackExpansion implements Item
 	 */
 	@Override public String getItemDescription()
 	{
-		return "Expands a backpack with " + upgradeAmount + " slots.";
+		return "Expands a backpack with " + upgrade + " slots.";
 	}
 }

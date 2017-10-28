@@ -1,7 +1,7 @@
 package textadventure.actions;
 
+import textadventure.Character;
 import textadventure.Game;
-import textadventure.Player;
 
 public interface ActionPerformCallback<T>
 {
@@ -9,9 +9,9 @@ public interface ActionPerformCallback<T>
 	/**
 	 * Used by {@link Action}s to report their outcome.
 	 *
-	 * @param game   The {@link Game} being played.
-	 * @param player The  The {@link Player} performing the {@link Action}.
-	 * @param action The {@link Action} being performed.
+	 * @param game      The {@link Game} being played.
+	 * @param character The  The {@link Character} performing the {@link Action}.
+	 * @param action    The {@link Action} being performed.
 	 */
-	void send(Game game, Player player, T action);
+	void send(Game game, Character character, T action);
 }

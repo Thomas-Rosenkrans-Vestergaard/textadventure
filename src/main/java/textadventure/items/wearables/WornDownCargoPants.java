@@ -2,45 +2,40 @@ package textadventure.items.wearables;
 
 import java.awt.*;
 
-public class WornDownCargoPants implements Pants
+/**
+ * The default {@link Pants}.
+ */
+public class WornDownCargoPants extends AbstractWearable implements Pants
 {
+
 	/**
-	 * Return the double representing the protective factor of the {@link Wearable}
+	 * Creates a new {@link WornDownCargoPants}.
 	 *
-	 * @return The double representing the protective factor of the {@link Wearable}
+	 * @param protectiveFactor Double representing the protective factor of the {@link WornDownCargoPants}.
+	 * @param color            The {@link Color} of the {@link Wearable} item.
 	 */
-	@Override public double getProtectiveFactor()
+	public WornDownCargoPants(double protectiveFactor, Color color)
 	{
-		return 0;
+		super(protectiveFactor, color);
 	}
 
 	/**
-	 * Return the color of the {@link Wearable}.
+	 * Returns the name of the {@link WornDownCargoPants}.
 	 *
-	 * @return The color of the {@link Wearable}.
-	 */
-	@Override public Color getColor()
-	{
-		return null;
-	}
-
-	/**
-	 * Returns the name of the {@link ItemType}.
-	 *
-	 * @return The name of the {@link ItemType}.
+	 * @return The name of the {@link WornDownCargoPants}.
 	 */
 	@Override public String getItemName()
 	{
-		return null;
+		return "Worn down cargo pants.";
 	}
 
 	/**
-	 * Returns the description of the {@link ItemType}.
+	 * Returns the description of the {@link WornDownCargoPants}.
 	 *
-	 * @return The description of the {@link ItemType}.
+	 * @return The description of the {@link WornDownCargoPants}.
 	 */
 	@Override public String getItemDescription()
 	{
-		return null;
+		return "The default pants.";
 	}
 }

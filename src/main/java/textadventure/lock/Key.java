@@ -32,7 +32,7 @@ public class Key implements Item
 	 *
 	 * @return The identifier.
 	 */
-	@Override public int getIdentifier()
+	@Override public int getItemIdentifier()
 	{
 		return Objects.hash(getClass(), code);
 	}

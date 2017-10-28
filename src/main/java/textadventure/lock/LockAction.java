@@ -1,8 +1,9 @@
 package textadventure.lock;
 
+import textadventure.actions.AbstractAction;
 import textadventure.actions.Action;
 
-public abstract class LockAction implements Action
+public abstract class LockAction extends AbstractAction
 {
 
 	/**

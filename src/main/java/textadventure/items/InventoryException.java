@@ -3,20 +3,20 @@ package textadventure.items;
 import textadventure.GameException;
 
 /**
- * Base exception when handling {@link Inventory} errors.
+ * Thrown when exception occurs related to {@link Inventory}s.
  */
 public abstract class InventoryException extends GameException
 {
 
 	/**
-	 * The {@link Inventory} being acted upon.
+	 * The {@link Inventory} that caused the {@link InventoryException}.
 	 */
 	private Inventory inventory;
 
 	/**
 	 * Creates a new {@link InventoryException}.
 	 *
-	 * @param inventory The {@link Inventory} being acted upon.
+	 * @param inventory The {@link Inventory} that caused the {@link InventoryException}.
 	 */
 	public InventoryException(Inventory inventory)
 	{
@@ -24,9 +24,9 @@ public abstract class InventoryException extends GameException
 	}
 
 	/**
-	 * Returns the {@link Inventory} being acted upon.
+	 * Returns the {@link Inventory} that caused the {@link InventoryException}.
 	 *
-	 * @return The {@link Inventory} being acted upon.
+	 * @return The {@link Inventory} that caused the {@link InventoryException}.
 	 */
 	public Inventory getInventory()
 	{

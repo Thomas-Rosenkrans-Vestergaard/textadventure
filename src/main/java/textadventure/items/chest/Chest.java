@@ -14,6 +14,9 @@ import textadventure.ui.GameInterface;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
+/**
+ * An {@link textadventure.items.Inventory}.
+ */
 public class Chest extends BaseInventory implements PropertyContainer
 {
 
@@ -24,23 +27,25 @@ public class Chest extends BaseInventory implements PropertyContainer
 	{
 
 		/**
-		 * The {@link Chest} is open.
+		 * The {@link Chest} is open. {@link Character}s can therefor perform {@link DepositItemsIntoChestAction},
+		 * {@link TakeItemFromChestAction} and {@link InspectChestAction} on the {@link Chest}.
 		 */
 		OPEN,
 
 		/**
-		 * The {@link Chest} is closed.
+		 * The {@link Chest} is closed. @link Character}s can therefor not perform {@link DepositItemsIntoChestAction},
+		 * {@link TakeItemFromChestAction} and {@link InspectChestAction} on the {@link Chest}.
 		 */
 		CLOSED
 	}
 
 	/**
-	 * The instances of {@link Property} in the {@link Chest}.
+	 * The {@link Property}s registered on the {@link Property}.
 	 */
 	private HashMap<String, Property> properties = new HashMap<>();
 
 	/**
-	 * The {@link Action}s available on the {@link Property}.
+	 * The {@link Action}s registered on the {@link Property}.
 	 */
 	private HashMap<String, Action> actions = new HashMap<>();
 
@@ -57,13 +62,13 @@ public class Chest extends BaseInventory implements PropertyContainer
 	/**
 	 * Creates a new {@link Chest}.
 	 *
-	 * @param countSlots The number of slots available in the {@link Chest}.
-	 * @param state      The {@link State} of the {@link Chest}.
-	 * @param lock       The {@link Lock} on the {@link Chest}.
+	 * @param slots The number of slots available in the {@link Chest}.
+	 * @param state The {@link State} of the {@link Chest}.
+	 * @param lock  The {@link Lock} on the {@link Chest}.
 	 */
-	public Chest(int countSlots, State state, Lock lock)
+	public Chest(int slots, State state, Lock lock)
 	{
-		super(countSlots);
+		super(slots);
 		this.state = state;
 		this.lock = lock;
 	}
@@ -106,11 +111,11 @@ public class Chest extends BaseInventory implements PropertyContainer
 	void open() throws ChestAlreadyOpenException, ChestLockedException
 	{
 		if (state == State.OPEN) {
-			throw new ChestAlreadyOpenException();
+			throw new ChestAlreadyOpenException(this);
 		}
 
 		if (lock.getState() == Lock.State.LOCKED) {
-			throw new ChestLockedException();
+			throw new ChestLockedException(this);
 		}
 
 		this.state = State.OPEN;
@@ -125,14 +130,34 @@ public class Chest extends BaseInventory implements PropertyContainer
 	void close() throws ChestAlreadyClosedException, ChestLockedException
 	{
 		if (state == State.CLOSED) {
-			throw new ChestAlreadyClosedException();
+			throw new ChestAlreadyClosedException(this);
 		}
 
 		if (lock.getState() == Lock.State.LOCKED) {
-			throw new ChestLockedException();
+			throw new ChestLockedException(this);
 		}
 
 		this.state = State.CLOSED;
+	}
+
+	/**
+	 * Returns the {@link State} of the {@link Chest}.
+	 *
+	 * @return The {@link State} of the {@link Chest}.
+	 */
+	public State getState()
+	{
+		return this.state;
+	}
+
+	/**
+	 * Returns the {@link Lock} on the {@link Chest}.
+	 *
+	 * @return The {@link Lock} on the {@link Chest}.
+	 */
+	public Lock getLock()
+	{
+		return this.lock;
 	}
 
 	/**
@@ -168,26 +193,6 @@ public class Chest extends BaseInventory implements PropertyContainer
 	}
 
 	/**
-	 * Returns the {@link State} of the {@link Chest}.
-	 *
-	 * @return The {@link State} of the {@link Chest}.
-	 */
-	public State getState()
-	{
-		return this.state;
-	}
-
-	/**
-	 * Returns the {@link Lock} on the {@link Chest}.
-	 *
-	 * @return The {@link Lock} on the {@link Chest}.
-	 */
-	public Lock getLock()
-	{
-		return this.lock;
-	}
-
-	/**
 	 * Adds the {@link Property} to the {@link PropertyContainer}.
 	 *
 	 * @param propertyName The name of the {@link Property}.
@@ -215,6 +220,6 @@ public class Chest extends BaseInventory implements PropertyContainer
 	 */
 	@Override public ImmutableMap<String, Property> getProperties()
 	{
-		return new ImmutableMap.Builder<String, Property>().putAll(properties).build();
+		return ImmutableMap.copyOf(properties);
 	}
 }

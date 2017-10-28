@@ -26,30 +26,18 @@ public class Game
 	private Maze maze;
 
 	/**
-	 * The amount of moves per {@link Player} before the turn ends.
-	 */
-	private int movesPerTurn;
-
-	/**
 	 * The current {@link Player} waiting to send.
 	 */
 	private Player currentPlayer;
 
 	/**
-	 * The amount of moves made by the current {@link Player}.
-	 */
-	private int currentPlayerMoves;
-
-	/**
 	 * The {@link GameInterface} to use for input-output.
 	 *
 	 * @param gameInterface The {@link GameInterface} to use for input-output.
-	 * @param movesPerTurn  The amount of moves per {@link Player} before the turn ends.
 	 */
-	public Game(GameInterface gameInterface, int movesPerTurn)
+	public Game(GameInterface gameInterface)
 	{
 		this.gameInterface = gameInterface;
-		this.movesPerTurn = movesPerTurn;
 		gameInterface.onInit(this);
 	}
 
@@ -117,7 +105,6 @@ public class Game
 	 */
 	private void handleTurn(Player player)
 	{
-		this.movesPerTurn = 0;
 		gameInterface.onTurnStart(this, player);
 		handleActionRequest(player);
 	}
@@ -141,17 +128,14 @@ public class Game
 	 */
 	private void handleActionResponse(Action action, String[] arguments)
 	{
-		action.perform(this, this.currentPlayer, arguments);
-		this.currentPlayerMoves++;
+		action.perform(this, this.currentPlayer.getCharacter(), arguments);
 
 		if (currentPlayer.getCharacter().getCurrentLocation() instanceof EndingRoom) {
 			gameInterface.onGameEnd(this);
 			return;
 		}
 
-		if (this.currentPlayerMoves > movesPerTurn) {
-			handleNext();
-		}
+		handleNext();
 	}
 
 	/**

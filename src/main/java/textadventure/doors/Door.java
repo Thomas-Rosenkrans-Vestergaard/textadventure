@@ -16,23 +16,31 @@ public interface Door extends PropertyContainer, Property
 	 */
 	enum State
 	{
+
+		/**
+		 * The {@link Door} is open. {@link textadventure.Character}s can therefor move through the {@link Door}.
+		 */
 		OPEN,
+
+		/**
+		 * The {@link Door} is open. {@link textadventure.Character}s can therefor not move through the {@link Door}.
+		 */
 		CLOSED,
 	}
 
 	/**
 	 * Opens the {@link Door}.
 	 *
-	 * @throws DoorAlreadyOpenException When the {@link Door} is already open.
-	 * @throws DoorLockedException      When the {@link Door} is locked.
+	 * @throws DoorAlreadyOpenException When the {@link Door} is already {@link State#OPEN}.
+	 * @throws DoorLockedException      When the {@link Door} is {@link Lock.State#LOCKED}.
 	 */
 	void open() throws DoorAlreadyOpenException, DoorLockedException;
 
 	/**
 	 * Closes the {@link Door}.
 	 *
-	 * @throws DoorAlreadyClosedException When the {@link Door} is already closed.
-	 * @throws DoorLockedException        When the {@link Door} is locked.
+	 * @throws DoorAlreadyClosedException When the {@link Door} is already {@link State#CLOSED}.
+	 * @throws DoorLockedException        When the {@link Door} is {@link Lock.State#LOCKED}.
 	 */
 	void close() throws DoorAlreadyClosedException, DoorLockedException;
 

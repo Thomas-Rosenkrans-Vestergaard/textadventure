@@ -1,56 +1,18 @@
 package textadventure.lock;
 
 import com.google.common.collect.ImmutableSet;
+import textadventure.Character;
 import textadventure.Game;
-import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
-import textadventure.items.Item;
-import textadventure.items.NotEnoughItemsException;
-import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.*;
 
-import java.util.List;
-
+/**
+ * {@link textadventure.actions.Action} that allows a {@link textadventure.Character} to {@link Lock#lock(Key)} a
+ * {@link Lock}.
+ */
 public class LockLockAction extends LockAction
 {
-
-	/**
-	 * The possible {@link Outcome}s of the {@link LockLockAction}.
-	 */
-	public enum Outcome
-	{
-
-		/**
-		 * The {@link Lock} was already {@link Lock.State#LOCKED}.
-		 */
-		ALREADY_LOCKED,
-
-		/**
-		 * Argument is not an int
-		 */
-		ARGUMENT_NOT_INT,
-
-		/**
-		 * The {@link Item} selected from the {@link Player} is not a {@link Key}.
-		 */
-		SELECTED_NOT_KEY,
-
-		/**
-		 * The {@link Key} selected from the {@link Player} does not fit the {@link Lock}.
-		 */
-		INCORRECT_KEY,
-
-		/**
-		 * The {@link Player} successfully locked the {@link Lock}.
-		 */
-		SUCCESS,
-	}
-
-	/**
-	 * The {@link Outcome} of the {@link LockLockAction}.
-	 */
-	private Outcome outcome;
 
 	/**
 	 * {@link ActionPerformCallback} to invoke after performing the {@link LockLockAction}.
@@ -71,95 +33,52 @@ public class LockLockAction extends LockAction
 	}
 
 	/**
-	 * Performs the {@link LockLockAction} using the provided parameters.
+	 * Performs the {@link LockLockAction} using the provided arguments.
 	 *
 	 * @param game      The {@link Game} instance.
-	 * @param player    The {@link Player} performing the {@link LockLockAction}.
+	 * @param character The {@link Character} performing the {@link LockLockAction}.
 	 * @param arguments The arguments provided to the {@link LockLockAction}.
 	 */
-	@Override public void perform(Game game, Player player, String[] arguments)
+	@Override public void perform(Game game, Character character, String[] arguments)
 	{
 		GameInterface gameInterface = game.getGameInterface();
 		Lock.State    state         = lock.getState();
 
 		if (state == Lock.State.LOCKED) {
-			outcome = Outcome.ALREADY_LOCKED;
-			callback.send(game, player, this);
+			setException(new LockAlreadyLockedException(lock));
+			callback.send(game, character, this);
 			return;
 		}
 
 		if (state == Lock.State.UNLOCKED) {
 
-			Backpack backpack = player.getCharacter().getBackpack();
-
-			if (arguments.length == 1) {
-				withArguments(game, player, backpack, arguments[0]);
-				return;
-			}
-
-			ImmutableSet<Option<Key>> options = backpack.asOptions(Key.class);
-			gameInterface.select(game, player, new BaseSelect<>(options, 1, selection -> {
-				try {
-					lock.lock(selection.get(0).getT());
-					outcome = Outcome.SUCCESS;
-					callback.send(game, player, this);
-				} catch (AlreadyLockedException e) {
-					outcome = Outcome.ALREADY_LOCKED;
-					callback.send(game, player, this);
-				} catch (IncorrectKeyException e) {
-					outcome = Outcome.INCORRECT_KEY;
-					callback.send(game, player, this);
-				}
-			}));
-		}
-	}
-
-	/**
-	 * Performs the {@link LockLockAction} using the provided argument
-	 *
-	 * @param game     The {@link Game} instance.
-	 * @param player   The {@link Player} performing the {@link LockLockAction}.
-	 * @param backpack The {@link Backpack} the key is used from.
-	 * @param argument The arguments provided to the {@link LockLockAction}.
-	 */
-	private void withArguments(Game game, Player player, Backpack backpack, String argument)
-	{
-		try {
-
-			ImmutableSet<Option<Key>> options = backpack.asOptions(Key.class);
+			Backpack                  backpack = character.getBackpack();
+			ImmutableSet<Option<Key>> options  = backpack.asOptions(Key.class);
 			Select<Key> select = new BaseSelect<>(options, 1, selection -> {
+
 				try {
 					lock.lock(selection.get(0).getT());
-					outcome = Outcome.SUCCESS;
-					callback.send(game, player, this);
-				} catch (AlreadyLockedException e) {
-					outcome = Outcome.ALREADY_LOCKED;
-					callback.send(game, player, this);
-				} catch (IncorrectKeyException e) {
-					outcome = Outcome.INCORRECT_KEY;
-					callback.send(game, player, this);
+				} catch (Exception e) {
+					setException(e);
 				}
 			});
 
-			select.selectIndex(Integer.parseInt(argument));
+			try {
 
-		} catch (NumberFormatException e) {
-			outcome = LockLockAction.Outcome.ARGUMENT_NOT_INT;
-			callback.send(game, player, this);
-		} catch (SelectionAmountOutOfBounds e) {
+				if (arguments.length == 1) {
+					select.selectIndex(Integer.parseInt(arguments[0]));
+					return;
+				}
 
-		} catch (UnknownIndexException e) {
+				gameInterface.select(game, character, select);
 
+			} catch (UnknownIndexException e) {
+				setException(new SelectionNotKeyException());
+			} catch (Exception e) {
+				setException(e);
+			} finally {
+				callback.send(game, character, this);
+			}
 		}
-	}
-
-	/**
-	 * Returns the {@link Outcome} of the {@link LockLockAction}.
-	 *
-	 * @return The {@link Outcome} of the {@link LockLockAction}.
-	 */
-	public Outcome getOutcome()
-	{
-		return this.outcome;
 	}
 }

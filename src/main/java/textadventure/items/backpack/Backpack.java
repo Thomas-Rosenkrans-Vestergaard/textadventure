@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.stream.Stream;
 
 /**
- * Represents a {@link Inventory} the {@link textadventure.Player} can carry.
+ * Represents an {@link Inventory} a {@link textadventure.Character} can carry.
  */
 public class Backpack extends BaseInventory implements Property
 {
@@ -24,23 +24,23 @@ public class Backpack extends BaseInventory implements Property
 	/**
 	 * Creates a new {@link Backpack}.
 	 *
-	 * @param countSlots The number of slots in the {@link Backpack}.
+	 * @param slots The number of slots in the {@link Backpack}.
 	 */
-	public Backpack(int countSlots)
+	public Backpack(int slots)
 	{
-		super(countSlots);
+		super(slots);
 	}
 
 	/**
 	 * Creates and returns a new {@link Backpack} with the {@link InspectBackpackAction}.
 	 *
-	 * @param countSlots The number of slots in the {@link Backpack}.
-	 * @param game       The {@link Game} instance.
+	 * @param slots The number of slots in the {@link Backpack}.
+	 * @param game  The {@link Game} instance.
 	 * @return The newly created {@link Backpack}.
 	 */
-	public static Backpack factory(int countSlots, Game game)
+	public static Backpack factory(int slots, Game game)
 	{
-		Backpack      backpack      = new Backpack(countSlots);
+		Backpack      backpack      = new Backpack(slots);
 		GameInterface gameInterface = game.getGameInterface();
 
 		backpack.addAction("inspect", new InspectBackpackAction(backpack, gameInterface::onBackpackInspect));

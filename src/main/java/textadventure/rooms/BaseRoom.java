@@ -21,6 +21,10 @@ public class BaseRoom extends BasePropertyContainer implements Room
 	 */
 	private final String description;
 
+	/**
+	 * The {@link Floor} of the {@link Room}. This object is an {@link textadventure.items.Inventory}
+	 * {@link textadventure.Character}s can drop {@link textadventure.items.Item}s onto.
+	 */
 	private final Floor floor = new Floor();
 
 	/**

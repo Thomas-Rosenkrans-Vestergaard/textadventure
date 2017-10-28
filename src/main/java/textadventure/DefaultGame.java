@@ -31,11 +31,10 @@ public class DefaultGame extends Game
 	 * Creates a {@link Game}.
 	 *
 	 * @param gameInterface The {@link GameInterface} to use with the {@link Game}.
-	 * @param movesPerTurn  The number of moves per turn per player.
 	 */
-	public DefaultGame(GameInterface gameInterface, int movesPerTurn)
+	public DefaultGame(GameInterface gameInterface)
 	{
-		super(gameInterface, movesPerTurn);
+		super(gameInterface);
 
 		try {
 			generateRooms();

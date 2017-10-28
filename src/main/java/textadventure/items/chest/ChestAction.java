@@ -1,11 +1,12 @@
 package textadventure.items.chest;
 
+import textadventure.actions.AbstractAction;
 import textadventure.actions.Action;
 
 /**
- * Base for {@link Action}s acting upon a {@link Chest}.
+ * Abstract {@link Action} for acting upon {@link Chest}s.
  */
-public abstract class ChestAction implements Action
+public abstract class ChestAction extends AbstractAction
 {
 
 	/**

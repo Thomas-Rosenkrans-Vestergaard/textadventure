@@ -1,24 +1,15 @@
 package textadventure.items.backpack;
 
+import textadventure.Character;
 import textadventure.Game;
-import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
 
+/**
+ * {@link textadventure.actions.Action} that allows a {@link textadventure.Character} to inspect the
+ * {@link textadventure.items.Item}s in their {@link Backpack}.
+ */
 public class InspectBackpackAction extends BackpackAction
 {
-
-	/**
-	 * The possible {@link Outcome}s of the {@link InspectBackpackAction}.
-	 */
-	public enum Outcome
-	{
-		SUCCESS,
-	}
-
-	/**
-	 * The {@link Outcome} of the {@link InspectBackpackAction}.
-	 */
-	private Outcome outcome;
 
 	/**
 	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectBackpackAction}.
@@ -39,25 +30,14 @@ public class InspectBackpackAction extends BackpackAction
 	}
 
 	/**
-	 * Performs the {@link InspectBackpackAction} using the provided parameters.
+	 * Performs the {@link PickupItemAction} using the provided arguments.
 	 *
 	 * @param game      The {@link Game} instance.
-	 * @param player    The {@link Player} performing the {@link InspectBackpackAction}.
-	 * @param arguments The arguments provided to the {@link InspectBackpackAction}.
+	 * @param character The {@link Character} performing the {@link PickupItemAction}.
+	 * @param arguments The arguments provided to the {@link PickupItemAction}.
 	 */
-	@Override public void perform(Game game, Player player, String[] arguments)
+	@Override public void perform(Game game, Character character, String[] arguments)
 	{
-		outcome = Outcome.SUCCESS;
-		callback.send(game, player, this);
-	}
-
-	/**
-	 * Returns the {@link Outcome} of the {@link InspectBackpackAction}.
-	 *
-	 * @return The {@link Outcome} of the {@link InspectBackpackAction}.
-	 */
-	public Outcome getOutcome()
-	{
-		return this.outcome;
+		callback.send(game, character, this);
 	}
 }

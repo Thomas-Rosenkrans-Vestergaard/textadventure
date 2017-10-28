@@ -1,50 +1,24 @@
 package textadventure.items.backpack;
 
+import com.google.common.collect.ImmutableSet;
+import textadventure.Character;
 import textadventure.Game;
-import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
-import textadventure.items.NotEnoughItemsException;
-import textadventure.items.SlotOutOfRangeException;
 import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
+import textadventure.ui.Option;
+import textadventure.ui.Select;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * The {@link ExpandBackpackAction} allows a {@link Character} to expand the number of slots of a {@link Backpack}.
+ * {@link textadventure.actions.Action} that allows a {@link Character} to expand the number of slots in their
+ * {@link Backpack}.
  */
 public class ExpandBackpackAction extends BackpackAction
 {
-
-	/**
-	 * The possible {@link Outcome}s of the {@link ExpandBackpackAction}.
-	 */
-	public enum Outcome
-	{
-		/**
-		 * The {@link Backpack} was expanded.
-		 */
-		SUCCESS,
-
-		/**
-		 * The provided argument could not be parsed to an integer.
-		 */
-		ARGUMENT_NOT_INT,
-
-		/**
-		 * The provided argument pointed to an empty backpack stack.
-		 */
-		EMPTY_BACKPACK_SLOT,
-
-		/**
-		 * The {@link textadventure.items.Item} selected by the {@link Player} is not a {@link BackpackExpansion}.
-		 */
-		SELECTED_NOT_EXPANSION,
-	}
-
-	/**
-	 * The {@link Outcome} of the {@link ExpandBackpackAction}.
-	 */
-	private Outcome outcome;
 
 	/**
 	 * The {@link BackpackExpansion} used to expand the {@link Backpack}.
@@ -70,85 +44,48 @@ public class ExpandBackpackAction extends BackpackAction
 	}
 
 	/**
-	 * Performs the {@link ExpandBackpackAction} using the provided parameters.
+	 * Performs the {@link ExpandBackpackAction} using the provided arguments.
 	 *
 	 * @param game      The {@link Game} instance.
-	 * @param player    The {@link Player} performing the {@link ExpandBackpackAction}.
+	 * @param character The {@link Character} performing the {@link ExpandBackpackAction}.
 	 * @param arguments The arguments provided to the {@link ExpandBackpackAction}.
 	 */
-	@Override public void perform(Game game, Player player, String[] arguments)
+	@Override public void perform(Game game, Character character, String[] arguments)
 	{
-		GameInterface gameInterface = game.getGameInterface();
-		Backpack      backpack      = player.getCharacter().getBackpack();
+		GameInterface                           gameInterface = game.getGameInterface();
+		Backpack                                backpack      = character.getBackpack();
+		ImmutableSet<Option<BackpackExpansion>> options       = backpack.asOptions(BackpackExpansion.class);
 
-		if (arguments.length == 1) {
-			withArguments(game, player, backpack, arguments[0]);
-			return;
-		}
-
-		gameInterface.select(game, player, new BaseSelect<>(backpack.asOptions(), 1, selection -> {
+		Select<BackpackExpansion> select = new BaseSelect<>(options, 1, selection -> {
 
 			try {
-				Item item = backpack.takeItem(selection.get(0).getOptionIndex());
 
-				if (!(item instanceof BackpackExpansion)) {
-					outcome = Outcome.SELECTED_NOT_EXPANSION;
-					callback.send(game, player, this);
-					return;
+				for (Option<BackpackExpansion> backpackExpansionOption : selection) {
+					backpack.takeItem(backpackExpansionOption.getOptionIndex());
+					this.backpackExpansion = backpackExpansionOption.getT();
+					backpack.expand(backpackExpansion.getUpgrade());
 				}
 
-				this.backpackExpansion = (BackpackExpansion) item;
-				backpack.expand(backpackExpansion.getUpgradeAmount());
-				outcome = Outcome.SUCCESS;
-				callback.send(game, player, this);
-
-			} catch (SlotOutOfRangeException | NotEnoughItemsException e) {
-				throw new IllegalStateException(e);
+			} catch (Exception e) {
+				setException(e);
 			}
-		}));
-	}
+		});
 
-	/**
-	 * Performs the {@link ExpandBackpackAction} using the provided argument.
-	 *
-	 * @param game     The {@link Game} instance.
-	 * @param player   The {@link Player} performing the {@link ExpandBackpackAction}.
-	 * @param backpack The {@link Backpack} the key is used from.
-	 * @param argument The arguments provided to the {@link ExpandBackpackAction}.
-	 */
-	private void withArguments(Game game, Player player, Backpack backpack, String argument)
-	{
 		try {
-			Item item = backpack.takeItem(Integer.parseInt(argument));
 
-			if (!(item instanceof BackpackExpansion)) {
-				outcome = Outcome.SELECTED_NOT_EXPANSION;
-				callback.send(game, player, this);
+			if (arguments.length > 0) {
+				List<Integer> indices = new ArrayList<>();
+				for (String argument : arguments) indices.add(Integer.parseInt(argument));
+				select.selectIndices(indices);
 				return;
 			}
 
-			BackpackExpansion backpackExpansion = (BackpackExpansion) item;
-			backpack.expand(backpackExpansion.getUpgradeAmount());
-			outcome = Outcome.SUCCESS;
-			callback.send(game, player, this);
-
-		} catch (NumberFormatException e) {
-			outcome = Outcome.ARGUMENT_NOT_INT;
-			callback.send(game, player, this);
-		} catch (SlotOutOfRangeException | NotEnoughItemsException e) {
-			outcome = Outcome.EMPTY_BACKPACK_SLOT;
-			callback.send(game, player, this);
+			gameInterface.select(game, character, select);
+		} catch (Exception e) {
+			setException(e);
+		} finally {
+			callback.send(game, character, this);
 		}
-	}
-
-	/**
-	 * Returns the {@link Outcome} of the {@link ExpandBackpackAction}.
-	 *
-	 * @return The {@link Outcome} of the {@link ExpandBackpackAction}.
-	 */
-	public Outcome getOutcome()
-	{
-		return this.outcome;
 	}
 
 	/**

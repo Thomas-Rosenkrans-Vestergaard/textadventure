@@ -1,37 +1,14 @@
 package textadventure.items.chest;
 
+import textadventure.Character;
 import textadventure.Game;
-import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
 
+/**
+ * {@link textadventure.actions.Action} that allow a {@link textadventure.Character} to open a {@link Chest}.
+ */
 public class OpenChestAction extends ChestAction
 {
-
-	/**
-	 * The possible {@link Outcome}s of the {@link OpenChestAction}.
-	 */
-	public enum Outcome
-	{
-		/**
-		 * The {@link Chest} was successfully opened.
-		 */
-		SUCCESS,
-
-		/**
-		 * The {@link Chest} could not be opened, since the {@link Chest} was locked.
-		 */
-		LOCKED,
-
-		/**
-		 * The {@link Chest} was already closed.
-		 */
-		ALREADY_OPEN,
-	}
-
-	/**
-	 * The {@link Outcome} of the {@link OpenChestAction}.
-	 */
-	private Outcome outcome;
 
 	/**
 	 * {@link ActionPerformCallback} to invoke after performing the {@link OpenChestAction}.
@@ -52,49 +29,30 @@ public class OpenChestAction extends ChestAction
 	}
 
 	/**
-	 * Performs the {@link OpenChestAction} using the provided parameters.
+	 * Performs the {@link OpenChestAction} using the provided arguments.
 	 *
 	 * @param game      The {@link Game} instance.
-	 * @param player    The {@link Player} performing the {@link OpenChestAction}.
+	 * @param character The {@link Character} performing the {@link OpenChestAction}.
 	 * @param arguments The arguments provided to the {@link OpenChestAction}.
 	 */
-	@Override public void perform(Game game, Player player, String[] arguments)
+	@Override public void perform(Game game, Character character, String[] arguments)
 	{
 		Chest.State state = chest.getState();
 
 		if (state == Chest.State.OPEN) {
-			outcome = Outcome.ALREADY_OPEN;
-			callback.send(game, player, this);
+			setException(new ChestAlreadyOpenException(chest));
+			callback.send(game, character, this);
 			return;
 		}
 
 		if (state == Chest.State.CLOSED) {
 			try {
 				chest.open();
-				outcome = Outcome.SUCCESS;
-				callback.send(game, player, this);
-				return;
-			} catch (ChestAlreadyOpenException e) {
-				outcome = Outcome.ALREADY_OPEN;
-				callback.send(game, player, this);
-				return;
-			} catch (ChestLockedException e) {
-				outcome = Outcome.LOCKED;
-				callback.send(game, player, this);
-				return;
+			} catch (Exception e) {
+				setException(e);
+			} finally {
+				callback.send(game, character, this);
 			}
 		}
-
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * Returns the {@link Outcome} of the {@link OpenChestAction}.
-	 *
-	 * @return The {@link Outcome} of the {@link OpenChestAction}.
-	 */
-	public Outcome getOutcome()
-	{
-		return this.outcome;
 	}
 }

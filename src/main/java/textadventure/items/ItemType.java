@@ -1,7 +1,5 @@
 package textadventure.items;
 
-import textadventure.ui.Option;
-
 public interface ItemType
 {
 
@@ -10,7 +8,7 @@ public interface ItemType
 	 *
 	 * @return The identifier.
 	 */
-	default int getIdentifier()
+	default int getItemIdentifier()
 	{
 		return getClass().hashCode();
 	}
@@ -38,6 +36,6 @@ public interface ItemType
 	 */
 	default boolean instanceOf(Item item)
 	{
-		return this == item || item != null && getIdentifier() == item.getIdentifier();
+		return this == item || item != null && getItemIdentifier() == item.getItemIdentifier();
 	}
 }

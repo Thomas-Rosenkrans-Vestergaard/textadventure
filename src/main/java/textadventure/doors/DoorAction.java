@@ -1,11 +1,12 @@
 package textadventure.doors;
 
+import textadventure.actions.AbstractAction;
 import textadventure.actions.Action;
 
 /**
  * Abstract class for {@link Action}s performed upon a {@link Door}.
  */
-public abstract class DoorAction implements Action
+public abstract class DoorAction extends AbstractAction
 {
 
 	/**
@@ -18,7 +19,7 @@ public abstract class DoorAction implements Action
 	 *
 	 * @param door The {@link Door} the {@link DoorAction} is performed upon.
 	 */
-	DoorAction(Door door)
+	public DoorAction(Door door)
 	{
 		this.door = door;
 	}

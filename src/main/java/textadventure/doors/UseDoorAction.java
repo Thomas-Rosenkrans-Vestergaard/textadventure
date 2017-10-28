@@ -1,37 +1,16 @@
 package textadventure.doors;
 
+import textadventure.Character;
 import textadventure.Game;
-import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.rooms.Room;
 
 /**
- * {@link textadventure.actions.Action} that allows a player to use a {@link Door} to move to another {@link Room}.
+ * {@link textadventure.actions.Action} that allows a {@link Character} to use a {@link Door} to move to another
+ * {@link Room}.
  */
 public class UseDoorAction extends DoorAction
 {
-
-	/**
-	 * The possible {@link Outcome}s of the {@link UseDoorAction}.
-	 */
-	public enum Outcome
-	{
-
-		/**
-		 * The player successfully moved through {@link Door}
-		 */
-		SUCCESS,
-
-		/**
-		 * The player couldn't move through the {@link Door}, since the {@link Door} was closed.
-		 */
-		CLOSED
-	}
-
-	/**
-	 * The {@link Outcome} of the {@link UseDoorAction}.
-	 */
-	private Outcome outcome;
 
 	/**
 	 * {@link ActionPerformCallback} to invoke after performing the {@link UseDoorAction}.
@@ -52,46 +31,31 @@ public class UseDoorAction extends DoorAction
 	}
 
 	/**
-	 * Performs the {@link UseDoorAction} using the provided parameters.
+	 * Performs the {@link UseDoorAction} using the provided arguments.
 	 *
 	 * @param game      The {@link Game} instance.
-	 * @param player    The {@link Player} performing the {@link UseDoorAction}.
+	 * @param character The {@link Character} performing the {@link UseDoorAction}.
 	 * @param arguments The arguments provided to the {@link UseDoorAction}.
 	 */
-	@Override public void perform(Game game, Player player, String[] arguments)
+	@Override public void perform(Game game, Character character, String[] arguments)
 	{
-		Room currentRoom = player.getCharacter().getCurrentLocation();
-		Room targetRoom  = getDoor().getInverseRoom(currentRoom);
+		Door       door        = getDoor();
+		Room       currentRoom = character.getCurrentLocation();
+		Room       targetRoom  = door.getInverseRoom(currentRoom);
+		Door.State state       = door.getState();
 
 		if (targetRoom == null) {
 			throw new IllegalStateException();
 		}
 
-		Door.State state = getDoor().getState();
-
 		if (state == Door.State.CLOSED) {
-			outcome = Outcome.CLOSED;
-			callback.send(game, player, this);
-			return;
+			setException(new DoorClosedException(door));
 		}
 
 		if (state == Door.State.OPEN) {
-			outcome = Outcome.SUCCESS;
-			player.getCharacter().setCurrentLocation(targetRoom);
-			callback.send(game, player, this);
-			return;
+			character.setCurrentLocation(targetRoom);
 		}
 
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * Returns the {@link Outcome} of the {@link UseDoorAction}.
-	 *
-	 * @return The {@link Outcome} of the {@link UseDoorAction}.
-	 */
-	public Outcome getOutcome()
-	{
-		return this.outcome;
+		callback.send(game, character, this);
 	}
 }

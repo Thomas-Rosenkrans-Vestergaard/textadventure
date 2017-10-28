@@ -1,24 +1,14 @@
 package textadventure.lock;
 
+import textadventure.Character;
 import textadventure.Game;
-import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
 
+/**
+ * {@link textadventure.actions.Action} that allows a {@link Character} to gather information about a {@link Lock}.
+ */
 public class InspectLockAction extends LockAction
 {
-
-	/**
-	 * The possible {@link Outcome}s of the {@link InspectLockAction}.
-	 */
-	public enum Outcome
-	{
-		SUCCESS,
-	}
-
-	/**
-	 * The {@link Outcome} of the {@link InspectLockAction}.
-	 */
-	private Outcome outcome;
 
 	/**
 	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectLockAction}.
@@ -39,25 +29,14 @@ public class InspectLockAction extends LockAction
 	}
 
 	/**
-	 * Performs the {@link InspectLockAction} using the provided parameters.
+	 * Performs the {@link InspectLockAction} using the provided arguments.
 	 *
 	 * @param game      The {@link Game} instance.
-	 * @param player    The {@link Player} performing the {@link InspectLockAction}.
+	 * @param character The {@link Character} performing the {@link InspectLockAction}.
 	 * @param arguments The arguments provided to the {@link InspectLockAction}.
 	 */
-	@Override public void perform(Game game, Player player, String[] arguments)
+	@Override public void perform(Game game, Character character, String[] arguments)
 	{
-		outcome = Outcome.SUCCESS;
-		callback.send(game, player, this);
-	}
-
-	/**
-	 * Returns the {@link Outcome} of the {@link InspectLockAction}.
-	 *
-	 * @return The {@link Outcome} of the {@link InspectLockAction}.
-	 */
-	public Outcome getOutcome()
-	{
-		return this.outcome;
+		callback.send(game, character, this);
 	}
 }

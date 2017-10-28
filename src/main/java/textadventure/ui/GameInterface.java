@@ -1,5 +1,6 @@
 package textadventure.ui;
 
+import textadventure.Character;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.Action;
@@ -31,7 +32,7 @@ public interface GameInterface
 	 * Called when a new {@link Player} joins the {@link Game}.
 	 *
 	 * @param game   The {@link Game} instance.
-	 * @param player The newly joined {@link Player}.
+	 * @param player The {@link Player} who joined the {@link Game}.
 	 */
 	void onPlayerJoin(Game game, Player player);
 
@@ -66,164 +67,164 @@ public interface GameInterface
 	void onTurnEnd(Game game, Player player);
 
 	/**
-	 * Called when a {@link Player} requests an {@link Action} from the {@link GameInterface}.
+	 * Called when a {@link Character} requests an {@link Action} from the {@link GameInterface}.
 	 *
-	 * @param game     The {@link Game} instance.
-	 * @param player   The {@link Player} who requests the {@link Action}.
-	 * @param response The {@link ActionRequestCallback} to send with.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who requests the {@link Action}.
+	 * @param response  The {@link ActionRequestCallback} to send with.
 	 */
-	void onActionRequest(Game game, Player player, ActionRequestCallback response);
+	void onActionRequest(Game game, Character character, ActionRequestCallback response);
 
 	/**
-	 * Event when a {@link Player} performs the {@link OpenDoorAction}.
+	 * Event when a {@link Character} performs the {@link OpenDoorAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link OpenDoorAction}.
-	 * @param action The {@link OpenDoorAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link OpenDoorAction}.
+	 * @param action    The {@link OpenDoorAction} instance.
 	 */
-	void onDoorOpen(Game game, Player player, OpenDoorAction action);
+	void onDoorOpen(Game game, Character character, OpenDoorAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link CloseDoorAction}.
+	 * Event when a {@link Character} performs the {@link CloseDoorAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link CloseDoorAction}.
-	 * @param action The {@link CloseDoorAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link CloseDoorAction}.
+	 * @param action    The {@link CloseDoorAction} instance.
 	 */
-	void onDoorClose(Game game, Player player, CloseDoorAction action);
+	void onDoorClose(Game game, Character character, CloseDoorAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link UseDoorAction}.
+	 * Event when a {@link Character} performs the {@link UseDoorAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link UseDoorAction}.
-	 * @param action The {@link UseDoorAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link UseDoorAction}.
+	 * @param action    The {@link UseDoorAction} instance.
 	 */
-	void onDoorUse(Game game, Player player, UseDoorAction action);
+	void onDoorUse(Game game, Character character, UseDoorAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link InspectDoorAction}.
+	 * Event when a {@link Character} performs the {@link InspectDoorAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link InspectDoorAction}.
-	 * @param action The {@link InspectDoorAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link InspectDoorAction}.
+	 * @param action    The {@link InspectDoorAction} instance.
 	 */
-	void onDoorInspect(Game game, Player player, InspectDoorAction action);
+	void onDoorInspect(Game game, Character character, InspectDoorAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link LockLockAction}.
+	 * Event when a {@link Character} performs the {@link LockLockAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link LockLockAction}.
-	 * @param action The {@link LockLockAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link LockLockAction}.
+	 * @param action    The {@link LockLockAction} instance.
 	 */
-	void onLockLock(Game game, Player player, LockLockAction action);
+	void onLockLock(Game game, Character character, LockLockAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link UnlockLockAction}.
+	 * Event when a {@link Character} performs the {@link UnlockLockAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link UnlockLockAction}.
-	 * @param action The {@link UnlockLockAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link UnlockLockAction}.
+	 * @param action    The {@link UnlockLockAction} instance.
 	 */
-	void onLockUnlock(Game game, Player player, UnlockLockAction action);
+	void onLockUnlock(Game game, Character character, UnlockLockAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link InspectLockAction}.
+	 * Event when a {@link Character} performs the {@link InspectLockAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link InspectLockAction}.
-	 * @param action The {@link InspectLockAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link InspectLockAction}.
+	 * @param action    The {@link InspectLockAction} instance.
 	 */
-	void onLockInspect(Game game, Player player, InspectLockAction action);
+	void onLockInspect(Game game, Character character, InspectLockAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link OpenChestAction}.
+	 * Event when a {@link Character} performs the {@link OpenChestAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link OpenChestAction}.
-	 * @param action The {@link OpenChestAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link OpenChestAction}.
+	 * @param action    The {@link OpenChestAction} instance.
 	 */
-	void onChestOpen(Game game, Player player, OpenChestAction action);
+	void onChestOpen(Game game, Character character, OpenChestAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link CloseChestAction}.
+	 * Event when a {@link Character} performs the {@link CloseChestAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link CloseChestAction}.
-	 * @param action The {@link CloseChestAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link CloseChestAction}.
+	 * @param action    The {@link CloseChestAction} instance.
 	 */
-	void onChestClose(Game game, Player player, CloseChestAction action);
+	void onChestClose(Game game, Character character, CloseChestAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link InspectChestAction}.
+	 * Event when a {@link Character} performs the {@link InspectChestAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link InspectChestAction}.
-	 * @param action The {@link InspectChestAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link InspectChestAction}.
+	 * @param action    The {@link InspectChestAction} instance.
 	 */
-	void onChestInspect(Game game, Player player, InspectChestAction action);
+	void onChestInspect(Game game, Character character, InspectChestAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link TakeItemFromChestAction}.
+	 * Event when a {@link Character} performs the {@link TakeItemFromChestAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link TakeItemFromChestAction}.
-	 * @param action The {@link TakeItemFromChestAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link TakeItemFromChestAction}.
+	 * @param action    The {@link TakeItemFromChestAction} instance.
 	 */
-	void onChestTake(Game game, Player player, TakeItemFromChestAction action);
+	void onChestTake(Game game, Character character, TakeItemFromChestAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link DropItemAction}.
+	 * Event when a {@link Character} performs the {@link DropItemAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link DropItemAction}.
-	 * @param action The {@link DropItemAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link DropItemAction}.
+	 * @param action    The {@link DropItemAction} instance.
 	 */
-	void onChestDeposit(Game game, Player player, DepositItemsIntoChestAction action);
+	void onChestDeposit(Game game, Character character, DepositItemsIntoChestAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link InspectBackpackAction}.
+	 * Event when a {@link Character} performs the {@link InspectBackpackAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link InspectBackpackAction}.
-	 * @param action The {@link InspectBackpackAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link InspectBackpackAction}.
+	 * @param action    The {@link InspectBackpackAction} instance.
 	 */
-	void onBackpackInspect(Game game, Player player, InspectBackpackAction action);
+	void onBackpackInspect(Game game, Character character, InspectBackpackAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link ExpandBackpackAction}.
+	 * Event when a {@link Character} performs the {@link ExpandBackpackAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link ExpandBackpackAction}.
-	 * @param action The {@link ExpandBackpackAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link ExpandBackpackAction}.
+	 * @param action    The {@link ExpandBackpackAction} instance.
 	 */
-	void onBackpackExpand(Game game, Player player, ExpandBackpackAction action);
+	void onBackpackExpand(Game game, Character character, ExpandBackpackAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link DropItemAction}.
+	 * Event when a {@link Character} performs the {@link DropItemAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link DropItemAction}.
-	 * @param action The {@link DropItemAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link DropItemAction}.
+	 * @param action    The {@link DropItemAction} instance.
 	 */
-	void onItemDrop(Game game, Player player, DropItemAction action);
+	void onItemDrop(Game game, Character character, DropItemAction action);
 
 	/**
-	 * Event when a {@link Player} performs the {@link PickupItemAction}.
+	 * Event when a {@link Character} performs the {@link PickupItemAction}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who attempted to perform the {@link PickupItemAction}.
-	 * @param action The {@link PickupItemAction} instance.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} who attempted to perform the {@link PickupItemAction}.
+	 * @param action    The {@link PickupItemAction} instance.
 	 */
-	void onItemPickup(Game game, Player player, PickupItemAction action);
+	void onItemPickup(Game game, Character character, PickupItemAction action);
 
 	/**
-	 * Prompts the player to selectIndices an {@link Option}.
+	 * Prompts the character to select one or more {@link Option}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} selecting.
-	 * @param select The {@link Select} object.
+	 * @param game      The {@link Game} instance.
+	 * @param character The {@link Character} selecting.
+	 * @param select    The {@link Select} object.
 	 */
-	void select(Game game, Player player, Select select);
+	void select(Game game, Character character, Select select);
 }

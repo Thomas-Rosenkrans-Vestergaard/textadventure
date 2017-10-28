@@ -324,12 +324,12 @@ public class BaseInventory implements Inventory
 	 *
 	 * @return The {@link ImmutableSet} of {@link Option}s.
 	 */
-	@Override public ImmutableSet<Option<Object>> asOptions()
+	@Override public ImmutableSet<Option<Item>> asOptions()
 	{
-		ImmutableSet.Builder<Option<Object>> builder = new ImmutableSet.Builder<>();
+		ImmutableSet.Builder<Option<Item>> builder = new ImmutableSet.Builder<>();
 		items.forEach((position, stack) -> {
 			Item item = stack.peek();
-			builder.add(new BaseOption(position, item.getItemName(), item.getItemDescription(), item));
+			builder.add(new BaseOption<>(position, item.getItemName(), item.getItemDescription(), item));
 		});
 
 		return builder.build();
@@ -341,13 +341,13 @@ public class BaseInventory implements Inventory
 	 * @param type The type of the {@link Item} to return.
 	 * @return The slots in the {@link Inventory} with the provided {@link Class} type.
 	 */
-	@Override public <T> ImmutableSet<Option<T>> asOptions(Class<T> type)
+	@Override public <T extends Item> ImmutableSet<Option<T>> asOptions(Class<T> type)
 	{
 		ImmutableSet.Builder<Option<T>> builder = new ImmutableSet.Builder<>();
 		items.forEach((position, stack) -> {
 			Item item = stack.peek();
 			if (type.isInstance(item))
-				builder.add(new BaseOption<T>(position, item.getItemName(), item.getItemDescription(), type.cast(item)));
+				builder.add(new BaseOption<>(position, item.getItemName(), item.getItemDescription(), type.cast(item)));
 		});
 
 		return builder.build();

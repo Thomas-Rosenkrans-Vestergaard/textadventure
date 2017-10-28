@@ -1,48 +1,27 @@
 package textadventure.items.backpack;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import textadventure.Character;
 import textadventure.Game;
-import textadventure.Player;
 import textadventure.actions.ActionPerformCallback;
-import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
-import textadventure.items.NotEnoughItemsException;
-import textadventure.items.SlotOutOfRangeException;
 import textadventure.items.chest.TakeItemFromChestAction;
 import textadventure.rooms.Floor;
 import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;
 import textadventure.ui.Option;
+import textadventure.ui.Select;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * {@link textadventure.actions.Action} that allows a player to pickup items {@link textadventure.items.Item}(s) from
- * the {@link Floor}.
+ * {@link textadventure.actions.Action} that allows a {@link Character} to pick up {@link Item}s from the
+ * {@link Floor}, placing the {@link Item}s in their {@link Backpack}.
  */
 public class PickupItemAction extends BackpackAction
 {
-
-	/**
-	 * The possible {@link Outcome}s of the {@link PickupItemAction}.
-	 */
-	public enum Outcome
-	{
-
-		/**
-		 * The {@link Item}(s) were correctly picked up.
-		 */
-		SUCCESS,
-
-		/**
-		 * One or more {@link Item} could not be picked up, since the {@link Backpack} of the {@link Character} was
-		 * full.
-		 */
-		INVENTORY_FULL,
-	}
-
-	/**
-	 * The {@link Outcome} of the {@link PickupItemAction}.
-	 */
-	private Outcome outcome;
 
 	/**
 	 * {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
@@ -50,14 +29,14 @@ public class PickupItemAction extends BackpackAction
 	private ActionPerformCallback<PickupItemAction> callback;
 
 	/**
-	 * The {@link Item}(s) that were picked up.
+	 * The {@link Item}s that were picked up.
 	 */
 	private ImmutableList.Builder<Item> items = new ImmutableList.Builder<>();
 
 	/**
 	 * Creates a new {@link PickupItemAction}.
 	 *
-	 * @param backpack The {@link Backpack} to discard {@link textadventure.items.Item}s from.
+	 * @param backpack The {@link Backpack} to drop {@link textadventure.items.Item}s from.
 	 */
 	public PickupItemAction(Backpack backpack, ActionPerformCallback<PickupItemAction> callback)
 	{
@@ -67,41 +46,48 @@ public class PickupItemAction extends BackpackAction
 	}
 
 	/**
-	 * Performs the {@link PickupItemAction} using the provided parameters.
+	 * Performs the {@link PickupItemAction} using the provided arguments.
 	 *
 	 * @param game      The {@link Game} instance.
-	 * @param player    The {@link Player} performing the {@link PickupItemAction}.
+	 * @param character The {@link Character} performing the {@link PickupItemAction}.
 	 * @param arguments The arguments provided to the {@link PickupItemAction}.
 	 */
-	@Override public void perform(Game game, Player player, String[] arguments)
+	@Override public void perform(Game game, Character character, String[] arguments)
 	{
-		GameInterface gameInterface = game.getGameInterface();
-		Floor         floor         = player.getCharacter().getCurrentLocation().getFloor();
-		Backpack      backpack      = getBackpack();
-		gameInterface.select(game, player, new BaseSelect<>(floor.asOptions(), selection -> {
+		GameInterface              gameInterface = game.getGameInterface();
+		Floor                      floor         = character.getCurrentLocation().getFloor();
+		Backpack                   backpack      = getBackpack();
+		ImmutableSet<Option<Item>> options       = floor.asOptions(Item.class);
+
+		Select<Item> select = new BaseSelect<>(options, selection -> {
 			try {
+
 				for (Option option : selection) {
 					Item item = floor.takeItem(option.getOptionIndex());
 					backpack.addItem(item);
 					this.items.add(item);
 				}
 
-				this.outcome = Outcome.SUCCESS;
-				callback.send(game, player, this);
-			} catch (SlotOutOfRangeException | NotEnoughItemsException | InventoryFullException e) {
-				throw new IllegalStateException();
+			} catch (Exception e) {
+				setException(e);
 			}
-		}));
-	}
+		});
 
-	/**
-	 * Returns the {@link Outcome} of the {@link PickupItemAction}.
-	 *
-	 * @return The {@link Outcome} of the {@link PickupItemAction}.
-	 */
-	public Outcome getOutcome()
-	{
-		return this.outcome;
+		try {
+
+			if (arguments.length > 0) {
+				List<Integer> indices = new ArrayList<>();
+				for (String argument : arguments) indices.add(Integer.parseInt(argument));
+				select.selectIndices(indices);
+				return;
+			}
+
+			gameInterface.select(game, character, select);
+		} catch (Exception e) {
+			setException(e);
+		} finally {
+			callback.send(game, character, this);
+		}
 	}
 
 	/**

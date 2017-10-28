@@ -85,18 +85,18 @@ public interface Character extends PropertyContainer
 	void setBoots(Boots boots);
 
 	/**
-	 * Returns the {@link Torso} of the {@link Character}.
+	 * Returns the {@link Torsowear} of the {@link Character}.
 	 *
-	 * @return The {@link Torso} of the {@link Character}.
+	 * @return The {@link Torsowear} of the {@link Character}.
 	 */
-	Torso getTorso();
+	Torsowear getTorso();
 
 	/**
-	 * Sets the {@link Torso} of the {@link Character}.
+	 * Sets the {@link Torsowear} of the {@link Character}.
 	 *
-	 * @param torso The {@link Torso} to set.
+	 * @param torso The {@link Torsowear} to set.
 	 */
-	void setTorso(Torso torso);
+	void setTorso(Torsowear torso);
 
 	/**
 	 * Returns the {@link Gloves} of the {@link Character}.

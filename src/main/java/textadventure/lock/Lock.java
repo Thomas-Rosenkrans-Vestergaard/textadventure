@@ -15,13 +15,21 @@ public class Lock extends BaseProperty
 	 */
 	public enum State
 	{
+
+		/**
+		 * The {@link Lock} is locked.
+		 */
 		LOCKED,
+
+		/**
+		 * The {@link Lock} is unlocked.
+		 */
 		UNLOCKED,
 	}
 
 	/**
-	 * The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with matching
-	 * codes.
+	 * The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with a matching
+	 * code.
 	 */
 	private final String code;
 
@@ -33,8 +41,8 @@ public class Lock extends BaseProperty
 	/**
 	 * Creates a new {@link Lock}.
 	 *
-	 * @param code  The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with
-	 *              matching codes.
+	 * @param code  The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with a
+	 *              matching code.
 	 * @param state The state of the {@link Lock}.
 	 */
 	public Lock(String code, State state)
@@ -69,18 +77,18 @@ public class Lock extends BaseProperty
 	 * Lock the {@link Lock} using the provided {@link Key}.
 	 *
 	 * @param key The {@link Key} to use when locking the {@link Lock}.
-	 * @throws AlreadyLockedException When the {@link Lock} is already {@link Lock.State#LOCKED}.
+	 * @throws LockAlreadyLockedException When the {@link Lock} is already {@link Lock.State#LOCKED}.
 	 * @throws IncorrectKeyException  When the incorrect {@link Key} is used on the {@link Lock}.
 	 */
-	public void lock(Key key) throws AlreadyLockedException, IncorrectKeyException
+	public void lock(Key key) throws LockAlreadyLockedException, IncorrectKeyException
 	{
 
 		if (state == LOCKED) {
-			throw new AlreadyLockedException();
+			throw new LockAlreadyLockedException(this);
 		}
 
 		if (!code.equals(key.getCode())) {
-			throw new IncorrectKeyException();
+			throw new IncorrectKeyException(this, key);
 		}
 
 		state = LOCKED;
@@ -90,29 +98,29 @@ public class Lock extends BaseProperty
 	 * Unlocks the {@link Lock} using the provided {@link Key}.
 	 *
 	 * @param key The {@link Key} to use when unlocking the {@link Lock}.
-	 * @throws AlreadyUnlockedException When the {@link Lock} is already {@link Lock.State#LOCKED}.
+	 * @throws LockAlreadyUnlockedException When the {@link Lock} is already {@link Lock.State#LOCKED}.
 	 * @throws IncorrectKeyException    When the incorrect {@link Key} is used on the {@link Lock}.
 	 */
-	void unlock(Key key) throws AlreadyUnlockedException, IncorrectKeyException
+	void unlock(Key key) throws LockAlreadyUnlockedException, IncorrectKeyException
 	{
 
 		if (state == UNLOCKED) {
-			throw new AlreadyUnlockedException();
+			throw new LockAlreadyUnlockedException(this);
 		}
 
 		if (!code.equals(key.getCode())) {
-			throw new IncorrectKeyException();
+			throw new IncorrectKeyException(this, key);
 		}
 
 		state = UNLOCKED;
 	}
 
 	/**
-	 * Returns the code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with
-	 * matching codes.
+	 * Returns the code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with a
+	 * matching code.
 	 *
-	 * @return The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with
-	 * matching codes.
+	 * @return The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with a
+	 * matching code.
 	 */
 	public String getCode()
 	{

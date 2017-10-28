@@ -20,6 +20,8 @@ public class InventoryFullException extends InventoryException
 	public InventoryFullException(Inventory inventory, Item item)
 	{
 		super(inventory);
+
+		this.item = item;
 	}
 
 	/**

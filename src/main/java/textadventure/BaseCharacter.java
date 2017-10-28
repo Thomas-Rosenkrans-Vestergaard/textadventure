@@ -10,6 +10,8 @@ import textadventure.items.wearables.*;
 import textadventure.rooms.Room;
 import textadventure.ui.GameInterface;
 
+import java.awt.*;
+
 public class BaseCharacter extends BasePropertyContainer implements Character
 {
 
@@ -82,7 +84,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	/**
 	 * the armour you wear on the {@link Character}.
 	 */
-	private Torso torso;
+	private Torsowear torso;
 
 	/**
 	 * the headgear you wear on the {@link Character}.
@@ -126,7 +128,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 			String name,
 			Backpack backpack,
 			Headwear headwear,
-			Torso torso,
+			Torsowear torso,
 			Gloves gloves,
 			Pants pants,
 			Boots boots,
@@ -174,11 +176,11 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		this(
 				name,
 				backpack,
-				new WornDownCargoCap(),
-				new WornDownCargoTshirt(),
+				new WornDownCap(1.0, Color.BLUE),
+				new WornDownSweatshirt(1.0, Color.GRAY),
 				null,
-				new WornDownCargoPants(),
-				new WornDownCargoBoots(),
+				new WornDownCargoPants(1.0, Color.GREEN),
+				new WornDownWorkBoots(1.0, Color.BLACK),
 				new Fist(),
 				currentLocation,
 				DEFAULT_MAX_HP,
@@ -270,21 +272,21 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the {@link Torso} of the {@link java.lang.Character}.
+	 * Returns the {@link Torsowear} of the {@link java.lang.Character}.
 	 *
-	 * @return The {@link Torso} of the {@link java.lang.Character}.
+	 * @return The {@link Torsowear} of the {@link java.lang.Character}.
 	 */
-	@Override public Torso getTorso()
+	@Override public Torsowear getTorso()
 	{
 		return torso;
 	}
 
 	/**
-	 * Sets the {@link Torso} of the {@link java.lang.Character}.
+	 * Sets the {@link Torsowear} of the {@link java.lang.Character}.
 	 *
-	 * @param torso The {@link Torso} to set.
+	 * @param torso The {@link Torsowear} to set.
 	 */
-	@Override public void setTorso(Torso torso)
+	@Override public void setTorso(Torsowear torso)
 	{
 		this.torso = torso;
 	}

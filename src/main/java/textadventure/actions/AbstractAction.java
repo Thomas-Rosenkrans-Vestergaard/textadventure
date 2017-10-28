@@ -1,30 +1,36 @@
 package textadventure.actions;
 
-import textadventure.Character;
-import textadventure.Game;
-
 import java.util.function.Consumer;
 
-public interface Action
+public abstract class AbstractAction implements Action
 {
 
 	/**
-	 * Performs the {@link Action} using the provided arguments.
-	 *
-	 * @param game      The {@link Game} instance.
-	 * @param character The {@link Character} performing the {@link Action}.
-	 * @param arguments The arguments provided to the {@link Action}.
+	 * The {@link Exception} that was thrown during execution of the {@link Action}.
 	 */
-	void perform(Game game, Character character, String[] arguments);
+	private Exception exception;
+
+	/**
+	 * Sets the {@link Exception} that was thrown during execution of the {@link Action}.
+	 *
+	 * @param exception The {@link Exception} that was thrown during execution of the {@link Action}.
+	 */
+	protected void setException(Exception exception)
+	{
+		this.exception = exception;
+	}
 
 	/**
 	 * Provides some code to call when an exception {@link T} has occurred.
 	 *
 	 * @param exceptionClass The class instance of type {@link T}.
 	 * @param callback       The code to call if the provided type of {@link Exception} was thrown.
-	 * @param <T>            The type of {@link Exception} to trigger the code for.
 	 */
-	<T extends Exception> void onException(Class<T> exceptionClass, Consumer<T> callback);
+	@Override public <T extends Exception> void onException(Class<T> exceptionClass, Consumer<T> callback)
+	{
+		if (exceptionClass.isInstance(exception))
+			callback.accept(exceptionClass.cast(exception));
+	}
 
 	/**
 	 * Provides some code to call when the {@link Action} succeeded. The {@link Action} was successful when no
@@ -32,7 +38,11 @@ public interface Action
 	 *
 	 * @param callback The code to call if the {@link Action} succeeded.
 	 */
-	void onSuccess(Runnable callback);
+	@Override public void onSuccess(Runnable callback)
+	{
+		if (exception == null)
+			callback.run();
+	}
 
 	/**
 	 * Returns the {@link Exception} that occurred while performing the {@link Action}. Returns <code>null</code> if
@@ -41,5 +51,8 @@ public interface Action
 	 * @return The {@link Exception} that occurred while performing the {@link Action}. Returns <code>null</code> if
 	 * no {@link Exception} was thrown.
 	 */
-	Exception getException();
+	@Override public Exception getException()
+	{
+		return exception;
+	}
 }

@@ -1,11 +1,19 @@
 package textadventure.items.chest;
 
-import textadventure.GameException;
-
 /**
- * Thrown by {@link Chest} when some {@link textadventure.actions.Action} attempted to open or close a locked {@link Chest}.
+ * Thrown when {@link Chest#open()} or {@link Chest#close()} is called on a
+ * {@link textadventure.lock.Lock.State#LOCKED} {@link Chest}.
  */
-public class ChestLockedException extends GameException
+public class ChestLockedException extends ChestException
 {
 
+	/**
+	 * Creates a new {@link ChestLockedException}.
+	 *
+	 * @param chest The {@link Chest} that was {@link textadventure.lock.Lock.State#LOCKED}.
+	 */
+	public ChestLockedException(Chest chest)
+	{
+		super(chest);
+	}
 }

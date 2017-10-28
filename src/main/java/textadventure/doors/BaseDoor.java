@@ -81,17 +81,17 @@ public class BaseDoor extends BasePropertyContainer implements Door
 	/**
 	 * Opens the {@link Door}.
 	 *
-	 * @throws DoorAlreadyOpenException When the {@link Door} is already open.
-	 * @throws DoorLockedException      When the {@link Door} is locked.
+	 * @throws DoorAlreadyOpenException When the {@link Door} is already {@link State#OPEN}.
+	 * @throws DoorLockedException      When the {@link Door} is {@link Lock.State#LOCKED}.
 	 */
-	public void open() throws DoorAlreadyOpenException, DoorLockedException
+	@Override public void open() throws DoorAlreadyOpenException, DoorLockedException
 	{
 		if (state == State.OPEN) {
-			throw new DoorAlreadyOpenException();
+			throw new DoorAlreadyOpenException(this);
 		}
 
 		if (lock.getState() == Lock.State.LOCKED) {
-			throw new DoorLockedException();
+			throw new DoorLockedException(this, lock);
 		}
 
 		this.state = State.OPEN;
@@ -100,17 +100,17 @@ public class BaseDoor extends BasePropertyContainer implements Door
 	/**
 	 * Closes the {@link Door}.
 	 *
-	 * @throws DoorAlreadyClosedException When the {@link Door} is already closed.
-	 * @throws DoorLockedException        When the {@link Door} is locked.
+	 * @throws DoorAlreadyClosedException When the {@link Door} is already {@link State#CLOSED}.
+	 * @throws DoorLockedException        When the {@link Door} is {@link Lock.State#LOCKED}.
 	 */
-	public void close() throws DoorAlreadyClosedException, DoorLockedException
+	@Override public void close() throws DoorAlreadyClosedException, DoorLockedException
 	{
 		if (state == State.CLOSED) {
-			throw new DoorAlreadyClosedException();
+			throw new DoorAlreadyClosedException(this);
 		}
 
 		if (lock.getState() == Lock.State.LOCKED) {
-			throw new DoorLockedException();
+			throw new DoorLockedException(this, lock);
 		}
 
 		this.state = State.CLOSED;
