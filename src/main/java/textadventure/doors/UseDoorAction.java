@@ -1,7 +1,6 @@
 package textadventure.doors;
 
 import textadventure.Character;
-import textadventure.Game;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.rooms.Room;
 import textadventure.ui.GameInterface;

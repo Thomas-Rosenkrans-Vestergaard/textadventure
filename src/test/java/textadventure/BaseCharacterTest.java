@@ -11,8 +11,8 @@ import static org.junit.Assert.*;
 public class BaseCharacterTest
 {
 
-	Backpack backpack;
-	Room room;
+	Backpack  backpack;
+	Room      room;
 	Character character;
 
 	@Before
@@ -20,7 +20,8 @@ public class BaseCharacterTest
 	{
 		backpack = new Backpack(10);
 		room = new BaseRoom("roomName", "roomDescription");
-		character = new BaseCharacter("name", backpack, room, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+		character = new BaseCharacter("name", backpack, null, null, null, null, null, null, room, 1, 2, 3, 4, 5, 6,
+				7, 8, 9);
 	}
 
 	@Test

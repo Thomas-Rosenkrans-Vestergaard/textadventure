@@ -15,7 +15,7 @@ public abstract class AbstractAction implements Action
 	 *
 	 * @param exception The {@link Exception} that was thrown during execution of the {@link Action}.
 	 */
-	protected void setException(Exception exception)
+	public void setException(Exception exception)
 	{
 		this.exception = exception;
 	}
@@ -54,5 +54,16 @@ public abstract class AbstractAction implements Action
 	@Override public Exception getException()
 	{
 		return exception;
+	}
+
+	/**
+	 * Checks if the {@link Action} responded with an {@link Exception} of the provided {@link Class}.
+	 *
+	 * @param exceptionClass The {@link Exception} type to check for.
+	 * @return <code>true</code> or <code>false</code>.
+	 */
+	@Override public boolean hasException(Class<?> exceptionClass)
+	{
+		return exceptionClass.isInstance(exception);
 	}
 }

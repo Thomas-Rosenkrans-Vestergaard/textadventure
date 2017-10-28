@@ -42,4 +42,12 @@ public interface Action
 	 * no {@link Exception} was thrown.
 	 */
 	Exception getException();
+
+	/**
+	 * Checks if the {@link Action} responded with an {@link Exception} of the provided {@link Class}.
+	 *
+	 * @param exceptionClass The {@link Exception} type to check for.
+	 * @return <code>true</code> or <code>false</code>.
+	 */
+	boolean hasException(Class<?> exceptionClass);
 }

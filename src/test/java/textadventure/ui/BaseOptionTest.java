@@ -8,54 +8,51 @@ public class BaseOptionTest
 {
 
 	@Test
-	public void getOptionIdentifier() throws Exception
+	public void getOptionIndex() throws Exception
 	{
-		int    identifier  = 10;
-		String name        = "OptionName";
-		String description = "OptionDescription";
-		Option option      = new BaseOption(identifier, name, description);
-		assertEquals(identifier, (long) option.getOptionIndex());
+		int    expected = 10;
+		Option option   = new BaseOption(expected, null, null, null);
+		assertEquals(expected, (long) option.getOptionIndex());
 	}
 
 	@Test
 	public void getOptionName() throws Exception
 	{
-		int    identifier  = 10;
-		String name        = "OptionName";
-		String description = "OptionDescription";
-		Option option      = new BaseOption(identifier, name, description);
-		assertSame(name, option.getOptionName());
+		String expected = "OptionName";
+		Option option   = new BaseOption(0, expected, null, null);
+		assertSame(expected, option.getOptionName());
 	}
 
 	@Test
 	public void getOptionDescription() throws Exception
 	{
-		int    identifier  = 10;
-		String name        = "OptionName";
-		String description = "OptionDescription";
-		Option option      = new BaseOption(identifier, name, description);
-		assertSame(description, option.getOptionDescription());
+		String expected = "OptionDescription";
+		Option option   = new BaseOption(0, null, expected, null);
+		assertSame(expected, option.getOptionDescription());
+	}
+
+	@Test
+	public void getT() throws Exception
+	{
+		String         expected = "T";
+		Option<String> option   = new BaseOption<>(0, null, null, expected);
+		assertSame(expected, option.getT());
 	}
 
 	@Test
 	public void testHashCode() throws Exception
 	{
-		int    identifier  = 10;
-		String name        = "OptionName";
-		String description = "OptionDescription";
-		Option option      = new BaseOption(identifier, name, description);
-		assertEquals(identifier, option.hashCode());
+		int    expected = 10;
+		Option option   = new BaseOption(expected, null, null, null);
+		assertEquals(expected, option.hashCode());
 	}
 
 	@Test
 	public void testEquals() throws Exception
 	{
-		String name        = "OptionName";
-		String description = "OptionDescription";
-
-		Option a = new BaseOption(10, name, description);
-		Option b = new BaseOption(10, name, description);
-		Option c = new BaseOption(20, name, description);
+		Option a = new BaseOption(10, null, null, null);
+		Option b = new BaseOption(10, null, null, null);
+		Option c = new BaseOption(20, null, null, null);
 
 		assertTrue(a.equals(b));
 		assertTrue(b.equals(a));
