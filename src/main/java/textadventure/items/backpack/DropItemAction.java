@@ -64,12 +64,14 @@ public class DropItemAction extends BackpackAction
 			try {
 
 				for (Option option : selection) {
-					Item item = backpack.takeItem(option.getOptionIndex());
+					Item item = backpack.getItem(option.getOptionIndex());
 					floor.addItem(item);
+					backpack.takeItem(option.getOptionIndex());
 					this.items.add(item);
 				}
 
 			} catch (Exception e) {
+				System.out.println(e);
 				setException(e);
 			}
 		});

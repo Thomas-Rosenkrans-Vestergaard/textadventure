@@ -58,13 +58,13 @@ public class Chest extends BaseInventory implements PropertyContainer
 	/**
 	 * Creates a new {@link Chest}.
 	 *
-	 * @param slots The number of slots available in the {@link Chest}.
+	 * @param positions The number of positions available in the {@link Chest}.
 	 * @param state The {@link State} of the {@link Chest}.
 	 * @param lock  The {@link Lock} on the {@link Chest}.
 	 */
-	public Chest(int slots, State state, Lock lock)
+	public Chest(int positions, State state, Lock lock)
 	{
-		super(slots);
+		super(positions);
 		this.state = state;
 		this.lock = lock;
 	}

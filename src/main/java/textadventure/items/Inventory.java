@@ -13,25 +13,7 @@ public interface Inventory
 {
 
 	/**
-	 * Returns an {@link ImmutableMap} of the slots in the {@link Inventory}. The map entries is information about
-	 * the {@link Item} in the slot mapped to the position of the slot in the {@link Inventory}. Only non-empty slots
-	 * are included.
-	 *
-	 * @return The {@link ImmutableMap}.
-	 */
-	ImmutableMap<Integer, ItemType> getSlots();
-
-	/**
-	 * Returns an {@link ImmutableMap} of the slots in the {@link Inventory}. The map entries is the amount of
-	 * {@link Item}s in the slot mapped to the position of the slot in the {@link Inventory}. Only non-empty slots
-	 * are included.
-	 *
-	 * @return The {@link ImmutableMap}.
-	 */
-	ImmutableMap<Integer, Integer> getSlotAmounts();
-
-	/**
-	 * Adds the provided {@link Item} to the first available {@link Inventory} slot.
+	 * Adds the provided {@link Item} to the first available {@link Inventory} position.
 	 *
 	 * @param item The {@link Item} to put to the {@link Inventory}.
 	 * @throws InventoryFullException When the {@link Item} could not be added.
@@ -39,59 +21,116 @@ public interface Inventory
 	void addItem(Item item) throws InventoryFullException;
 
 	/**
-	 * Adds the provided {@link Item} to the slot at the provided position.
+	 * Adds the provided {@link Item} to the position at the provided position.
 	 *
-	 * @param item The {@link Item} to add to the {@link Inventory}.
-	 * @param slot The position of the slot where the {@link Item} should be added.
-	 * @throws SlotOutOfRangeException        When the provided slot doesn't exist.
-	 * @throws InventoryTypeMismatchException When the type of the {@link Item} to insert doesn't match the type of
-	 *                                        the slot where the {@link Item} should be added.
+	 * @param item     The {@link Item} to add to the {@link Inventory}.
+	 * @param position The position of the position where the {@link Item} should be added.
+	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
 	 */
-	void addItem(Item item, int slot) throws SlotOutOfRangeException, InventoryTypeMismatchException;
+	void addItem(Item item, int position) throws PositionRangeException, TypeMismatchException;
 
 	/**
-	 * Returns the last inserted {@link Item} from the slot at the provided position. The {@link Item} is removed from
-	 * the slot afterwards.
+	 * Returns the last inserted {@link Item} from the position at the provided position. The {@link Item} is removed from
+	 * the position afterwards.
 	 *
-	 * @param slot The position of the slot from where to take the last {@link Item}.
+	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @return The {@link Item}.
-	 * @throws SlotOutOfRangeException When the provided slot doesn't exist.
-	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws EmptyPositionException When the provided position is empty.
 	 */
-	Item takeItem(int slot) throws SlotOutOfRangeException, NotEnoughItemsException;
+	Item takeItem(int position) throws PositionRangeException, EmptyPositionException;
 
 	/**
-	 * Returns one or more {@link Item}s from the slot at the provided position. The {@link Item}s are removed from the slot
+	 * Returns the last inserted {@link Item} from the position at the provided position. The {@link Item} is removed from
+	 * the position afterwards. The {@link Item} at the position must be of the provided {@link Class} type.
+	 *
+	 * @param position The position of the position from where to take the last {@link Item}.
+	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
+	 * @return The {@link Item}.
+	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws EmptyPositionException When the provided position is empty.
+	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
+	 */
+	<T extends Item> T takeItem(int position, Class<T> type) throws PositionRangeException, EmptyPositionException, TypeMismatchException;
+
+	/**
+	 * Returns one or more {@link Item}s from the position at the provided position. The {@link Item}s are removed from the position
 	 * afterwards.
 	 *
-	 * @param slot   The position of the slot from where to take the last {@link Item}.
-	 * @param amount The amount of {@link Item}s to take from the {@link Inventory}.
+	 * @param position The position of the position from where to take the last {@link Item}.
+	 * @param amount   The amount of {@link Item}s to take from the {@link Inventory}.
 	 * @return The {@link Stack} containing the taken {@link Item}s.
-	 * @throws SlotOutOfRangeException When the provided slot doesn't exist.
-	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 * @throws PositionRangeException  When the provided position doesn't exist.
+	 * @throws EmptyPositionException  When the provided position is empty.
+	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve the request.
 	 */
-	Stack<Item> takeItem(int slot, int amount) throws SlotOutOfRangeException, NotEnoughItemsException;
+	Stack<Item> takeItems(int position, int amount) throws PositionRangeException, EmptyPositionException, NotEnoughItemsException;
 
 	/**
-	 * Returns the last inserted {@link Item} from the slot at the provided position.
+	 * Returns one or more {@link Item}s from the position at the provided position. The {@link Item}s are removed from the position
+	 * afterwards. The {@link Item}s at the position must be of the provided {@link Class} type.
 	 *
-	 * @param slot The position of the slot from where to take the last {@link Item}.
+	 * @param position The position of the position from where to take the last {@link Item}.
+	 * @param amount   The amount of {@link Item}s to take from the {@link Inventory}.
+	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
+	 * @return The {@link Stack} containing the taken {@link Item}s.
+	 * @throws PositionRangeException  When the provided position doesn't exist.
+	 * @throws EmptyPositionException  When the provided position is empty.
+	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve the request.
+	 * @throws TypeMismatchException   When the types of {@link Item} doesn't match.
+	 */
+	<T extends Item> Stack<T> takeItems(int position, int amount, Class<T> type) throws PositionRangeException, EmptyPositionException, NotEnoughItemsException, TypeMismatchException;
+
+	/**
+	 * Returns the last inserted {@link Item} from the position at the provided position.
+	 *
+	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @return The {@link Item}.
-	 * @throws SlotOutOfRangeException When the provided slot doesn't exist.
-	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws EmptyPositionException When the provided position is empty.
 	 */
-	Item getItem(int slot) throws SlotOutOfRangeException, NotEnoughItemsException;
+	Item getItem(int position) throws PositionRangeException, EmptyPositionException;
 
 	/**
-	 * Returns one or more {@link Item}s from the provided slot position.
+	 * Returns the last inserted {@link Item} from the position at the provided position. The {@link Item} at the
+	 * position must be of the provided {@link Class} type.
 	 *
-	 * @param slot   The position of the slot from where to get the last {@link Item}.
-	 * @param amount The amount of {@link Item}s to get from the {@link Inventory}.
-	 * @return The {@link Stack} containing the taken {@link Item}s.
-	 * @throws SlotOutOfRangeException When the provided slot doesn't exist.
-	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 * @param position The position of the position from where to take the last {@link Item}.
+	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
+	 * @return The {@link Item}.
+	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws EmptyPositionException When the provided position is empty.
+	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
 	 */
-	Stack<Item> getItem(int slot, int amount) throws SlotOutOfRangeException, NotEnoughItemsException;
+	<T extends Item> T getItem(int position, Class<T> type) throws PositionRangeException, EmptyPositionException, TypeMismatchException;
+
+	/**
+	 * Returns one or more {@link Item}s from the provided position position.
+	 *
+	 * @param position The position of the position from where to get the last {@link Item}.
+	 * @param amount   The amount of {@link Item}s to get from the {@link Inventory}.
+	 * @return The {@link Stack} containing the taken {@link Item}s.
+	 * @throws PositionRangeException  When the provided position is outside the legal range.
+	 * @throws EmptyPositionException  When the provided position is empty.
+	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve a request.
+	 */
+	Stack<Item> getItems(int position, int amount) throws PositionRangeException, EmptyPositionException, NotEnoughItemsException;
+
+	/**
+	 * Returns one or more {@link Item}s from the provided position position. The {@link Item}s at the
+	 * position must be of the provided {@link Class} type.
+	 *
+	 * @param position The position of the position from where to get the last {@link Item}.
+	 * @param amount   The amount of {@link Item}s to get from the {@link Inventory}.
+	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
+	 * @return The {@link Stack} containing the taken {@link Item}s.
+	 * @throws PositionRangeException  When the provided position is outside the legal range.
+	 * @throws EmptyPositionException  When the provided position is empty.
+	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve a request.
+	 * @throws TypeMismatchException   When the types of {@link Item} doesn't match.
+	 */
+	<T extends Item> Stack<T> getItems(int position, int amount, Class<T> type) throws PositionRangeException, EmptyPositionException, NotEnoughItemsException, TypeMismatchException;
 
 	/**
 	 * Returns the number of {@link Item}s contained in the {@link Inventory}.
@@ -101,56 +140,73 @@ public interface Inventory
 	int getNumberOfItems();
 
 	/**
-	 * Returns the number of {@link Item}s contained in the slot at the provided position.
+	 * Returns the number of {@link Item}s contained in the position at the provided position.
 	 *
-	 * @param slot The position of the slot from where to return the number of {@link Item}s.
-	 * @return The number of {@link Item}s contained in the slot with the provided position.
-	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
+	 * @param position The position of the position from where to return the number of {@link Item}s.
+	 * @return The number of {@link Item}s contained in the position with the provided position.
+	 * @throws PositionRangeException When the provided position position is out of the legal range.
 	 */
-	int getNumberOfItems(int slot) throws SlotOutOfRangeException;
+	int getNumberOfItems(int position) throws PositionRangeException;
 
 	/**
-	 * Returns the maximum number of slots in the {@link Inventory}.
+	 * Returns an {@link ImmutableMap} of the positions in the {@link Inventory}. The map entries is the amount of
+	 * {@link Item}s in the position mapped to the position of the position in the {@link Inventory}. Only non-empty
+	 * positions are included.
 	 *
-	 * @return The maximum number of slots in the {@link Inventory}.
+	 * @return The {@link ImmutableMap}.
 	 */
-	int getNumberOfSlots();
+	ImmutableMap<Integer, Integer> getPositionAmounts();
 
 	/**
-	 * Returns the number of empty slots in the {@link Inventory}.
+	 * Returns the maximum number of positions in the {@link Inventory}.
 	 *
-	 * @return The number of empty slots in the {@link Inventory}.
+	 * @return The maximum number of positions in the {@link Inventory}.
 	 */
-	int getNumberOfEmptySlots();
+	int getNumberOfPositions();
 
 	/**
-	 * Returns the number of non-empty slots in the {@link Inventory}.
+	 * Returns the number of empty positions in the {@link Inventory}.
 	 *
-	 * @return The number of non-empty slots in the {@link Inventory}.
+	 * @return The number of empty positions in the {@link Inventory}.
 	 */
-	int getNumberOfNonEmptySlots();
+	int getNumberOfEmptyPositions();
 
 	/**
-	 * Expands the number of slots in the {@link Inventory} with the provided number of slots.
+	 * Returns the number of non-empty positions in the {@link Inventory}.
 	 *
-	 * @param slots The number of slots to expand the {@link Inventory} with.
-	 * @return Whether or not the number of slots in the {@link Inventory} could be expanded.
+	 * @return The number of non-empty positions in the {@link Inventory}.
 	 */
-	boolean expand(int slots);
+	int getNumberOfNonEmptyPositions();
 
 	/**
-	 * Returns the slots in the {@link Inventory} as {@link Option}s.
+	 * Returns an {@link ImmutableMap} of the positions in the {@link Inventory}. The map entries is information about
+	 * the {@link Item} in the position mapped to the position of the position in the {@link Inventory}. Only non-empty positions are included.
+	 *
+	 * @return The {@link ImmutableMap}.
+	 */
+	ImmutableMap<Integer, ItemType> getPositions();
+
+	/**
+	 * Expands the number of positions in the {@link Inventory} with the provided number of positions.
+	 *
+	 * @param positions The number of positions to expand the {@link Inventory} with.
+	 * @return Whether or not the number of positions in the {@link Inventory} could be expanded.
+	 */
+	boolean expand(int positions);
+
+	/**
+	 * Returns the positions in the {@link Inventory} as {@link Option}s.
 	 *
 	 * @return The {@link ImmutableSet} of {@link Option}s.
 	 */
 	ImmutableSet<Option<Item>> asOptions();
 
 	/**
-	 * Returns the slots in the {@link Inventory} with the provided {@link Class} type.
+	 * Returns the positions in the {@link Inventory} with the provided {@link Class} type.
 	 *
 	 * @param type The type of the {@link Item} to return.
 	 * @param <T>  The type.
-	 * @return The slots in the {@link Inventory} with the provided {@link Class} type.
+	 * @return The positions in the {@link Inventory} with the provided {@link Class} type.
 	 */
 	<T extends Item> ImmutableSet<Option<T>> asOptions(Class<T> type);
 }

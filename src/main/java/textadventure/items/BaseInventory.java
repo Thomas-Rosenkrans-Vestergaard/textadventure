@@ -18,19 +18,19 @@ public class BaseInventory implements Inventory
 	private HashMap<Integer, Stack<Item>> items;
 
 	/**
-	 * The {@link ItemType} of a slot mapped to its position in the {@link Inventory}.
+	 * The {@link ItemType} of a position mapped to its position in the {@link Inventory}.
 	 */
 	private HashMap<Integer, ItemType> types;
 
 	/**
-	 * The number of slots the {@link Inventory} can contain.
+	 * The number of positions the {@link Inventory} can contain.
 	 */
-	private int numberOfSlots;
+	private int numberOfPositions;
 
 	/**
-	 * The number of empty slots the {@link Inventory} has.
+	 * The number of empty positions the {@link Inventory} has.
 	 */
-	private int numberOfEmptySlots;
+	private int numberOfEmptyPositions;
 
 	/**
 	 * The number of {@link Item}s contained in the {@link Inventory}.
@@ -38,7 +38,7 @@ public class BaseInventory implements Inventory
 	private int numberOfItems;
 
 	/**
-	 * Creates a new {@link BaseInventory} using <code>Integer.MAX_VALUE</code> as the number of slots the
+	 * Creates a new {@link BaseInventory} using <code>Integer.MAX_VALUE</code> as the number of positions the
 	 * {@link Inventory} can contain.
 	 */
 	public BaseInventory()
@@ -49,26 +49,26 @@ public class BaseInventory implements Inventory
 	/**
 	 * Creates a new {@link BaseInventory}.
 	 *
-	 * @param numberOfSlots The number of slots the {@link Inventory} can contain.
+	 * @param numberOfPositions The number of positions the {@link Inventory} can contain.
 	 */
-	public BaseInventory(int numberOfSlots)
+	public BaseInventory(int numberOfPositions)
 	{
-		this.items = new HashMap<>(numberOfSlots);
-		this.types = new HashMap<>(numberOfSlots);
-		this.numberOfSlots = numberOfSlots;
-		this.numberOfEmptySlots = numberOfSlots;
-		this.numberOfEmptySlots = numberOfSlots;
+		this.items = new HashMap<>();
+		this.types = new HashMap<>();
+		this.numberOfPositions = numberOfPositions;
+		this.numberOfEmptyPositions = numberOfPositions;
+		this.numberOfEmptyPositions = numberOfPositions;
 		this.numberOfItems = 0;
 	}
 
 	/**
-	 * Returns an {@link ImmutableMap} of the slots in the {@link Inventory}. The map entries is information about
-	 * the {@link Item} in the slot mapped to the position of the slot in the {@link Inventory}. Only non-empty slots
+	 * Returns an {@link ImmutableMap} of the positions in the {@link Inventory}. The map entries is information about
+	 * the {@link Item} in the position mapped to the position of the position in the {@link Inventory}. Only non-empty positions
 	 * are included.
 	 *
 	 * @return The {@link ImmutableMap}.
 	 */
-	@Override public ImmutableMap<Integer, ItemType> getSlots()
+	@Override public ImmutableMap<Integer, ItemType> getPositions()
 	{
 		ImmutableMap.Builder<Integer, ItemType> builder = new ImmutableMap.Builder<>();
 		for (Map.Entry<Integer, Stack<Item>> entry : items.entrySet()) {
@@ -79,13 +79,13 @@ public class BaseInventory implements Inventory
 	}
 
 	/**
-	 * Returns an {@link ImmutableMap} of the slots in the {@link Inventory}. The map entries is the amount of
-	 * {@link Item}s in the slot mapped to the position of the slot in the {@link Inventory}. Only non-empty slots
+	 * Returns an {@link ImmutableMap} of the positions in the {@link Inventory}. The map entries is the amount of
+	 * {@link Item}s in the position mapped to the position of the position in the {@link Inventory}. Only non-empty positions
 	 * are included.
 	 *
 	 * @return The {@link ImmutableMap}.
 	 */
-	@Override public ImmutableMap<Integer, Integer> getSlotAmounts()
+	@Override public ImmutableMap<Integer, Integer> getPositionAmounts()
 	{
 		ImmutableMap.Builder<Integer, Integer> builder = new ImmutableMap.Builder<>();
 		for (Map.Entry<Integer, Stack<Item>> entry : items.entrySet()) {
@@ -96,7 +96,7 @@ public class BaseInventory implements Inventory
 	}
 
 	/**
-	 * Adds the provided {@link Item} to the first available {@link Inventory} slot.
+	 * Adds the provided {@link Item} to the first available {@link Inventory} position.
 	 *
 	 * @param item The {@link Item} to put to the {@link Inventory}.
 	 * @throws InventoryFullException When the {@link Item} could not be added.
@@ -104,23 +104,23 @@ public class BaseInventory implements Inventory
 	@Override public void addItem(Item item) throws InventoryFullException
 	{
 		for (Map.Entry<Integer, ItemType> entry : types.entrySet()) {
-			int      index    = entry.getKey();
-			ItemType slotType = entry.getValue();
-			if (slotType.instanceOf(item)) {
+			int      index        = entry.getKey();
+			ItemType positionType = entry.getValue();
+			if (positionType.instanceOf(item)) {
 				items.get(index).push(item);
 				numberOfItems++;
 				return;
 			}
 		}
 
-		for (int index = 0; index < numberOfSlots; index++) {
+		for (int index = 0; index < numberOfPositions; index++) {
 			if (!types.containsKey(index)) {
 				types.put(index, item);
 				Stack<Item> stack = new Stack<>();
 				stack.push(item);
 				items.put(index, stack);
 				numberOfItems++;
-				numberOfEmptySlots--;
+				numberOfEmptyPositions--;
 				return;
 			}
 		}
@@ -129,66 +129,99 @@ public class BaseInventory implements Inventory
 	}
 
 	/**
-	 * Adds the provided {@link Item} to the slot at the provided position.
+	 * Adds the provided {@link Item} to the position at the provided position.
 	 *
-	 * @param item The {@link Item} to add to the {@link Inventory}.
-	 * @param slot The position of the slot where the {@link Item} should be added.
-	 * @throws SlotOutOfRangeException        When the provided slot position is out of the legal range.
-	 * @throws InventoryTypeMismatchException When the type of the {@link Item} to insert doesn't match the type of
-	 *                                        the slot where the {@link Item} should be added.
+	 * @param item     The {@link Item} to add to the {@link Inventory}.
+	 * @param position The position of the position where the {@link Item} should be added.
+	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
 	 */
-	@Override public void addItem(Item item, int slot) throws SlotOutOfRangeException, InventoryTypeMismatchException
+	@Override public void addItem(Item item, int position) throws PositionRangeException, TypeMismatchException
 	{
-		validateSlot(slot);
-		ItemType slotType = types.get(slot);
+		validatePosition(position);
+		ItemType positionType = types.get(position);
 
-		if (slotType == null) {
-			types.put(slot, item);
+		if (positionType == null) {
+			types.put(position, item);
 			Stack<Item> stack = new Stack<>();
 			stack.push(item);
-			items.put(slot, stack);
+			items.put(position, stack);
 			numberOfItems++;
-			numberOfEmptySlots--;
+			numberOfEmptyPositions--;
 			return;
 		}
 
-		Stack<Item> stack = items.get(slot);
+		if (!positionType.instanceOf(item))
+			throw new TypeMismatchException(this, position, null, null);
+
+		Stack<Item> stack = items.get(position);
 		stack.push(item);
 		this.numberOfItems++;
 	}
 
-
 	/**
-	 * Returns the last inserted {@link Item} from the slot at the provided position. The {@link Item} is removed from
-	 * the slot afterwards.
+	 * Returns the last inserted {@link Item} from the position at the provided position. The {@link Item} is removed from
+	 * the position afterwards.
 	 *
-	 * @param slot The position of the slot from where to take the last {@link Item}.
+	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @return The {@link Item}.
-	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
-	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws EmptyPositionException When the provided position is empty.
 	 */
-	@Override public Item takeItem(int slot) throws SlotOutOfRangeException, NotEnoughItemsException
+	@Override
+	public Item takeItem(int position) throws PositionRangeException, EmptyPositionException
 	{
-		return takeItem(slot, 1).pop();
+		try {
+			return takeItems(position, 1).pop();
+		} catch (NotEnoughItemsException e) {
+			throw new EmptyPositionException(this, position);
+		}
 	}
 
 	/**
-	 * Returns one or more {@link Item}s from the slot at the provided position. The {@link Item}s are removed from the slot
+	 * Returns the last inserted {@link Item} from the position at the provided position. The {@link Item} is removed from
+	 * the position afterwards. The {@link Item} at the position must be of the provided {@link Class} type.
+	 *
+	 * @param position The position of the position from where to take the last {@link Item}.
+	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
+	 * @return The {@link Item}.
+	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws EmptyPositionException When the provided position is empty.
+	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
+	 */
+	@Override
+	public <T extends Item> T takeItem(int position, Class<T> type) throws PositionRangeException, EmptyPositionException, TypeMismatchException
+	{
+		try {
+			return takeItems(position, 1, type).pop();
+		} catch (NotEnoughItemsException e) {
+			throw new EmptyPositionException(this, position);
+		}
+	}
+
+	/**
+	 * Returns one or more {@link Item}s from the position at the provided position. The {@link Item}s are removed from the position
 	 * afterwards.
 	 *
-	 * @param slot   The position of the slot from where to take the last {@link Item}.
-	 * @param amount The amount of {@link Item}s to take from the {@link Inventory}.
+	 * @param position The position of the position from where to take the last {@link Item}.
+	 * @param amount   The amount of {@link Item}s to take from the {@link Inventory}.
 	 * @return The {@link Stack} containing the taken {@link Item}s.
-	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
-	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 * @throws PositionRangeException  When the provided position doesn't exist.
+	 * @throws EmptyPositionException  When the provided position is empty.
+	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve the request.
 	 */
-	@Override public Stack<Item> takeItem(int slot, int amount) throws SlotOutOfRangeException, NotEnoughItemsException
+	@Override
+	public Stack<Item> takeItems(int position, int amount) throws PositionRangeException, EmptyPositionException, NotEnoughItemsException
 	{
-		validateSlot(slot);
+		validatePosition(position);
 		Stack<Item> result = new Stack<>();
-		Stack<Item> stack  = items.get(slot);
+		Stack<Item> stack  = items.get(position);
+
+		if (stack == null)
+			throw new EmptyPositionException(this, position);
+
 		if (stack.size() < amount)
-			throw new NotEnoughItemsException(this, types.get(slot), amount, stack.size());
+			throw new NotEnoughItemsException(this, types.get(position), amount, stack.size());
 
 		int moved = 0;
 		while (moved < amount) {
@@ -196,9 +229,9 @@ public class BaseInventory implements Inventory
 			result.push(item);
 			moved++;
 			if (stack.size() == 0) {
-				items.remove(slot);
-				types.remove(slot);
-				numberOfEmptySlots++;
+				items.remove(position);
+				types.remove(position);
+				numberOfEmptyPositions++;
 			}
 		}
 
@@ -208,40 +241,173 @@ public class BaseInventory implements Inventory
 	}
 
 	/**
-	 * Returns the last inserted {@link Item} from the slot at the provided position.
+	 * Returns one or more {@link Item}s from the position at the provided position. The {@link Item}s are removed from the position
+	 * afterwards. The {@link Item}s at the position must be of the provided {@link Class} type.
 	 *
-	 * @param slot The position of the slot from where to take the last {@link Item}.
-	 * @return The {@link Item}.
-	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
-	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
-	 */
-	@Override public Item getItem(int slot) throws SlotOutOfRangeException, NotEnoughItemsException
-	{
-		return getItem(slot, 1).pop();
-	}
-
-	/**
-	 * Returns one or more {@link Item}s from the provided slot position.
-	 *
-	 * @param slot   The position of the slot from where to get the last {@link Item}.
-	 * @param amount The amount of {@link Item}s to get from the {@link Inventory}.
+	 * @param position The position of the position from where to take the last {@link Item}.
+	 * @param amount   The amount of {@link Item}s to take from the {@link Inventory}.
+	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
 	 * @return The {@link Stack} containing the taken {@link Item}s.
-	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
-	 * @throws NotEnoughItemsException When the slot doesn't contain enough {@link Item}s to serve the request.
+	 * @throws PositionRangeException  When the provided position doesn't exist.
+	 * @throws EmptyPositionException  When the provided position is empty.
+	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve the request.
+	 * @throws TypeMismatchException   When the types of {@link Item} doesn't match.
 	 */
-	@Override public Stack<Item> getItem(int slot, int amount) throws SlotOutOfRangeException, NotEnoughItemsException
+	@Override
+	public <T extends Item> Stack<T> takeItems(int position, int amount, Class<T> type) throws PositionRangeException, EmptyPositionException, NotEnoughItemsException, TypeMismatchException
 	{
-		validateSlot(slot);
-		ItemType    slotType = types.get(slot);
-		Stack<Item> result   = new Stack<>();
-		Stack<Item> stack    = items.get(slot);
+		validatePosition(position);
+		Stack<T>    result = new Stack<>();
+		Stack<Item> stack  = items.get(position);
+
+		if (stack == null)
+			throw new EmptyPositionException(this, position);
+
 		if (stack.size() < amount)
-			throw new NotEnoughItemsException(this, slotType, amount, stack.size());
+			throw new NotEnoughItemsException(this, types.get(position), amount, stack.size());
 
 		int moved = 0;
 		while (moved < amount) {
-			result.push(stack.peek());
-			numberOfItems--;
+			Item item = stack.pop();
+
+			if (!type.isInstance(item))
+				throw new TypeMismatchException(this, position, type, item.getClass());
+
+			result.push(type.cast(item));
+			moved++;
+			if (stack.size() == 0) {
+				items.remove(position);
+				types.remove(position);
+				numberOfEmptyPositions++;
+			}
+		}
+
+		numberOfItems -= moved;
+
+		return result;
+	}
+
+	/**
+	 * Returns the last inserted {@link Item} from the position at the provided position.
+	 *
+	 * @param position The position of the position from where to take the last {@link Item}.
+	 * @return The {@link Item}.
+	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws EmptyPositionException When the provided position is empty.
+	 */
+	@Override
+	public Item getItem(int position) throws PositionRangeException, EmptyPositionException
+	{
+		try {
+			return getItems(position, 1).pop();
+		} catch (NotEnoughItemsException e) {
+			throw new EmptyPositionException(this, position);
+		}
+	}
+
+	/**
+	 * Returns the last inserted {@link Item} from the position at the provided position. The {@link Item} at the
+	 * position must be of the provided {@link Class} type.
+	 *
+	 * @param position The position of the position from where to take the last {@link Item}.
+	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
+	 * @return The {@link Item}.
+	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws EmptyPositionException When the provided position is empty.
+	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
+	 */
+	@Override
+	public <T extends Item> T getItem(int position, Class<T> type) throws PositionRangeException, EmptyPositionException, TypeMismatchException
+	{
+		try {
+			return getItems(position, 1, type).pop();
+		} catch (NotEnoughItemsException e) {
+			throw new EmptyPositionException(this, position);
+		}
+	}
+
+	/**
+	 * Returns one or more {@link Item}s from the provided position position.
+	 *
+	 * @param position The position of the position from where to get the last {@link Item}.
+	 * @param amount   The amount of {@link Item}s to get from the {@link Inventory}.
+	 * @return The {@link Stack} containing the taken {@link Item}s.
+	 * @throws PositionRangeException  When the provided position is outside the legal range.
+	 * @throws EmptyPositionException  When the provided position is empty.
+	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve a request.
+	 */
+	@Override
+	public Stack<Item> getItems(int position, int amount) throws PositionRangeException, EmptyPositionException, NotEnoughItemsException
+	{
+		validatePosition(position);
+		ItemType    positionType = types.get(position);
+		Stack<Item> result       = new Stack<>();
+		Stack<Item> stack        = items.get(position);
+
+		if (stack == null)
+			throw new EmptyPositionException(this, position);
+
+		if (stack.size() < amount)
+			throw new NotEnoughItemsException(this, positionType, amount, stack.size());
+
+		int moved = 0;
+		for (int x = stack.size() - 1; x >= 0; x--) {
+			if (moved == amount)
+				return result;
+			result.push(stack.get(x));
+			moved++;
+		}
+
+		return result;
+	}
+
+	/**
+	 * Returns one or more {@link Item}s from the provided position position. The {@link Item}s at the
+	 * position must be of the provided {@link Class} type.
+	 *
+	 * @param position The position of the position from where to get the last {@link Item}.
+	 * @param amount   The amount of {@link Item}s to get from the {@link Inventory}.
+	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
+	 * @return The {@link Stack} containing the taken {@link Item}s.
+	 * @throws PositionRangeException  When the provided position is outside the legal range.
+	 * @throws EmptyPositionException  When the provided position is empty.
+	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve a request.
+	 * @throws TypeMismatchException   When the types of {@link Item} doesn't match.
+	 */
+	@Override
+	public <T extends Item> Stack<T> getItems(int position, int amount, Class<T> type) throws PositionRangeException, EmptyPositionException, NotEnoughItemsException, TypeMismatchException
+	{
+		validatePosition(position);
+		ItemType    positionType = types.get(position);
+		Stack<T>    result       = new Stack<>();
+		Stack<Item> stack        = items.get(position);
+
+		if (stack == null)
+			throw new EmptyPositionException(this, position);
+
+
+		if (stack.size() < amount)
+			throw new NotEnoughItemsException(this, positionType, amount, stack.size());
+
+		int moved = 0;
+		for (int x = stack.size() - 1; x >= 0; x--) {
+			if (moved == amount)
+				return result;
+
+			Item item = stack.get(x);
+			if (!type.isInstance(item))
+				throw new TypeMismatchException(this, position, type, item.getClass());
+
+			result.push(type.cast(item));
+			moved++;
+		}
+
+		while (moved < amount) {
+			Item item = stack.peek();
+			if (!type.isInstance(item))
+				throw new TypeMismatchException(this, position, type, item.getClass());
+
+			result.push(type.cast(item));
 			moved++;
 		}
 
@@ -259,68 +425,68 @@ public class BaseInventory implements Inventory
 	}
 
 	/**
-	 * Returns the number of {@link Item}s contained in the slot at the provided position.
+	 * Returns the number of {@link Item}s contained in the position at the provided position.
 	 *
-	 * @param slot The position of the slot from where to return the number of {@link Item}s.
-	 * @return The number of {@link Item}s contained in the slot with the provided position.
-	 * @throws SlotOutOfRangeException When the provided slot position is out of the legal range.
+	 * @param position The position of the position from where to return the number of {@link Item}s.
+	 * @return The number of {@link Item}s contained in the position with the provided position.
+	 * @throws PositionRangeException When the provided position position is out of the legal range.
 	 */
-	@Override public int getNumberOfItems(int slot) throws SlotOutOfRangeException
+	@Override public int getNumberOfItems(int position) throws PositionRangeException
 	{
-		validateSlot(slot);
+		validatePosition(position);
 
-		Stack<Item> stack = items.get(slot);
+		Stack<Item> stack = items.get(position);
 
 		return stack == null ? 0 : stack.size();
 	}
 
 	/**
-	 * Returns the maximum number of slots in the {@link Inventory}.
+	 * Returns the maximum number of positions in the {@link Inventory}.
 	 *
-	 * @return The maximum number of slots in the {@link Inventory}.
+	 * @return The maximum number of positions in the {@link Inventory}.
 	 */
-	@Override public int getNumberOfSlots()
+	@Override public int getNumberOfPositions()
 	{
-		return numberOfSlots;
+		return numberOfPositions;
 	}
 
 	/**
-	 * Returns the number of empty slots in the {@link Inventory}.
+	 * Returns the number of empty positions in the {@link Inventory}.
 	 *
-	 * @return The number of empty slots in the {@link Inventory}.
+	 * @return The number of empty positions in the {@link Inventory}.
 	 */
-	@Override public int getNumberOfEmptySlots()
+	@Override public int getNumberOfEmptyPositions()
 	{
-		return numberOfEmptySlots;
+		return numberOfEmptyPositions;
 	}
 
 	/**
-	 * Returns the number of non-empty slots in the {@link Inventory}.
+	 * Returns the number of non-empty positions in the {@link Inventory}.
 	 *
-	 * @return The number of non-empty slots in the {@link Inventory}.
+	 * @return The number of non-empty positions in the {@link Inventory}.
 	 */
-	@Override public int getNumberOfNonEmptySlots()
+	@Override public int getNumberOfNonEmptyPositions()
 	{
-		return numberOfSlots - numberOfEmptySlots;
+		return numberOfPositions - numberOfEmptyPositions;
 	}
 
 	/**
-	 * Expands the number of slots in the {@link Inventory} with the provided number of slots.
+	 * Expands the number of positions in the {@link Inventory} with the provided number of positions.
 	 *
-	 * @param slots The number of slots to expand the {@link Inventory} with.
-	 * @return Whether or not the number of slots in the {@link Inventory} could be expanded.
+	 * @param positions The number of positions to expand the {@link Inventory} with.
+	 * @return Whether or not the number of positions in the {@link Inventory} could be expanded.
 	 */
-	@Override public boolean expand(int slots)
+	@Override public boolean expand(int positions)
 	{
-		if (numberOfSlots + slots < 0)
+		if (numberOfPositions + positions < 0)
 			return false;
 
-		numberOfSlots += slots;
+		numberOfPositions += positions;
 		return true;
 	}
 
 	/**
-	 * Returns the slots in the {@link Inventory} as {@link Option}s.
+	 * Returns the positions in the {@link Inventory} as {@link Option}s.
 	 *
 	 * @return The {@link ImmutableSet} of {@link Option}s.
 	 */
@@ -336,10 +502,10 @@ public class BaseInventory implements Inventory
 	}
 
 	/**
-	 * Returns the slots in the {@link Inventory} with the provided {@link Class} type.
+	 * Returns the positions in the {@link Inventory} with the provided {@link Class} type.
 	 *
 	 * @param type The type of the {@link Item} to return.
-	 * @return The slots in the {@link Inventory} with the provided {@link Class} type.
+	 * @return The positions in the {@link Inventory} with the provided {@link Class} type.
 	 */
 	@Override public <T extends Item> ImmutableSet<Option<T>> asOptions(Class<T> type)
 	{
@@ -354,18 +520,18 @@ public class BaseInventory implements Inventory
 	}
 
 	/**
-	 * Validates that the provided slot position is within a legal range. The valid slot position range is from
-	 * <code>0</code> to <code>numberOfSlots-1</code>.
+	 * Validates that the provided position position is within a legal range. The valid position position range is from
+	 * <code>0</code> to <code>numberOfPositions-1</code>.
 	 *
-	 * @param slot The slot position to validate.
-	 * @throws SlotOutOfRangeException When the slot position is out of range.
+	 * @param position The position position to validate.
+	 * @throws PositionRangeException When the position position is out of range.
 	 */
-	private void validateSlot(int slot) throws SlotOutOfRangeException
+	private void validatePosition(int position) throws PositionRangeException
 	{
-		if (slot < 0)
-			throw new SlotOutOfRangeException(this, slot);
+		if (position < 0)
+			throw new PositionRangeException(this, position);
 
-		if (slot >= numberOfSlots)
-			throw new SlotOutOfRangeException(this, slot);
+		if (position >= numberOfPositions)
+			throw new PositionRangeException(this, position);
 	}
 }

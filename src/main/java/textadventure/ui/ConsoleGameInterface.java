@@ -516,7 +516,7 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onBackpackExpand(Character character, ExpandBackpackAction action)
 	{
 		action.onSuccess(() -> {
-			printer.println(String.format("Your backpack was successfully expanded to %d slots.", action.getBackpack().getNumberOfSlots()));
+			printer.println(String.format("Your backpack was successfully expanded to %d positions.", action.getBackpack().getNumberOfPositions()));
 		});
 
 		action.onException(NumberFormatException.class, e -> {
@@ -527,7 +527,7 @@ public class ConsoleGameInterface implements GameInterface
 			printer.println("The provided argument pointed to an empty backpack stack.");
 		});
 
-		action.onException(SlotOutOfRangeException.class, e -> {
+		action.onException(PositionRangeException.class, e -> {
 			printer.println("The selected item was not a backpack expansion.");
 		});
 	}
@@ -572,7 +572,7 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private void printInventory(Inventory inventory)
 	{
-		ImmutableMap<Integer, ItemType> items = inventory.getSlots();
+		ImmutableMap<Integer, ItemType> items = inventory.getPositions();
 		if (items.isEmpty()) {
 			printer.println("The inventory is empty.");
 			return;
@@ -600,9 +600,9 @@ public class ConsoleGameInterface implements GameInterface
 				"using its identifier (id). To abort from the selection you can enter the 'abort' command. It's " +
 				"possible to selectIndices multiple options. To finish from the selection you can enter the 'finish' command" +
 				". The number of selected options must be between " + minimumOptions + " and " + maximumOptions + ".");
-		options.forEach((slot, option) ->
+		options.forEach((position, option) ->
 				printer.println(String.format("%-4d %-20s %-96s",
-						slot,
+						position,
 						option.getOptionName(),
 						option.getOptionDescription()))
 		);

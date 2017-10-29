@@ -1,8 +1,11 @@
 package textadventure.doors;
 
 import org.junit.Test;
+import org.mockito.Mockito;
+import textadventure.BaseCharacter;
 import textadventure.Character;
-import textadventure.MockCharacter;
+import textadventure.actions.ActionPerformCallback;
+import textadventure.actions.ActionTest;
 import textadventure.lock.Lock;
 import textadventure.lock.MockLock;
 import textadventure.rooms.MockRoom;
@@ -11,6 +14,7 @@ import textadventure.ui.GameInterface;
 import textadventure.ui.MockGameInterface;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 
 public class InspectDoorActionTest
 {
@@ -22,61 +26,21 @@ public class InspectDoorActionTest
 		Room          a             = new MockRoom();
 		Room          b             = new MockRoom();
 		Door          door          = new BaseDoor(Door.State.OPEN, lock, a, b);
-		Character     character     = new MockCharacter(a);
+		Character     character     = new BaseCharacter(null, null, null);
 		GameInterface gameInterface = new MockGameInterface();
 
 		assertEquals(Door.State.OPEN, door.getState());
-		InspectDoorAction inspectDoorAction = new InspectDoorAction(door, ((characterResponse, action) -> {
-			// TODO MOCK
-		}));
-
-		inspectDoorAction.perform(gameInterface, character, new String[0]);
+		ActionPerformCallback<InspectDoorAction> mockConsumer = Mockito.mock(ActionPerformCallback.class);
+		InspectDoorAction                        action       = new InspectDoorAction(door, mockConsumer);
+		action.perform(gameInterface, character, new String[0]);
+		assertFalse(action.hasException());
+		assertSame(door, action.getDoor());
+		Mockito.verify(mockConsumer).send(any(Character.class), any(InspectDoorAction.class));
 	}
 
 	@Test
-	public void getDoor() throws Exception
+	public void testInheritedMethods() throws Exception
 	{
-		Lock lock = new MockLock(Lock.State.LOCKED);
-		Room a    = new MockRoom();
-		Room b    = new MockRoom();
-		Door door = new BaseDoor(Door.State.OPEN, lock, a, b);
-
-		InspectDoorAction inspectDoorAction = new InspectDoorAction(door, null);
-		assertSame(door, inspectDoorAction.getDoor());
-	}
-
-	@Test
-	public void setException() throws Exception
-	{
-		Exception expected = new Exception();
-
-		InspectDoorAction inspectDoorAction = new InspectDoorAction(null, null);
-		inspectDoorAction.setException(expected);
-		assertSame(expected, inspectDoorAction.getException());
-	}
-
-	@Test
-	public void getException() throws Exception
-	{
-		Exception expected = new Exception();
-
-		InspectDoorAction inspectDoorAction = new InspectDoorAction(null, null);
-		inspectDoorAction.setException(expected);
-		assertSame(expected, inspectDoorAction.getException());
-	}
-
-	@Test
-	public void hasException() throws Exception
-	{
-		InspectDoorAction inspectDoorAction = new InspectDoorAction(null, null);
-
-		Exception expected = new Exception();
-		inspectDoorAction.setException(expected);
-		assertTrue(inspectDoorAction.hasException(Exception.class));
-		assertFalse(inspectDoorAction.hasException(IllegalStateException.class));
-
-		expected = new IllegalStateException();
-		inspectDoorAction.setException(expected);
-		assertTrue(inspectDoorAction.hasException(IllegalStateException.class));
+		ActionTest.test(() -> new InspectDoorAction(null, null));
 	}
 }

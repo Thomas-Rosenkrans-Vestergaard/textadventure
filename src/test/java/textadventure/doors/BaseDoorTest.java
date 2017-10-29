@@ -36,7 +36,7 @@ public class BaseDoorTest
 	{
 		Room a    = new MockRoom();
 		Room b    = new MockRoom();
-		Lock lock = new Lock(null, Lock.State.UNLOCKED);
+		Lock lock = new Lock(null, Lock.State.LOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		door.open();
 	}

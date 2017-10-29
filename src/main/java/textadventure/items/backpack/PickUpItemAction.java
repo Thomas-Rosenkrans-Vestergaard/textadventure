@@ -61,8 +61,9 @@ public class PickUpItemAction extends BackpackAction
 			try {
 
 				for (Option option : selection) {
-					Item item = floor.takeItem(option.getOptionIndex());
+					Item item = floor.getItem(option.getOptionIndex());
 					backpack.addItem(item);
+					floor.takeItem(option.getOptionIndex());
 					this.items.add(item);
 				}
 

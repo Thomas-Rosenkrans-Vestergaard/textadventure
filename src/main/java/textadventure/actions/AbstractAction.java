@@ -11,13 +11,15 @@ public abstract class AbstractAction implements Action
 	private Exception exception;
 
 	/**
-	 * Sets the {@link Exception} that was thrown during execution of the {@link Action}.
+	 * Provides some code to call when the {@link Action} succeeded. The {@link Action} was successful when no
+	 * {@link Exception} was thrown.
 	 *
-	 * @param exception The {@link Exception} that was thrown during execution of the {@link Action}.
+	 * @param callback The code to call if the {@link Action} succeeded.
 	 */
-	public void setException(Exception exception)
+	@Override public void onSuccess(Runnable callback)
 	{
-		this.exception = exception;
+		if (exception == null)
+			callback.run();
 	}
 
 	/**
@@ -33,18 +35,6 @@ public abstract class AbstractAction implements Action
 	}
 
 	/**
-	 * Provides some code to call when the {@link Action} succeeded. The {@link Action} was successful when no
-	 * {@link Exception} was thrown.
-	 *
-	 * @param callback The code to call if the {@link Action} succeeded.
-	 */
-	@Override public void onSuccess(Runnable callback)
-	{
-		if (exception == null)
-			callback.run();
-	}
-
-	/**
 	 * Returns the {@link Exception} that occurred while performing the {@link Action}. Returns <code>null</code> if
 	 * no {@link Exception} was thrown.
 	 *
@@ -57,13 +47,33 @@ public abstract class AbstractAction implements Action
 	}
 
 	/**
+	 * Sets the {@link Exception} that was thrown during execution of the {@link Action}.
+	 *
+	 * @param exception The {@link Exception} that was thrown during execution of the {@link Action}.
+	 */
+	public void setException(Exception exception)
+	{
+		this.exception = exception;
+	}
+
+	/**
 	 * Checks if the {@link Action} responded with an {@link Exception} of the provided {@link Class}.
 	 *
 	 * @param exceptionClass The {@link Exception} type to check for.
-	 * @return <code>true</code> or <code>false</code>.
+	 * @return True when the {@link Action} reported a exception with the provided type, otherwise <code>false</code>.
 	 */
 	@Override public boolean hasException(Class<?> exceptionClass)
 	{
 		return exceptionClass.isInstance(exception);
+	}
+
+	/**
+	 * Checks if the {@link Action} responded with an {@link Exception}.
+	 *
+	 * @return True when the {@link Action} reported a exception, otherwise <code>false</code>.
+	 */
+	@Override public boolean hasException()
+	{
+		return hasException(Exception.class);
 	}
 }

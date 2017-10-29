@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link textadventure.actions.Action} that allows a {@link Character} to expand the number of slots in their
+ * {@link textadventure.actions.Action} that allows a {@link Character} to expand the number of positions in their
  * {@link Backpack}.
  */
 public class ExpandBackpackAction extends BackpackAction

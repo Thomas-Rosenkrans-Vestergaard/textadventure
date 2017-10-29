@@ -24,23 +24,31 @@ public class Backpack extends BaseInventory implements Property
 	/**
 	 * Creates a new {@link Backpack}.
 	 *
-	 * @param slots The number of slots in the {@link Backpack}.
+	 * @param positions The number of positions in the {@link Backpack}.
 	 */
-	public Backpack(int slots)
+	public Backpack(int positions)
 	{
-		super(slots);
+		super(positions);
+	}
+
+	/**
+	 * Creates a new {@link Backpack} with an unlimited number of positions.
+	 */
+	public Backpack()
+	{
+		super();
 	}
 
 	/**
 	 * Creates and returns a new {@link Backpack} with the {@link InspectBackpackAction}.
 	 *
-	 * @param slots The number of slots in the {@link Backpack}.
+	 * @param positions The number of positions in the {@link Backpack}.
 	 * @param game  The {@link Game} instance.
 	 * @return The newly created {@link Backpack}.
 	 */
-	public static Backpack factory(int slots, Game game)
+	public static Backpack factory(int positions, Game game)
 	{
-		Backpack      backpack      = new Backpack(slots);
+		Backpack      backpack      = new Backpack(positions);
 		GameInterface gameInterface = game.getGameInterface();
 
 		backpack.addAction("inspect", new InspectBackpackAction(backpack, gameInterface::onBackpackInspect));

@@ -312,15 +312,15 @@ public class DefaultGame extends Game
 	 * {@link InspectChestAction}, {@link TakeItemFromChestAction}, {@link TakeItemFromChestAction},
 	 * {@link LockLockAction}, {@link LockLockAction} and {@link UnlockLockAction}.
 	 *
-	 * @param countSlots    The number of slots available in the {@link Chest}.
+	 * @param countPositions    The number of positions available in the {@link Chest}.
 	 * @param state         The {@link Chest.State} of the {@link Chest}.
 	 * @param lock          The {@link Lock} on the {@link Chest}.
 	 * @param gameInterface The {@link GameInterface}.
 	 * @return The newly created {@link Chest}.
 	 */
-	public static Chest chestFactory(int countSlots, Chest.State state, Lock lock, GameInterface gameInterface)
+	public static Chest chestFactory(int countPositions, Chest.State state, Lock lock, GameInterface gameInterface)
 	{
-		Chest chest = new Chest(countSlots, state, lock);
+		Chest chest = new Chest(countPositions, state, lock);
 
 		chest.addAction("open", new OpenChestAction(chest, gameInterface::onChestOpen));
 		chest.addAction("close", new CloseChestAction(chest, gameInterface::onChestClose));

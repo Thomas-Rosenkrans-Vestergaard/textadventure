@@ -1,8 +1,9 @@
 package textadventure.doors;
 
 import org.junit.Test;
+import textadventure.BaseCharacter;
 import textadventure.Character;
-import textadventure.MockCharacter;
+import textadventure.actions.ActionTest;
 import textadventure.lock.Lock;
 import textadventure.lock.MockLock;
 import textadventure.rooms.MockRoom;
@@ -22,109 +23,65 @@ public class CloseDoorActionTest
 		Room          a             = new MockRoom();
 		Room          b             = new MockRoom();
 		Door          door          = new BaseDoor(Door.State.OPEN, lock, a, b);
-		Character     character     = new MockCharacter(a);
+		Character     character     = new BaseCharacter(null, null, null);
 		GameInterface gameInterface = new MockGameInterface();
 
 		assertEquals(Door.State.OPEN, door.getState());
-		CloseDoorAction closeDoorAction = new CloseDoorAction(door, ((characterResponse, action) -> {
+		CloseDoorAction action = new CloseDoorAction(door, ((characterResponse, actionResponse) -> {
 			assertSame(character, characterResponse);
-			assertEquals(Door.State.CLOSED, action.getDoor().getState());
+			assertSame(door, actionResponse.getDoor());
+			assertFalse(actionResponse.hasException());
+			assertEquals(Door.State.CLOSED, actionResponse.getDoor().getState());
 		}));
 
-		closeDoorAction.perform(gameInterface, character, new String[0]);
+		action.perform(gameInterface, character, new String[0]);
 	}
 
 	@Test
-	public void performDoorAlreadyClosedException() throws Exception
+	public void performThrowsDoorAlreadyClosedException() throws Exception
 	{
 		Lock          lock          = new MockLock(Lock.State.UNLOCKED);
 		Room          a             = new MockRoom();
 		Room          b             = new MockRoom();
 		Door          door          = new BaseDoor(Door.State.CLOSED, lock, a, b);
-		Character     character     = new MockCharacter(a);
+		Character     character     = new BaseCharacter(null, null, null);
 		GameInterface gameInterface = new MockGameInterface();
 
 		assertEquals(Door.State.CLOSED, door.getState());
-		CloseDoorAction closeDoorAction = new CloseDoorAction(door, ((characterResponse, action) -> {
+		CloseDoorAction action = new CloseDoorAction(door, ((characterResponse, actionResponse) -> {
 			assertSame(character, characterResponse);
-			assertEquals(Door.State.CLOSED, action.getDoor().getState());
-			assertTrue(action.hasException(DoorAlreadyClosedException.class));
+			assertSame(door, actionResponse.getDoor());
+			assertTrue(actionResponse.hasException(DoorAlreadyClosedException.class));
+			assertEquals(Door.State.CLOSED, actionResponse.getDoor().getState());
 		}));
 
-		closeDoorAction.perform(gameInterface, character, new String[0]);
+		action.perform(gameInterface, character, new String[0]);
 	}
 
 	@Test
-	public void performDoorLockedException() throws Exception
+	public void performThrowsDoorLockedException() throws Exception
 	{
 		Lock          lock          = new MockLock(Lock.State.LOCKED);
 		Room          a             = new MockRoom();
 		Room          b             = new MockRoom();
 		Door          door          = new BaseDoor(Door.State.OPEN, lock, a, b);
-		Character     character     = new MockCharacter(a);
+		Character     character     = new BaseCharacter(null, null, null);
 		GameInterface gameInterface = new MockGameInterface();
 
 		assertEquals(Door.State.OPEN, door.getState());
-		CloseDoorAction closeDoorAction = new CloseDoorAction(door, ((characterResponse, action) -> {
+		CloseDoorAction action = new CloseDoorAction(door, ((characterResponse, actionResponse) -> {
 			assertSame(character, characterResponse);
-			assertEquals(Door.State.OPEN, action.getDoor().getState());
-			assertTrue(action.hasException(DoorLockedException.class));
+			assertSame(door, actionResponse.getDoor());
+			assertTrue(actionResponse.hasException(DoorLockedException.class));
+			assertEquals(Door.State.OPEN, actionResponse.getDoor().getState());
 		}));
 
-		closeDoorAction.perform(gameInterface, character, new String[0]);
+		action.perform(gameInterface, character, new String[0]);
 	}
 
 	@Test
-	public void getDoor() throws Exception
+	public void testInheritedMethods() throws Exception
 	{
-		Door            expected        = new BaseDoor(null, null, null, null);
-		CloseDoorAction closeDoorAction = new CloseDoorAction(expected, null);
-		assertSame(expected, closeDoorAction.getDoor());
-	}
-
-	@Test
-	public void setException() throws Exception
-	{
-		Exception       expected        = new Exception();
-		CloseDoorAction closeDoorAction = new CloseDoorAction(null, null);
-		closeDoorAction.setException(expected);
-		assertSame(expected, closeDoorAction.getException());
-	}
-
-	@Test
-	public void onException() throws Exception
-	{
-		// TODO TEST
-	}
-
-	@Test
-	public void onSuccess() throws Exception
-	{
-		//TODO TEST
-	}
-
-	@Test
-	public void getException() throws Exception
-	{
-		Exception expected = new Exception();
-
-		CloseDoorAction closeDoorAction = new CloseDoorAction(null, null);
-		closeDoorAction.setException(expected);
-		assertSame(expected, closeDoorAction.getException());
-	}
-
-	@Test
-	public void hasException() throws Exception
-	{
-		CloseDoorAction closeDoorAction = new CloseDoorAction(null, null);
-
-		Exception expected = new Exception();
-		closeDoorAction.setException(expected);
-		assertTrue(closeDoorAction.hasException(Exception.class));
-		assertFalse(closeDoorAction.hasException(IllegalStateException.class));
-
-		expected = new IllegalStateException();
-		closeDoorAction.setException(expected);
-		assertTrue(closeDoorAction.hasException(IllegalStateException.class));
+		ActionTest.test(() -> new CloseDoorAction(null, null));
 	}
 }

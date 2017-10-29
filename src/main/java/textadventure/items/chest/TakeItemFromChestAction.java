@@ -69,8 +69,8 @@ public class TakeItemFromChestAction extends ChestAction
 				Item currentItem;
 				for (Option option : selection) {
 					currentItem = chest.getItem(option.getOptionIndex());
-					this.items.add(currentItem);
 					backpack.addItem(currentItem);
+					this.items.add(currentItem);
 					chest.takeItem(option.getOptionIndex());
 				}
 

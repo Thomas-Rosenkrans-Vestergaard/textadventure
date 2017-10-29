@@ -6,7 +6,8 @@ import textadventure.items.backpack.Backpack;
 import textadventure.rooms.BaseRoom;
 import textadventure.rooms.Room;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class BaseCharacterTest
 {
@@ -69,7 +70,8 @@ public class BaseCharacterTest
 		assertEquals(3, character.getLevel());
 	}
 
-	@Test void getSanity() throws Exception
+	@Test
+	public void getSanity() throws Exception
 	{
 		assertEquals(4, character.getSanity());
 	}

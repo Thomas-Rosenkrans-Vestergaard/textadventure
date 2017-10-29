@@ -10,14 +10,14 @@ public class BackpackExpansion implements Item
 {
 
 	/**
-	 * The amount of slots added by the {@link BackpackExpansion}.
+	 * The amount of positions added by the {@link BackpackExpansion}.
 	 */
 	private int upgrade;
 
 	/**
 	 * Creates a new {@link BackpackExpansion}.
 	 *
-	 * @param upgrade The amount of slots added by the {@link BackpackExpansion}.
+	 * @param upgrade The amount of positions added by the {@link BackpackExpansion}.
 	 */
 	public BackpackExpansion(int upgrade)
 	{
@@ -28,9 +28,9 @@ public class BackpackExpansion implements Item
 	}
 
 	/**
-	 * Returns the amount of slots added by the {@link BackpackExpansion}.
+	 * Returns the amount of positions added by the {@link BackpackExpansion}.
 	 *
-	 * @return The amount of slots added by the {@link BackpackExpansion}.
+	 * @return The amount of positions added by the {@link BackpackExpansion}.
 	 */
 	public int getUpgrade()
 	{
@@ -54,6 +54,6 @@ public class BackpackExpansion implements Item
 	 */
 	@Override public String getItemDescription()
 	{
-		return "Expands a backpack with " + upgrade + " slots.";
+		return "Expands a backpack with " + upgrade + " positions.";
 	}
 }

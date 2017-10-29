@@ -12,9 +12,9 @@ public interface Character extends PropertyContainer
 {
 
 	/**
-	 * The default number of slots the {@link Character} has in their {@link Backpack} at the start of the game.
+	 * The default number of positions the {@link Character} has in their {@link Backpack} at the start of the game.
 	 */
-	int DEFAULT_SLOTS = 10;
+	int DEFAULT_POSITIONS = 10;
 
 	/**
 	 * The default maximum amount of HP the {@link Character} has at the start of the game.

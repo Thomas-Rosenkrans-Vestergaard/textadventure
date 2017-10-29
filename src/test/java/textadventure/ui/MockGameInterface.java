@@ -16,6 +16,7 @@ import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
+import textadventure.rooms.InspectFloorAction;
 
 public class MockGameInterface implements GameInterface
 {
@@ -51,6 +52,11 @@ public class MockGameInterface implements GameInterface
 	}
 
 	@Override public void onActionRequest(Character character, ActionRequestCallback response)
+	{
+
+	}
+
+	@Override public void onFloorInspect(Character character, InspectFloorAction action)
 	{
 
 	}

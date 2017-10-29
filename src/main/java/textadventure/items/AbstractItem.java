@@ -3,7 +3,7 @@ package textadventure.items;
 /**
  * Abstract implementation of the {@link Item} interface.
  */
-public abstract class AbstractItem implements ItemType
+public abstract class AbstractItem implements Item
 {
 
 	/**

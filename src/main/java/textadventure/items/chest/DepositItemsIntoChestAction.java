@@ -66,9 +66,8 @@ public class DepositItemsIntoChestAction extends ChestAction
 		Select<Item> select = new BaseSelect<>(options, selection -> {
 
 			try {
-				Item currentItem;
 				for (Option option : selection) {
-					currentItem = backpack.getItem(option.getOptionIndex());
+					Item currentItem = backpack.getItem(option.getOptionIndex());
 					this.items.add(currentItem);
 					chest.addItem(currentItem);
 					backpack.takeItem(option.getOptionIndex());

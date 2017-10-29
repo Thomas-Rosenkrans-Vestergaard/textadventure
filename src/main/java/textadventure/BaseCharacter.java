@@ -2,13 +2,10 @@ package textadventure;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.items.backpack.Backpack;
-import textadventure.items.backpack.DropItemAction;
-import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.weapons.Fist;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
 import textadventure.rooms.Room;
-import textadventure.ui.GameInterface;
 
 import java.awt.*;
 
