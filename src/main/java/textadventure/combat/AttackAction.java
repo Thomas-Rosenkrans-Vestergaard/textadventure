@@ -46,6 +46,5 @@ public class AttackAction extends AbstractAction
 		}
 
 		target.takeDamage(character.getWeapon());
-
 	}
 }

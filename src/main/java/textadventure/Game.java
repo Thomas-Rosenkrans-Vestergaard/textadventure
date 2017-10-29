@@ -10,9 +10,6 @@ import textadventure.rooms.*;
 import textadventure.ui.GameInterface;
 import textadventure.ui.characterSelection.*;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -179,12 +176,6 @@ public class Game
 	{
 		player.playCharacter(gameInterface, character, ((action, arguments) -> {
 			action.perform(gameInterface, character, arguments);
-
-			/*if (character.getCurrentLocation() instanceof EndingRoom) {
-				saveHighScore(player, character);
-				return;
-			}*/
-
 			List<Character> characters   = this.characters.get(player);
 			int             currentIndex = characters.indexOf(character);
 			if (currentIndex == characters.size() - 1)
@@ -192,18 +183,6 @@ public class Game
 			else
 				handleCharacterTurn(player, characters.get(currentIndex + 1));
 		}));
-	}
-
-	private void saveHighScore(Player player, Character character)
-	{
-		try {
-			Path            path   = Paths.get("highscore.txt");
-			HighScoreWriter writer = new HighScoreWriter(path);
-			writer.put(character.getName(), character.getCurrentHP(), true);
-			System.out.println("SAVED");
-		} catch (IOException e) {
-			throw new IllegalStateException(e);
-		}
 	}
 
 	/**
