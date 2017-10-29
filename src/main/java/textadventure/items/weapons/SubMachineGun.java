@@ -10,7 +10,7 @@ public class SubMachineGun implements ProjectileWeapon, Item
 	 *
 	 * @return The name of the {@link SubMachineGun}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Sub machine gun";
 	}
@@ -20,7 +20,7 @@ public class SubMachineGun implements ProjectileWeapon, Item
 	 *
 	 * @return The description of the {@link SubMachineGun}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "High fire rate, may get too hot to the touch.";
 	}

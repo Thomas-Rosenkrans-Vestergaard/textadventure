@@ -10,7 +10,7 @@ public class Shotgun implements ProjectileWeapon, Item
 	 *
 	 * @return The name of the {@link Shotgun}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Shotgun";
 	}
@@ -20,7 +20,7 @@ public class Shotgun implements ProjectileWeapon, Item
 	 *
 	 * @return The description of the {@link Shotgun}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "Apparently not used for hunting.";
 	}

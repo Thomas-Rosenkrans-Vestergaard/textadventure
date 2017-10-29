@@ -51,35 +51,35 @@ public interface Select<T>
 	 * Select the {@link Option}(s) mapped to the provided index.
 	 *
 	 * @param index The index of the {@link Option} to select.
-	 * @throws SelectionAmountOutOfBounds When too few or too many elements were selected.
+	 * @throws SelectionAmountException When too few or too many elements were selected.
 	 * @throws UnknownIndexException      When a selected element were not contained is the list of possibilities.
 	 */
-	void selectIndex(Integer index) throws SelectionAmountOutOfBounds, UnknownIndexException;
+	void selectIndex(Integer index) throws SelectionAmountException, UnknownIndexException;
 
 	/**
 	 * Select the {@link Option}s mapped to the provided indices.
 	 *
 	 * @param indices The indices of the  {@link Option}s to select.
-	 * @throws SelectionAmountOutOfBounds When too few or too many elements were selected.
+	 * @throws SelectionAmountException When too few or too many elements were selected.
 	 * @throws UnknownIndexException      When a selected element were not contained is the list of possibilities.
 	 */
-	void selectIndices(List<Integer> indices) throws SelectionAmountOutOfBounds, UnknownIndexException;
+	void selectIndices(List<Integer> indices) throws SelectionAmountException, UnknownIndexException;
 
 	/**
 	 * Select the provided {@link Option}.
 	 *
 	 * @param option The selected {@link Option}.
-	 * @throws SelectionAmountOutOfBounds When too few or too many elements were selected.
+	 * @throws SelectionAmountException When too few or too many elements were selected.
 	 * @throws UnknownOptionException     When a selected element were not contained is the list of possibilities.
 	 */
-	void selectOption(Option<T> option) throws SelectionAmountOutOfBounds, UnknownOptionException;
+	void selectOption(Option<T> option) throws SelectionAmountException, UnknownOptionException;
 
 	/**
 	 * Select the provided {@link Option}s.
 	 *
-	 * @param options The selected {@link Option}s.
-	 * @throws SelectionAmountOutOfBounds When too few or too many elements were selected.
+	 * @param selection The selected {@link Option}s.
+	 * @throws SelectionAmountException When too few or too many elements were selected.
 	 * @throws UnknownOptionException     When a selected element were not contained is the list of possibilities.
 	 */
-	void selectOptions(List<Option<T>> options) throws SelectionAmountOutOfBounds, UnknownOptionException;
+	void selectOptions(List<Option<T>> selection) throws SelectionAmountException, UnknownOptionException;
 }

@@ -9,7 +9,7 @@ public class Gauze implements Item
 	 *
 	 * @return The name of the {@link Item}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "gauze";
 	}
@@ -19,7 +19,7 @@ public class Gauze implements Item
 	 *
 	 * @return The description of the {@link Item}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "Can be used to stop bleeding from bigger wounds.";
 	}

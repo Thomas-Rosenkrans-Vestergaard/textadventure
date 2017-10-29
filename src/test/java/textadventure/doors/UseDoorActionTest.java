@@ -23,7 +23,7 @@ public class UseDoorActionTest
 		Room          a             = new MockRoom();
 		Room          b             = new MockRoom();
 		Door          door          = new BaseDoor(Door.State.OPEN, lock, a, b);
-		Character     character     = new BaseCharacter(null, null, a);
+		Character     character     = new BaseCharacter(null, null, null, a);
 		GameInterface gameInterface = new MockGameInterface();
 
 		assertSame(a, character.getCurrentLocation());
@@ -44,7 +44,7 @@ public class UseDoorActionTest
 		Room          a             = new MockRoom();
 		Room          b             = new MockRoom();
 		Door          door          = new BaseDoor(Door.State.CLOSED, lock, a, b);
-		Character     character     = new BaseCharacter(null, null, a);
+		Character     character     = new BaseCharacter(null, null, null, a);
 		GameInterface gameInterface = new MockGameInterface();
 
 		assertSame(a, character.getCurrentLocation());

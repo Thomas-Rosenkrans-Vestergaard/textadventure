@@ -29,22 +29,37 @@ public abstract class AbstractItem implements Item
 	}
 
 	/**
-	 * Returns the name of the {@link Item}.
+	 * Returns the type of {@link Class} of the {@link ItemType}.
 	 *
-	 * @return The name of the {@link Item}.
+	 * @return The type of {@link Class} of the {@link ItemType}.
 	 */
-	public String getName()
+	@Override public Class<?> getItemTypeClass()
 	{
-		return this.name;
+		return getClass();
 	}
 
 	/**
-	 * Returns the description of the {@link Item}.
+	 * Returns the name of the {@link ItemType}.
 	 *
-	 * @return The description of the {@link Item}.
+	 * @return The name of the {@link ItemType}.
 	 */
-	public String getDescription()
+	@Override public String getItemTypeName()
 	{
-		return this.description;
+		return name;
+	}
+
+	/**
+	 * Returns the description of the {@link ItemType}.
+	 *
+	 * @return The description of the {@link ItemType}.
+	 */
+	@Override public String getItemTypeDescription()
+	{
+		return description;
+	}
+
+	@Override public int hashCode()
+	{
+		return getClass().hashCode();
 	}
 }

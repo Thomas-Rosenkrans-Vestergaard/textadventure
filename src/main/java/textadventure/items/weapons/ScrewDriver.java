@@ -10,7 +10,7 @@ public class ScrewDriver implements StabWeapon, Item
 	 *
 	 * @return The name of the {@link ScrewDriver}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Screwdriver";
 	}
@@ -20,7 +20,7 @@ public class ScrewDriver implements StabWeapon, Item
 	 *
 	 * @return The description of the {@link ScrewDriver}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "It's pointy.";
 	}

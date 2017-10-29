@@ -9,7 +9,7 @@ public class GlassBottle implements StabWeapon, Item
 	 *
 	 * @return The name of the {@link GlassBottle}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Glass bottle";
 	}
@@ -19,7 +19,7 @@ public class GlassBottle implements StabWeapon, Item
 	 *
 	 * @return The description of the {@link GlassBottle}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "Very fragile, but lies around everywhere.";
 	}

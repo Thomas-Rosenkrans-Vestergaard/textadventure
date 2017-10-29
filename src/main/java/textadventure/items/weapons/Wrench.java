@@ -10,7 +10,7 @@ public class Wrench implements BluntWeapon, Item
 	 *
 	 * @return The name of the {@link Wrench}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Wrench";
 	}
@@ -20,7 +20,7 @@ public class Wrench implements BluntWeapon, Item
 	 *
 	 * @return The description of the {@link Wrench}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "Seems to be made of aluminium.";
 	}

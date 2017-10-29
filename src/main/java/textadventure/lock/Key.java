@@ -28,21 +28,11 @@ public class Key implements Item
 	}
 
 	/**
-	 * Returns the integer identifier that identifies the {@link ItemType}.
-	 *
-	 * @return The identifier.
-	 */
-	@Override public int getItemIdentifier()
-	{
-		return Objects.hash(getClass(), code);
-	}
-
-	/**
 	 * Returns the name of the {@link ItemType}.
 	 *
 	 * @return The name of the {@link ItemType}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return code;
 	}
@@ -52,7 +42,7 @@ public class Key implements Item
 	 *
 	 * @return The description of the {@link ItemType}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return String.format("On the key is written the code %s.", code);
 	}
@@ -65,5 +55,10 @@ public class Key implements Item
 	public String getCode()
 	{
 		return this.code;
+	}
+
+	@Override public int hashCode()
+	{
+		return Objects.hash(getClass(), code);
 	}
 }

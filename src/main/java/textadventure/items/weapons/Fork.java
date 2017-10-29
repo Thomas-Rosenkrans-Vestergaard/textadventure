@@ -10,7 +10,7 @@ public class Fork implements StabWeapon, Item
 	 *
 	 * @return The name of the {@link Fork}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Fork";
 	}
@@ -20,7 +20,7 @@ public class Fork implements StabWeapon, Item
 	 *
 	 * @return The description of the {@link Fork}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "A substitute for chopsticks.";
 	}

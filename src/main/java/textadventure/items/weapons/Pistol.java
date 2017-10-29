@@ -9,7 +9,7 @@ public class Pistol implements ProjectileWeapon, Item
 	 *
 	 * @return The name of the {@link Pistol}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Pistol";
 	}
@@ -19,7 +19,7 @@ public class Pistol implements ProjectileWeapon, Item
 	 *
 	 * @return The description of the {@link Pistol}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "Not fully assembled, but it might work.";
 	}

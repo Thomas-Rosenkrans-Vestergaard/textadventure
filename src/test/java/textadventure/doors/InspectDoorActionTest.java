@@ -26,7 +26,7 @@ public class InspectDoorActionTest
 		Room          a             = new MockRoom();
 		Room          b             = new MockRoom();
 		Door          door          = new BaseDoor(Door.State.OPEN, lock, a, b);
-		Character     character     = new BaseCharacter(null, null, null);
+		Character     character     = new BaseCharacter(null, null, null, null);
 		GameInterface gameInterface = new MockGameInterface();
 
 		assertEquals(Door.State.OPEN, door.getState());

@@ -1,5 +1,6 @@
 package textadventure;
 
+import textadventure.combat.Faction;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
@@ -12,56 +13,18 @@ public interface Character extends PropertyContainer
 {
 
 	/**
-	 * The default number of positions the {@link Character} has in their {@link Backpack} at the start of the game.
-	 */
-	int DEFAULT_POSITIONS = 10;
-
-	/**
-	 * The default maximum amount of HP the {@link Character} has at the start of the game.
-	 */
-	int DEFAULT_MAX_HP = 100;
-
-	/**
-	 * The default level of the {@link Character} at the start of the game.
-	 */
-	int DEFAULT_LEVEL = 1;
-
-	/**
-	 * The default sanity of the {@link Character} at the start of the game.
-	 */
-	int DEFAULT_SANITY = 100;
-
-	/**
-	 * The default strength of the {@link Character} at the start of the game.
-	 */
-	int DEFAULT_STRENGTH = 1;
-
-	/**
-	 * The default dexterity of the {@link Character} at the start of the game.
-	 */
-	int DEFAULT_DEXTERITY = 1;
-
-	/**
-	 * The default intelligence of the {@link Character} at the start of the game.
-	 */
-	int DEFAULT_INTELLIGENCE = 1;
-
-	/**
-	 * The default stealth of the {@link Character} at the start of the game.
-	 */
-	int DEFAULT_STEALTH = 1;
-
-	/**
-	 * The default amount of money the {@link Character} has at the start of the game.
-	 */
-	int DEFAULT_MONEY = 0;
-
-	/**
 	 * Returns the name of the {@link Character}.
 	 *
 	 * @return The name of the {@link Character}.
 	 */
 	String getName();
+
+	/**
+	 * Returns the {@link Faction} the {@link Character} belongs to.
+	 *
+	 * @return The {@link Faction} the {@link Character} belongs to.
+	 */
+	Faction getFaction();
 
 	/**
 	 * Returns the {@link Backpack} of the {@link Character}.
@@ -71,84 +34,84 @@ public interface Character extends PropertyContainer
 	Backpack getBackpack();
 
 	/**
-	 * Returns the {@link Boots} of the {@link Character}.
+	 * Returns the {@link HeadWear} worn by the {@link Character}.
 	 *
-	 * @return The {@link Boots} of the {@link Character}.
-	 */
-	Boots getBoots();
-
-	/**
-	 * Sets the {@link Boots} of the {@link Character}.
-	 *
-	 * @param boots The {@link Boots} to set.
-	 */
-	void setBoots(Boots boots);
-
-	/**
-	 * Returns the {@link TorsoWear} of the {@link Character}.
-	 *
-	 * @return The {@link TorsoWear} of the {@link Character}.
-	 */
-	TorsoWear getTorsoWear();
-
-	/**
-	 * Sets the {@link TorsoWear} of the {@link Character}.
-	 *
-	 * @param torso The {@link TorsoWear} to set.
-	 */
-	void setTorso(TorsoWear torso);
-
-	/**
-	 * Returns the {@link Gloves} of the {@link Character}.
-	 *
-	 * @return The {@link Gloves} of the {@link Character}.
-	 */
-	Gloves getGloves();
-
-	/**
-	 * Sets the {@link Gloves} of the {@link Character}.
-	 *
-	 * @param gloves The {@link Gloves} to set.
-	 */
-	void setGloves(Gloves gloves);
-
-	/**
-	 * Returns the {@link HeadWear} of the {@link Character}.
-	 *
-	 * @return The {@link HeadWear} of the {@link Character}.
+	 * @return The {@link HeadWear} worn by the {@link Character}.
 	 */
 	HeadWear getHeadWear();
 
 	/**
-	 * Sets the {@link HeadWear} of the {@link Character}.
+	 * Returns the {@link TorsoWear} worn by the {@link Character}.
+	 *
+	 * @return The {@link TorsoWear} worn by the {@link Character}.
+	 */
+	TorsoWear getTorsoWear();
+
+	/**
+	 * Returns the {@link Gloves} worn by the {@link Character}.
+	 *
+	 * @return The {@link Gloves} worn by the {@link Character}.
+	 */
+	Gloves getGloves();
+
+	/**
+	 * Returns the {@link Gloves} worn by the {@link Character}.
+	 *
+	 * @return The {@link Gloves} worn by the {@link Character}.
+	 */
+	Pants getPants();
+
+	/**
+	 * Returns the {@link Boots} worn by the {@link Character}.
+	 *
+	 * @return The {@link Boots} worn by the {@link Character}.
+	 */
+	Boots getBoots();
+
+	/**
+	 * return the {@link Weapon} equipped by the {@link Character}
+	 *
+	 * @return The {@link Weapon} equipped by the {@link Character}
+	 */
+	Weapon getWeapon();
+
+	/**
+	 * Sets the {@link HeadWear} worn by the {@link Character}.
 	 *
 	 * @param headWear The {@link HeadWear} to set.
 	 */
 	void setHeadWear(HeadWear headWear);
 
 	/**
-	 * Returns the {@link Gloves} of the {@link Character}.
+	 * Sets the {@link TorsoWear} worn by the {@link Character}.
 	 *
-	 * @return The {@link Gloves} of the {@link Character}.
+	 * @param torsoWear The {@link TorsoWear} to set.
 	 */
-	Pants getPants();
+	void setTorsoWear(TorsoWear torsoWear);
 
 	/**
-	 * Sets the {@link Pants} of the {@link Character}.
+	 * Sets the {@link Gloves} worn by the {@link Character}.
+	 *
+	 * @param gloves The {@link Gloves} to set.
+	 */
+	void setGloves(Gloves gloves);
+
+	/**
+	 * Sets the {@link Pants} worn by the {@link Character}.
 	 *
 	 * @param pants The {@link Pants} to set.
 	 */
 	void setPants(Pants pants);
 
 	/**
-	 * return the {@link Weapon} of the {@link Character}
+	 * Sets the {@link Boots} worn by the {@link Character}.
 	 *
-	 * @return The {@link Weapon} of the {@link Character}
+	 * @param boots The {@link Boots} to set.
 	 */
-	Weapon getWeapon();
+	void setBoots(Boots boots);
 
 	/**
-	 * Sets the {@link Weapon} of the {@link Character}.
+	 * Sets the {@link Weapon} equipped by the {@link Character}.
 	 *
 	 * @param weapon The {@link Weapon} to set.
 	 */

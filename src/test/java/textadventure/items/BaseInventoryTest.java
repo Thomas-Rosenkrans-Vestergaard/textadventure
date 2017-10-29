@@ -3,7 +3,6 @@ package textadventure.items;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
-import textadventure.items.inventory.MockItem;
 import textadventure.ui.Option;
 
 import java.util.Stack;
@@ -20,12 +19,12 @@ public class BaseInventoryTest
 			super(null, null);
 		}
 
-		@Override public String getItemName()
+		@Override public String getItemTypeName()
 		{
 			return null;
 		}
 
-		@Override public String getItemDescription()
+		@Override public String getItemTypeDescription()
 		{
 			return null;
 		}
@@ -38,12 +37,12 @@ public class BaseInventoryTest
 			super(null, null);
 		}
 
-		@Override public String getItemName()
+		@Override public String getItemTypeName()
 		{
 			return null;
 		}
 
-		@Override public String getItemDescription()
+		@Override public String getItemTypeDescription()
 		{
 			return null;
 		}
@@ -54,7 +53,7 @@ public class BaseInventoryTest
 	{
 		BaseInventory inventory = new BaseInventory(5);
 		assertEquals(0, inventory.getNumberOfItems());
-		inventory.addItem(new MockItem());
+		inventory.addItem(new SomeItem());
 		assertEquals(1, inventory.getNumberOfItems());
 	}
 
@@ -71,7 +70,7 @@ public class BaseInventoryTest
 	{
 		BaseInventory inventory = new BaseInventory(5);
 		assertEquals(0, inventory.getNumberOfItems(0));
-		inventory.addItem(new MockItem(), 0);
+		inventory.addItem(new SomeItem(), 0);
 		assertEquals(1, inventory.getNumberOfItems(0));
 	}
 
@@ -80,7 +79,7 @@ public class BaseInventoryTest
 	public void addItemPositionThrowsPositionRangeException() throws Exception
 	{
 		BaseInventory inventory = new BaseInventory(1);
-		inventory.addItem(new MockItem(), 5);
+		inventory.addItem(new SomeItem(), 5);
 	}
 
 	@Test(expected = TypeMismatchException.class)
@@ -94,8 +93,8 @@ public class BaseInventoryTest
 	@Test
 	public void takeItem() throws Exception
 	{
-		Item          a         = new MockItem();
-		Item          b         = new MockItem();
+		Item          a         = new SomeItem();
+		Item          b         = new SomeItem();
 		BaseInventory inventory = new BaseInventory(5);
 		inventory.addItem(a, 0);
 		inventory.addItem(b, 0);
@@ -153,9 +152,9 @@ public class BaseInventoryTest
 	@Test
 	public void takeItems() throws Exception
 	{
-		Item a = new MockItem();
-		Item b = new MockItem();
-		Item c = new MockItem();
+		Item a = new SomeItem();
+		Item b = new SomeItem();
+		Item c = new SomeItem();
 
 		BaseInventory inventory = new BaseInventory(1);
 
@@ -192,7 +191,7 @@ public class BaseInventoryTest
 	public void takeItemsThrowsNotEnoughItemsException() throws Exception
 	{
 		BaseInventory inventory = new BaseInventory(1);
-		inventory.addItem(new MockItem(), 0);
+		inventory.addItem(new SomeItem(), 0);
 		inventory.takeItems(0, 10);
 	}
 
@@ -246,7 +245,7 @@ public class BaseInventoryTest
 	public void getItem() throws Exception
 	{
 		Inventory inventory = new BaseInventory(1);
-		Item      input     = new MockItem();
+		Item      input     = new SomeItem();
 		assertEquals(0, inventory.getNumberOfItems());
 		inventory.addItem(input, 0);
 		assertEquals(1, inventory.getNumberOfItems());
@@ -307,9 +306,9 @@ public class BaseInventoryTest
 	@Test
 	public void getItems() throws Exception
 	{
-		Item a = new MockItem();
-		Item b = new MockItem();
-		Item c = new MockItem();
+		Item a = new SomeItem();
+		Item b = new SomeItem();
+		Item c = new SomeItem();
 
 		BaseInventory inventory = new BaseInventory(1);
 
@@ -346,7 +345,7 @@ public class BaseInventoryTest
 	public void getItemsThrowsNotEnoughItemsException() throws Exception
 	{
 		BaseInventory inventory = new BaseInventory(1);
-		inventory.addItem(new MockItem(), 0);
+		inventory.addItem(new SomeItem(), 0);
 		inventory.getItems(0, 10);
 	}
 
@@ -401,9 +400,9 @@ public class BaseInventoryTest
 	{
 		Inventory inventory = new BaseInventory(3);
 		assertEquals(0, inventory.getNumberOfItems());
-		inventory.addItem(new MockItem());
+		inventory.addItem(new SomeItem());
 		assertEquals(1, inventory.getNumberOfItems());
-		inventory.addItem(new MockItem(), 1);
+		inventory.addItem(new SomeItem(), 1);
 		assertEquals(2, inventory.getNumberOfItems());
 	}
 
@@ -415,8 +414,8 @@ public class BaseInventoryTest
 		assertEquals(0, inventory.getNumberOfItems(0));
 		assertEquals(0, inventory.getNumberOfItems(1));
 
-		inventory.addItem(new MockItem(), 0);
-		inventory.addItem(new MockItem(), 1);
+		inventory.addItem(new SomeItem(), 0);
+		inventory.addItem(new SomeItem(), 1);
 
 		assertEquals(1, inventory.getNumberOfItems(0));
 		assertEquals(1, inventory.getNumberOfItems(1));
@@ -434,9 +433,9 @@ public class BaseInventoryTest
 	{
 		Inventory inventory = new BaseInventory(2);
 
-		inventory.addItem(new MockItem(), 0);
-		inventory.addItem(new MockItem(), 0);
-		inventory.addItem(new MockItem(), 1);
+		inventory.addItem(new SomeItem(), 0);
+		inventory.addItem(new SomeItem(), 0);
+		inventory.addItem(new SomeItem(), 1);
 
 		ImmutableMap<Integer, Integer> output = inventory.getPositionAmounts();
 
@@ -457,7 +456,7 @@ public class BaseInventoryTest
 	{
 		Inventory inventory = new BaseInventory(5);
 		assertEquals(5, inventory.getNumberOfEmptyPositions());
-		inventory.addItem(new MockItem());
+		inventory.addItem(new SomeItem());
 		assertEquals(4, inventory.getNumberOfEmptyPositions());
 	}
 
@@ -466,7 +465,7 @@ public class BaseInventoryTest
 	{
 		Inventory inventory = new BaseInventory(5);
 		assertEquals(0, inventory.getNumberOfNonEmptyPositions());
-		inventory.addItem(new MockItem());
+		inventory.addItem(new SomeItem());
 		assertEquals(1, inventory.getNumberOfNonEmptyPositions());
 	}
 
@@ -475,8 +474,8 @@ public class BaseInventoryTest
 	{
 		Inventory inventory = new BaseInventory(5);
 
-		MockItem a = new MockItem();
-		MockItem b = new MockItem();
+		SomeItem a = new SomeItem();
+		SomeItem b = new SomeItem();
 
 		inventory.addItem(a, 0);
 		inventory.addItem(b, 1);
@@ -502,8 +501,8 @@ public class BaseInventoryTest
 	{
 		Inventory inventory = new BaseInventory(5);
 
-		Item a = new MockItem();
-		Item b = new MockItem();
+		Item a = new SomeItem();
+		Item b = new SomeItem();
 
 		inventory.addItem(a, 0);
 		inventory.addItem(b, 1);

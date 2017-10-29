@@ -17,6 +17,8 @@ import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.InspectFloorAction;
+import textadventure.ui.characterSelection.CharacterCreationCallback;
+import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
 
 public class MockGameInterface implements GameInterface
 {
@@ -27,6 +29,11 @@ public class MockGameInterface implements GameInterface
 	}
 
 	@Override public void onPlayerJoin(Game game, Player player)
+	{
+
+	}
+
+	public void onCharacterCreation(Player player, int minimum, int maximum, CharacterCreationCallback create, FinishCharacterCreationCallback finish)
 	{
 
 	}

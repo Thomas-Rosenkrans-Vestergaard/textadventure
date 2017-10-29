@@ -9,7 +9,7 @@ public class Pipe implements BluntWeapon, Item
 	 *
 	 * @return The name of the {@link Pipe}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Pipe";
 	}
@@ -19,7 +19,7 @@ public class Pipe implements BluntWeapon, Item
 	 *
 	 * @return The description of the {@link Pipe}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "Warning, not for tobacco, unless you're desperate.";
 	}

@@ -12,24 +12,24 @@ public class TypeMismatchException extends InventoryException
 	private int position;
 
 	/**
-	 * The type the position expected.
+	 * The {@link ItemType} the position expected.
 	 */
-	private Class expected;
+	private ItemType expected;
 
 	/**
-	 * The type the position received.
+	 * The {@link ItemType} the position received.
 	 */
-	private Class actual;
+	private ItemType actual;
 
 	/**
 	 * Creates a new {@link TypeMismatchException}.
 	 *
 	 * @param inventory The {@link Inventory} where the exception occurred.
 	 * @param position  The position of the position where the exception occurred.
-	 * @param expected  The type the position expected.
-	 * @param actual    The type the position received.
+	 * @param expected  The {@link ItemType} the position expected.
+	 * @param actual    The {@link ItemType} the position received.
 	 */
-	public TypeMismatchException(Inventory inventory, int position, Class expected, Class actual)
+	public TypeMismatchException(Inventory inventory, int position, ItemType expected, ItemType actual)
 	{
 		super(inventory);
 		this.position = position;
@@ -48,21 +48,21 @@ public class TypeMismatchException extends InventoryException
 	}
 
 	/**
-	 * Returns the type the position expected.
+	 * Returns the {@link ItemType} the position expected.
 	 *
-	 * @return The type the position expected.
+	 * @return The {@link ItemType} the position expected.
 	 */
-	public Class getExpected()
+	public ItemType getExpected()
 	{
 		return this.expected;
 	}
 
 	/**
-	 * Returns the type the position received.
+	 * Returns the {@link ItemType} the position received.
 	 *
-	 * @return The type the position received.
+	 * @return The {@link ItemType} the position received.
 	 */
-	public Class getActual()
+	public ItemType getActual()
 	{
 		return this.actual;
 	}

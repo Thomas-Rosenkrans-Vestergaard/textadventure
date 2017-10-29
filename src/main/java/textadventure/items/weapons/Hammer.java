@@ -9,7 +9,7 @@ public class Hammer implements BluntWeapon, Item
 	 *
 	 * @return The name of the {@link Hammer}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Hammer";
 	}
@@ -19,7 +19,7 @@ public class Hammer implements BluntWeapon, Item
 	 *
 	 * @return The description of the {@link Hammer}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "Has broken many nails.";
 	}

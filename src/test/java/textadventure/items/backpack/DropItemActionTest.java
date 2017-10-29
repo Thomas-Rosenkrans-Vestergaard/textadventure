@@ -5,7 +5,7 @@ import textadventure.BaseCharacter;
 import textadventure.Character;
 import textadventure.actions.ActionTest;
 import textadventure.items.Item;
-import textadventure.items.inventory.MockItem;
+import textadventure.items.SomeItem;
 import textadventure.rooms.BaseRoom;
 import textadventure.rooms.Floor;
 import textadventure.rooms.Room;
@@ -21,11 +21,11 @@ public class DropItemActionTest
 	public void perform() throws Exception
 	{
 		Backpack backpack = new Backpack(5);
-		Item     item     = new MockItem();
+		Item     item     = new SomeItem();
 		backpack.addItem(item);
 		Room      currentLocation = new BaseRoom(null, null);
 		Floor     floor           = currentLocation.getRoomFloor();
-		Character character       = new BaseCharacter(null, backpack, currentLocation);
+		Character character       = new BaseCharacter(null, null, backpack, currentLocation);
 
 		GameInterface gameInterface = new MockGameInterface()
 		{
@@ -63,11 +63,11 @@ public class DropItemActionTest
 	public void performArgument() throws Exception
 	{
 		Backpack      backpack        = new Backpack(5);
-		Item          a               = new MockItem();
-		Item          b               = new MockItem();
+		Item          a               = new SomeItem();
+		Item          b               = new SomeItem();
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new BaseCharacter(null, backpack, currentLocation);
+		Character     character       = new BaseCharacter(null, null, backpack, currentLocation);
 		GameInterface gameInterface   = new MockGameInterface();
 
 		backpack.addItem(a, 0);
@@ -100,11 +100,11 @@ public class DropItemActionTest
 		Backpack      backpack        = new Backpack(5);
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new BaseCharacter(null, backpack, currentLocation);
+		Character     character       = new BaseCharacter(null, null, backpack, currentLocation);
 		GameInterface gameInterface   = new MockGameInterface();
 
-		backpack.addItem(new MockItem());
-		backpack.addItem(new MockItem());
+		backpack.addItem(new SomeItem());
+		backpack.addItem(new SomeItem());
 
 		assertEquals(2, backpack.getNumberOfItems());
 		assertEquals(0, floor.getNumberOfItems());

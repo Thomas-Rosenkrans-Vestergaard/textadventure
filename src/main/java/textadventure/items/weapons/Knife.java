@@ -10,7 +10,7 @@ public class Knife implements EdgedWeapon, StabWeapon, Item
 	 *
 	 * @return The name of the {@link Knife}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Knife";
 	}
@@ -20,7 +20,7 @@ public class Knife implements EdgedWeapon, StabWeapon, Item
 	 *
 	 * @return The description of the {@link Knife}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "Good for butter, if there was any.";
 	}

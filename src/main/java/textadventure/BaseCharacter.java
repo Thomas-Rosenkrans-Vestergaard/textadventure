@@ -1,11 +1,16 @@
 package textadventure;
 
 import com.google.common.collect.ImmutableMap;
+import textadventure.combat.Faction;
 import textadventure.items.backpack.Backpack;
+import textadventure.items.backpack.DropItemAction;
+import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.weapons.Fist;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
 import textadventure.rooms.Room;
+import textadventure.ui.GameInterface;
+import textadventure.ui.characterSelection.CharacterCreationTemplate;
 
 import java.awt.*;
 
@@ -16,9 +21,59 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 {
 
 	/**
+	 * The default number of positions in the {@link Character}s {@link Backpack}.
+	 */
+	static public int DEFAULT_BACKPACK_POSITIONS = 10;
+
+	/**
+	 * The default maximum amount of HP the {@link Character} has at the start of the game.
+	 */
+	static public int DEFAULT_MAX_HP = 100;
+
+	/**
+	 * The default level of the {@link Character} at the start of the game.
+	 */
+	static public int DEFAULT_LEVEL = 1;
+
+	/**
+	 * The default sanity of the {@link Character} at the start of the game.
+	 */
+	static public int DEFAULT_SANITY = 100;
+
+	/**
+	 * The default strength of the {@link Character} at the start of the game.
+	 */
+	static public int DEFAULT_STRENGTH = 1;
+
+	/**
+	 * The default dexterity of the {@link Character} at the start of the game.
+	 */
+	static public int DEFAULT_DEXTERITY = 1;
+
+	/**
+	 * The default intelligence of the {@link Character} at the start of the game.
+	 */
+	static public int DEFAULT_INTELLIGENCE = 1;
+
+	/**
+	 * The default stealth of the {@link Character} at the start of the game.
+	 */
+	static public int DEFAULT_STEALTH = 1;
+
+	/**
+	 * The default amount of money the {@link Character} has at the start of the game.
+	 */
+	static public int DEFAULT_MONEY = 0;
+
+	/**
 	 * The name of the {@link Character}.
 	 */
 	private String name;
+
+	/**
+	 * The {@link Faction} the {@link Character} belongs to.
+	 */
+	private Faction faction;
 
 	/**
 	 * The {@link Backpack} of the {@link Character}. Used to store items.
@@ -29,6 +84,36 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	 * The {@link Room} the {@link Character} is currently in.
 	 */
 	private Room currentLocation;
+
+	/**
+	 * The {@link HeadWear} worn by the {@link Character}.
+	 */
+	private HeadWear headWear;
+
+	/**
+	 * The {@link TorsoWear} worn by the {@link Character}.
+	 */
+	private TorsoWear torsoWear;
+
+	/**
+	 * The {@link Gloves} worn by the {@link Character}.
+	 */
+	private Gloves gloves;
+
+	/**
+	 * The {@link Pants} worn on the {@link Character}.
+	 */
+	private Pants pants;
+
+	/**
+	 * The {@link Boots} worn by the {@link Character}.
+	 */
+	private Boots boots;
+
+	/**
+	 * The {@link Weapon} equipped by the {@link Character}
+	 */
+	private Weapon weapon;
 
 	/**
 	 * The maximum number of hit points that the {@link Character} has.
@@ -77,41 +162,17 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	private int money;
 
 	/**
-	 * The {@link Boots} worn by the {@link Character}.
-	 */
-	private Boots boots;
-
-	/**
-	 * The {@link TorsoWear} worn by the {@link Character}.
-	 */
-	private TorsoWear torsoWear;
-
-	/**
-	 * The {@link HeadWear} worn by the {@link Character}.
-	 */
-	private HeadWear headWear;
-
-	/**
-	 * The {@link Gloves} worn by the {@link Character}.
-	 */
-	private Gloves gloves;
-
-	/**
-	 * The {@link Pants} worn on the {@link Character}.
-	 */
-	private Pants pants;
-
-	/**
-	 * The {@link Weapon} equipped by the {@link Character}
-	 */
-	private Weapon weapon;
-
-
-	/**
 	 * Creates a new {@link BaseCharacter}.
 	 *
 	 * @param name            The name of the {@link Character}.
+	 * @param faction         The {@link Faction} the {@link Character} belongs to.
 	 * @param backpack        The {@link Backpack} of the {@link Character}. Used to store items.
+	 * @param headWear        The {@link HeadWear} worn by the {@link Character}.
+	 * @param torsoWear       The {@link TorsoWear} worn by the {@link Character}.
+	 * @param gloves          The {@link Gloves} worn by the {@link Character}.
+	 * @param pants           The {@link Pants} worn by the {@link Character}.
+	 * @param boots           The {@link Boots} worn by the {@link Character}.
+	 * @param weapon          The {@link Weapon} equipped.
 	 * @param currentLocation The {@link Room} the {@link Character} is currently in.
 	 * @param maxHP           The maximum number of hit points that the {@link Character} has.
 	 * @param currentHP       The current number of hit points that the {@link Character} has.
@@ -126,6 +187,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	 */
 	public BaseCharacter(
 			String name,
+			Faction faction,
 			Backpack backpack,
 			HeadWear headWear,
 			TorsoWear torsoWear,
@@ -145,6 +207,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 			int money)
 	{
 		this.name = name;
+		this.faction = faction;
 		this.backpack = backpack;
 		this.headWear = headWear;
 		this.torsoWear = torsoWear;
@@ -168,13 +231,15 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	 * Creates a new {@link Character}.
 	 *
 	 * @param name            The name of the {@link Character}.
+	 * @param faction         The {@link Faction} the {@link Character} belongs to.
 	 * @param backpack        The {@link Backpack} worn by the {@link Character}.
 	 * @param currentLocation The {@link Room} the player is currently in.
 	 */
-	public BaseCharacter(String name, Backpack backpack, Room currentLocation)
+	public BaseCharacter(String name, Faction faction, Backpack backpack, Room currentLocation)
 	{
 		this(
 				name,
+				faction,
 				backpack,
 				new WornDownCap(1.0, Color.BLUE),
 				new WornDownSweatshirt(1.0, Color.GRAY),
@@ -196,6 +261,30 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
+	 * Creates a new {@link BaseCharacter} from a {@link CharacterCreationTemplate}.
+	 *
+	 * @param characterCreationTemplate The {@link CharacterCreationTemplate}.
+	 * @param gameInterface             The {@link GameInterface}.
+	 * @param currentLocation           The current {@link Room} of the {@link BaseCharacter}.
+	 * @return The newly created {@link BaseCharacter}.
+	 */
+	public static BaseCharacter fromTemplate(CharacterCreationTemplate characterCreationTemplate, GameInterface gameInterface, Room currentLocation)
+	{
+		Backpack backpack = new Backpack(DEFAULT_BACKPACK_POSITIONS);
+		BaseCharacter baseCharacter = new BaseCharacter(
+				characterCreationTemplate.getName(),
+				characterCreationTemplate.getFaction(),
+				backpack,
+				currentLocation
+		);
+
+		baseCharacter.addProperty("backpack", backpack);
+		baseCharacter.addAction("drop", new DropItemAction(backpack, gameInterface::onItemDrop));
+		baseCharacter.addAction("pickup", new PickUpItemAction(backpack, gameInterface::onItemPickup));
+		return baseCharacter;
+	}
+
+	/**
 	 * Returns an {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
 	 *
 	 * @return The {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
@@ -210,9 +299,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the name of the {@link Character}.
+	 * Returns the name of the {@link java.lang.Character}.
 	 *
-	 * @return The name of the {@link Character}.
+	 * @return The name of the {@link java.lang.Character}.
 	 */
 	@Override public String getName()
 	{
@@ -220,9 +309,19 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the {@link Backpack} of the {@link Character}.
+	 * Returns the {@link Faction} the {@link java.lang.Character} belongs to.
 	 *
-	 * @return The {@link Backpack} of the {@link Character}.
+	 * @return The {@link Faction} the {@link java.lang.Character} belongs to.
+	 */
+	@Override public Faction getFaction()
+	{
+		return faction;
+	}
+
+	/**
+	 * Returns the {@link Backpack} of the {@link java.lang.Character}.
+	 *
+	 * @return The {@link Backpack} of the {@link java.lang.Character}.
 	 */
 	@Override public Backpack getBackpack()
 	{
@@ -230,69 +329,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the {@link Boots} of the {@link Character}.
+	 * Returns the {@link HeadWear} worn by the {@link java.lang.Character}.
 	 *
-	 * @return The {@link Boots} of the {@link Character}.
-	 */
-	@Override public Boots getBoots()
-	{
-		return boots;
-	}
-
-	/**
-	 * Sets the {@link Boots} of the {@link Character}.
-	 *
-	 * @param boots The {@link Boots} to set.
-	 */
-	@Override public void setBoots(Boots boots)
-	{
-		this.boots = boots;
-	}
-
-	/**
-	 * Returns the {@link TorsoWear} of the {@link Character}.
-	 *
-	 * @return The {@link TorsoWear} of the {@link Character}.
-	 */
-	@Override public TorsoWear getTorsoWear()
-	{
-		return torsoWear;
-	}
-
-	/**
-	 * Sets the {@link TorsoWear} of the {@link Character}.
-	 *
-	 * @param torsoWear The {@link TorsoWear} to set.
-	 */
-	@Override public void setTorso(TorsoWear torsoWear)
-	{
-		this.torsoWear = torsoWear;
-	}
-
-	/**
-	 * Returns the {@link Gloves} of the {@link Character}.
-	 *
-	 * @return The {@link Gloves} of the {@link Character}.
-	 */
-	@Override public Gloves getGloves()
-	{
-		return gloves;
-	}
-
-	/**
-	 * Sets the {@link Gloves} of the {@link Character}.
-	 *
-	 * @param gloves The {@link Gloves} to set.
-	 */
-	@Override public void setGloves(Gloves gloves)
-	{
-		this.gloves = gloves;
-	}
-
-	/**
-	 * Returns the {@link HeadWear} of the {@link Character}.
-	 *
-	 * @return The {@link HeadWear} of the {@link Character}.
+	 * @return The {@link HeadWear} worn by the {@link java.lang.Character}.
 	 */
 	@Override public HeadWear getHeadWear()
 	{
@@ -300,7 +339,57 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Sets the {@link HeadWear} of the {@link Character}.
+	 * Returns the {@link TorsoWear} worn by the {@link java.lang.Character}.
+	 *
+	 * @return The {@link TorsoWear} worn by the {@link java.lang.Character}.
+	 */
+	@Override public TorsoWear getTorsoWear()
+	{
+		return torsoWear;
+	}
+
+	/**
+	 * Returns the {@link Gloves} worn by the {@link java.lang.Character}.
+	 *
+	 * @return The {@link Gloves} worn by the {@link java.lang.Character}.
+	 */
+	@Override public Gloves getGloves()
+	{
+		return gloves;
+	}
+
+	/**
+	 * Returns the {@link Gloves} worn by the {@link java.lang.Character}.
+	 *
+	 * @return The {@link Gloves} worn by the {@link java.lang.Character}.
+	 */
+	@Override public Pants getPants()
+	{
+		return pants;
+	}
+
+	/**
+	 * Returns the {@link Boots} worn by the {@link java.lang.Character}.
+	 *
+	 * @return The {@link Boots} worn by the {@link java.lang.Character}.
+	 */
+	@Override public Boots getBoots()
+	{
+		return boots;
+	}
+
+	/**
+	 * return the {@link Weapon} equipped by the {@link java.lang.Character}
+	 *
+	 * @return The {@link Weapon} equipped by the {@link java.lang.Character}
+	 */
+	@Override public Weapon getWeapon()
+	{
+		return weapon;
+	}
+
+	/**
+	 * Sets the {@link HeadWear} worn by the {@link java.lang.Character}.
 	 *
 	 * @param headWear The {@link HeadWear} to set.
 	 */
@@ -310,17 +399,27 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the {@link Gloves} of the {@link Character}.
+	 * Sets the {@link TorsoWear} worn by the {@link java.lang.Character}.
 	 *
-	 * @return The {@link Gloves} of the {@link Character}.
+	 * @param torsoWear The {@link TorsoWear} to set.
 	 */
-	@Override public Pants getPants()
+	@Override public void setTorsoWear(TorsoWear torsoWear)
 	{
-		return pants;
+		this.torsoWear = torsoWear;
 	}
 
 	/**
-	 * Sets the {@link Pants} of the {@link Character}.
+	 * Sets the {@link Gloves} worn by the {@link java.lang.Character}.
+	 *
+	 * @param gloves The {@link Gloves} to set.
+	 */
+	@Override public void setGloves(Gloves gloves)
+	{
+		this.gloves = gloves;
+	}
+
+	/**
+	 * Sets the {@link Pants} worn by the {@link java.lang.Character}.
 	 *
 	 * @param pants The {@link Pants} to set.
 	 */
@@ -330,17 +429,17 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * return the {@link Weapon} of the {@link Character}
+	 * Sets the {@link Boots} worn by the {@link java.lang.Character}.
 	 *
-	 * @return The {@link Weapon} of the {@link Character}
+	 * @param boots The {@link Boots} to set.
 	 */
-	@Override public Weapon getWeapon()
+	@Override public void setBoots(Boots boots)
 	{
-		return weapon;
+		this.boots = boots;
 	}
 
 	/**
-	 * Sets the {@link Weapon} of the {@link Character}.
+	 * Sets the {@link Weapon} equipped by the {@link java.lang.Character}.
 	 *
 	 * @param weapon The {@link Weapon} to set.
 	 */
@@ -350,9 +449,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the {@link Room} the {@link Character} is currently in.
+	 * Returns the {@link Room} the {@link java.lang.Character} is currently in.
 	 *
-	 * @return The {@link Room} the {@link Character} is currently in.
+	 * @return The {@link Room} the {@link java.lang.Character} is currently in.
 	 */
 	@Override public Room getCurrentLocation()
 	{
@@ -360,7 +459,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Updates the {@link Room} the {@link Character} is currently in.
+	 * Updates the {@link Room} the {@link java.lang.Character} is currently in.
 	 *
 	 * @param room The {@link Room} to update to.
 	 */
@@ -370,9 +469,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the current number of hit points that the {@link Character} has.
+	 * Returns the current number of hit points that the {@link java.lang.Character} has.
 	 *
-	 * @return The current number of hit points that the {@link Character} has.
+	 * @return The current number of hit points that the {@link java.lang.Character} has.
 	 */
 	@Override public int getCurrentHP()
 	{
@@ -380,9 +479,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the maximum number of hit points that the {@link Character} can has.
+	 * Returns the maximum number of hit points that the {@link java.lang.Character} can has.
 	 *
-	 * @return The maximum number of hit points that the {@link Character} can has.
+	 * @return The maximum number of hit points that the {@link java.lang.Character} can has.
 	 */
 	@Override public int getMaxHP()
 	{
@@ -390,9 +489,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the level of the {@link Character}.
+	 * Returns the level of the {@link java.lang.Character}.
 	 *
-	 * @return The level of the {@link Character}.
+	 * @return The level of the {@link java.lang.Character}.
 	 */
 	@Override public int getLevel()
 	{
@@ -400,9 +499,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the level of sanity of the {@link Character}.
+	 * Returns the level of sanity of the {@link java.lang.Character}.
 	 *
-	 * @return The level of sanity of the {@link Character}.
+	 * @return The level of sanity of the {@link java.lang.Character}.
 	 */
 	@Override public int getSanity()
 	{
@@ -410,11 +509,11 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the strength level of the {@link Character}. Determines the damage done by the
-	 * {@link Character} and the carry capacity of the {@link Character}.
+	 * Returns the strength level of the {@link java.lang.Character}. Determines the damage done by the {@link java.lang.Character} and the
+	 * carry capacity of the {@link java.lang.Character}.
 	 *
-	 * @return The strength level of the {@link Character}. Determines the damage done by the
-	 * {@link Character} and the carry capacity of the {@link Character}.
+	 * @return The strength level of the {@link java.lang.Character}. Determines the damage done by the {@link java.lang.Character} and the
+	 * carry capacity of the {@link java.lang.Character}.
 	 */
 	@Override public int getStrength()
 	{
@@ -422,9 +521,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the dexterity level of the {@link Character}. Determines the chance to dodge incoming attacks.
+	 * Returns the dexterity level of the {@link java.lang.Character}. Determines the chance to dodge incoming attacks.
 	 *
-	 * @return The dexterity level of the {@link Character}. Determines the chance to dodge incoming attacks.
+	 * @return The dexterity level of the {@link java.lang.Character}. Determines the chance to dodge incoming attacks.
 	 */
 	@Override public int getDexterity()
 	{
@@ -432,9 +531,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the intelligence level of the {@link Character}.
+	 * Returns the intelligence level of the {@link java.lang.Character}.
 	 *
-	 * @return The intelligence level of the {@link Character}.
+	 * @return The intelligence level of the {@link java.lang.Character}.
 	 */
 	@Override public int getIntelligence()
 	{
@@ -442,11 +541,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the stealth level of the {@link Character}. Determines the chance to pickpocket other
-	 * {@link Character}s.
+	 * Returns the stealth level of the {@link java.lang.Character}.
 	 *
-	 * @return The stealth level of the {@link Character}. Determines the chance to pickpocket other
-	 * {@link Character}s.
+	 * @return The stealth level of the {@link java.lang.Character}.
 	 */
 	@Override public int getStealth()
 	{
@@ -454,9 +551,9 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the amount of money the {@link Character} has.
+	 * Returns the amount of money the {@link java.lang.Character} has.
 	 *
-	 * @return The amount of money the {@link Character} has.
+	 * @return The amount of money the {@link java.lang.Character} has.
 	 */
 	@Override public int getMoney()
 	{

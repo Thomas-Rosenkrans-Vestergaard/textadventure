@@ -271,7 +271,7 @@ public class BaseInventory implements Inventory
 			Item item = stack.pop();
 
 			if (!type.isInstance(item))
-				throw new TypeMismatchException(this, position, type, item.getClass());
+				throw new TypeMismatchException(this, position, ClassTypeItem.of(type), item);
 
 			result.push(type.cast(item));
 			moved++;
@@ -396,16 +396,7 @@ public class BaseInventory implements Inventory
 
 			Item item = stack.get(x);
 			if (!type.isInstance(item))
-				throw new TypeMismatchException(this, position, type, item.getClass());
-
-			result.push(type.cast(item));
-			moved++;
-		}
-
-		while (moved < amount) {
-			Item item = stack.peek();
-			if (!type.isInstance(item))
-				throw new TypeMismatchException(this, position, type, item.getClass());
+				throw new TypeMismatchException(this, position, ClassTypeItem.of(type), item);
 
 			result.push(type.cast(item));
 			moved++;
@@ -495,7 +486,7 @@ public class BaseInventory implements Inventory
 		ImmutableSet.Builder<Option<Item>> builder = new ImmutableSet.Builder<>();
 		items.forEach((position, stack) -> {
 			Item item = stack.peek();
-			builder.add(new BaseOption<>(position, item.getItemName(), item.getItemDescription(), item));
+			builder.add(new BaseOption<>(position, item.getItemTypeName(), item.getItemTypeDescription(), item));
 		});
 
 		return builder.build();
@@ -513,7 +504,7 @@ public class BaseInventory implements Inventory
 		items.forEach((position, stack) -> {
 			Item item = stack.peek();
 			if (type.isInstance(item))
-				builder.add(new BaseOption<>(position, item.getItemName(), item.getItemDescription(), type.cast(item)));
+				builder.add(new BaseOption<>(position, item.getItemTypeName(), item.getItemTypeDescription(), type.cast(item)));
 		});
 
 		return builder.build();

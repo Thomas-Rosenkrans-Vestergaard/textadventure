@@ -4,7 +4,7 @@ package textadventure.ui;
  * Exception thrown when the number of selected {@link Option}(s) it outside of the range set by the {@link Select}
  * object.
  */
-public class SelectionAmountOutOfBounds extends SelectException
+public class SelectionAmountException extends SelectException
 {
 
 	/**
@@ -23,14 +23,14 @@ public class SelectionAmountOutOfBounds extends SelectException
 	private int actualNumber;
 
 	/**
-	 * Creates a new {@link SelectionAmountOutOfBounds}.
+	 * Creates a new {@link SelectionAmountException}.
 	 *
-	 * @param select        The {@link Select} where the {@link SelectionAmountOutOfBounds} occurred.
+	 * @param select        The {@link Select} where the {@link SelectionAmountException} occurred.
 	 * @param minimumNumber The maximum number of {@link Option}(s) to be selected.
 	 * @param maximumNumber The maximum number of {@link Option}(s) to be selected.
 	 * @param actualNumber  The actual number of {@link Option}(s) that were selected.
 	 */
-	public SelectionAmountOutOfBounds(Select select, int minimumNumber, int maximumNumber, int actualNumber)
+	public SelectionAmountException(Select select, int minimumNumber, int maximumNumber, int actualNumber)
 	{
 		super(select);
 		this.minimumNumber = minimumNumber;

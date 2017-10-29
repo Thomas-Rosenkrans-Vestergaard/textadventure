@@ -10,7 +10,7 @@ public class Baton implements BluntWeapon, Item
 	 *
 	 * @return The name of the {@link Baton}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Baton";
 	}
@@ -20,7 +20,7 @@ public class Baton implements BluntWeapon, Item
 	 *
 	 * @return The description of the {@link Baton}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "Efficient for handling riots.";
 	}

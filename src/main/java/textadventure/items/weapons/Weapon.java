@@ -1,6 +1,6 @@
 package textadventure.items.weapons;
 
-import textadventure.DamageSource;
+import textadventure.combat.DamageSource;
 
 /**
  * Represent the weapon

@@ -9,7 +9,7 @@ public class Plunger implements BluntWeapon, Item
 	 *
 	 * @return The name of the {@link Plunger}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Plunger";
 	}
@@ -19,7 +19,7 @@ public class Plunger implements BluntWeapon, Item
 	 *
 	 * @return The description of the {@link Plunger}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "The smell alone is dangerous.";
 	}

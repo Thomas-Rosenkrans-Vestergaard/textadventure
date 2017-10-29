@@ -16,7 +16,7 @@ public class InspectChestActionTest
 	public void perform() throws Exception
 	{
 		GameInterface gameInterface = new MockGameInterface();
-		Character     character     = new BaseCharacter(null, null, null);
+		Character     character     = new BaseCharacter(null, null, null, null);
 		Chest         chest         = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
 		InspectChestAction action = new InspectChestAction(chest, ((characterResponse, actionResponse) -> {
@@ -32,7 +32,7 @@ public class InspectChestActionTest
 	public void performThrowsChestClosedException() throws Exception
 	{
 		GameInterface gameInterface = new MockGameInterface();
-		Character     character     = new BaseCharacter(null, null, null);
+		Character     character     = new BaseCharacter(null, null, null, null);
 		Chest         chest         = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.UNLOCKED));
 
 		InspectChestAction action = new InspectChestAction(chest, ((characterResponse, actionResponse) -> {

@@ -42,7 +42,7 @@ public class BackpackExpansion implements Item
 	 *
 	 * @return The name of the {@link BackpackExpansion}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "backpack-expansion:" + upgrade;
 	}
@@ -52,7 +52,7 @@ public class BackpackExpansion implements Item
 	 *
 	 * @return The description of the {@link BackpackExpansion}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "Expands a backpack with " + upgrade + " positions.";
 	}

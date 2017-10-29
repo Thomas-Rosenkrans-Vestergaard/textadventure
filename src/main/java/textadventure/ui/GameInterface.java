@@ -18,6 +18,8 @@ import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.InspectFloorAction;
+import textadventure.ui.characterSelection.CharacterCreationCallback;
+import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
 
 public interface GameInterface
 {
@@ -36,6 +38,17 @@ public interface GameInterface
 	 * @param player The {@link Player} who joined the {@link Game}.
 	 */
 	void onPlayerJoin(Game game, Player player);
+
+	/**
+	 * Lets the {@link Player} create the {@link Character} they control.
+	 *
+	 * @param player  The {@link Player} creating the {@link Character}s.
+	 * @param minimum The minimum amount of {@link Character}s to create.
+	 * @param maximum The maximum amount of {@link Character}s to create.
+	 * @param create  The callback to use to add a {@link Character} creation.
+	 * @param finish  The callback to use to finish the {@link Character} creation.
+	 */
+	void onCharacterCreation(Player player, int minimum, int maximum, CharacterCreationCallback create, FinishCharacterCreationCallback finish);
 
 	/**
 	 * Called when the {@link Game} starts.

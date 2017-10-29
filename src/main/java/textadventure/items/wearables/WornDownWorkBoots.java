@@ -24,7 +24,7 @@ public class WornDownWorkBoots extends AbstractWearable implements Boots
 	 *
 	 * @return The name of the {@link WornDownWorkBoots}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Worn down work boots.";
 	}
@@ -34,7 +34,7 @@ public class WornDownWorkBoots extends AbstractWearable implements Boots
 	 *
 	 * @return The description of the {@link WornDownWorkBoots}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "The default boots.";
 	}

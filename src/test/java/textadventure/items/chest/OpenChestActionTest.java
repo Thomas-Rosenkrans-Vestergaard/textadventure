@@ -16,7 +16,7 @@ public class OpenChestActionTest
 	public void perform() throws Exception
 	{
 		GameInterface gameInterface = new MockGameInterface();
-		Character     character     = new BaseCharacter(null, null, null);
+		Character     character     = new BaseCharacter(null, null, null, null);
 		Chest         chest         = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.UNLOCKED));
 
 		assertEquals(Chest.State.CLOSED, chest.getState());
@@ -34,7 +34,7 @@ public class OpenChestActionTest
 	public void performThrowsChestLockedException() throws Exception
 	{
 		GameInterface gameInterface = new MockGameInterface();
-		Character     character     = new BaseCharacter(null, null, null);
+		Character     character     = new BaseCharacter(null, null, null, null);
 		Chest         chest         = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.LOCKED));
 
 		assertEquals(Chest.State.CLOSED, chest.getState());

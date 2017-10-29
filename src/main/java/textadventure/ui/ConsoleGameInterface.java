@@ -6,6 +6,7 @@ import textadventure.Character;
 import textadventure.*;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.combat.Faction;
 import textadventure.doors.*;
 import textadventure.items.*;
 import textadventure.items.backpack.DropItemAction;
@@ -15,6 +16,7 @@ import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.chest.*;
 import textadventure.lock.*;
 import textadventure.rooms.InspectFloorAction;
+import textadventure.ui.characterSelection.*;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -30,7 +32,7 @@ public class ConsoleGameInterface implements GameInterface
 	public static void main(String[] args) throws Exception
 	{
 		GameInterface gameInterface = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
-		DefaultGame   game          = new DefaultGame(gameInterface);
+		Game          game          = new Game(gameInterface, 1, 1);
 		game.start();
 	}
 
@@ -80,6 +82,81 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
+	 * Lets the {@link Player} create the {@link Character} they control.
+	 *
+	 * @param player  The {@link Player} creating the {@link Character}s.
+	 * @param minimum The minimum amount of {@link Character}s to create.
+	 * @param maximum The maximum amount of {@link Character}s to create.
+	 * @param create  The callback to use to add a {@link Character} creation.
+	 * @param finish  The callback to use to finish the {@link Character} creation.
+	 */
+	@Override
+	public void onCharacterCreation(Player player, int minimum, int maximum, CharacterCreationCallback create, FinishCharacterCreationCallback finish)
+	{
+		printer.println(String.format("You must now create your characters. You can create from %d to %d characters.", minimum, maximum));
+
+		int created = 0;
+		try {
+			while (created <= maximum) {
+				if (created == maximum) {
+					printer.println("You cannot create any more characters.");
+					finish.respond();
+					return;
+				}
+				if (created >= minimum) {
+					printer.println(String.format("You have created %d characters so far. Do you wish to continue " +
+							"creating characters or finish? CONTINUE or FINISH.", created));
+					if (scanner.nextLine().toLowerCase().trim().equals("finish")) {
+						finish.respond();
+						return;
+					}
+				}
+				createCharacter(create);
+				created++;
+			}
+		} catch (TooFewCharactersException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	private void createCharacter(CharacterCreationCallback creationCallback)
+	{
+		CharacterCreationTemplate characterCreationTemplate = new CharacterCreationTemplate();
+		characterCreationTemplate.setName(getCharacterName());
+		characterCreationTemplate.setFaction(getCharacterFaction());
+
+		try {
+			while (true) {
+				creationCallback.respond(characterCreationTemplate);
+				return;
+			}
+		} catch (CharacterNameTakenException e) {
+			printer.println("That name is already taken.");
+			characterCreationTemplate.setName(getCharacterName());
+		} catch (IncompleteCharacterException | TooManyCharactersException e) {
+			throw new IllegalStateException();
+		}
+	}
+
+	private String getCharacterName()
+	{
+		printer.println("Enter the name of this character.");
+		return scanner.nextLine();
+	}
+
+	private Faction getCharacterFaction()
+	{
+		printer.println("Enter the faction of this character. ESCAPEE or SECRET_POLICE.");
+		String choice = scanner.nextLine();
+		try {
+			return Faction.valueOf(choice);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Invalid entry.");
+			return getCharacterFaction();
+		}
+	}
+
+	/**
 	 * Called when the {@link Game} starts.
 	 *
 	 * @param game The {@link Game} instance.
@@ -108,8 +185,8 @@ public class ConsoleGameInterface implements GameInterface
 		showProperties();
 		showActions();
 		printer.println();
-		printer.println(game.getMaze().getStartingRoom().getStartingMessage());
-		printer.println(game.getMaze().getStartingRoom().getRoomDescription());
+		printer.println(game.getStartingRoom().getStartingMessage());
+		printer.println(game.getStartingRoom().getRoomDescription());
 	}
 
 	/**
@@ -120,7 +197,7 @@ public class ConsoleGameInterface implements GameInterface
 	@Override
 	public void onGameEnd(Game game)
 	{
-		String message = game.getMaze().getEndingRoom().getEndingMessage();
+		String message = game.getEndingRoom().getEndingMessage();
 		printer.println(message);
 		System.exit(0);
 	}
@@ -570,6 +647,7 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * @param inventory
 	 */
+
 	private void printInventory(Inventory inventory)
 	{
 		ImmutableMap<Integer, ItemType> items = inventory.getPositions();
@@ -580,8 +658,8 @@ public class ConsoleGameInterface implements GameInterface
 
 		items.forEach((key, value) -> printer.println(String.format("%-4d %-20s %-96s",
 				key,
-				value.getItemName(),
-				value.getItemDescription())));
+				value.getItemTypeName(),
+				value.getItemTypeDescription())));
 	}
 
 	/**
@@ -757,7 +835,7 @@ public class ConsoleGameInterface implements GameInterface
 		StringBuilder builder = new StringBuilder();
 		int           size    = items.size();
 		for (int x = 0; x < size; x++) {
-			builder.append(items.get(x).getItemName());
+			builder.append(items.get(x).getItemTypeName());
 			if (x != size - 1) builder.append(", ");
 		}
 

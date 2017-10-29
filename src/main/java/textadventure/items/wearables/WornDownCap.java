@@ -24,7 +24,7 @@ public class WornDownCap extends AbstractWearable implements HeadWear
 	 *
 	 * @return The name of the {@link WornDownCap}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Worn down cap.";
 	}
@@ -34,7 +34,7 @@ public class WornDownCap extends AbstractWearable implements HeadWear
 	 *
 	 * @return The description of the {@link WornDownCap}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "The default headwear.";
 	}

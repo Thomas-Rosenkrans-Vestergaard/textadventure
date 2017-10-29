@@ -15,6 +15,4 @@ public class Floor extends BaseInventory
 	{
 		super();
 	}
-
-
 }

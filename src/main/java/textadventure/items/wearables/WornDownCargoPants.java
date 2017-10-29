@@ -24,7 +24,7 @@ public class WornDownCargoPants extends AbstractWearable implements Pants
 	 *
 	 * @return The name of the {@link WornDownCargoPants}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Worn down cargo pants.";
 	}
@@ -34,7 +34,7 @@ public class WornDownCargoPants extends AbstractWearable implements Pants
 	 *
 	 * @return The description of the {@link WornDownCargoPants}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "The default pants.";
 	}

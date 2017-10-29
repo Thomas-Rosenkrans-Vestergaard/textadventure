@@ -24,7 +24,7 @@ public class WornDownSweatshirt extends AbstractWearable implements TorsoWear
 	 *
 	 * @return The name of the {@link WornDownSweatshirt}.
 	 */
-	@Override public String getItemName()
+	@Override public String getItemTypeName()
 	{
 		return "Work down sweatshirt.";
 	}
@@ -34,7 +34,7 @@ public class WornDownSweatshirt extends AbstractWearable implements TorsoWear
 	 *
 	 * @return The description of the {@link WornDownSweatshirt}.
 	 */
-	@Override public String getItemDescription()
+	@Override public String getItemTypeDescription()
 	{
 		return "The default torsowear.";
 	}

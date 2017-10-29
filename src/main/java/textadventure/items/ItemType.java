@@ -1,16 +1,21 @@
 package textadventure.items;
 
+/**
+ * An {@link ItemType} represents a type of {@link Item}. {@link ItemType}s are compared using the
+ * {@link ItemType#instanceOf(Item)} method. Implementations of this interface must override the
+ * {@link Object#hashCode()} method.
+ */
 public interface ItemType
 {
 
 	/**
-	 * Returns the integer identifier that identifies the {@link ItemType}.
+	 * Returns the type of {@link Class} of the {@link ItemType}.
 	 *
-	 * @return The identifier.
+	 * @return The type of {@link Class} of the {@link ItemType}.
 	 */
-	default int getItemIdentifier()
+	default Class<?> getItemTypeClass()
 	{
-		return getClass().hashCode();
+		return getClass();
 	}
 
 	/**
@@ -18,24 +23,22 @@ public interface ItemType
 	 *
 	 * @return The name of the {@link ItemType}.
 	 */
-	String getItemName();
+	String getItemTypeName();
 
 	/**
 	 * Returns the description of the {@link ItemType}.
 	 *
 	 * @return The description of the {@link ItemType}.
 	 */
-	String getItemDescription();
+	String getItemTypeDescription();
 
 	/**
 	 * Checks if the provided {@link Item} is of the same {@link ItemType} as <code>this</code>.
 	 *
 	 * @param item The other {@link Item}.
-	 * @return <code>True</code> when the other {@link Item} is of the same {@link ItemType} as <code>this</code>.
-	 * Otherwise returns <code>false</code>.
 	 */
 	default boolean instanceOf(Item item)
 	{
-		return this == item || item != null && getItemIdentifier() == item.getItemIdentifier();
+		return this == item || item != null && hashCode() == item.hashCode();
 	}
 }
