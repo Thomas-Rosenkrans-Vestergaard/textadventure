@@ -1,8 +1,8 @@
 package textadventure.items.backpack;
 
 import org.junit.Test;
-import textadventure.BaseCharacter;
 import textadventure.Character;
+import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
 
 import static org.junit.Assert.*;
@@ -14,7 +14,7 @@ public class ExpandBackpackActionTest
 	{
 		Backpack backpack = new Backpack(5);
 		backpack.addItem(new BackpackExpansion(5));
-		Character character = new BaseCharacter(null, null, backpack, null);
+		Character character = new SomeCharacter(backpack);
 
 		assertEquals(5, backpack.getNumberOfPositions());
 
@@ -31,7 +31,7 @@ public class ExpandBackpackActionTest
 		Backpack          backpack          = new Backpack(5);
 		BackpackExpansion backpackExpansion = new BackpackExpansion(5);
 		backpack.addItem(backpackExpansion);
-		Character character = new BaseCharacter(null, null, backpack, null);
+		Character character = new SomeCharacter(backpack);
 
 		assertEquals(5, backpack.getNumberOfPositions());
 
@@ -47,7 +47,7 @@ public class ExpandBackpackActionTest
 		Backpack          backpack          = new Backpack(5);
 		BackpackExpansion backpackExpansion = new BackpackExpansion(5);
 		backpack.addItem(backpackExpansion);
-		Character character = new BaseCharacter(null, null, backpack, null);
+		Character character = new SomeCharacter(backpack);
 
 		assertEquals(5, backpack.getNumberOfPositions());
 

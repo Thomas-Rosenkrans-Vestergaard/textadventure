@@ -1,8 +1,8 @@
 package textadventure.items.chest;
 
 import org.junit.Test;
-import textadventure.BaseCharacter;
 import textadventure.Character;
+import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
 import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
@@ -11,8 +11,8 @@ import textadventure.items.SomeTypedItem;
 import textadventure.items.backpack.Backpack;
 import textadventure.lock.Lock;
 import textadventure.ui.GameInterface;
-import textadventure.ui.MockGameInterface;
 import textadventure.ui.Select;
+import textadventure.ui.SomeGameInterface;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +22,7 @@ public class TakeItemFromChestActionTest
 	@Test
 	public void perform() throws Exception
 	{
-		GameInterface gameInterface = new MockGameInterface()
+		GameInterface gameInterface = new SomeGameInterface()
 		{
 			@Override public void select(Character character, Select select)
 			{
@@ -35,7 +35,7 @@ public class TakeItemFromChestActionTest
 		};
 
 		Backpack  backpack  = new Backpack();
-		Character character = new BaseCharacter(null, null,backpack, null);
+		Character character = new SomeCharacter(backpack);
 		Chest     chest     = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
 		Item a = new SomeTypedItem(1);
@@ -67,9 +67,9 @@ public class TakeItemFromChestActionTest
 	@Test
 	public void performThrowsChestClosedException() throws Exception
 	{
-		GameInterface gameInterface = new MockGameInterface();
+		GameInterface gameInterface = new SomeGameInterface();
 		Backpack      backpack      = new Backpack();
-		Character character = new BaseCharacter(null, null,backpack, null);
+		Character     character     = new SomeCharacter(backpack);
 		Chest         chest         = new Chest(10, Chest.State.CLOSED, null);
 
 		chest.addItem(new SomeItem(), 0);
@@ -92,10 +92,10 @@ public class TakeItemFromChestActionTest
 	@Test
 	public void performArguments() throws Exception
 	{
-		GameInterface gameInterface = new MockGameInterface();
+		GameInterface gameInterface = new SomeGameInterface();
 		Item          item          = new SomeItem();
 		Backpack      backpack      = new Backpack();
-		Character character = new BaseCharacter(null, null,backpack, null);
+		Character     character     = new SomeCharacter(backpack);
 		Chest         chest         = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
 		chest.addItem(item, 0);
@@ -123,10 +123,10 @@ public class TakeItemFromChestActionTest
 	@Test
 	public void performArgumentsThrowsNumberFormatException() throws Exception
 	{
-		GameInterface gameInterface = new MockGameInterface();
+		GameInterface gameInterface = new SomeGameInterface();
 		Item          item          = new SomeItem();
 		Backpack      backpack      = new Backpack();
-		Character character = new BaseCharacter(null, null,backpack, null);
+		Character     character     = new SomeCharacter(backpack);
 		Chest         chest         = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
 		chest.addItem(item, 0);
@@ -149,10 +149,10 @@ public class TakeItemFromChestActionTest
 	@Test
 	public void performArgumentsThrowsInventoryFullException() throws Exception
 	{
-		GameInterface gameInterface = new MockGameInterface();
+		GameInterface gameInterface = new SomeGameInterface();
 		Item          item          = new SomeItem();
 		Backpack      backpack      = new Backpack(0);
-		Character character = new BaseCharacter(null, null,backpack, null);
+		Character     character     = new SomeCharacter(backpack);
 		Chest         chest         = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
 		chest.addItem(item, 0);

@@ -1,12 +1,31 @@
 package textadventure;
 
 import org.junit.Test;
+import textadventure.combat.Faction;
+import textadventure.rooms.Room;
+import textadventure.rooms.SomeRoom;
+import textadventure.ui.GameInterface;
+import textadventure.ui.SomeGameInterface;
+import textadventure.ui.characterSelection.CharacterCreationTemplate;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class BaseCharacterTest
 {
 	@Test
 	public void fromTemplate() throws Exception
 	{
+		Room                      room                      = new SomeRoom();
+		GameInterface             gameInterface             = new SomeGameInterface();
+		CharacterCreationTemplate characterCreationTemplate = new CharacterCreationTemplate();
+		String                    name                      = "Name";
+		characterCreationTemplate.setName(name);
+		Character character = BaseCharacter.fromTemplate(null, gameInterface, characterCreationTemplate, Faction.ESCAPEE, room);
+		room.hasCharacter(character);
+		assertSame(name, character.getName());
+		assertEquals(Faction.ESCAPEE, character.getFaction());
+		assertSame(room, character.getCurrentLocation());
 	}
 
 	@Test

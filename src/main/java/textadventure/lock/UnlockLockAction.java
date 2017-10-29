@@ -47,16 +47,17 @@ public class UnlockLockAction extends LockAction
 
 			Backpack                  backpack = character.getBackpack();
 			ImmutableSet<Option<Key>> options  = backpack.asOptions(Key.class);
-			Select<Key> select = new BaseSelect<>(options, 1, selection -> {
-
-				try {
-					lock.unlock(selection.get(0).getT());
-				} catch (Exception e) {
-					setException(e);
-				}
-			});
 
 			try {
+
+				Select<Key> select = new BaseSelect<>(options, 1, selection -> {
+
+					try {
+						lock.unlock(selection.get(0).getT());
+					} catch (Exception e) {
+						setException(e);
+					}
+				});
 
 				if (arguments.length == 1) {
 					select.selectIndex(Integer.parseInt(arguments[0]));

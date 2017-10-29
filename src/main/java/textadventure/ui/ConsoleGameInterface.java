@@ -6,6 +6,7 @@ import textadventure.Character;
 import textadventure.*;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.doors.*;
 import textadventure.items.*;
@@ -16,6 +17,7 @@ import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.chest.*;
 import textadventure.lock.*;
 import textadventure.rooms.InspectFloorAction;
+import textadventure.rooms.InspectRoomAction;
 import textadventure.ui.characterSelection.*;
 
 import java.io.OutputStream;
@@ -23,6 +25,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,6 +36,8 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		GameInterface gameInterface = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
 		Game          game          = new Game(gameInterface, 1, 1);
+		game.addPlayer(new HumanPlayer(), Faction.ESCAPEE);
+		game.addPlayer(new ComputerPlayer(), Faction.SECRET_POLICE);
 		game.start();
 	}
 
@@ -84,14 +89,15 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Lets the {@link Player} create the {@link Character} they control.
 	 *
-	 * @param player  The {@link Player} creating the {@link Character}s.
-	 * @param minimum The minimum amount of {@link Character}s to create.
-	 * @param maximum The maximum amount of {@link Character}s to create.
-	 * @param create  The callback to use to add a {@link Character} creation.
-	 * @param finish  The callback to use to finish the {@link Character} creation.
+	 * @param player           The {@link Player} creating the {@link Character}s.
+	 * @param minimum          The minimum amount of {@link Character}s to create.
+	 * @param maximum          The maximum amount of {@link Character}s to create.
+	 * @param creationCallback The callback to use to add a {@link Character} creation.
+	 * @param finishCallback   The callback to use to finish the {@link Character} creation.
 	 */
 	@Override
-	public void onCharacterCreation(Player player, int minimum, int maximum, CharacterCreationCallback create, FinishCharacterCreationCallback finish)
+	public void onCharacterCreation(Player player, int minimum, int maximum, CharacterCreationCallback creationCallback,
+	                                FinishCharacterCreationCallback finishCallback)
 	{
 		printer.println(String.format("You must now create your characters. You can create from %d to %d characters.", minimum, maximum));
 
@@ -100,18 +106,18 @@ public class ConsoleGameInterface implements GameInterface
 			while (created <= maximum) {
 				if (created == maximum) {
 					printer.println("You cannot create any more characters.");
-					finish.respond();
+					finishCallback.respond();
 					return;
 				}
 				if (created >= minimum) {
 					printer.println(String.format("You have created %d characters so far. Do you wish to continue " +
 							"creating characters or finish? CONTINUE or FINISH.", created));
 					if (scanner.nextLine().toLowerCase().trim().equals("finish")) {
-						finish.respond();
+						finishCallback.respond();
 						return;
 					}
 				}
-				createCharacter(create);
+				createCharacter(creationCallback);
 				created++;
 			}
 		} catch (TooFewCharactersException e) {
@@ -119,11 +125,15 @@ public class ConsoleGameInterface implements GameInterface
 		}
 	}
 
+	/**
+	 * Creates a new {@link Character}, returning it to the provided {@link CharacterCreationCallback}.
+	 *
+	 * @param creationCallback The {@link CharacterCreationCallback}.
+	 */
 	private void createCharacter(CharacterCreationCallback creationCallback)
 	{
 		CharacterCreationTemplate characterCreationTemplate = new CharacterCreationTemplate();
 		characterCreationTemplate.setName(getCharacterName());
-		characterCreationTemplate.setFaction(getCharacterFaction());
 
 		try {
 			while (true) {
@@ -138,22 +148,15 @@ public class ConsoleGameInterface implements GameInterface
 		}
 	}
 
+	/**
+	 * Takes an returns the name of a {@link Character}.
+	 *
+	 * @return The name of the {@link Character}.
+	 */
 	private String getCharacterName()
 	{
 		printer.println("Enter the name of this character.");
 		return scanner.nextLine();
-	}
-
-	private Faction getCharacterFaction()
-	{
-		printer.println("Enter the faction of this character. ESCAPEE or SECRET_POLICE.");
-		String choice = scanner.nextLine();
-		try {
-			return Faction.valueOf(choice);
-		} catch (IllegalArgumentException e) {
-			System.out.println("Invalid entry.");
-			return getCharacterFaction();
-		}
 	}
 
 	/**
@@ -200,6 +203,11 @@ public class ConsoleGameInterface implements GameInterface
 		String message = game.getEndingRoom().getEndingMessage();
 		printer.println(message);
 		System.exit(0);
+	}
+
+	@Override public void onCharacterDies(Player player, Character character, DamageSource damageSource)
+	{
+		printer.println(String.format("%s died from %s.", character.getName(), damageSource.getClass().getSimpleName()));
 	}
 
 	/**
@@ -300,6 +308,23 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
+	 * Event when a {@link Character} performs the {@link InspectRoomAction}.
+	 *
+	 * @param character The {@link Character} who attempted to perform the {@link InspectRoomAction}.
+	 * @param action    The {@link InspectRoomAction} instance.
+	 */
+	@Override public void onRoomInspect(Character character, InspectRoomAction action)
+	{
+		action.onSuccess(() -> {
+			printer.println("You inspect the door.");
+			action.getCharacters().forEach(c -> {
+				printer.println(String.format("In the room with you is %s from faction %s.", c.getName(), c
+						.getFaction().toString()));
+			});
+		});
+	}
+
+	/**
 	 * Event when a {@link Character} performs the {@link InspectFloorAction}.
 	 *
 	 * @param character The {@link Character} who attempted to perform the {@link InspectFloorAction}.
@@ -333,6 +358,8 @@ public class ConsoleGameInterface implements GameInterface
 		action.onException(DoorLockedException.class, e -> {
 			printer.println("You attempted to open the door, but discover that the door is locked.");
 		});
+
+		System.out.println("Exception " + action.getException());
 	}
 
 	/**
@@ -414,6 +441,10 @@ public class ConsoleGameInterface implements GameInterface
 		action.onException(IncorrectKeyException.class, e -> {
 			printer.println("You attempt to turn the lock, but discover that you have the wrong key.");
 		});
+
+		action.onException(NotEnoughOptionsException.class, e -> {
+			printer.println("You have no keys.");
+		});
 	}
 
 	/**
@@ -444,6 +475,10 @@ public class ConsoleGameInterface implements GameInterface
 
 		action.onException(IncorrectKeyException.class, e -> {
 			printer.println("You attempt to turn the lock, but discover that you have the wrong key.");
+		});
+
+		action.onException(NotEnoughOptionsException.class, e -> {
+			printer.println("You have no keys.");
 		});
 	}
 
@@ -674,9 +709,9 @@ public class ConsoleGameInterface implements GameInterface
 		int                                     maximumOptions = select.getMaximumNumberOfOptions();
 		ImmutableMap<Integer, ? extends Option> options        = select.getOptions();
 
-		printer.println("To perform the action you must selectIndices some of the following options. You selectIndices the option " +
+		printer.println("To perform the action you must select some of the following options. You select the option " +
 				"using its identifier (id). To abort from the selection you can enter the 'abort' command. It's " +
-				"possible to selectIndices multiple options. To finish from the selection you can enter the 'finish' command" +
+				"possible to select multiple options. To finish from the selection you can enter the 'finish' command" +
 				". The number of selected options must be between " + minimumOptions + " and " + maximumOptions + ".");
 		options.forEach((position, option) ->
 				printer.println(String.format("%-4d %-20s %-96s",
@@ -688,7 +723,7 @@ public class ConsoleGameInterface implements GameInterface
 		List<Option> choices = new ArrayList<>();
 		while (true) {
 			int choicesSize = choices.size();
-			if (choicesSize >= maximumOptions)
+			if (choicesSize >= maximumOptions || choicesSize == options.size())
 				break;
 			try {
 				String input = scanner.nextLine();

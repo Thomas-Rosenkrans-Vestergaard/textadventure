@@ -50,18 +50,18 @@ public class LockLockAction extends LockAction
 
 		if (state == Lock.State.UNLOCKED) {
 
-			Backpack                  backpack = character.getBackpack();
-			ImmutableSet<Option<Key>> options  = backpack.asOptions(Key.class);
-			Select<Key> select = new BaseSelect<>(options, 1, selection -> {
-
-				try {
-					lock.lock(selection.get(0).getT());
-				} catch (Exception e) {
-					setException(e);
-				}
-			});
-
 			try {
+
+				Backpack                  backpack = character.getBackpack();
+				ImmutableSet<Option<Key>> options  = backpack.asOptions(Key.class);
+				Select<Key> select = new BaseSelect<>(options, 1, selection -> {
+
+					try {
+						lock.lock(selection.get(0).getT());
+					} catch (Exception e) {
+						setException(e);
+					}
+				});
 
 				if (arguments.length == 1) {
 					select.selectIndex(Integer.parseInt(arguments[0]));

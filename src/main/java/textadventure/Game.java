@@ -1,18 +1,18 @@
 package textadventure;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import textadventure.actions.Action;
+import textadventure.combat.Faction;
 import textadventure.doors.*;
-import textadventure.items.backpack.Backpack;
-import textadventure.items.backpack.DropItemAction;
-import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.chest.*;
+import textadventure.items.weapons.Shotgun;
 import textadventure.lock.*;
 import textadventure.rooms.*;
 import textadventure.ui.GameInterface;
 import textadventure.ui.characterSelection.*;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,13 +57,8 @@ public class Game
 	/**
 	 * The {@link Character}s in {@link Game} mapped to the {@link Player} who controls them.
 	 */
-	private Multimap<Player, Character> characters;
-	private Map<String, Character>      characterNames;
-
-	/**
-	 * The current {@link Player} taking their turn.
-	 */
-	private Player currentPlayer;
+	private Map<Player, List<Character>> characters;
+	private Map<String, Character>       characterNames;
 
 	/**
 	 * The current {@link Character} in play.
@@ -82,10 +77,13 @@ public class Game
 		if (minimumCharacters < 1)
 			throw new IllegalArgumentException("minimumCharacters must be positive.");
 
+		if (maximumCharacters < minimumCharacters)
+			throw new IllegalArgumentException("maximumCharacters must not be smaller than minimumCharacters.");
+
 		this.gameInterface = gameInterface;
 		this.minimumCharacters = maximumCharacters;
 		this.maximumCharacters = maximumCharacters;
-		this.characters = HashMultimap.create();
+		this.characters = new HashMap<>();
 		this.characterNames = new HashMap<>();
 		gameInterface.onInit(this);
 		generateState();
@@ -94,11 +92,13 @@ public class Game
 	/**
 	 * Adds the provided {@link Player} to the {@link Game}.
 	 *
-	 * @param player The {@link Player} to put to the {@link Game}.
+	 * @param player  The {@link Player} to put to the {@link Game}.
+	 * @param faction The {@link Faction} the {@link Player} plays for.
 	 */
-	public void addPlayer(Player player)
+	public void addPlayer(Player player, Faction faction)
 	{
 		players.add(player);
+		characters.put(player, new ArrayList<>());
 		gameInterface.onPlayerJoin(this, player);
 		List<Character> characters = new ArrayList<>();
 
@@ -106,22 +106,34 @@ public class Game
 			if (characters.size() == maximumCharacters)
 				throw new TooManyCharactersException(maximumCharacters);
 			approveCharacterCreationTemplate(characterCreationTemplate);
-			characters.add(BaseCharacter.fromTemplate(characterCreationTemplate, gameInterface, startingRoom));
+			Room currentLocation = faction == Faction.ESCAPEE ? startingRoom : endingRoom;
+			characters.add(BaseCharacter.fromTemplate(player, gameInterface, characterCreationTemplate, faction, currentLocation));
 		};
 
 		FinishCharacterCreationCallback finishCharacterCreationCallback = () -> {
-
+			if (characters.size() < minimumCharacters)
+				throw new TooFewCharactersException(minimumCharacters, characters.size());
+			this.characters.put(player, characters);
+			characters.forEach(character -> player.onCharacterCreate(character));
 		};
 
-		gameInterface.onCharacterCreation(player, 1, 1, characterCreationCallback, finishCharacterCreationCallback);
+		player.createCharacters(gameInterface, minimumCharacters, maximumCharacters, characterCreationCallback,
+				finishCharacterCreationCallback);
 	}
 
+	/**
+	 * Throws an exception if the provided {@link CharacterCreationCallback} is illegal.
+	 *
+	 * @param characterCreationTemplate The {@link CharacterCreationTemplate} to approve.
+	 * @throws CharacterNameTakenException  When the name of the {@link CharacterCreationTemplate} is taken.
+	 * @throws IncompleteCharacterException When information is missing from the {@link CharacterCreationTemplate}.
+	 */
 	private void approveCharacterCreationTemplate(CharacterCreationTemplate characterCreationTemplate) throws CharacterNameTakenException, IncompleteCharacterException
 	{
 		if (characterNames.containsKey(characterCreationTemplate.getName()))
 			throw new CharacterNameTakenException(characterCreationTemplate);
 
-		if (characterCreationTemplate.getName() == null || characterCreationTemplate.getFaction() == null)
+		if (characterCreationTemplate.getName() == null)
 			throw new IncompleteCharacterException(characterCreationTemplate);
 	}
 
@@ -135,12 +147,23 @@ public class Game
 	}
 
 	/**
+	 * Handles the turn of the provided {@link Player}.
+	 *
+	 * @param player The {@link Player}
+	 */
+	private void handleTurn(Player player)
+	{
+		gameInterface.onTurnStart(this, player);
+		handleCharacterTurn(player, characters.get(player).get(0));
+	}
+
+	/**
 	 * Plays out the turn of the next {@link Player}.
 	 */
-	private void handleNext()
+	private void handleNext(Player player)
 	{
-		gameInterface.onTurnEnd(this, this.currentPlayer);
-		int index = players.indexOf(this.currentPlayer);
+		gameInterface.onTurnEnd(this, player);
+		int index = players.indexOf(player);
 		if (index + 1 == players.size()) {
 			handleTurn(players.get(0));
 			return;
@@ -150,45 +173,37 @@ public class Game
 	}
 
 	/**
-	 * Handles the turn of the provided {@link Player}.
-	 *
-	 * @param player The {@link Player}
-	 */
-	private void handleTurn(Player player)
-	{
-		gameInterface.onTurnStart(this, player);
-		for (Character character : characters.get(player))
-			handleCharacterTurn(player, character);
-	}
-
-	/**
 	 * Requests an {@link Action} from the provided {@link Player}.
-	 *
-	 * @param player The {@link Player} to request an {@link Action} from.
 	 */
 	private void handleCharacterTurn(Player player, Character character)
 	{
-		this.currentPlayer = player;
-		this.currentCharacter = character;
-		player.playCharacter(gameInterface, character, this::handleActionResponse);
+		player.playCharacter(gameInterface, character, ((action, arguments) -> {
+			action.perform(gameInterface, character, arguments);
+
+			/*if (character.getCurrentLocation() instanceof EndingRoom) {
+				saveHighScore(player, character);
+				return;
+			}*/
+
+			List<Character> characters   = this.characters.get(player);
+			int             currentIndex = characters.indexOf(character);
+			if (currentIndex == characters.size() - 1)
+				handleNext(player);
+			else
+				handleCharacterTurn(player, characters.get(currentIndex + 1));
+		}));
 	}
 
-	/**
-	 * Callback by {@link Player}s that have decided on an {@link Action}.
-	 *
-	 * @param action    The chosen {@link Action}.
-	 * @param arguments The arguments to pass to the {@link Action}.
-	 */
-	private void handleActionResponse(Action action, String[] arguments)
+	private void saveHighScore(Player player, Character character)
 	{
-		action.perform(gameInterface, this.currentCharacter, arguments);
-
-		if (this.currentCharacter.getCurrentLocation() instanceof EndingRoom) {
-			gameInterface.onGameEnd(this);
-			return;
+		try {
+			Path            path   = Paths.get("highscore.txt");
+			HighScoreWriter writer = new HighScoreWriter(path);
+			writer.put(character.getName(), character.getCurrentHP(), true);
+			System.out.println("SAVED");
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
 		}
-
-		handleNext();
 	}
 
 	/**
@@ -229,8 +244,6 @@ public class Game
 	{
 		try {
 			Room[][] rooms = new Room[6][6];
-			this.addPlayer(new HumanPlayer());
-			new HumanPlayer();
 
 			/*
 			 * Generate rooms.
@@ -239,9 +252,11 @@ public class Game
 			rooms[1][0] = new BaseRoom("Room (1,0)", "This small chamber seems divided into three parts. The first has " +
 					"several hooks on the walls from which hang dusty robes. An open curtain separates that space from the next, which has a dry basin set in the floor. In the northern part of the room is a door.");
 			rooms[3][0] = new StartingRoom("Room (3,0)", "A horrendous, overwhelming stench wafts from the room before you. Small cages containing small animals and large insects line the walls. Some of the creatures look sickly and alive but most are clearly dead. Their rotting corpses and the unclean cages no doubt result in the zoo's foul odor. A cat mews weakly from its cage, but the other creatures just silently shrink back into their filthy prisons. A dusty military sits in the corner of the room. In the northern part of the room is a door.");
-			Chest chest = chestFactory(10, Chest.State.CLOSED, lockFactory("LY4SW", LOCKED, getGameInterface()), getGameInterface());
+			Chest chest = chestFactory(10, Chest.State.CLOSED, lockFactory("KLY4SW", LOCKED, getGameInterface()),
+					getGameInterface());
 			chest.addItem(new Key("KZSE6X"));
 			rooms[3][0].addProperty("chest", chest);
+			rooms[3][0].getRoomFloor().addItem(new Key("KLY4SW"));
 
 			rooms[1][1] = new BaseRoom("Room (1,1)", "Corpses and pieces of corpses hang from hooks that dangle from chains attached to thick iron rings. You don't see any heads, hands, or feet -- all seem to have been chopped or torn off. Neither do you see any guts in the horrible array, but several thick leather sacks hang from hooks in the walls, and they are suspiciously wet and the leather looks extremely taut -- as if it' under great strain. In the northern, eastern and southern side of the room is a door.");
 
@@ -282,6 +297,7 @@ public class Game
 
 			this.startingRoom = (StartingRoom) rooms[3][0];
 			this.endingRoom = (EndingRoom) rooms[3][4];
+			this.endingRoom.getRoomFloor().addItem(new Shotgun());
 
 			/*
 			 * Generate doors.

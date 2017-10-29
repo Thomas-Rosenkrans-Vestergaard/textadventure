@@ -43,7 +43,7 @@ public class BaseSelect<T> implements Select<T>
 	 * @param options  The {@link Option}s that can be selected.
 	 * @param response The event called when the selected {@link Option}(s) have been validated.
 	 **/
-	public BaseSelect(Set<? extends Option<T>> options, SelectResponse<T> response)
+	public BaseSelect(Set<? extends Option<T>> options, SelectResponse<T> response) throws NotEnoughOptionsException
 	{
 		this(options, 1, options.size(), response);
 	}
@@ -55,7 +55,7 @@ public class BaseSelect<T> implements Select<T>
 	 * @param exactOptions The number of {@link Option}s that must be selected.
 	 * @param response     The event called when the selected {@link Option}(s) have been validated.
 	 */
-	public BaseSelect(Set<? extends Option<T>> options, int exactOptions, SelectResponse<T> response)
+	public BaseSelect(Set<? extends Option<T>> options, int exactOptions, SelectResponse<T> response) throws NotEnoughOptionsException
 	{
 		this(options, exactOptions, exactOptions, response);
 	}
@@ -68,16 +68,17 @@ public class BaseSelect<T> implements Select<T>
 	 * @param maximumNumber The maximum number of {@link Option}s that can be selected.
 	 * @param response      The event called when the selected {@link Option}(s) have been validated.
 	 */
-	public BaseSelect(Set<? extends Option<T>> options, int minimumNumber, int maximumNumber, SelectResponse<T> response)
+	public BaseSelect(Set<? extends Option<T>> options, int minimumNumber, int maximumNumber, SelectResponse<T>
+			response) throws NotEnoughOptionsException
 	{
-		if (minimumNumber < -1)
-			throw new IllegalArgumentException("Minimum number of options can not be less than -1.");
-
-		if (maximumNumber < -1)
-			throw new IllegalArgumentException("Maximum number of options can not be less than -1.");
-
 		if (maximumNumber > options.size())
-			throw new IllegalArgumentException("Maximum number of options can not be greater than number of options.");
+			throw new NotEnoughOptionsException(this, minimumNumber, options.size());
+
+		if (minimumNumber < 1)
+			throw new IllegalArgumentException("Minimum number of options can not be less than 1.");
+
+		if (maximumNumber < 1)
+			throw new IllegalArgumentException("Maximum number of options can not be less than 1.");
 
 		this.options = options;
 		options.forEach(option -> this.optionsMap.put(option.getOptionIndex(), option));

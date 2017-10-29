@@ -62,24 +62,24 @@ public class TakeItemFromChestAction extends ChestAction
 			return;
 		}
 
-		ImmutableSet<Option<Item>> options = chest.asOptions(Item.class);
-		Select<Item> select = new BaseSelect<>(options, selection -> {
-
-			try {
-				Item currentItem;
-				for (Option option : selection) {
-					currentItem = chest.getItem(option.getOptionIndex());
-					backpack.addItem(currentItem);
-					this.items.add(currentItem);
-					chest.takeItem(option.getOptionIndex());
-				}
-
-			} catch (Exception e) {
-				setException(e);
-			}
-		});
-
 		try {
+
+			ImmutableSet<Option<Item>> options = chest.asOptions(Item.class);
+			Select<Item> select = new BaseSelect<>(options, selection -> {
+
+				try {
+					Item currentItem;
+					for (Option option : selection) {
+						currentItem = chest.getItem(option.getOptionIndex());
+						backpack.addItem(currentItem);
+						this.items.add(currentItem);
+						chest.takeItem(option.getOptionIndex());
+					}
+
+				} catch (Exception e) {
+					setException(e);
+				}
+			});
 
 			if (arguments.length == 1) {
 				List<Integer> indices = new ArrayList<>();

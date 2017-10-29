@@ -33,11 +33,11 @@ public interface ItemType
 	String getItemTypeDescription();
 
 	/**
-	 * Checks if the provided {@link Item} is of the same {@link ItemType} as <code>this</code>.
+	 * Checks if the provided {@link ItemType} is of the same {@link ItemType} as <code>this</code>.
 	 *
-	 * @param item The other {@link Item}.
+	 * @param item The other {@link ItemType}.
 	 */
-	default boolean instanceOf(Item item)
+	default boolean instanceOf(ItemType item)
 	{
 		return this == item || item != null && hashCode() == item.hashCode();
 	}

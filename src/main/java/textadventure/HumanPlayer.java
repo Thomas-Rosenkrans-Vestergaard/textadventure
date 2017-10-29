@@ -2,7 +2,10 @@ package textadventure;
 
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.combat.DamageSource;
 import textadventure.ui.GameInterface;
+import textadventure.ui.characterSelection.CharacterCreationCallback;
+import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
 
 /**
  * Human implementation of the {@link Player} interface. The
@@ -11,11 +14,27 @@ public class HumanPlayer implements Player
 {
 
 	/**
+	 * Events called when the {@link Player} should create their {@link Character}s.
+	 *
+	 * @param gameInterface    The {@link GameInterface}.
+	 * @param minimum          The minimum number of {@link Character}s to create.
+	 * @param maximum          The maximum number of {@link Character}s to create.
+	 * @param creationCallback The callback to use to create {@link Character}s.
+	 * @param finishCallback   The callback to use when finishing creating {@link Character}s.
+	 */
+	@Override
+	public void createCharacters(GameInterface gameInterface, int minimum, int maximum,
+	                             CharacterCreationCallback creationCallback, FinishCharacterCreationCallback finishCallback)
+	{
+		gameInterface.onCharacterCreation(this, minimum, maximum, creationCallback, finishCallback);
+	}
+
+	/**
 	 * Event called when the {@link Player} gets a new {@link Character} to control.
 	 *
 	 * @param character The new {@link Character}.
 	 */
-	@Override public void onCharacter(Character character)
+	@Override public void onCharacterCreate(Character character)
 	{
 
 	}
@@ -31,5 +50,19 @@ public class HumanPlayer implements Player
 	public void playCharacter(GameInterface gameInterface, Character character, ActionRequestCallback callback)
 	{
 		gameInterface.onActionRequest(character, callback::respond);
+	}
+
+	/**
+	 * Event called when a {@link Character} controlled by the {@link Player} dies.
+	 *
+	 * @param gameInterface The {@link GameInterface}.
+	 * @param character     The {@link Character} who died.
+	 * @param damageSource  The {@link DamageSource} that killed the {@link Character}.
+	 */
+	@Override public void onCharacterDies(GameInterface gameInterface, Character character, DamageSource damageSource)
+	{
+		gameInterface.onCharacterDies(this, character, damageSource);
+
+
 	}
 }

@@ -4,6 +4,7 @@ import textadventure.Character;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.combat.DamageSource;
 import textadventure.doors.CloseDoorAction;
 import textadventure.doors.InspectDoorAction;
 import textadventure.doors.OpenDoorAction;
@@ -17,10 +18,13 @@ import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.InspectFloorAction;
+import textadventure.rooms.InspectRoomAction;
 import textadventure.ui.characterSelection.CharacterCreationCallback;
 import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
 
-public class MockGameInterface implements GameInterface
+import java.util.function.Consumer;
+
+public class SomeGameInterface implements GameInterface
 {
 
 	@Override public void onInit(Game game)
@@ -48,6 +52,11 @@ public class MockGameInterface implements GameInterface
 
 	}
 
+	@Override public void onCharacterDies(Player player, Character character, DamageSource damageSource)
+	{
+
+	}
+
 	@Override public void onTurnStart(Game game, Player player)
 	{
 
@@ -59,6 +68,11 @@ public class MockGameInterface implements GameInterface
 	}
 
 	@Override public void onActionRequest(Character character, ActionRequestCallback response)
+	{
+
+	}
+
+	@Override public void onRoomInspect(Character character, InspectRoomAction action)
 	{
 
 	}

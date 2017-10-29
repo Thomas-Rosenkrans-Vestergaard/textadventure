@@ -62,23 +62,23 @@ public class DepositItemsIntoChestAction extends ChestAction
 			return;
 		}
 
-		ImmutableSet<Option<Item>> options = backpack.asOptions(Item.class);
-		Select<Item> select = new BaseSelect<>(options, selection -> {
-
-			try {
-				for (Option option : selection) {
-					Item currentItem = backpack.getItem(option.getOptionIndex());
-					this.items.add(currentItem);
-					chest.addItem(currentItem);
-					backpack.takeItem(option.getOptionIndex());
-				}
-
-			} catch (Exception e) {
-				setException(e);
-			}
-		});
-
 		try {
+
+			ImmutableSet<Option<Item>> options = backpack.asOptions(Item.class);
+			Select<Item> select = new BaseSelect<>(options, selection -> {
+
+				try {
+					for (Option option : selection) {
+						Item currentItem = backpack.getItem(option.getOptionIndex());
+						this.items.add(currentItem);
+						chest.addItem(currentItem);
+						backpack.takeItem(option.getOptionIndex());
+					}
+
+				} catch (Exception e) {
+					setException(e);
+				}
+			});
 
 			if (arguments.length == 1) {
 				List<Integer> indices = new ArrayList<>();

@@ -25,12 +25,10 @@ public class InspectFloorAction extends AbstractAction
 	/**
 	 * Creates a new {@link InspectFloorAction}.
 	 *
-	 * @param floor    The {@link Floor} being inspected.
 	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link InspectFloorAction}.
 	 */
-	public InspectFloorAction(Floor floor, ActionPerformCallback<InspectFloorAction> callback)
+	public InspectFloorAction(ActionPerformCallback<InspectFloorAction> callback)
 	{
-		this.floor = floor;
 		this.callback = callback;
 	}
 
@@ -43,6 +41,7 @@ public class InspectFloorAction extends AbstractAction
 	 */
 	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
+		this.floor = character.getCurrentLocation().getRoomFloor();
 		callback.send(character, this);
 	}
 

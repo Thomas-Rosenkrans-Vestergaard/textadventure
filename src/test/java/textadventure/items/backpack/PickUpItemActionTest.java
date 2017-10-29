@@ -1,8 +1,8 @@
 package textadventure.items.backpack;
 
 import org.junit.Test;
-import textadventure.BaseCharacter;
 import textadventure.Character;
+import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
 import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
@@ -11,8 +11,8 @@ import textadventure.rooms.BaseRoom;
 import textadventure.rooms.Floor;
 import textadventure.rooms.Room;
 import textadventure.ui.GameInterface;
-import textadventure.ui.MockGameInterface;
 import textadventure.ui.Select;
+import textadventure.ui.SomeGameInterface;
 
 import static org.junit.Assert.*;
 
@@ -25,11 +25,11 @@ public class PickUpItemActionTest
 		Item      item            = new SomeItem();
 		Room      currentLocation = new BaseRoom(null, null);
 		Floor     floor           = currentLocation.getRoomFloor();
-		Character character       = new BaseCharacter(null, null, backpack, currentLocation);
+		Character character       = new SomeCharacter(backpack, currentLocation);
 
 		floor.addItem(item);
 
-		GameInterface gameInterface = new MockGameInterface()
+		GameInterface gameInterface = new SomeGameInterface()
 		{
 			@Override public void select(Character character, Select select)
 			{
@@ -44,8 +44,7 @@ public class PickUpItemActionTest
 		assertEquals(0, backpack.getNumberOfItems());
 		assertEquals(1, floor.getNumberOfItems());
 
-		PickUpItemAction action = new PickUpItemAction(backpack, (characterResponse, actionResponse) -> {
-			assertSame(backpack, actionResponse.getBackpack());
+		PickUpItemAction action = new PickUpItemAction((characterResponse, actionResponse) -> {
 			assertFalse(actionResponse.hasException());
 			assertEquals(0, floor.getNumberOfItems());
 			assertEquals(1, backpack.getNumberOfItems());
@@ -69,8 +68,8 @@ public class PickUpItemActionTest
 		Item          b               = new SomeItem();
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new BaseCharacter(null, null, backpack, currentLocation);
-		GameInterface gameInterface   = new MockGameInterface();
+		Character     character       = new SomeCharacter(backpack, currentLocation);
+		GameInterface gameInterface   = new SomeGameInterface();
 
 		floor.addItem(a, 0);
 		floor.addItem(b, 1);
@@ -78,8 +77,7 @@ public class PickUpItemActionTest
 		assertEquals(2, floor.getNumberOfItems());
 		assertEquals(0, backpack.getNumberOfItems());
 
-		PickUpItemAction action = new PickUpItemAction(backpack, (characterResponse, actionResponse) -> {
-			assertSame(backpack, actionResponse.getBackpack());
+		PickUpItemAction action = new PickUpItemAction((characterResponse, actionResponse) -> {
 			assertFalse(actionResponse.hasException());
 			assertEquals(0, floor.getNumberOfItems());
 			assertEquals(2, backpack.getNumberOfItems());
@@ -102,19 +100,18 @@ public class PickUpItemActionTest
 		Backpack      backpack        = new Backpack(5);
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new BaseCharacter(null, null, backpack, currentLocation);
-		GameInterface gameInterface   = new MockGameInterface();
+		Character     character       = new SomeCharacter(backpack, currentLocation);
+		GameInterface gameInterface   = new SomeGameInterface();
 		Item          item            = new SomeItem();
-		backpack.addItem(item, 0);
-		backpack.addItem(item, 1);
-		assertEquals(2, backpack.getNumberOfItems());
-		assertEquals(0, floor.getNumberOfItems());
+		floor.addItem(item, 0);
+		floor.addItem(item, 1);
+		assertEquals(0, backpack.getNumberOfItems());
+		assertEquals(2, floor.getNumberOfItems());
 
-		PickUpItemAction action = new PickUpItemAction(backpack, (characterResponse, actionResponse) -> {
-			assertSame(backpack, actionResponse.getBackpack());
+		PickUpItemAction action = new PickUpItemAction((characterResponse, actionResponse) -> {
 			assertTrue(actionResponse.hasException(NumberFormatException.class));
-			assertEquals(2, backpack.getNumberOfItems());
-			assertEquals(0, floor.getNumberOfItems());
+			assertEquals(0, backpack.getNumberOfItems());
+			assertEquals(2, floor.getNumberOfItems());
 			assertEquals(0, actionResponse.getItems().size());
 		});
 
@@ -127,8 +124,8 @@ public class PickUpItemActionTest
 		Backpack      backpack        = new Backpack(0); // <------
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new BaseCharacter(null, null, backpack, currentLocation);
-		GameInterface gameInterface   = new MockGameInterface();
+		Character     character       = new SomeCharacter(backpack, currentLocation);
+		GameInterface gameInterface   = new SomeGameInterface();
 
 		floor.addItem(new SomeItem(), 0);
 		floor.addItem(new SomeItem(), 1);
@@ -136,8 +133,7 @@ public class PickUpItemActionTest
 		assertEquals(2, floor.getNumberOfItems());
 		assertEquals(0, backpack.getNumberOfItems());
 
-		PickUpItemAction action = new PickUpItemAction(backpack, (characterResponse, actionResponse) -> {
-			assertSame(backpack, actionResponse.getBackpack());
+		PickUpItemAction action = new PickUpItemAction((characterResponse, actionResponse) -> {
 			assertTrue(actionResponse.hasException(InventoryFullException.class));
 			assertEquals(2, floor.getNumberOfItems());
 			assertEquals(0, backpack.getNumberOfItems());
@@ -150,6 +146,6 @@ public class PickUpItemActionTest
 	@Test
 	public void testInheritedMethods() throws Exception
 	{
-		ActionTest.test(() -> new PickUpItemAction(null, null));
+		ActionTest.test(() -> new PickUpItemAction(null));
 	}
 }

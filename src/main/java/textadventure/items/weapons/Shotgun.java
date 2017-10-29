@@ -32,6 +32,6 @@ public class Shotgun implements ProjectileWeapon, Item
 	 */
 	@Override public int getDamage()
 	{
-		return 0;
+		return 200;
 	}
 }

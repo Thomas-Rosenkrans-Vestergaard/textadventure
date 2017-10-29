@@ -1,8 +1,8 @@
 package textadventure.items.backpack;
 
 import org.junit.Test;
-import textadventure.BaseCharacter;
 import textadventure.Character;
+import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;
@@ -10,8 +10,8 @@ import textadventure.rooms.BaseRoom;
 import textadventure.rooms.Floor;
 import textadventure.rooms.Room;
 import textadventure.ui.GameInterface;
-import textadventure.ui.MockGameInterface;
 import textadventure.ui.Select;
+import textadventure.ui.SomeGameInterface;
 
 import static org.junit.Assert.*;
 
@@ -25,9 +25,9 @@ public class DropItemActionTest
 		backpack.addItem(item);
 		Room      currentLocation = new BaseRoom(null, null);
 		Floor     floor           = currentLocation.getRoomFloor();
-		Character character       = new BaseCharacter(null, null, backpack, currentLocation);
+		Character character       = new SomeCharacter(backpack, currentLocation);
 
-		GameInterface gameInterface = new MockGameInterface()
+		GameInterface gameInterface = new SomeGameInterface()
 		{
 			@Override public void select(Character character, Select select)
 			{
@@ -42,8 +42,7 @@ public class DropItemActionTest
 		assertEquals(1, backpack.getNumberOfItems());
 		assertEquals(0, floor.getNumberOfItems());
 
-		DropItemAction action = new DropItemAction(backpack, (characterResponse, actionResponse) -> {
-			assertSame(backpack, actionResponse.getBackpack());
+		DropItemAction action = new DropItemAction((characterResponse, actionResponse) -> {
 			assertFalse(actionResponse.hasException());
 			assertEquals(0, backpack.getNumberOfItems());
 			assertEquals(1, floor.getNumberOfItems());
@@ -67,8 +66,8 @@ public class DropItemActionTest
 		Item          b               = new SomeItem();
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new BaseCharacter(null, null, backpack, currentLocation);
-		GameInterface gameInterface   = new MockGameInterface();
+		Character     character       = new SomeCharacter(backpack, currentLocation);
+		GameInterface gameInterface   = new SomeGameInterface();
 
 		backpack.addItem(a, 0);
 		backpack.addItem(b, 1);
@@ -76,8 +75,7 @@ public class DropItemActionTest
 		assertEquals(2, backpack.getNumberOfItems());
 		assertEquals(0, floor.getNumberOfItems());
 
-		DropItemAction action = new DropItemAction(backpack, (characterResponse, actionResponse) -> {
-			assertSame(backpack, actionResponse.getBackpack());
+		DropItemAction action = new DropItemAction((characterResponse, actionResponse) -> {
 			assertFalse(actionResponse.hasException());
 			assertEquals(0, backpack.getNumberOfItems());
 			assertEquals(2, floor.getNumberOfItems());
@@ -100,8 +98,8 @@ public class DropItemActionTest
 		Backpack      backpack        = new Backpack(5);
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new BaseCharacter(null, null, backpack, currentLocation);
-		GameInterface gameInterface   = new MockGameInterface();
+		Character     character       = new SomeCharacter(backpack, currentLocation);
+		GameInterface gameInterface   = new SomeGameInterface();
 
 		backpack.addItem(new SomeItem());
 		backpack.addItem(new SomeItem());
@@ -109,8 +107,7 @@ public class DropItemActionTest
 		assertEquals(2, backpack.getNumberOfItems());
 		assertEquals(0, floor.getNumberOfItems());
 
-		DropItemAction action = new DropItemAction(backpack, (characterResponse, actionResponse) -> {
-			assertSame(backpack, actionResponse.getBackpack());
+		DropItemAction action = new DropItemAction((characterResponse, actionResponse) -> {
 			assertTrue(actionResponse.hasException(NumberFormatException.class));
 			assertEquals(2, backpack.getNumberOfItems());
 			assertEquals(0, floor.getNumberOfItems());
@@ -123,6 +120,6 @@ public class DropItemActionTest
 	@Test
 	public void testInheritedMethods() throws Exception
 	{
-		ActionTest.test(() -> new DropItemAction(null, null));
+		ActionTest.test(() -> new DropItemAction(null));
 	}
 }

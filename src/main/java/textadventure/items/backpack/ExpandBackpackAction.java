@@ -53,22 +53,21 @@ public class ExpandBackpackAction extends BackpackAction
 		Backpack                                backpack = character.getBackpack();
 		ImmutableSet<Option<BackpackExpansion>> options  = backpack.asOptions(BackpackExpansion.class);
 
-		Select<BackpackExpansion> select = new BaseSelect<>(options, 1, selection -> {
-
-			try {
-
-				for (Option<BackpackExpansion> backpackExpansionOption : selection) {
-					backpack.takeItem(backpackExpansionOption.getOptionIndex());
-					this.backpackExpansion = backpackExpansionOption.getT();
-					backpack.expand(backpackExpansion.getUpgrade());
-				}
-
-			} catch (Exception e) {
-				setException(e);
-			}
-		});
-
 		try {
+
+			Select<BackpackExpansion> select = new BaseSelect<>(options, 1, selection -> {
+
+				try {
+					for (Option<BackpackExpansion> backpackExpansionOption : selection) {
+						backpack.takeItem(backpackExpansionOption.getOptionIndex());
+						this.backpackExpansion = backpackExpansionOption.getT();
+						backpack.expand(backpackExpansion.getUpgrade());
+					}
+
+				} catch (Exception e) {
+					setException(e);
+				}
+			});
 
 			if (arguments.length > 0) {
 				List<Integer> indices = new ArrayList<>();

@@ -3,8 +3,8 @@ package textadventure.doors;
 import org.junit.Test;
 import textadventure.lock.Lock;
 import textadventure.rooms.BaseRoom;
-import textadventure.rooms.MockRoom;
 import textadventure.rooms.Room;
+import textadventure.rooms.SomeRoom;
 
 import static org.junit.Assert.*;
 
@@ -14,8 +14,8 @@ public class BaseDoorTest
 	@Test
 	public void open() throws Exception
 	{
-		Room a    = new MockRoom();
-		Room b    = new MockRoom();
+		Room a    = new SomeRoom();
+		Room b    = new SomeRoom();
 		Lock lock = new Lock(null, Lock.State.UNLOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		door.open();
@@ -24,8 +24,8 @@ public class BaseDoorTest
 	@Test(expected = DoorAlreadyOpenException.class)
 	public void openDoorAlreadyOpenException() throws Exception
 	{
-		Room a    = new MockRoom();
-		Room b    = new MockRoom();
+		Room a    = new SomeRoom();
+		Room b    = new SomeRoom();
 		Lock lock = new Lock(null, Lock.State.UNLOCKED);
 		Door door = new BaseDoor(Door.State.OPEN, lock, a, b);
 		door.open();
@@ -34,8 +34,8 @@ public class BaseDoorTest
 	@Test(expected = DoorLockedException.class)
 	public void openDoorLockedException() throws Exception
 	{
-		Room a    = new MockRoom();
-		Room b    = new MockRoom();
+		Room a    = new SomeRoom();
+		Room b    = new SomeRoom();
 		Lock lock = new Lock(null, Lock.State.LOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		door.open();
@@ -44,8 +44,8 @@ public class BaseDoorTest
 	@Test
 	public void close() throws Exception
 	{
-		Room a    = new MockRoom();
-		Room b    = new MockRoom();
+		Room a    = new SomeRoom();
+		Room b    = new SomeRoom();
 		Lock lock = new Lock(null, Lock.State.UNLOCKED);
 		Door door = new BaseDoor(Door.State.OPEN, lock, a, b);
 		door.close();
@@ -54,8 +54,8 @@ public class BaseDoorTest
 	@Test(expected = DoorAlreadyClosedException.class)
 	public void closeDoorAlreadyClosedException() throws Exception
 	{
-		Room a    = new MockRoom();
-		Room b    = new MockRoom();
+		Room a    = new SomeRoom();
+		Room b    = new SomeRoom();
 		Lock lock = new Lock(null, Lock.State.UNLOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		door.close();
@@ -64,8 +64,8 @@ public class BaseDoorTest
 	@Test(expected = DoorLockedException.class)
 	public void closeDoorLockedException() throws Exception
 	{
-		Room a    = new MockRoom();
-		Room b    = new MockRoom();
+		Room a    = new SomeRoom();
+		Room b    = new SomeRoom();
 		Lock lock = new Lock(null, Lock.State.LOCKED);
 		Door door = new BaseDoor(Door.State.OPEN, lock, a, b);
 		door.close();
@@ -74,8 +74,8 @@ public class BaseDoorTest
 	@Test
 	public void getState() throws Exception
 	{
-		Room a    = new MockRoom();
-		Room b    = new MockRoom();
+		Room a    = new SomeRoom();
+		Room b    = new SomeRoom();
 		Lock lock = new Lock(null, Lock.State.LOCKED);
 		assertEquals(Door.State.OPEN, new BaseDoor(Door.State.OPEN, lock, a, b).getState());
 		assertEquals(Door.State.CLOSED, new BaseDoor(Door.State.CLOSED, lock, a, b).getState());
@@ -84,8 +84,8 @@ public class BaseDoorTest
 	@Test
 	public void getLock() throws Exception
 	{
-		Room a    = new MockRoom();
-		Room b    = new MockRoom();
+		Room a    = new SomeRoom();
+		Room b    = new SomeRoom();
 		Lock lock = new Lock(null, Lock.State.LOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		assertSame(lock, door.getLock());
@@ -134,8 +134,8 @@ public class BaseDoorTest
 	@Test
 	public void getInverseRoom() throws Exception
 	{
-		Room a    = new MockRoom();
-		Room b    = new MockRoom();
+		Room a    = new SomeRoom();
+		Room b    = new SomeRoom();
 		Lock lock = new Lock(null, Lock.State.LOCKED);
 		Door door = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		assertSame(a, door.getInverseRoom(b));

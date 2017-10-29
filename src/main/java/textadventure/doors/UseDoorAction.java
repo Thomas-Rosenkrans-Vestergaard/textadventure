@@ -45,7 +45,7 @@ public class UseDoorAction extends DoorAction
 		Door.State state       = door.getState();
 
 		if (targetRoom == null) {
-			throw new IllegalStateException();
+			throw new IllegalStateException("Target room is null.");
 		}
 
 		if (state == Door.State.CLOSED) {
@@ -53,7 +53,11 @@ public class UseDoorAction extends DoorAction
 		}
 
 		if (state == Door.State.OPEN) {
+			if (!currentRoom.hasCharacter(character))
+				throw new IllegalStateException();
+			currentRoom.removeCharacter(character);
 			character.setCurrentLocation(targetRoom);
+			targetRoom.addCharacter(character);
 		}
 
 		callback.send(character, this);

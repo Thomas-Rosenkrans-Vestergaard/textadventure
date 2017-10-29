@@ -1,6 +1,5 @@
 package textadventure.items.backpack;
 
-import textadventure.Game;
 import textadventure.Property;
 import textadventure.actions.Action;
 import textadventure.items.BaseInventory;
@@ -42,15 +41,13 @@ public class Backpack extends BaseInventory implements Property
 	/**
 	 * Creates and returns a new {@link Backpack} with the {@link InspectBackpackAction}.
 	 *
-	 * @param positions The number of positions in the {@link Backpack}.
-	 * @param game  The {@link Game} instance.
+	 * @param gameInterface The {@link GameInterface} instance.
+	 * @param positions     The number of positions in the {@link Backpack}.
 	 * @return The newly created {@link Backpack}.
 	 */
-	public static Backpack factory(int positions, Game game)
+	public static Backpack factory(GameInterface gameInterface, int positions)
 	{
-		Backpack      backpack      = new Backpack(positions);
-		GameInterface gameInterface = game.getGameInterface();
-
+		Backpack backpack = new Backpack(positions);
 		backpack.addAction("inspect", new InspectBackpackAction(backpack, gameInterface::onBackpackInspect));
 		backpack.addAction("expand", new ExpandBackpackAction(backpack, gameInterface::onBackpackExpand));
 

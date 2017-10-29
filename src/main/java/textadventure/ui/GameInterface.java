@@ -5,6 +5,7 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.combat.DamageSource;
 import textadventure.doors.CloseDoorAction;
 import textadventure.doors.InspectDoorAction;
 import textadventure.doors.OpenDoorAction;
@@ -18,6 +19,7 @@ import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.InspectFloorAction;
+import textadventure.rooms.InspectRoomAction;
 import textadventure.ui.characterSelection.CharacterCreationCallback;
 import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
 
@@ -42,13 +44,14 @@ public interface GameInterface
 	/**
 	 * Lets the {@link Player} create the {@link Character} they control.
 	 *
-	 * @param player  The {@link Player} creating the {@link Character}s.
-	 * @param minimum The minimum amount of {@link Character}s to create.
-	 * @param maximum The maximum amount of {@link Character}s to create.
-	 * @param create  The callback to use to add a {@link Character} creation.
-	 * @param finish  The callback to use to finish the {@link Character} creation.
+	 * @param player           The {@link Player} creating the {@link Character}s.
+	 * @param minimum          The minimum amount of {@link Character}s to create.
+	 * @param maximum          The maximum amount of {@link Character}s to create.
+	 * @param creationCallback The callback to use to add a {@link Character} creation.
+	 * @param finishCallback   The callback to use to finish the {@link Character} creation.
 	 */
-	void onCharacterCreation(Player player, int minimum, int maximum, CharacterCreationCallback create, FinishCharacterCreationCallback finish);
+	void onCharacterCreation(Player player, int minimum, int maximum, CharacterCreationCallback creationCallback,
+	                         FinishCharacterCreationCallback finishCallback);
 
 	/**
 	 * Called when the {@link Game} starts.
@@ -63,6 +66,15 @@ public interface GameInterface
 	 * @param game The {@link Game} instance.
 	 */
 	void onGameEnd(Game game);
+
+	/**
+	 * Called when a {@link Character} dies.
+	 *
+	 * @param player       The {@link Player} controlling the {@link Character}.
+	 * @param character    The {@link Character} who died.
+	 * @param damageSource The {@link DamageSource} that killed them.
+	 */
+	void onCharacterDies(Player player, Character character, DamageSource damageSource);
 
 	/**
 	 * Event when a {@link Player} starts their turn.
@@ -87,6 +99,14 @@ public interface GameInterface
 	 * @param response  The {@link ActionRequestCallback} to send with.
 	 */
 	void onActionRequest(Character character, ActionRequestCallback response);
+
+	/**
+	 * Event when a {@link Character} performs the {@link InspectRoomAction}.
+	 *
+	 * @param character The {@link Character} who attempted to perform the {@link InspectRoomAction}.
+	 * @param action    The {@link InspectRoomAction} instance.
+	 */
+	void onRoomInspect(Character character, InspectRoomAction action);
 
 	/**
 	 * Event when a {@link Character} performs the {@link InspectFloorAction}.

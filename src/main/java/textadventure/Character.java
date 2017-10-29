@@ -1,5 +1,6 @@
 package textadventure;
 
+import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
@@ -11,6 +12,13 @@ import textadventure.rooms.Room;
  */
 public interface Character extends PropertyContainer
 {
+
+	/**
+	 * Returns the {@link Player} controlling the {@link Character}.
+	 *
+	 * @return The {@link Player} controlling the {@link Character}.
+	 */
+	Player getPlayer();
 
 	/**
 	 * Returns the name of the {@link Character}.
@@ -195,4 +203,12 @@ public interface Character extends PropertyContainer
 	 * @return The amount of money the {@link Character} has.
 	 */
 	int getMoney();
+
+	/**
+	 * Causes the {@link Character} to take damage from the provided {@link DamageSource}.
+	 *
+	 * @param damageSource The {@link DamageSource}.
+	 * @return How much damage was taken.
+	 */
+	int takeDamage(DamageSource damageSource);
 }

@@ -3,6 +3,7 @@ package textadventure.items.backpack;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import textadventure.Character;
+import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
 import textadventure.items.chest.TakeItemFromChestAction;
@@ -19,7 +20,7 @@ import java.util.List;
  * {@link textadventure.actions.Action} that allows a {@link Character} to pick up {@link Item}s from the
  * {@link Floor}, placing the {@link Item}s in their {@link Backpack}.
  */
-public class PickUpItemAction extends BackpackAction
+public class PickUpItemAction extends AbstractAction
 {
 
 	/**
@@ -34,13 +35,9 @@ public class PickUpItemAction extends BackpackAction
 
 	/**
 	 * Creates a new {@link PickUpItemAction}.
-	 *
-	 * @param backpack The {@link Backpack} to drop {@link textadventure.items.Item}s from.
 	 */
-	public PickUpItemAction(Backpack backpack, ActionPerformCallback<PickUpItemAction> callback)
+	public PickUpItemAction(ActionPerformCallback<PickUpItemAction> callback)
 	{
-		super(backpack);
-
 		this.callback = callback;
 	}
 
@@ -54,25 +51,25 @@ public class PickUpItemAction extends BackpackAction
 	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
 	{
 		Floor                      floor    = character.getCurrentLocation().getRoomFloor();
-		Backpack                   backpack = getBackpack();
+		Backpack                   backpack = character.getBackpack();
 		ImmutableSet<Option<Item>> options  = floor.asOptions(Item.class);
 
-		Select<Item> select = new BaseSelect<>(options, selection -> {
-			try {
-
-				for (Option option : selection) {
-					Item item = floor.getItem(option.getOptionIndex());
-					backpack.addItem(item);
-					floor.takeItem(option.getOptionIndex());
-					this.items.add(item);
-				}
-
-			} catch (Exception e) {
-				setException(e);
-			}
-		});
-
 		try {
+
+			Select<Item> select = new BaseSelect<>(options, selection -> {
+				try {
+
+					for (Option option : selection) {
+						Item item = floor.getItem(option.getOptionIndex());
+						backpack.addItem(item);
+						floor.takeItem(option.getOptionIndex());
+						this.items.add(item);
+					}
+
+				} catch (Exception e) {
+					setException(e);
+				}
+			});
 
 			if (arguments.length > 0) {
 				List<Integer> indices = new ArrayList<>();
