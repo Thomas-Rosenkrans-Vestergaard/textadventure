@@ -1,11 +1,11 @@
 package textadventure.lock;
 
-import textadventure.BaseProperty;
+import textadventure.AbstractProperty;
 
 import static textadventure.lock.Lock.State.LOCKED;
 import static textadventure.lock.Lock.State.UNLOCKED;
 
-public class Lock extends BaseProperty
+public class Lock extends AbstractProperty
 {
 
 	/**

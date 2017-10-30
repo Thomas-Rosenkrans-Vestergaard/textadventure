@@ -1,7 +1,7 @@
 package textadventure.characters;
 
 import com.google.common.collect.ImmutableMap;
-import textadventure.BasePropertyContainer;
+import textadventure.AbstractPropertyContainer;
 import textadventure.Property;
 import textadventure.PropertyContainer;
 import textadventure.combat.DamageSource;
@@ -23,7 +23,7 @@ import java.awt.*;
 /**
  * The default implementation of the {@link Character} interface.
  */
-public class BaseCharacter extends BasePropertyContainer implements Character
+public class BaseCharacter extends AbstractPropertyContainer implements Character
 {
 
 	/**

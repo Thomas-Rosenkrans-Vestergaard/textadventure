@@ -1,7 +1,6 @@
-package textadventure;
+package textadventure.characters;
 
 import textadventure.actions.AbstractAction;
-import textadventure.characters.Character;
 import textadventure.ui.GameInterface;
 
 public class EscapeAction extends AbstractAction

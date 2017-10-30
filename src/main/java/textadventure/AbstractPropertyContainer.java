@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * Default implementation of the {@link PropertyContainer} interface.
  */
-public class BasePropertyContainer extends BaseProperty implements PropertyContainer
+public class AbstractPropertyContainer extends AbstractProperty implements PropertyContainer
 {
 
 	/**

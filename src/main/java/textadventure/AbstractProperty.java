@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 /**
  * Default implementation of the {@link Property} interface.
  */
-public abstract class BaseProperty implements Property
+public abstract class AbstractProperty implements Property
 {
 
 	/**
