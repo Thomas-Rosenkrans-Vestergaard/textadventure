@@ -27,7 +27,7 @@ public abstract class AbstractFaction implements Faction
 	/**
 	 * The {@link Character}s in the {@link Faction}.
 	 */
-	private List<Character> characters = new ArrayList<>();
+	protected List<Character> characters = new ArrayList<>();
 
 	/**
 	 * Creates a new {@link Faction}.
