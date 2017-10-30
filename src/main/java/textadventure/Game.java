@@ -11,10 +11,7 @@ import textadventure.rooms.*;
 import textadventure.ui.GameInterface;
 import textadventure.ui.characterSelection.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static textadventure.doors.Door.State.CLOSED;
 import static textadventure.doors.Door.State.OPEN;
@@ -46,21 +43,16 @@ public class Game
 	 * The {@link Player}s in the {@link Game} mapped to the {@link Faction} they control.
 	 */
 	private Map<Faction, Player> factions = new HashMap<>();
-	/**
-	 * The {@link Maze} the game is played in.
-	 */
-	private Maze maze;
 
 	/**
 	 * The {@link Character}s in {@link Game} mapped to the {@link Player} who controls them.
 	 */
 	private Map<Player, List<Character>> characters;
-	private Map<String, Character>       characterNames;
 
 	/**
-	 * The current {@link Character} in play.
+	 * Returns the {@link Set} of the names in the {@link Game}.
 	 */
-	private Character currentCharacter;
+	private Set<String> characterNames = new HashSet<>();
 
 	/**
 	 * The {@link GameInterface} to use for input-output.
@@ -76,7 +68,6 @@ public class Game
 		this.gameInterface = gameInterface;
 		this.numberOfCharacters = numberOfCharacters;
 		this.characters = new HashMap<>();
-		this.characterNames = new HashMap<>();
 		gameInterface.onInit(this);
 		generateState();
 	}
@@ -101,8 +92,10 @@ public class Game
 			if (characters.size() == numberOfCharacters)
 				throw new TooManyCharactersException(numberOfCharacters);
 			approveCharacterCreationTemplate(characterCreationTemplate);
-			Room currentLocation = faction == Factions.ESCAPEES ? startingRoom : endingRoom;
-			characters.add(BaseCharacter.fromTemplate(player, gameInterface, characterCreationTemplate, faction, currentLocation));
+			Room      currentLocation = faction == Factions.ESCAPEES ? startingRoom : endingRoom;
+			Character character       = BaseCharacter.fromTemplate(player, gameInterface, characterCreationTemplate, faction, currentLocation);
+			faction.addCharacter(character);
+			characters.add(character);
 		};
 
 		FinishCharacterCreationCallback finishCharacterCreationCallback = () -> {
@@ -125,7 +118,7 @@ public class Game
 	 */
 	private void approveCharacterCreationTemplate(CharacterCreationTemplate characterCreationTemplate) throws CharacterNameTakenException, IncompleteCharacterException
 	{
-		if (characterNames.containsKey(characterCreationTemplate.getName()))
+		if (characterNames.contains(characterCreationTemplate.getName()))
 			throw new CharacterNameTakenException(characterCreationTemplate);
 
 		if (characterCreationTemplate.getName() == null)
@@ -193,6 +186,11 @@ public class Game
 		return this.gameInterface;
 	}
 
+	/**
+	 * Returns the number of {@link Character} in each {@link Faction}.
+	 *
+	 * @return The number of {@link Character} in each {@link Faction}.
+	 */
 	public int getNumberOfCharacters()
 	{
 		return this.numberOfCharacters;
