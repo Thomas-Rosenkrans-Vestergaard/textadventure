@@ -10,29 +10,27 @@ import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
 import textadventure.rooms.Room;
 
-import java.util.stream.Stream;
-
 public class SomeCharacter implements Character
 {
-	private String name;
-	private Faction faction;
-	private Backpack backpack;
-	private Room currentLocation;
-	private HeadWear headWear;
+	private String    name;
+	private Faction   faction;
+	private Backpack  backpack;
+	private Room      currentLocation;
+	private HeadWear  headWear;
 	private TorsoWear torsoWear;
-	private Gloves gloves;
-	private Pants pants;
-	private Boots boots;
-	private Weapon weapon;
-	private int maxHP;
-	private int currentHP;
-	private int level;
-	private int sanity;
-	private int strength;
-	private int dexterity;
-	private int intelligence;
-	private int stealth;
-	private int money;
+	private Gloves    gloves;
+	private Pants     pants;
+	private Boots     boots;
+	private Weapon    weapon;
+	private int       maxHP;
+	private int       currentHP;
+	private int       level;
+	private int       sanity;
+	private int       strength;
+	private int       dexterity;
+	private int       intelligence;
+	private int       stealth;
+	private int       money;
 
 	@Override public String getName()
 	{
@@ -254,7 +252,7 @@ public class SomeCharacter implements Character
 		return null;
 	}
 
-	@Override public Stream<Action> getActions()
+	@Override public ImmutableMap<String, Action> getActions()
 	{
 		return null;
 	}

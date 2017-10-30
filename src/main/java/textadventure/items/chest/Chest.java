@@ -8,7 +8,6 @@ import textadventure.items.BaseInventory;
 import textadventure.lock.Lock;
 
 import java.util.HashMap;
-import java.util.stream.Stream;
 
 /**
  * An {@link textadventure.items.Inventory}.
@@ -59,8 +58,8 @@ public class Chest extends BaseInventory implements PropertyContainer
 	 * Creates a new {@link Chest}.
 	 *
 	 * @param positions The number of positions available in the {@link Chest}.
-	 * @param state The {@link State} of the {@link Chest}.
-	 * @param lock  The {@link Lock} on the {@link Chest}.
+	 * @param state     The {@link State} of the {@link Chest}.
+	 * @param lock      The {@link Lock} on the {@link Chest}.
 	 */
 	public Chest(int positions, State state, Lock lock)
 	{
@@ -150,13 +149,13 @@ public class Chest extends BaseInventory implements PropertyContainer
 	}
 
 	/**
-	 * Returns a stream of the {@link Action}s available on the {@link Property}.
+	 * Returns an {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
 	 *
-	 * @return Returns the stream of the {@link Action}s available on the {@link Property}.
+	 * @return The {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
 	 */
-	@Override public Stream<Action> getActions()
+	@Override public ImmutableMap<String, Action> getActions()
 	{
-		return actions.values().stream();
+		return ImmutableMap.copyOf(actions);
 	}
 
 	/**

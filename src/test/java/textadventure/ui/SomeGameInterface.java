@@ -1,9 +1,10 @@
 package textadventure.ui;
 
-import textadventure.characters.Character;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.characters.Character;
+import textadventure.characters.CharacterInformationAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.doors.CloseDoorAction;
@@ -69,6 +70,11 @@ public class SomeGameInterface implements GameInterface
 	}
 
 	@Override public void onActionRequest(Character character, ActionRequestCallback response)
+	{
+
+	}
+
+	@Override public void onCharacterInformation(Character character, CharacterInformationAction action)
 	{
 
 	}

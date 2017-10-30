@@ -1,9 +1,9 @@
 package textadventure;
 
+import com.google.common.collect.ImmutableMap;
 import textadventure.actions.Action;
 
 import java.util.HashMap;
-import java.util.stream.Stream;
 
 /**
  * Default implementation of the {@link Property} interface.
@@ -39,12 +39,12 @@ public abstract class AbstractProperty implements Property
 	}
 
 	/**
-	 * Returns a stream of the {@link Action}s available on the {@link Property}.
+	 * Returns an {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
 	 *
-	 * @return Returns the stream of the {@link Action}s available on the {@link Property}.
+	 * @return The {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
 	 */
-	@Override public Stream<Action> getActions()
+	@Override public ImmutableMap<String, Action> getActions()
 	{
-		return actions.values().stream();
+		return ImmutableMap.copyOf(actions);
 	}
 }

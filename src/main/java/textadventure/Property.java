@@ -1,9 +1,8 @@
 package textadventure;
 
+import com.google.common.collect.ImmutableMap;
 import textadventure.actions.Action;
 import textadventure.characters.Character;
-
-import java.util.stream.Stream;
 
 /**
  * Object that {@link Character}s can perform {@link Action}s upon.
@@ -28,9 +27,9 @@ public interface Property
 	Action getAction(String name);
 
 	/**
-	 * Returns a stream of the {@link Action}s available on the {@link Property}.
+	 * Returns an {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
 	 *
-	 * @return Returns the stream of the {@link Action}s available on the {@link Property}.
+	 * @return The {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
 	 */
-	Stream<Action> getActions();
+	ImmutableMap<String, Action> getActions();
 }

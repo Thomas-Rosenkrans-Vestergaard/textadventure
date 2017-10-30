@@ -1,4 +1,4 @@
-package textadventure;
+package textadventure.combat;
 
 import textadventure.characters.Character;
 import textadventure.items.Item;

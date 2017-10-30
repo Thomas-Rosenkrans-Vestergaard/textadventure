@@ -4,7 +4,7 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.rooms.Room;
 
-public class SecretPolice extends Faction
+public class SecretPolice extends AbstractFaction
 {
 
 	/**
@@ -19,12 +19,25 @@ public class SecretPolice extends Faction
 	}
 
 	/**
-	 * Checks if the {@link Faction} win condition has been fulfilled.
+	 * Checks if the {@link Faction} has won the {@link Game}.
 	 *
 	 * @param game The {@link Game} instance.
-	 * @return True when the win condition of the {@link Faction} has been fulfilled.
+	 * @return The method returns <code>true</code> if the {@link Faction} has won. Returns <code>false</code> if the
+	 * {@link Faction} has not won yet.
 	 */
-	@Override boolean hasWon(Game game)
+	@Override public boolean hasWon(Game game)
+	{
+		return false;
+	}
+
+	/**
+	 * Checks if the {@link Faction} has lost the {@link Game}.
+	 *
+	 * @param game The {@link Game} instance.
+	 * @return The method returns <code>true</code> if the {@link Faction} has lost. Returns <code>false</code> if the
+	 * {@link Faction} has not lost yet.
+	 */
+	@Override public boolean hasLost(Game game)
 	{
 		return false;
 	}
