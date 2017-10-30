@@ -8,6 +8,7 @@ import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
+import textadventure.combat.Factions;
 import textadventure.doors.*;
 import textadventure.items.*;
 import textadventure.items.backpack.DropItemAction;
@@ -35,9 +36,9 @@ public class ConsoleGameInterface implements GameInterface
 	public static void main(String[] args) throws Exception
 	{
 		GameInterface gameInterface = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
-		Game          game          = new Game(gameInterface, 1, 1);
-		game.addPlayer(new HumanPlayer(), Faction.ESCAPEE);
-		game.addPlayer(new ComputerPlayer(), Faction.SECRET_POLICE);
+		Game          game          = new Game(gameInterface, 1);
+		game.addPlayer(new HumanPlayer(), Factions.ESCAPEES);
+		game.addPlayer(new ComputerPlayer(), Factions.SECRET_POLICE);
 		game.start();
 	}
 
@@ -89,37 +90,25 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Lets the {@link Player} create the {@link Character} they control.
 	 *
-	 * @param player           The {@link Player} creating the {@link Character}s.
-	 * @param minimum          The minimum amount of {@link Character}s to create.
-	 * @param maximum          The maximum amount of {@link Character}s to create.
-	 * @param creationCallback The callback to use to add a {@link Character} creation.
-	 * @param finishCallback   The callback to use to finish the {@link Character} creation.
+	 * @param player             The {@link Player} creating the {@link Character}s.
+	 * @param numberOfCharacters The number of {@link Character}s to create.
+	 * @param creationCallback   The callback to use to add a {@link Character} creation.
+	 * @param finishCallback     The callback to use to finish the {@link Character} creation.
 	 */
 	@Override
-	public void onCharacterCreation(Player player, int minimum, int maximum, CharacterCreationCallback creationCallback,
+	public void onCharacterCreation(Player player, int numberOfCharacters, CharacterCreationCallback creationCallback,
 	                                FinishCharacterCreationCallback finishCallback)
 	{
-		printer.println(String.format("You must now create your characters. You can create from %d to %d characters.", minimum, maximum));
+		printer.println(String.format("You must now create your characters. You can create from %d characters.",
+				numberOfCharacters));
 
 		int created = 0;
 		try {
-			while (created <= maximum) {
-				if (created == maximum) {
-					printer.println("You cannot create any more characters.");
-					finishCallback.respond();
-					return;
-				}
-				if (created >= minimum) {
-					printer.println(String.format("You have created %d characters so far. Do you wish to continue " +
-							"creating characters or finish? CONTINUE or FINISH.", created));
-					if (scanner.nextLine().toLowerCase().trim().equals("finish")) {
-						finishCallback.respond();
-						return;
-					}
-				}
+			while (created != numberOfCharacters) {
 				createCharacter(creationCallback);
 				created++;
 			}
+			finishCallback.respond();
 		} catch (TooFewCharactersException e) {
 			throw new IllegalStateException(e);
 		}

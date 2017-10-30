@@ -55,19 +55,18 @@ public class ComputerPlayer implements Player
 	private Random random = new Random();
 
 	/**
-	 * Events called when the {@link Player} should create their {@link java.lang.Character}s.
+	 * Events called when the {@link Player} should create their {@link Character}s.
 	 *
-	 * @param gameInterface    The {@link GameInterface}.
-	 * @param minimum          The minimum number of {@link java.lang.Character}s to create.
-	 * @param maximum          The maximum number of {@link java.lang.Character}s to create.
-	 * @param creationCallback The callback to use to create {@link java.lang.Character}s.
-	 * @param finishCallback   The callback to use when finishing creating {@link java.lang.Character}s.
+	 * @param gameInterface      The {@link GameInterface}.
+	 * @param numberOfCharacters The maximum number of {@link Character}s to create.
+	 * @param creationCallback   The callback to use to create {@link Character}s.
+	 * @param finishCallback     The callback to use when finishing creating {@link Character}s.
 	 */
 	@Override
-	public void createCharacters(GameInterface gameInterface, int minimum, int maximum, CharacterCreationCallback creationCallback, FinishCharacterCreationCallback finishCallback)
+	public void createCharacters(GameInterface gameInterface, int numberOfCharacters, CharacterCreationCallback creationCallback, FinishCharacterCreationCallback finishCallback)
 	{
 		try {
-			for (int x = 0; x < maximum && x < names.length; x++) {
+			for (int x = 0; x < numberOfCharacters && x < names.length; x++) {
 				CharacterCreationTemplate template = new CharacterCreationTemplate();
 				template.setName(names[x]);
 				creationCallback.respond(template);

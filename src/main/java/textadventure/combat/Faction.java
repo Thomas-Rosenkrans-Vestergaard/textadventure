@@ -1,18 +1,18 @@
 package textadventure.combat;
 
+import textadventure.Game;
+
 /**
  * The {@link Faction}s the {@link textadventure.Character}s can belong to.
  */
-public enum Faction
+public interface Faction
 {
 
 	/**
-	 * The {@link textadventure.Character} is on the side of North Korea.
+	 * Checks if the {@link Faction} win condition has been fulfilled.
+	 *
+	 * @param game The {@link Game} instance.
+	 * @return True when the win condition of the {@link Faction} has been fulfilled.
 	 */
-	SECRET_POLICE,
-
-	/**
-	 * The {@link textadventure.Character} is on the side of the escapees from the concentration camp.
-	 */
-	ESCAPEE,
+	boolean hasWon(Game game);
 }

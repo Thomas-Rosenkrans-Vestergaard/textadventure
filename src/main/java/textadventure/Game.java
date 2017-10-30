@@ -2,6 +2,7 @@ package textadventure;
 
 import textadventure.actions.Action;
 import textadventure.combat.Faction;
+import textadventure.combat.Factions;
 import textadventure.doors.*;
 import textadventure.items.chest.*;
 import textadventure.items.weapons.Shotgun;
@@ -31,12 +32,7 @@ public class Game
 	/**
 	 * The minimum amount of {@link Character}s controlled by a {@link Player} in the {@link Game}.
 	 */
-	private final int minimumCharacters;
-
-	/**
-	 * The maximum amount of {@link Character}s controlled by a {@link Player} in the {@link Game}.
-	 */
-	private final int maximumCharacters;
+	private final int numberOfCharacters;
 
 	private StartingRoom startingRoom;
 	private EndingRoom   endingRoom;
@@ -46,6 +42,10 @@ public class Game
 	 */
 	private List<Player> players = new ArrayList<>();
 
+	/**
+	 * The {@link Player}s in the {@link Game} mapped to the {@link Faction} they control.
+	 */
+	private Map<Faction, Player> factions = new HashMap<>();
 	/**
 	 * The {@link Maze} the game is played in.
 	 */
@@ -65,21 +65,16 @@ public class Game
 	/**
 	 * The {@link GameInterface} to use for input-output.
 	 *
-	 * @param gameInterface     The {@link GameInterface} to use for input-output.
-	 * @param minimumCharacters The minimum amount of {@link Character}s controlled by a {@link Player}.d
-	 * @param maximumCharacters The maximum amount of {@link Character}s controlled by a {@link Player}.d
+	 * @param gameInterface      The {@link GameInterface} to use for input-output.
+	 * @param numberOfCharacters The number of {@link Character}s controlled by a {@link Player}.
 	 */
-	public Game(GameInterface gameInterface, int minimumCharacters, int maximumCharacters)
+	public Game(GameInterface gameInterface, int numberOfCharacters)
 	{
-		if (minimumCharacters < 1)
-			throw new IllegalArgumentException("minimumCharacters must be positive.");
-
-		if (maximumCharacters < minimumCharacters)
-			throw new IllegalArgumentException("maximumCharacters must not be smaller than minimumCharacters.");
+		if (numberOfCharacters < 1)
+			throw new IllegalArgumentException("numberOfCharacters must be positive.");
 
 		this.gameInterface = gameInterface;
-		this.minimumCharacters = maximumCharacters;
-		this.maximumCharacters = maximumCharacters;
+		this.numberOfCharacters = numberOfCharacters;
 		this.characters = new HashMap<>();
 		this.characterNames = new HashMap<>();
 		gameInterface.onInit(this);
@@ -92,29 +87,32 @@ public class Game
 	 * @param player  The {@link Player} to put to the {@link Game}.
 	 * @param faction The {@link Faction} the {@link Player} plays for.
 	 */
-	public void addPlayer(Player player, Faction faction)
+	public void addPlayer(Player player, Faction faction) throws FactionAlreadyTakenException
 	{
+		if (factions.containsKey(faction))
+			throw new FactionAlreadyTakenException(player, faction);
+
+		factions.put(faction, player);
 		players.add(player);
-		characters.put(player, new ArrayList<>());
 		gameInterface.onPlayerJoin(this, player);
 		List<Character> characters = new ArrayList<>();
 
 		CharacterCreationCallback characterCreationCallback = (characterCreationTemplate) -> {
-			if (characters.size() == maximumCharacters)
-				throw new TooManyCharactersException(maximumCharacters);
+			if (characters.size() == numberOfCharacters)
+				throw new TooManyCharactersException(numberOfCharacters);
 			approveCharacterCreationTemplate(characterCreationTemplate);
-			Room currentLocation = faction == Faction.ESCAPEE ? startingRoom : endingRoom;
+			Room currentLocation = faction == Factions.ESCAPEES ? startingRoom : endingRoom;
 			characters.add(BaseCharacter.fromTemplate(player, gameInterface, characterCreationTemplate, faction, currentLocation));
 		};
 
 		FinishCharacterCreationCallback finishCharacterCreationCallback = () -> {
-			if (characters.size() < minimumCharacters)
-				throw new TooFewCharactersException(minimumCharacters, characters.size());
+			if (characters.size() < numberOfCharacters)
+				throw new TooFewCharactersException(numberOfCharacters, characters.size());
 			this.characters.put(player, characters);
 			characters.forEach(character -> player.onCharacterCreate(character));
 		};
 
-		player.createCharacters(gameInterface, minimumCharacters, maximumCharacters, characterCreationCallback,
+		player.createCharacters(gameInterface, numberOfCharacters, characterCreationCallback,
 				finishCharacterCreationCallback);
 	}
 
@@ -195,14 +193,9 @@ public class Game
 		return this.gameInterface;
 	}
 
-	public int getMinimumCharacters()
+	public int getNumberOfCharacters()
 	{
-		return this.minimumCharacters;
-	}
-
-	public int getMaximumCharacters()
-	{
-		return this.maximumCharacters;
+		return this.numberOfCharacters;
 	}
 
 	public StartingRoom getStartingRoom()

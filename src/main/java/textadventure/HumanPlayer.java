@@ -23,17 +23,16 @@ public class HumanPlayer implements Player
 	/**
 	 * Events called when the {@link Player} should create their {@link Character}s.
 	 *
-	 * @param gameInterface    The {@link GameInterface}.
-	 * @param minimum          The minimum number of {@link Character}s to create.
-	 * @param maximum          The maximum number of {@link Character}s to create.
-	 * @param creationCallback The callback to use to create {@link Character}s.
-	 * @param finishCallback   The callback to use when finishing creating {@link Character}s.
+	 * @param gameInterface      The {@link GameInterface}.
+	 * @param numberOfCharacters The  number of {@link Character}s to create.
+	 * @param creationCallback   The callback to use to create {@link Character}s.
+	 * @param finishCallback     The callback to use when finishing creating {@link Character}s.
 	 */
 	@Override
-	public void createCharacters(GameInterface gameInterface, int minimum, int maximum,
+	public void createCharacters(GameInterface gameInterface, int numberOfCharacters,
 	                             CharacterCreationCallback creationCallback, FinishCharacterCreationCallback finishCallback)
 	{
-		gameInterface.onCharacterCreation(this, minimum, maximum, creationCallback, finishCallback);
+		gameInterface.onCharacterCreation(this, numberOfCharacters, creationCallback, finishCallback);
 	}
 
 	/**

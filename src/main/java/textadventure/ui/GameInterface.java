@@ -44,13 +44,12 @@ public interface GameInterface
 	/**
 	 * Lets the {@link Player} create the {@link Character} they control.
 	 *
-	 * @param player           The {@link Player} creating the {@link Character}s.
-	 * @param minimum          The minimum amount of {@link Character}s to create.
-	 * @param maximum          The maximum amount of {@link Character}s to create.
-	 * @param creationCallback The callback to use to add a {@link Character} creation.
-	 * @param finishCallback   The callback to use to finish the {@link Character} creation.
+	 * @param player             The {@link Player} creating the {@link Character}s.
+	 * @param numberOfCharacters The amount of {@link Character}s to create.
+	 * @param creationCallback   The callback to use to add a {@link Character} creation.
+	 * @param finishCallback     The callback to use to finish the {@link Character} creation.
 	 */
-	void onCharacterCreation(Player player, int minimum, int maximum, CharacterCreationCallback creationCallback,
+	void onCharacterCreation(Player player, int numberOfCharacters, CharacterCreationCallback creationCallback,
 	                         FinishCharacterCreationCallback finishCallback);
 
 	/**
