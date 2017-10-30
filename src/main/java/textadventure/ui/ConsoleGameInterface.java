@@ -2,10 +2,10 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import textadventure.characters.Character;
 import textadventure.*;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.characters.Character;
 import textadventure.characters.CharacterInformation;
 import textadventure.characters.CharacterInformationAction;
 import textadventure.combat.DamageSource;
@@ -193,7 +193,7 @@ public class ConsoleGameInterface implements GameInterface
 			roomController.get(Coordinate.of(4, 5)).addProperty(SOUTH_DOOR_NAME, door);
 
 			Game game = new Game(gameInterface, roomController, 1);
-			game.addFaction(new Escapees(new HumanPlayer(), roomController.get(Coordinate.of(4, 1))));
+			game.addFaction(new Escapees(new HumanPlayer(), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 5))));
 			game.addFaction(new SecretPolice(new ComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
 			game.start();
 		} catch (UnknownRoomException e) {

@@ -6,8 +6,11 @@ import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
 import textadventure.rooms.Room;
 
+import java.util.Objects;
+
 /**
- * Readonly {@link Character}.
+ * Readonly {@link Character}. The {@link Object#hashCode()} and {@link Object#equals(Object)} methods delegate to the
+ * internal {@link Character} {@link Object#hashCode()} and {@link Object#equals(Object)} methods.
  */
 public class CharacterInformation
 {
@@ -217,5 +220,19 @@ public class CharacterInformation
 	public int getMoney()
 	{
 		return character.getMoney();
+	}
+
+	@Override public boolean equals(Object o)
+	{
+		if (o instanceof Character || o instanceof CharacterInformation) {
+			return character.hashCode() == o.hashCode();
+		}
+
+		return false;
+	}
+
+	@Override public int hashCode()
+	{
+		return Objects.hash(character);
 	}
 }
