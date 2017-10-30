@@ -27,7 +27,7 @@ public class Factions
 	/**
 	 * The {@link Escapees}.
 	 */
-	private static class Escapees implements Faction
+	private static class Escapees extends Faction
 	{
 
 		/**
@@ -45,7 +45,7 @@ public class Factions
 	/**
 	 * The {@link SecretPolice}.
 	 */
-	private static class SecretPolice implements Faction
+	private static class SecretPolice extends Faction
 	{
 
 		/**

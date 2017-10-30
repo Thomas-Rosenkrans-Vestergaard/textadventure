@@ -3,6 +3,7 @@ package textadventure.combat;
 import com.google.common.collect.ImmutableList;
 import textadventure.Character;
 import textadventure.Game;
+import textadventure.rooms.Room;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +45,15 @@ public abstract class Faction
 	public ImmutableList<Character> getCharacters()
 	{
 		return ImmutableList.copyOf(characters);
+	}
+
+	/**
+	 * Returns the {@link Room} the {@link Character} of the {@link Faction} starts in.
+	 *
+	 * @return The {@link Room} the {@link Character} of the {@link Faction} starts in.
+	 */
+	public Room getStartingRoom()
+	{
+		return null;
 	}
 }
