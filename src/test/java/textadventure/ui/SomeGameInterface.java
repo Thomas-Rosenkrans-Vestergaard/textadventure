@@ -5,6 +5,7 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.combat.DamageSource;
+import textadventure.combat.Faction;
 import textadventure.doors.CloseDoorAction;
 import textadventure.doors.InspectDoorAction;
 import textadventure.doors.OpenDoorAction;
@@ -19,50 +20,50 @@ import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.InspectFloorAction;
 import textadventure.rooms.InspectRoomAction;
+import textadventure.rooms.RoomController;
 import textadventure.ui.characterSelection.CharacterCreationCallback;
 import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
-
-import java.util.function.Consumer;
 
 public class SomeGameInterface implements GameInterface
 {
 
-	@Override public void onInit(Game game)
+	@Override public void onInit(Game game, RoomController roomController, int numberOfCharacters)
 	{
 
 	}
 
-	@Override public void onPlayerJoin(Game game, Player player)
+	@Override public void onFactionJoin(Game game, Faction faction)
 	{
 
 	}
 
-	public void onCharacterCreation(Player player, int minimum, int maximum, CharacterCreationCallback create, FinishCharacterCreationCallback finish)
+	@Override
+	public void onCharacterCreation(Player player, int numberOfCharacters, CharacterCreationCallback creationCallback, FinishCharacterCreationCallback finishCallback)
 	{
 
 	}
 
-	@Override public void onGameStart(Game game)
+	@Override public void onGameStart(Game game, Faction faction)
 	{
 
 	}
 
-	@Override public void onGameEnd(Game game)
+	@Override public void onGameEnd(Game game, Faction faction, boolean result)
+	{
+
+	}
+
+	@Override public void onTurnStart(Game game, Faction faction)
+	{
+
+	}
+
+	@Override public void onTurnEnd(Game game, Faction faction)
 	{
 
 	}
 
 	@Override public void onCharacterDies(Player player, Character character, DamageSource damageSource)
-	{
-
-	}
-
-	@Override public void onTurnStart(Game game, Player player)
-	{
-
-	}
-
-	@Override public void onTurnEnd(Game game, Player player)
 	{
 
 	}

@@ -23,9 +23,11 @@ public class DropItemActionTest
 		Backpack backpack = new Backpack(5);
 		Item     item     = new SomeItem();
 		backpack.addItem(item);
-		Room      currentLocation = new BaseRoom(null, null);
-		Floor     floor           = currentLocation.getRoomFloor();
-		Character character       = new SomeCharacter(backpack, currentLocation);
+		Room          currentLocation = new BaseRoom(null, null);
+		Floor         floor           = currentLocation.getRoomFloor();
+		SomeCharacter character       = new SomeCharacter();
+		character.setBackpack(backpack);
+		character.setCurrentLocation(currentLocation);
 
 		GameInterface gameInterface = new SomeGameInterface()
 		{
@@ -66,8 +68,10 @@ public class DropItemActionTest
 		Item          b               = new SomeItem();
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new SomeCharacter(backpack, currentLocation);
-		GameInterface gameInterface   = new SomeGameInterface();
+		SomeCharacter character       = new SomeCharacter();
+		character.setBackpack(backpack);
+		character.setCurrentLocation(currentLocation);
+		GameInterface gameInterface = new SomeGameInterface();
 
 		backpack.addItem(a, 0);
 		backpack.addItem(b, 1);
@@ -98,8 +102,10 @@ public class DropItemActionTest
 		Backpack      backpack        = new Backpack(5);
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new SomeCharacter(backpack, currentLocation);
-		GameInterface gameInterface   = new SomeGameInterface();
+		SomeCharacter character       = new SomeCharacter();
+		character.setBackpack(backpack);
+		character.setCurrentLocation(currentLocation);
+		GameInterface gameInterface = new SomeGameInterface();
 
 		backpack.addItem(new SomeItem());
 		backpack.addItem(new SomeItem());

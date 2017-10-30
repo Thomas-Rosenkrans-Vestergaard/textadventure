@@ -1,11 +1,8 @@
 package textadventure.doors;
 
 import org.junit.Test;
-import textadventure.BaseCharacter;
-import textadventure.Character;
 import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
-import textadventure.combat.Faction;
 import textadventure.lock.Lock;
 import textadventure.lock.MockLock;
 import textadventure.rooms.Room;
@@ -29,7 +26,9 @@ public class UseDoorActionTest
 		CharacterCreationTemplate characterCreationTemplate = new CharacterCreationTemplate();
 		characterCreationTemplate.setName("Name");
 		GameInterface gameInterface = new SomeGameInterface();
-		Character     character     = BaseCharacter.factory(null, gameInterface, characterCreationTemplate, Faction.ESCAPEE, a);
+		SomeCharacter character     = new SomeCharacter();
+		character.setCurrentLocation(a);
+		a.addCharacter(character);
 		assertSame(a, character.getCurrentLocation());
 		assertTrue(a.hasCharacter(character));
 		assertFalse(b.hasCharacter(character));
@@ -48,11 +47,12 @@ public class UseDoorActionTest
 	@Test
 	public void performThrowsDoorClosedException() throws Exception
 	{
-		Lock          lock          = new MockLock(Lock.State.UNLOCKED);
-		Room          a             = new SomeRoom();
-		Room          b             = new SomeRoom();
-		Door          door          = new BaseDoor(Door.State.CLOSED, lock, a, b);
-		Character     character     = new SomeCharacter(a);
+		Lock          lock      = new MockLock(Lock.State.UNLOCKED);
+		Room          a         = new SomeRoom();
+		Room          b         = new SomeRoom();
+		Door          door      = new BaseDoor(Door.State.CLOSED, lock, a, b);
+		SomeCharacter character = new SomeCharacter();
+		character.setCurrentLocation(a);
 		GameInterface gameInterface = new SomeGameInterface();
 
 		assertSame(a, character.getCurrentLocation());

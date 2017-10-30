@@ -31,7 +31,8 @@ public class LockLockActionTest
 		Lock     lock     = new Lock("Code", Lock.State.UNLOCKED);
 		Backpack backpack = new Backpack();
 		backpack.addItem(new Key("Code"));
-		Character character = new SomeCharacter(backpack);
+		SomeCharacter character = new SomeCharacter();
+		character.setBackpack(backpack);
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock, (characterResponse, actionResponse) -> {
 			assertSame(character, characterResponse);
@@ -49,7 +50,8 @@ public class LockLockActionTest
 		Lock     lock     = new Lock("Code", Lock.State.UNLOCKED);
 		Backpack backpack = new Backpack();
 		backpack.addItem(new Key("Code"));
-		Character character = new SomeCharacter(backpack);
+		SomeCharacter character = new SomeCharacter();
+		character.setBackpack(backpack);
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock, (characterResponse, actionResponse) -> {
 			assertSame(character, characterResponse);
@@ -67,7 +69,8 @@ public class LockLockActionTest
 		Lock     lock     = new Lock("Code", Lock.State.UNLOCKED);
 		Backpack backpack = new Backpack();
 		backpack.addItem(new Key("Code"));
-		Character character = new SomeCharacter(backpack);
+		SomeCharacter character = new SomeCharacter();
+		character.setBackpack(backpack);
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock, (characterResponse, actionResponse) -> {
 			assertSame(character, characterResponse);
@@ -86,7 +89,8 @@ public class LockLockActionTest
 		Backpack backpack = new Backpack();
 		backpack.addItem(new SomeItem()); // <--------
 		backpack.addItem(new Key("Code")); // <-------
-		Character character = new SomeCharacter(backpack);
+		SomeCharacter character = new SomeCharacter();
+		character.setBackpack(backpack);
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock, (characterResponse, actionResponse) -> {
 			assertSame(character, characterResponse);

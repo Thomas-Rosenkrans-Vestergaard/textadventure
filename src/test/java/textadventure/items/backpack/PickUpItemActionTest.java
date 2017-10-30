@@ -21,11 +21,13 @@ public class PickUpItemActionTest
 	@Test
 	public void perform() throws Exception
 	{
-		Backpack  backpack        = new Backpack();
-		Item      item            = new SomeItem();
-		Room      currentLocation = new BaseRoom(null, null);
-		Floor     floor           = currentLocation.getRoomFloor();
-		Character character       = new SomeCharacter(backpack, currentLocation);
+		Backpack      backpack        = new Backpack();
+		Item          item            = new SomeItem();
+		Room          currentLocation = new BaseRoom(null, null);
+		Floor         floor           = currentLocation.getRoomFloor();
+		SomeCharacter character       = new SomeCharacter();
+		character.setCurrentLocation(currentLocation);
+		character.setBackpack(backpack);
 
 		floor.addItem(item);
 
@@ -68,8 +70,10 @@ public class PickUpItemActionTest
 		Item          b               = new SomeItem();
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new SomeCharacter(backpack, currentLocation);
-		GameInterface gameInterface   = new SomeGameInterface();
+		SomeCharacter character       = new SomeCharacter();
+		character.setBackpack(backpack);
+		character.setCurrentLocation(currentLocation);
+		GameInterface gameInterface = new SomeGameInterface();
 
 		floor.addItem(a, 0);
 		floor.addItem(b, 1);
@@ -100,9 +104,11 @@ public class PickUpItemActionTest
 		Backpack      backpack        = new Backpack(5);
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new SomeCharacter(backpack, currentLocation);
-		GameInterface gameInterface   = new SomeGameInterface();
-		Item          item            = new SomeItem();
+		SomeCharacter character       = new SomeCharacter();
+		character.setBackpack(backpack);
+		character.setCurrentLocation(currentLocation);
+		GameInterface gameInterface = new SomeGameInterface();
+		Item          item          = new SomeItem();
 		floor.addItem(item, 0);
 		floor.addItem(item, 1);
 		assertEquals(0, backpack.getNumberOfItems());
@@ -124,8 +130,10 @@ public class PickUpItemActionTest
 		Backpack      backpack        = new Backpack(0); // <------
 		Room          currentLocation = new BaseRoom(null, null);
 		Floor         floor           = currentLocation.getRoomFloor();
-		Character     character       = new SomeCharacter(backpack, currentLocation);
-		GameInterface gameInterface   = new SomeGameInterface();
+		SomeCharacter character       = new SomeCharacter();
+		character.setCurrentLocation(currentLocation);
+		character.setBackpack(backpack);
+		GameInterface gameInterface = new SomeGameInterface();
 
 		floor.addItem(new SomeItem(), 0);
 		floor.addItem(new SomeItem(), 1);

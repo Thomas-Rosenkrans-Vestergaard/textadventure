@@ -1,7 +1,6 @@
 package textadventure.rooms;
 
 import org.junit.Test;
-import textadventure.Character;
 import textadventure.SomeCharacter;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;
@@ -20,8 +19,8 @@ public class InspectFloorActionTest
 		Item  b     = new SomeItem();
 		floor.addItem(a, 0);
 		floor.addItem(b, 1);
-		Room      room      = new BaseRoom(null, null, floor);
-		Character character = new SomeCharacter(room);
+		Room          room      = new BaseRoom(null, null, floor);
+		SomeCharacter character = new SomeCharacter();
 		character.setCurrentLocation(room);
 		InspectFloorAction action = new InspectFloorAction((characterResponse, actionResponse) -> {
 			try {

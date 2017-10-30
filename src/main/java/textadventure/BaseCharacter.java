@@ -293,16 +293,6 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	}
 
 	/**
-	 * Returns the {@link Player} controlling the {@link java.lang.Character}.
-	 *
-	 * @return The {@link Player} controlling the {@link java.lang.Character}.
-	 */
-	@Override public Player getPlayer()
-	{
-		return player;
-	}
-
-	/**
 	 * Returns the name of the {@link Character}.
 	 *
 	 * @return The name of the {@link Character}.

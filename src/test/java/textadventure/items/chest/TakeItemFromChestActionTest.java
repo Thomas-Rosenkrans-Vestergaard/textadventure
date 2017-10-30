@@ -34,9 +34,10 @@ public class TakeItemFromChestActionTest
 			}
 		};
 
-		Backpack  backpack  = new Backpack();
-		Character character = new SomeCharacter(backpack);
-		Chest     chest     = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
+		Backpack      backpack  = new Backpack();
+		SomeCharacter character = new SomeCharacter();
+		character.setBackpack(backpack);
+		Chest chest = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
 		Item a = new SomeTypedItem(1);
 		Item b = new SomeTypedItem(2);
@@ -69,8 +70,9 @@ public class TakeItemFromChestActionTest
 	{
 		GameInterface gameInterface = new SomeGameInterface();
 		Backpack      backpack      = new Backpack();
-		Character     character     = new SomeCharacter(backpack);
-		Chest         chest         = new Chest(10, Chest.State.CLOSED, null);
+		SomeCharacter character     = new SomeCharacter();
+		character.setBackpack(backpack);
+		Chest chest = new Chest(10, Chest.State.CLOSED, null);
 
 		chest.addItem(new SomeItem(), 0);
 
@@ -95,8 +97,9 @@ public class TakeItemFromChestActionTest
 		GameInterface gameInterface = new SomeGameInterface();
 		Item          item          = new SomeItem();
 		Backpack      backpack      = new Backpack();
-		Character     character     = new SomeCharacter(backpack);
-		Chest         chest         = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
+		SomeCharacter character     = new SomeCharacter();
+		character.setBackpack(backpack);
+		Chest chest = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
 		chest.addItem(item, 0);
 
@@ -126,8 +129,9 @@ public class TakeItemFromChestActionTest
 		GameInterface gameInterface = new SomeGameInterface();
 		Item          item          = new SomeItem();
 		Backpack      backpack      = new Backpack();
-		Character     character     = new SomeCharacter(backpack);
-		Chest         chest         = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
+		SomeCharacter character     = new SomeCharacter();
+		character.setBackpack(backpack);
+		Chest chest = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
 		chest.addItem(item, 0);
 
@@ -152,8 +156,9 @@ public class TakeItemFromChestActionTest
 		GameInterface gameInterface = new SomeGameInterface();
 		Item          item          = new SomeItem();
 		Backpack      backpack      = new Backpack(0);
-		Character     character     = new SomeCharacter(backpack);
-		Chest         chest         = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
+		SomeCharacter character     = new SomeCharacter();
+		character.setBackpack(backpack);
+		Chest chest = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
 		chest.addItem(item, 0);
 

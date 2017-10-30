@@ -13,12 +13,6 @@ import textadventure.rooms.Room;
 public interface Character extends PropertyContainer
 {
 
-	/**
-	 * Returns the {@link Player} controlling the {@link Character}.
-	 *
-	 * @return The {@link Player} controlling the {@link Character}.
-	 */
-	Player getPlayer();
 
 	/**
 	 * Returns the name of the {@link Character}.
