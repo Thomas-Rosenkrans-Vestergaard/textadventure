@@ -1,7 +1,7 @@
 package textadventure.ui;
 
-import com.google.common.collect.ImmutableMap;
-import textadventure.Character;
+import textadventure.characters.Character;
+import textadventure.characters.CharacterInformationAction;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.Action;
@@ -55,8 +55,7 @@ public interface GameInterface
 	 * @param creationCallback   The callback to use to add a {@link Character} creation.
 	 * @param finishCallback     The callback to use to finish the {@link Character} creation.
 	 */
-	void onCharacterCreation(Player player, int numberOfCharacters, CharacterCreationCallback creationCallback,
-	                         FinishCharacterCreationCallback finishCallback);
+	void onCharacterCreation(Player player, int numberOfCharacters, CharacterCreationCallback creationCallback, FinishCharacterCreationCallback finishCallback);
 
 	/**
 	 * Called when the {@link Game} starts.
@@ -107,6 +106,14 @@ public interface GameInterface
 	 * @param response  The {@link ActionRequestCallback} to send with.
 	 */
 	void onActionRequest(Character character, ActionRequestCallback response);
+
+	/**
+	 * Event when a {@link Character} performs the {@link CharacterInformationAction}.
+	 *
+	 * @param character The {@link Character} who attempted to perform the {@link CharacterInformationAction}.
+	 * @param action    The {@link CharacterInformationAction} instance.
+	 */
+	void onCharacterInformation(Character character, CharacterInformationAction action);
 
 	/**
 	 * Event when a {@link Character} performs the {@link InspectRoomAction}.

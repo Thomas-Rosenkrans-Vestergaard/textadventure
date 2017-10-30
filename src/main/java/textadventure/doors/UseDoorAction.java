@@ -1,6 +1,6 @@
 package textadventure.doors;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.rooms.Room;
 import textadventure.ui.GameInterface;
@@ -13,7 +13,7 @@ public class UseDoorAction extends DoorAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link UseDoorAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link UseDoorAction}.
 	 */
 	private ActionPerformCallback<UseDoorAction> callback;
 

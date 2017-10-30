@@ -1,17 +1,17 @@
 package textadventure.items.chest;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
 
 /**
- * {@link textadventure.actions.Action} that allows a {@link textadventure.Character} to inspect a {@link Chest}.
+ * {@link textadventure.actions.Action} that allows a {@link Character} to inspect a {@link Chest}.
  */
 public class InspectChestAction extends ChestAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectChestAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectChestAction}.
 	 */
 	private ActionPerformCallback<InspectChestAction> callback;
 

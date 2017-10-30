@@ -1,9 +1,10 @@
 package textadventure.ui.characterSelection;
 
 import textadventure.Player;
+import textadventure.characters.Character;
 
 /**
- * Used when creating new {@link textadventure.Character}s using the {@link textadventure.ui.GameInterface#onCharacterCreation(Player, int, int, CharacterCreationCallback, FinishCharacterCreationCallback)} method.
+ * Used when creating new {@link Character}s using the {@link textadventure.ui.GameInterface#onCharacterCreation(Player, int, int, CharacterCreationCallback, FinishCharacterCreationCallback)} method.
  */
 public class CharacterCreationTemplate
 {

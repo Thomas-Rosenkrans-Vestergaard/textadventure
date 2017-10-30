@@ -1,7 +1,7 @@
 package textadventure.actions;
 
 import org.junit.Test;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.ui.GameInterface;
 
 import java.util.function.Consumer;

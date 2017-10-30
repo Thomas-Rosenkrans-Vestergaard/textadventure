@@ -1,29 +1,30 @@
 package textadventure.ui.characterSelection;
 
 import textadventure.GameException;
+import textadventure.characters.Character;
 
 /**
- * Thrown when too few {@link textadventure.Character}s were provided to the {@link CharacterCreationCallback} before
+ * Thrown when too few {@link Character}s were provided to the {@link CharacterCreationCallback} before
  * calling the {@link CharacterCreationCallback}.
  */
 public class TooFewCharactersException extends GameException
 {
 
 	/**
-	 * The minimum number of {@link textadventure.Character}s that must be created.
+	 * The minimum number of {@link Character}s that must be created.
 	 */
 	private int minimum;
 
 	/**
-	 * The actual number of {@link textadventure.Character} that must be created.
+	 * The actual number of {@link Character} that must be created.
 	 */
 	private int actual;
 
 	/**
 	 * Creates a new {@link TooFewCharactersException}.
 	 *
-	 * @param minimum The minimum number of {@link textadventure.Character}s that must be created.
-	 * @param actual  The actual number of {@link textadventure.Character} that must be created.
+	 * @param minimum The minimum number of {@link Character}s that must be created.
+	 * @param actual  The actual number of {@link Character} that must be created.
 	 */
 	public TooFewCharactersException(int minimum, int actual)
 	{
@@ -35,9 +36,9 @@ public class TooFewCharactersException extends GameException
 	}
 
 	/**
-	 * Returns the minimum number of {@link textadventure.Character}s that must be created.
+	 * Returns the minimum number of {@link Character}s that must be created.
 	 *
-	 * @return The minimum number of {@link textadventure.Character}s that must be created.
+	 * @return The minimum number of {@link Character}s that must be created.
 	 */
 	public int getMinimum()
 	{
@@ -45,9 +46,9 @@ public class TooFewCharactersException extends GameException
 	}
 
 	/**
-	 * Returns the actual number of {@link textadventure.Character} that must be created.
+	 * Returns the actual number of {@link Character} that must be created.
 	 *
-	 * @return The actual number of {@link textadventure.Character} that must be created.
+	 * @return The actual number of {@link Character} that must be created.
 	 */
 	public int getActual()
 	{

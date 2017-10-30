@@ -2,6 +2,7 @@ package textadventure.doors;
 
 import textadventure.Property;
 import textadventure.PropertyContainer;
+import textadventure.characters.Character;
 import textadventure.lock.Lock;
 import textadventure.rooms.Room;
 
@@ -18,12 +19,12 @@ public interface Door extends PropertyContainer, Property
 	{
 
 		/**
-		 * The {@link Door} is open. {@link textadventure.Character}s can therefor move through the {@link Door}.
+		 * The {@link Door} is open. {@link Character}s can therefor move through the {@link Door}.
 		 */
 		OPEN,
 
 		/**
-		 * The {@link Door} is open. {@link textadventure.Character}s can therefor not move through the {@link Door}.
+		 * The {@link Door} is open. {@link Character}s can therefor not move through the {@link Door}.
 		 */
 		CLOSED,
 	}

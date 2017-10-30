@@ -1,17 +1,17 @@
 package textadventure.items.chest;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
 
 /**
- * {@link textadventure.actions.Action} that allow a {@link textadventure.Character} to open a {@link Chest}.
+ * {@link textadventure.actions.Action} that allow a {@link Character} to open a {@link Chest}.
  */
 public class OpenChestAction extends ChestAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link OpenChestAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link OpenChestAction}.
 	 */
 	private ActionPerformCallback<OpenChestAction> callback;
 

@@ -1,6 +1,8 @@
 package textadventure;
 
 import textadventure.actions.Action;
+import textadventure.characters.BaseCharacter;
+import textadventure.characters.Character;
 import textadventure.combat.Faction;
 import textadventure.rooms.*;
 import textadventure.ui.GameInterface;

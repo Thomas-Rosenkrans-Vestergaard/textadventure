@@ -1,7 +1,7 @@
 package textadventure.items.backpack;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.BaseSelect;
 import textadventure.ui.GameInterface;

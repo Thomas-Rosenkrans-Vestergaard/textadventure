@@ -1,5 +1,6 @@
 package textadventure.items.weapons;
 
+import textadventure.characters.Character;
 import textadventure.items.Item;
 
 public class Knife implements EdgedWeapon, StabWeapon, Item
@@ -26,9 +27,9 @@ public class Knife implements EdgedWeapon, StabWeapon, Item
 	}
 
 	/**
-	 * Returns the amount of damage done by the {@link Knife} to a {@link textadventure.Character}.
+	 * Returns the amount of damage done by the {@link Knife} to a {@link Character}.
 	 *
-	 * @return The amount of damage done by the {@link Knife} to a {@link textadventure.Character}.
+	 * @return The amount of damage done by the {@link Knife} to a {@link Character}.
 	 */
 	@Override public int getDamage()
 	{

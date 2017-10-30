@@ -1,9 +1,10 @@
 package textadventure.items.backpack;
 
+import textadventure.characters.Character;
 import textadventure.items.Item;
 
 /**
- * An {@link Item} allowing {@link textadventure.Character}s to expand their {@link Backpack}. The {@link Backpack}
+ * An {@link Item} allowing {@link Character}s to expand their {@link Backpack}. The {@link Backpack}
  * is expanded using the {@link ExpandBackpackAction}.
  */
 public class BackpackExpansion implements Item

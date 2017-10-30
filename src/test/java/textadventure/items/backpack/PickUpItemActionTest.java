@@ -1,7 +1,7 @@
 package textadventure.items.backpack;
 
 import org.junit.Test;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
 import textadventure.items.InventoryFullException;

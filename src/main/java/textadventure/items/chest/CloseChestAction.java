@@ -1,6 +1,6 @@
 package textadventure.items.chest;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
 
@@ -11,7 +11,7 @@ public class CloseChestAction extends ChestAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link CloseChestAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link CloseChestAction}.
 	 */
 	private ActionPerformCallback<CloseChestAction> callback;
 

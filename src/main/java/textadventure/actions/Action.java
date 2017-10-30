@@ -1,6 +1,6 @@
 package textadventure.actions;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.ui.GameInterface;
 
 import java.util.function.Consumer;

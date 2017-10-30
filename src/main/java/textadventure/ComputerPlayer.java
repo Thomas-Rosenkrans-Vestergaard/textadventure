@@ -2,6 +2,7 @@ package textadventure;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.characters.Character;
 import textadventure.combat.AttackAction;
 import textadventure.combat.DamageSource;
 import textadventure.doors.Door;
@@ -112,7 +113,7 @@ public class ComputerPlayer implements Player
 		Character target = character.getCurrentLocation().getCharacters().stream().filter(c -> c != character).findFirst().orElse(null);
 		System.out.println(target);
 		if (target != null) {
-			AttackAction action = new AttackAction(target, (characterResponse, actionResponse) -> {
+			AttackAction action = new AttackAction((characterResponse, actionResponse) -> {
 				System.out.println("Attack");
 			});
 

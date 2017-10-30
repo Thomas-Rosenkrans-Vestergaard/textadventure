@@ -2,7 +2,7 @@ package textadventure.items.chest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
@@ -15,14 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link textadventure.actions.Action} that allows a {@link textadventure.Character} to take {@link Item}s from the
- * {@link Chest}, depositing the {@link Item}s into the {@link textadventure.Character}'s {@link Backpack}.
+ * {@link textadventure.actions.Action} that allows a {@link Character} to take {@link Item}s from the
+ * {@link Chest}, depositing the {@link Item}s into the {@link Character}'s {@link Backpack}.
  */
 public class TakeItemFromChestAction extends ChestAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
 	 */
 	private ActionPerformCallback<TakeItemFromChestAction> callback;
 

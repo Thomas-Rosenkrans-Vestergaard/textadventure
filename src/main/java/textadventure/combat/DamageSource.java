@@ -1,6 +1,6 @@
 package textadventure.combat;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 
 /**
  * Represents a source of damage done to a {@link Character}.

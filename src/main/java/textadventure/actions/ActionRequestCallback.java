@@ -1,6 +1,6 @@
 package textadventure.actions;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 
 @FunctionalInterface
 public interface ActionRequestCallback

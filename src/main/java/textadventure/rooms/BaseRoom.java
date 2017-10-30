@@ -2,7 +2,7 @@ package textadventure.rooms;
 
 import com.google.common.collect.ImmutableSet;
 import textadventure.BasePropertyContainer;
-import textadventure.Character;
+import textadventure.characters.Character;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +25,7 @@ public class BaseRoom extends BasePropertyContainer implements Room
 
 	/**
 	 * The {@link Floor} of the {@link Room}. This object is an {@link textadventure.items.Inventory}
-	 * {@link textadventure.Character}s can drop {@link textadventure.items.Item}s onto.
+	 * {@link Character}s can drop {@link textadventure.items.Item}s onto.
 	 */
 	private final Floor floor;
 

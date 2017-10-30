@@ -1,6 +1,6 @@
 package textadventure.doors;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
 
@@ -11,7 +11,7 @@ public class InspectDoorAction extends DoorAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectDoorAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectDoorAction}.
 	 */
 	private ActionPerformCallback<InspectDoorAction> callback;
 

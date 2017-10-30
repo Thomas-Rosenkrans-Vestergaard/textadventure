@@ -1,6 +1,6 @@
 package textadventure.actions;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 
 public interface ActionPerformCallback<T>
 {

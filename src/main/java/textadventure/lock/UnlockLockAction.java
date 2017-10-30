@@ -1,7 +1,7 @@
 package textadventure.lock;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.*;
@@ -10,7 +10,7 @@ public class UnlockLockAction extends LockAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link UnlockLockAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link UnlockLockAction}.
 	 */
 	private ActionPerformCallback<UnlockLockAction> callback;
 

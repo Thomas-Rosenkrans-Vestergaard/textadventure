@@ -2,7 +2,7 @@ package textadventure.items.chest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@link textadventure.actions.Action} allowing a {@link textadventure.Character} to deposit {@link Item}s from their
+ * {@link textadventure.actions.Action} allowing a {@link Character} to deposit {@link Item}s from their
  * {@link textadventure.items.Inventory} to a {@link Chest}.
  */
 public class DepositItemsIntoChestAction extends ChestAction

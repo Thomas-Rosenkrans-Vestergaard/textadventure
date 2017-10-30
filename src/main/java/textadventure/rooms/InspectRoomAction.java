@@ -1,7 +1,7 @@
 package textadventure.rooms;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
@@ -20,7 +20,7 @@ public class InspectRoomAction extends AbstractAction
 	private ImmutableSet<Character> characters;
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectRoomAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectRoomAction}.
 	 */
 	private ActionPerformCallback<InspectRoomAction> callback;
 

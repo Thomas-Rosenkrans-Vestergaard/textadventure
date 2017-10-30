@@ -1,5 +1,6 @@
-package textadventure;
+package textadventure.characters;
 
+import textadventure.PropertyContainer;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.items.backpack.Backpack;
@@ -12,7 +13,6 @@ import textadventure.rooms.Room;
  */
 public interface Character extends PropertyContainer
 {
-
 
 	/**
 	 * Returns the name of the {@link Character}.

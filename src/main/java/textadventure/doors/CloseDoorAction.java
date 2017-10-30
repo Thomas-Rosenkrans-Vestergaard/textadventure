@@ -1,6 +1,6 @@
 package textadventure.doors;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.Action;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
@@ -12,7 +12,7 @@ public class CloseDoorAction extends DoorAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link CloseDoorAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link CloseDoorAction}.
 	 */
 	private ActionPerformCallback<CloseDoorAction> callback;
 

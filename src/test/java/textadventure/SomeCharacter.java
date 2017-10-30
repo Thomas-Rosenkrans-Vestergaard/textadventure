@@ -2,6 +2,7 @@ package textadventure;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.actions.Action;
+import textadventure.characters.Character;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.items.backpack.Backpack;

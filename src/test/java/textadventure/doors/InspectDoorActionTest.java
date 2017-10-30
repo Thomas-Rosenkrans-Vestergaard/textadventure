@@ -2,7 +2,7 @@ package textadventure.doors;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.SomeCharacter;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.actions.ActionTest;

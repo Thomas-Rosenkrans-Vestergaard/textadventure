@@ -1,7 +1,7 @@
 package textadventure.combat;
 
 import com.google.common.collect.ImmutableList;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.rooms.Room;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The {@link Faction}s the {@link textadventure.Character}s can belong to.
+ * The {@link Faction}s the {@link Character}s can belong to.
  */
 public abstract class Faction
 {

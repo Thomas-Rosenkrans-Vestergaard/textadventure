@@ -1,6 +1,6 @@
 package textadventure.ui;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.ActionRequestCallback;

@@ -1,20 +1,20 @@
 package textadventure.lock;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.*;
 
 /**
- * {@link textadventure.actions.Action} that allows a {@link textadventure.Character} to {@link Lock#lock(Key)} a
+ * {@link textadventure.actions.Action} that allows a {@link Character} to {@link Lock#lock(Key)} a
  * {@link Lock}.
  */
 public class LockLockAction extends LockAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link LockLockAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link LockLockAction}.
 	 */
 	private ActionPerformCallback<LockLockAction> callback;
 

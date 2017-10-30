@@ -2,16 +2,11 @@ package textadventure;
 
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.characters.Character;
 import textadventure.combat.DamageSource;
 import textadventure.ui.GameInterface;
 import textadventure.ui.characterSelection.CharacterCreationCallback;
 import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Human implementation of the {@link Player} interface. The

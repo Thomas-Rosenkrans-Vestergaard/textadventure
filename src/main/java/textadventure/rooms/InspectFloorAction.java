@@ -1,6 +1,6 @@
 package textadventure.rooms;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
@@ -18,7 +18,7 @@ public class InspectFloorAction extends AbstractAction
 	private Floor floor;
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectFloorAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectFloorAction}.
 	 */
 	private ActionPerformCallback<InspectFloorAction> callback;
 

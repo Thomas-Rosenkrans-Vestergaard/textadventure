@@ -2,10 +2,12 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.*;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.characters.CharacterInformation;
+import textadventure.characters.CharacterInformationAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Escapees;
 import textadventure.combat.Faction;
@@ -452,6 +454,36 @@ public class ConsoleGameInterface implements GameInterface
 
 			response.respond(action, arguments);
 		}
+	}
+
+	/**
+	 * Event when a {@link Character} performs the {@link CharacterInformationAction}.
+	 *
+	 * @param character The {@link Character} who attempted to perform the {@link CharacterInformationAction}.
+	 * @param action    The {@link CharacterInformationAction} instance.
+	 */
+	@Override public void onCharacterInformation(Character character, CharacterInformationAction action)
+	{
+		CharacterInformation characterInformation = action.getCharacterInformation();
+
+		printer.println(String.format("Name                %s", characterInformation.getName()));
+		printer.println(String.format("Faction             %s", characterInformation.getFaction().getClass().getSimpleName()));
+		printer.println(String.format("HeadWear            %s", characterInformation.getHeadWear()));
+		printer.println(String.format("TorsoWear           %s", characterInformation.getTorsoWear()));
+		printer.println(String.format("Gloves              %s", characterInformation.getGloves()));
+		printer.println(String.format("Pants               %s", characterInformation.getPants()));
+		printer.println(String.format("Boots               %s", characterInformation.getBoots()));
+		printer.println(String.format("Weapon              %s", characterInformation.getWeapon()));
+		printer.println(String.format("Current location    %s", characterInformation.getCurrentLocation().getRoomName()));
+		printer.println(String.format("Current HP          %d", characterInformation.getCurrentHP()));
+		printer.println(String.format("Max HP              %d", characterInformation.getMaxHP()));
+		printer.println(String.format("Level               %d", characterInformation.getLevel()));
+		printer.println(String.format("Sanity              %d", characterInformation.getSanity()));
+		printer.println(String.format("Strength            %d", characterInformation.getStrength()));
+		printer.println(String.format("Dexterity           %d", characterInformation.getDexterity()));
+		printer.println(String.format("Intelligence        %d", characterInformation.getIntelligence()));
+		printer.println(String.format("Stealth             %d", characterInformation.getStealth()));
+		printer.println(String.format("Money               %d", characterInformation.getMoney()));
 	}
 
 	/**

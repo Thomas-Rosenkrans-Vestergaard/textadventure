@@ -1,18 +1,18 @@
 package textadventure.items.backpack;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
 
 /**
- * {@link textadventure.actions.Action} that allows a {@link textadventure.Character} to inspect the
+ * {@link textadventure.actions.Action} that allows a {@link Character} to inspect the
  * {@link textadventure.items.Item}s in their {@link Backpack}.
  */
 public class InspectBackpackAction extends BackpackAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectBackpackAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectBackpackAction}.
 	 */
 	private ActionPerformCallback<InspectBackpackAction> callback;
 

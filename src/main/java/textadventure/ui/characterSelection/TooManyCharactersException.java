@@ -1,23 +1,24 @@
 package textadventure.ui.characterSelection;
 
 import textadventure.GameException;
+import textadventure.characters.Character;
 
 /**
- * Thrown when too many {@link textadventure.Character}s were provided to the {@link CharacterCreationCallback} before
+ * Thrown when too many {@link Character}s were provided to the {@link CharacterCreationCallback} before
  * calling the {@link CharacterCreationCallback}.
  */
 public class TooManyCharactersException extends GameException
 {
 
 	/**
-	 * The maximum number of {@link textadventure.Character}s that must be created.
+	 * The maximum number of {@link Character}s that must be created.
 	 */
 	private int maximum;
 
 	/**
 	 * Creates a new {@link TooFewCharactersException}.
 	 *
-	 * @param maximum The maximum number of {@link textadventure.Character}s that must be created.
+	 * @param maximum The maximum number of {@link Character}s that must be created.
 	 */
 	public TooManyCharactersException(int maximum)
 	{
@@ -25,9 +26,9 @@ public class TooManyCharactersException extends GameException
 	}
 
 	/**
-	 * Returns the maximum number of {@link textadventure.Character}s that must be created.
+	 * Returns the maximum number of {@link Character}s that must be created.
 	 *
-	 * @return The maximum number of {@link textadventure.Character}s that must be created.
+	 * @return The maximum number of {@link Character}s that must be created.
 	 */
 	public int getMaximum()
 	{

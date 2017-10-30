@@ -2,6 +2,7 @@ package textadventure.items.backpack;
 
 import textadventure.Property;
 import textadventure.actions.Action;
+import textadventure.characters.Character;
 import textadventure.items.BaseInventory;
 import textadventure.items.Inventory;
 import textadventure.ui.GameInterface;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.stream.Stream;
 
 /**
- * Represents an {@link Inventory} a {@link textadventure.Character} can carry.
+ * Represents an {@link Inventory} a {@link Character} can carry.
  */
 public class Backpack extends BaseInventory implements Property
 {

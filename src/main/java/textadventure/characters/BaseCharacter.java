@@ -1,6 +1,9 @@
-package textadventure;
+package textadventure.characters;
 
 import com.google.common.collect.ImmutableMap;
+import textadventure.BasePropertyContainer;
+import textadventure.Property;
+import textadventure.PropertyContainer;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.items.backpack.Backpack;
@@ -67,11 +70,6 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	 * The default amount of money the {@link Character} has at the start of the game.
 	 */
 	static public int DEFAULT_MONEY = 0;
-
-	/**
-	 * The {@link Player} controlling the {@link Character}.
-	 */
-	private Player player;
 
 	/**
 	 * The name of the {@link Character}.
@@ -212,7 +210,6 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 			int stealth,
 			int money)
 	{
-		this.player = player;
 		this.name = name;
 		this.faction = faction;
 		this.backpack = backpack;
@@ -242,8 +239,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	 * @param characterCreationTemplate The {@link CharacterCreationTemplate}.
 	 * @return The newly created {@link BaseCharacter}.
 	 */
-	public static BaseCharacter factory(GameInterface gameInterface, Faction faction, CharacterCreationTemplate
-			characterCreationTemplate)
+	public static BaseCharacter factory(GameInterface gameInterface, Faction faction, CharacterCreationTemplate characterCreationTemplate)
 	{
 		Backpack backpack = Backpack.factory(gameInterface, DEFAULT_BACKPACK_POSITIONS);
 		BaseCharacter baseCharacter = new BaseCharacter(
@@ -272,6 +268,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		baseCharacter.addAction("pickup", new PickUpItemAction(gameInterface::onItemPickup));
 		baseCharacter.addAction("inspect-room", new InspectRoomAction(gameInterface::onRoomInspect));
 		baseCharacter.addAction("inspect-floor", new InspectFloorAction(gameInterface::onFloorInspect));
+		baseCharacter.addAction("information", new CharacterInformationAction(gameInterface::onCharacterInformation));
 
 		faction.getStartingRoom().addCharacter(baseCharacter);
 

@@ -2,7 +2,7 @@ package textadventure.items.backpack;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
@@ -25,7 +25,7 @@ public class DropItemAction extends AbstractAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
 	 */
 	private ActionPerformCallback<DropItemAction> callback;
 

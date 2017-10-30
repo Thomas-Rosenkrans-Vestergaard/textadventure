@@ -1,6 +1,7 @@
 package textadventure;
 
 import textadventure.actions.Action;
+import textadventure.characters.Character;
 
 import java.util.stream.Stream;
 

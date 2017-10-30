@@ -1,5 +1,6 @@
 package textadventure.items.weapons;
 
+import textadventure.characters.Character;
 import textadventure.items.Item;
 
 public class Plunger implements BluntWeapon, Item
@@ -25,9 +26,9 @@ public class Plunger implements BluntWeapon, Item
 	}
 
 	/**
-	 * Returns the amount of damage done by the {@link Plunger} to a {@link textadventure.Character}.
+	 * Returns the amount of damage done by the {@link Plunger} to a {@link Character}.
 	 *
-	 * @return The amount of damage done by the {@link Plunger} to a {@link textadventure.Character}.
+	 * @return The amount of damage done by the {@link Plunger} to a {@link Character}.
 	 */
 	@Override public int getDamage()
 	{

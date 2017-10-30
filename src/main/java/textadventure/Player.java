@@ -2,6 +2,7 @@ package textadventure;
 
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.characters.Character;
 import textadventure.combat.DamageSource;
 import textadventure.ui.GameInterface;
 import textadventure.ui.characterSelection.CharacterCreationCallback;

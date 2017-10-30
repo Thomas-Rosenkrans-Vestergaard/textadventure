@@ -1,6 +1,6 @@
 package textadventure.lock;
 
-import textadventure.Character;
+import textadventure.characters.Character;
 import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.GameInterface;
 
@@ -11,7 +11,7 @@ public class InspectLockAction extends LockAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link InspectLockAction}.
+	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectLockAction}.
 	 */
 	private ActionPerformCallback<InspectLockAction> callback;
 
