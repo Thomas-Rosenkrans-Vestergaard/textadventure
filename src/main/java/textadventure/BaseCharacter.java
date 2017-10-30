@@ -172,32 +172,29 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	/**
 	 * Creates a new {@link BaseCharacter}.
 	 *
-	 * @param player          The {@link Player} controlling the {@link Character}.
-	 * @param name            The name of the {@link Character}.
-	 * @param faction         The {@link Faction} the {@link Character} belongs to.
-	 * @param backpack        The {@link Backpack} of the {@link Character}. Used to store items.
-	 * @param headWear        The {@link HeadWear} worn by the {@link Character}.
-	 * @param torsoWear       The {@link TorsoWear} worn by the {@link Character}.
-	 * @param gloves          The {@link Gloves} worn by the {@link Character}.
-	 * @param pants           The {@link Pants} worn by the {@link Character}.
-	 * @param boots           The {@link Boots} worn by the {@link Character}.
-	 * @param weapon          The {@link Weapon} equipped.
-	 * @param currentLocation The {@link Room} the {@link Character} is currently in.
-	 * @param maxHP           The maximum number of hit points that the {@link Character} has.
-	 * @param currentHP       The current number of hit points that the {@link Character} has.
-	 * @param level           The level of the {@link Character}.
-	 * @param sanity          The sanity level of the {@link Character}.
-	 * @param strength        The strength level of the {@link Character}. Determines the damage done by the
-	 *                        {@link Character} and the carry capacity of the {@link Character}.
-	 * @param dexterity       The dexterity level of the {@link Character}. Determines the chance to dodge incoming attacks.
-	 * @param intelligence    The intelligence level of the {@link Character}.
-	 * @param stealth         The stealth level of the {@link Character}. Determines the chance to pickpocket other {@link Character}s.
-	 * @param money           The amount of money the {@link Character} has.
+	 * @param faction      The {@link Faction} the {@link Character} belongs to.
+	 * @param name         The name of the {@link Character}.
+	 * @param backpack     The {@link Backpack} of the {@link Character}. Used to store items.
+	 * @param headWear     The {@link HeadWear} worn by the {@link Character}.
+	 * @param torsoWear    The {@link TorsoWear} worn by the {@link Character}.
+	 * @param gloves       The {@link Gloves} worn by the {@link Character}.
+	 * @param pants        The {@link Pants} worn by the {@link Character}.
+	 * @param boots        The {@link Boots} worn by the {@link Character}.
+	 * @param weapon       The {@link Weapon} equipped.
+	 * @param maxHP        The maximum number of hit points that the {@link Character} has.
+	 * @param currentHP    The current number of hit points that the {@link Character} has.
+	 * @param level        The level of the {@link Character}.
+	 * @param sanity       The sanity level of the {@link Character}.
+	 * @param strength     The strength level of the {@link Character}. Determines the damage done by the
+	 *                     {@link Character} and the carry capacity of the {@link Character}.
+	 * @param dexterity    The dexterity level of the {@link Character}. Determines the chance to dodge incoming attacks.
+	 * @param intelligence The intelligence level of the {@link Character}.
+	 * @param stealth      The stealth level of the {@link Character}. Determines the chance to pickpocket other {@link Character}s.
+	 * @param money        The amount of money the {@link Character} has.
 	 */
 	public BaseCharacter(
-			Player player,
-			String name,
 			Faction faction,
+			String name,
 			Backpack backpack,
 			HeadWear headWear,
 			TorsoWear torsoWear,
@@ -205,7 +202,6 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 			Pants pants,
 			Boots boots,
 			Weapon weapon,
-			Room currentLocation,
 			int maxHP,
 			int currentHP,
 			int level,
@@ -226,7 +222,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		this.pants = pants;
 		this.boots = boots;
 		this.weapon = weapon;
-		this.currentLocation = currentLocation;
+		this.currentLocation = faction.getStartingRoom();
 		this.maxHP = maxHP;
 		this.currentHP = currentHP;
 		this.level = level;
@@ -241,21 +237,18 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 	/**
 	 * Creates a new {@link BaseCharacter} from a {@link CharacterCreationTemplate}.
 	 *
-	 * @param player                    The {@link Player} controlling the {@link Character}.
 	 * @param gameInterface             The {@link GameInterface}.
-	 * @param characterCreationTemplate The {@link CharacterCreationTemplate}.
 	 * @param faction                   The {@link Faction} The {@link Character} belongs to.
-	 * @param currentLocation           The current {@link Room} of the {@link BaseCharacter}.
+	 * @param characterCreationTemplate The {@link CharacterCreationTemplate}.
 	 * @return The newly created {@link BaseCharacter}.
 	 */
-	public static BaseCharacter fromTemplate(Player player, GameInterface gameInterface, CharacterCreationTemplate
-			characterCreationTemplate, Faction faction, Room currentLocation)
+	public static BaseCharacter factory(GameInterface gameInterface, Faction faction, CharacterCreationTemplate
+			characterCreationTemplate)
 	{
 		Backpack backpack = Backpack.factory(gameInterface, DEFAULT_BACKPACK_POSITIONS);
 		BaseCharacter baseCharacter = new BaseCharacter(
-				player,
-				characterCreationTemplate.getName(),
 				faction,
+				characterCreationTemplate.getName(),
 				backpack,
 				new WornDownCap(1.0, Color.BLUE),
 				new WornDownSweatshirt(1.0, Color.GRAY),
@@ -263,7 +256,6 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 				new WornDownCargoPants(1.0, Color.GREEN),
 				new WornDownWorkBoots(1.0, Color.BLACK),
 				new Fist(),
-				currentLocation,
 				DEFAULT_MAX_HP,
 				DEFAULT_MAX_HP,
 				DEFAULT_LEVEL,
@@ -281,7 +273,7 @@ public class BaseCharacter extends BasePropertyContainer implements Character
 		baseCharacter.addAction("inspect-room", new InspectRoomAction(gameInterface::onRoomInspect));
 		baseCharacter.addAction("inspect-floor", new InspectFloorAction(gameInterface::onFloorInspect));
 
-		currentLocation.addCharacter(baseCharacter);
+		faction.getStartingRoom().addCharacter(baseCharacter);
 
 		return baseCharacter;
 	}

@@ -3,7 +3,6 @@ package textadventure;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.combat.DamageSource;
-import textadventure.rooms.EndingRoom;
 import textadventure.ui.GameInterface;
 import textadventure.ui.characterSelection.CharacterCreationCallback;
 import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
@@ -55,26 +54,6 @@ public class HumanPlayer implements Player
 	@Override
 	public void playCharacter(GameInterface gameInterface, Character character, ActionRequestCallback callback)
 	{
-		if (character.getCurrentLocation() instanceof EndingRoom) {
-			while (true) {
-				try {
-					while (true) {
-						Path            path   = Paths.get("highscores.txt");
-						HighScoreWriter writer = new HighScoreWriter(path);
-						writer.put(character.getName(), character.getCurrentHP(), true);
-						writer.save();
-						System.out.println(((EndingRoom) character.getCurrentLocation()).getEndingMessage());
-						System.out.println("SAVED");
-						break;
-					}
-				} catch (NoSuchFileException e) {
-					new File("highscore.txt");
-				} catch (IOException e) {
-					throw new IllegalStateException(e);
-				}
-			}
-		}
-
 		gameInterface.onActionRequest(character, callback::respond);
 	}
 

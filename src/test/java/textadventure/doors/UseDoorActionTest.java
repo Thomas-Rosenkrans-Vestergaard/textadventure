@@ -29,7 +29,7 @@ public class UseDoorActionTest
 		CharacterCreationTemplate characterCreationTemplate = new CharacterCreationTemplate();
 		characterCreationTemplate.setName("Name");
 		GameInterface gameInterface = new SomeGameInterface();
-		Character     character     = BaseCharacter.fromTemplate(null, gameInterface, characterCreationTemplate, Faction.ESCAPEE, a);
+		Character     character     = BaseCharacter.factory(null, gameInterface, characterCreationTemplate, Faction.ESCAPEE, a);
 		assertSame(a, character.getCurrentLocation());
 		assertTrue(a.hasCharacter(character));
 		assertFalse(b.hasCharacter(character));

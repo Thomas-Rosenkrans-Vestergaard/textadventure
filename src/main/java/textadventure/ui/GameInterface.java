@@ -1,11 +1,13 @@
 package textadventure.ui;
 
+import com.google.common.collect.ImmutableMap;
 import textadventure.Character;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.combat.DamageSource;
+import textadventure.combat.Faction;
 import textadventure.doors.CloseDoorAction;
 import textadventure.doors.InspectDoorAction;
 import textadventure.doors.OpenDoorAction;
@@ -20,6 +22,7 @@ import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.InspectFloorAction;
 import textadventure.rooms.InspectRoomAction;
+import textadventure.rooms.RoomController;
 import textadventure.ui.characterSelection.CharacterCreationCallback;
 import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
 
@@ -29,17 +32,20 @@ public interface GameInterface
 	/**
 	 * Called when the {@link Game} is constructed.
 	 *
-	 * @param game The newly constructed {@link Game}.
+	 * @param game               The newly constructed {@link Game}.
+	 * @param roomController     The {@link RoomController} containing the {@link textadventure.rooms.Room}s in the
+	 *                           {@link Game}.
+	 * @param numberOfCharacters The number {@link Character}s in each {@link textadventure.combat.Faction}.
 	 */
-	void onInit(Game game);
+	void onInit(Game game, RoomController roomController, int numberOfCharacters);
 
 	/**
-	 * Called when a new {@link Player} joins the {@link Game}.
+	 * Called when a new {@link Faction} joins the {@link Game}.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} who joined the {@link Game}.
+	 * @param game    The {@link Game} instance.
+	 * @param faction The {@link Faction}.
 	 */
-	void onPlayerJoin(Game game, Player player);
+	void onFactionJoin(Game game, Faction faction);
 
 	/**
 	 * Lets the {@link Player} create the {@link Character} they control.
@@ -55,16 +61,19 @@ public interface GameInterface
 	/**
 	 * Called when the {@link Game} starts.
 	 *
-	 * @param game The {@link Game} instance.
+	 * @param game    The {@link Game} instance.
+	 * @param faction The {@link Faction}.
 	 */
-	void onGameStart(Game game);
+	void onGameStart(Game game, Faction faction);
 
 	/**
 	 * Called when the {@link Game} ends.
 	 *
-	 * @param game The {@link Game} instance.
+	 * @param game    The {@link Game} instance.
+	 * @param faction The {@link Faction}.
+	 * @param result  The result for the {@link Faction}. True for win, false for less.
 	 */
-	void onGameEnd(Game game);
+	void onGameEnd(Game game, Faction faction, boolean result);
 
 	/**
 	 * Called when a {@link Character} dies.
@@ -78,18 +87,18 @@ public interface GameInterface
 	/**
 	 * Event when a {@link Player} starts their turn.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} whose turn it is.
+	 * @param game    The {@link Game} instance.
+	 * @param faction The {@link Faction} whose turn it is.
 	 */
-	void onTurnStart(Game game, Player player);
+	void onTurnStart(Game game, Faction faction);
 
 	/**
 	 * Event when a {@link Player} ends their turn.
 	 *
-	 * @param game   The {@link Game} instance.
-	 * @param player The {@link Player} whose turn ended.
+	 * @param game    The {@link Game} instance.
+	 * @param faction The {@link Faction} whose turn ended.
 	 */
-	void onTurnEnd(Game game, Player player);
+	void onTurnEnd(Game game, Faction faction);
 
 	/**
 	 * Called when a {@link Character} requests an {@link Action} from the {@link GameInterface}.

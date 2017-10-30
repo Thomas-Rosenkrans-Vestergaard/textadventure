@@ -5,6 +5,7 @@ import textadventure.ui.GameInterface;
 
 public class EscapeAction extends AbstractAction
 {
+
 	/**
 	 * Performs the {@link EscapeAction} using the provided arguments.
 	 *

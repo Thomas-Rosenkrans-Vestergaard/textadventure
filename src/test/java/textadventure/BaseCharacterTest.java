@@ -21,7 +21,7 @@ public class BaseCharacterTest
 		CharacterCreationTemplate characterCreationTemplate = new CharacterCreationTemplate();
 		String                    name                      = "Name";
 		characterCreationTemplate.setName(name);
-		Character character = BaseCharacter.fromTemplate(null, gameInterface, characterCreationTemplate, Faction.ESCAPEE, room);
+		Character character = BaseCharacter.factory(null, gameInterface, characterCreationTemplate, Faction.ESCAPEE, room);
 		room.hasCharacter(character);
 		assertSame(name, character.getName());
 		assertEquals(Faction.ESCAPEE, character.getFaction());
