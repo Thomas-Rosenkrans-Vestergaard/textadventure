@@ -1,6 +1,8 @@
 package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
+import textadventure.items.EmptyPositionException;
+import textadventure.items.PositionRangeException;
 
 import java.util.List;
 
