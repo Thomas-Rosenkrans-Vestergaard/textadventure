@@ -2,16 +2,13 @@ package textadventure.items.weapons;
 
 import textadventure.characters.Character;
 
-public class Fist implements BluntWeapon
+public class Fist extends AbstractBluntWeapon implements BluntWeapon
 {
-
 	/**
-	 * Returns the amount of damage done by the {@link Fist} to a {@link Character}.
-	 *
-	 * @return The amount of damage done by the {@link Fist} to a {@link Character}.
+	 * Creates a new {@link Fist}.
 	 */
-	@Override public int getDamage()
+	public Fist()
 	{
-		return 0;
+		super(5);
 	}
 }

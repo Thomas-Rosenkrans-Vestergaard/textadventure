@@ -14,9 +14,9 @@ public class WornDownWorkBoots extends AbstractWearable implements Boots
 	 * @param protectiveFactor Double representing the protective factor of the {@link WornDownWorkBoots}.
 	 * @param color            The {@link Color} of the {@link WornDownWorkBoots}.
 	 */
-	public WornDownWorkBoots(double protectiveFactor, Color color)
+	public WornDownWorkBoots(double protectiveFactor)
 	{
-		super(protectiveFactor, color);
+		super(protectiveFactor);
 	}
 
 	/**

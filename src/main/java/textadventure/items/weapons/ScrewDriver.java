@@ -3,8 +3,15 @@ package textadventure.items.weapons;
 import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class ScrewDriver implements StabWeapon, Item
+public class ScrewDriver extends AbstractStabWeapon implements StabWeapon, Item
 {
+	/**
+	 * Creates a new {@link ScrewDriver}.
+	 */
+	public ScrewDriver()
+	{
+		super(10);
+	}
 
 	/**
 	 * Returns the name of the {@link ScrewDriver}.
@@ -24,16 +31,6 @@ public class ScrewDriver implements StabWeapon, Item
 	@Override public String getItemTypeDescription()
 	{
 		return "It's pointy.";
-	}
-
-	/**
-	 * Returns the amount of damage done by the {@link ScrewDriver} to a {@link Character}.
-	 *
-	 * @return The amount of damage done by the {@link ScrewDriver} to a {@link Character}.
-	 */
-	@Override public int getDamage()
-	{
-		return 0;
 	}
 }
 

@@ -3,8 +3,16 @@ package textadventure.items.weapons;
 import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class Pistol implements ProjectileWeapon, Item
+public class Pistol extends AbstractProjectileWeapon implements ProjectileWeapon, Item
 {
+	/**
+	 * Creates a new {@link Pistol}.
+	 */
+	public Pistol()
+	{
+		super(15);
+	}
+
 	/**
 	 * Returns the name of the {@link Pistol}.
 	 *
@@ -25,13 +33,4 @@ public class Pistol implements ProjectileWeapon, Item
 		return "Not fully assembled, but it might work.";
 	}
 
-	/**
-	 * Returns the amount of damage done by the {@link Pistol} to a {@link Character}.
-	 *
-	 * @return The amount of damage done by the {@link Pistol} to a {@link Character}.
-	 */
-	@Override public int getDamage()
-	{
-		return 0;
-	}
 }

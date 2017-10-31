@@ -3,8 +3,16 @@ package textadventure.items.weapons;
 import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class Plunger implements BluntWeapon, Item
+public class Plunger  extends AbstractBluntWeapon implements BluntWeapon, Item
 {
+	/**
+	 * Creates a new {@link Plunger}.
+	 */
+	public Plunger()
+	{
+		super(6);
+	}
+
 	/**
 	 * Returns the name of the {@link Plunger}.
 	 *
@@ -24,16 +32,5 @@ public class Plunger implements BluntWeapon, Item
 	{
 		return "The smell alone is dangerous.";
 	}
-
-	/**
-	 * Returns the amount of damage done by the {@link Plunger} to a {@link Character}.
-	 *
-	 * @return The amount of damage done by the {@link Plunger} to a {@link Character}.
-	 */
-	@Override public int getDamage()
-	{
-		return 0;
-	}
-
 
 }

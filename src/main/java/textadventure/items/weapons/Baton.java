@@ -3,8 +3,16 @@ package textadventure.items.weapons;
 import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class Baton implements BluntWeapon, Item
+public class Baton extends AbstractBluntWeapon implements BluntWeapon, Item
 {
+
+	/**
+	 * Creates a new {@link Baton}.
+	 */
+	public Baton()
+	{
+		super(7);
+	}
 
 	/**
 	 * Returns the name of the {@link Baton}.
@@ -26,13 +34,5 @@ public class Baton implements BluntWeapon, Item
 		return "Efficient for handling riots.";
 	}
 
-	/**
-	 * Returns the amount of damage done by the {@link Baton} to a {@link Character}.
-	 *
-	 * @return The amount of damage done by the {@link Baton} to a {@link Character}.
-	 */
-	@Override public int getDamage()
-	{
-		return 0;
-	}
+
 }

@@ -16,7 +16,7 @@ public class WornDownCap extends AbstractWearable implements HeadWear
 	 */
 	public WornDownCap(double protectiveFactor, Color color)
 	{
-		super(protectiveFactor, color);
+		super(protectiveFactor);
 	}
 
 	/**

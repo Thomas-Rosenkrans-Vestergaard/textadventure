@@ -3,8 +3,16 @@ package textadventure.items.weapons;
 import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class Hammer implements BluntWeapon, Item
+public class Hammer extends  AbstractBluntWeapon implements BluntWeapon, Item
 {
+	/**
+	 * Creates a new {@link Hammer}.
+	 */
+	public Hammer()
+	{
+		super(12);
+	}
+
 	/**
 	 * Returns the name of the {@link Hammer}.
 	 *
@@ -30,9 +38,5 @@ public class Hammer implements BluntWeapon, Item
 	 *
 	 * @return The amount of damage done by the {@link Hammer} to a {@link Character}.
 	 */
-	@Override public int getDamage()
-	{
-		return 0;
-	}
 
 }

@@ -16,7 +16,12 @@ public class WornDownCargoPants extends AbstractWearable implements Pants
 	 */
 	public WornDownCargoPants(double protectiveFactor, Color color)
 	{
-		super(protectiveFactor, color);
+		super(protectiveFactor);
+	}
+
+	public WornDownCargoPants(double protectiveFactor)
+	{
+		super(protectiveFactor);
 	}
 
 	/**

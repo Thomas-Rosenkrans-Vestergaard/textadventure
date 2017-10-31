@@ -3,10 +3,10 @@ package textadventure.items.weapons;
 import textadventure.combat.DamageSource;
 
 /**
- * Represent the weapon
+ * Represents a type of {@link Weapon} damage
  */
-
 public interface Weapon extends DamageSource
 {
+
 
 }
