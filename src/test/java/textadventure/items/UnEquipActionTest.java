@@ -15,7 +15,7 @@ import java.awt.*;
 
 import static org.junit.Assert.*;
 
-public class UnequipActionTest
+public class UnEquipActionTest
 {
 	@Test
 	public void perform() throws Exception
@@ -65,7 +65,7 @@ public class UnequipActionTest
 		assertSame(headWear, character.getHeadWear());
 
 
-		UnequipAction action = new UnequipAction((characterResponse, actionResponse) -> {
+		UnEquipAction action = new UnEquipAction((characterResponse, actionResponse) -> {
 			assertFalse(actionResponse.hasException());
 			assertEquals(null, character.getHeadWear());
 			assertEquals(1, backpack.getNumberOfItems());

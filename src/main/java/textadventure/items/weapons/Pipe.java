@@ -1,6 +1,5 @@
 package textadventure.items.weapons;
 
-import textadventure.characters.Character;
 import textadventure.items.Item;
 
 public class Pipe extends  AbstractBluntWeapon implements BluntWeapon, Item
@@ -32,5 +31,4 @@ public class Pipe extends  AbstractBluntWeapon implements BluntWeapon, Item
 	{
 		return "Warning, not for tobacco, unless you're desperate.";
 	}
-
 }

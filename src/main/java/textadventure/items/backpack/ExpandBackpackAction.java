@@ -1,12 +1,12 @@
 package textadventure.items.backpack;
 
 import com.google.common.collect.ImmutableSet;
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
 import textadventure.ui.BaseSelect;
-import textadventure.ui.GameInterface;
 import textadventure.ui.Option;
 import textadventure.ui.Select;
+import textadventure.ui.SelectResponseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,31 +24,32 @@ public class ExpandBackpackAction extends BackpackAction
 	private BackpackExpansion backpackExpansion;
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link ExpandBackpackAction}.
-	 */
-	private ActionPerformCallback<ExpandBackpackAction> callback;
-
-	/**
 	 * Creates a new {@link ExpandBackpackAction}.
 	 *
 	 * @param backpack The {@link Backpack} to expand.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link ExpandBackpackAction}.
 	 */
-	public ExpandBackpackAction(Backpack backpack, ActionPerformCallback<ExpandBackpackAction> callback)
+	public ExpandBackpackAction(Backpack backpack)
 	{
 		super(backpack);
+	}
 
-		this.callback = callback;
+	/**
+	 * Resets the {@link ExpandBackpackAction} to its default state.
+	 */
+	@Override public void reset()
+	{
+		this.exception = null;
+		this.backpackExpansion = null;
 	}
 
 	/**
 	 * Performs the {@link ExpandBackpackAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link ExpandBackpackAction}.
-	 * @param arguments     The arguments provided to the {@link ExpandBackpackAction}.
+	 * @param character The {@link Character} performing the {@link ExpandBackpackAction}.
+	 * @param arguments The arguments provided to the {@link ExpandBackpackAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link ExpandBackpackAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		Backpack                                backpack = character.getBackpack();
 		ImmutableSet<Option<BackpackExpansion>> options  = backpack.asOptions(BackpackExpansion.class);
@@ -56,16 +57,10 @@ public class ExpandBackpackAction extends BackpackAction
 		try {
 
 			Select<BackpackExpansion> select = new BaseSelect<>(options, 1, selection -> {
-
-				try {
-					for (Option<BackpackExpansion> backpackExpansionOption : selection) {
-						backpack.takeItem(backpackExpansionOption.getOptionIndex());
-						this.backpackExpansion = backpackExpansionOption.getT();
-						backpack.expand(backpackExpansion.getUpgrade());
-					}
-
-				} catch (Exception e) {
-					setException(e);
+				for (Option<BackpackExpansion> backpackExpansionOption : selection) {
+					backpack.takeItem(backpackExpansionOption.getOptionIndex());
+					this.backpackExpansion = backpackExpansionOption.getT();
+					backpack.expand(backpackExpansion.getUpgrade());
 				}
 			});
 
@@ -76,11 +71,14 @@ public class ExpandBackpackAction extends BackpackAction
 				return;
 			}
 
-			gameInterface.select(character, select);
+			character.getFaction().getLeader().select(select);
+
+		} catch (SelectResponseException e) {
+			setException(e.getCause());
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(character, this);
+			responses.onExpandBackpackAction(character, this);
 		}
 	}
 

@@ -2,16 +2,15 @@ package textadventure.items.backpack;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import textadventure.characters.Character;
 import textadventure.actions.AbstractAction;
-import textadventure.actions.ActionPerformCallback;
+import textadventure.actions.ActionResponses;
+import textadventure.characters.Character;
 import textadventure.items.Item;
-import textadventure.items.chest.TakeItemFromChestAction;
 import textadventure.rooms.Floor;
 import textadventure.ui.BaseSelect;
-import textadventure.ui.GameInterface;
 import textadventure.ui.Option;
 import textadventure.ui.Select;
+import textadventure.ui.SelectResponseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,34 +24,27 @@ public class DropItemAction extends AbstractAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
-	 */
-	private ActionPerformCallback<DropItemAction> callback;
-
-	/**
 	 * The {@link Item}s that were dropped.
 	 */
-	private ImmutableList.Builder<Item> items = new ImmutableList.Builder<>();
+	private ImmutableList.Builder<Item> items;
 
 	/**
-	 * Creates a new {@link DropItemAction}.
-	 *
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the
-	 *                 {@link TakeItemFromChestAction}.
+	 * Resets the {@link DropItemAction} to its default state.
 	 */
-	public DropItemAction(ActionPerformCallback<DropItemAction> callback)
+	@Override public void reset()
 	{
-		this.callback = callback;
+		this.exception = null;
+		this.items = new ImmutableList.Builder<>();
 	}
 
 	/**
 	 * Performs the {@link DropItemAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link DropItemAction}.
-	 * @param arguments     The arguments provided to the {@link DropItemAction}.
+	 * @param character The {@link Character} performing the {@link DropItemAction}.
+	 * @param arguments The arguments provided to the {@link DropItemAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link DropItemAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		Floor    floor    = character.getCurrentLocation().getRoomFloor();
 		Backpack backpack = character.getBackpack();
@@ -61,17 +53,11 @@ public class DropItemAction extends AbstractAction
 
 			ImmutableSet<Option<Item>> options = backpack.asOptions();
 			Select<Item> select = new BaseSelect<>(options, selection -> {
-				try {
-
-					for (Option option : selection) {
-						Item item = backpack.getItem(option.getOptionIndex());
-						floor.addItem(item);
-						backpack.takeItem(option.getOptionIndex());
-						this.items.add(item);
-					}
-
-				} catch (Exception e) {
-					setException(e);
+				for (Option option : selection) {
+					Item item = backpack.getItem(option.getOptionIndex());
+					floor.addItem(item);
+					backpack.takeItem(option.getOptionIndex());
+					this.items.add(item);
 				}
 			});
 
@@ -82,11 +68,14 @@ public class DropItemAction extends AbstractAction
 				return;
 			}
 
-			gameInterface.select(character, select);
+			character.getFaction().getLeader().select(select);
+
+		} catch (SelectResponseException e) {
+			setException(e.getCause());
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(character, this);
+			responses.onDropItemAction(character, this);
 		}
 	}
 

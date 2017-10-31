@@ -1,6 +1,5 @@
 package textadventure.items.weapons;
 
-import textadventure.characters.Character;
 import textadventure.items.Item;
 
 public class Pistol extends AbstractProjectileWeapon implements ProjectileWeapon, Item
@@ -32,5 +31,4 @@ public class Pistol extends AbstractProjectileWeapon implements ProjectileWeapon
 	{
 		return "Not fully assembled, but it might work.";
 	}
-
 }

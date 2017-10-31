@@ -1,8 +1,8 @@
 package textadventure.characters;
 
 import textadventure.actions.AbstractAction;
-import textadventure.actions.ActionPerformCallback;
-import textadventure.ui.GameInterface;
+import textadventure.actions.ActionResponses;
+import textadventure.items.backpack.ExpandBackpackAction;
 
 /**
  * {@link textadventure.actions.Action} allowing a {@link Character} to check their stats.
@@ -16,31 +16,16 @@ public class CharacterInformationAction extends AbstractAction
 	private CharacterInformation characterInformation;
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link CharacterInformationAction}.
-	 */
-	private ActionPerformCallback<CharacterInformationAction> callback;
-
-	/**
-	 * Creates a new {@link CharacterInformationAction}.
+	 * Performs the {@link ExpandBackpackAction} using the provided arguments.
 	 *
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link CharacterInformationAction}.
+	 * @param character The {@link Character} performing the {@link ExpandBackpackAction}.
+	 * @param arguments The arguments provided to the {@link ExpandBackpackAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link ExpandBackpackAction}.
 	 */
-	public CharacterInformationAction(ActionPerformCallback<CharacterInformationAction> callback)
-	{
-		this.callback = callback;
-	}
-
-	/**
-	 * Performs the {@link CharacterInformationAction} using the provided arguments.
-	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link CharacterInformationAction}.
-	 * @param arguments     The arguments provided to the {@link CharacterInformationAction}.
-	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		this.characterInformation = new CharacterInformation(character);
-		callback.send(character, this);
+		responses.onCharacterInformationAction(character, this);
 	}
 
 	/**

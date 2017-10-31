@@ -1,6 +1,5 @@
 package textadventure.items.weapons;
 
-import textadventure.characters.Character;
 import textadventure.items.Item;
 
 public class Baton extends AbstractBluntWeapon implements BluntWeapon, Item
@@ -33,6 +32,4 @@ public class Baton extends AbstractBluntWeapon implements BluntWeapon, Item
 	{
 		return "Efficient for handling riots.";
 	}
-
-
 }

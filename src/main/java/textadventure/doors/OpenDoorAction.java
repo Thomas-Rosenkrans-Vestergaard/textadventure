@@ -1,8 +1,7 @@
 package textadventure.doors;
 
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
-import textadventure.ui.GameInterface;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to open a {@link Door}.
@@ -11,38 +10,30 @@ public class OpenDoorAction extends DoorAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link OpenDoorAction}.
-	 */
-	private ActionPerformCallback<OpenDoorAction> callback;
-
-	/**
 	 * Creates a new {@link OpenDoorAction}.
 	 *
-	 * @param door     The {@link Door} to be opened.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link OpenDoorAction}.
+	 * @param door The {@link Door} to be opened.
 	 */
-	public OpenDoorAction(Door door, ActionPerformCallback<OpenDoorAction> callback)
+	public OpenDoorAction(Door door)
 	{
 		super(door);
-
-		this.callback = callback;
 	}
 
 	/**
 	 * Performs the {@link OpenDoorAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link OpenDoorAction}.
-	 * @param arguments     The arguments provided to the {@link OpenDoorAction}.
+	 * @param character The {@link Character} performing the {@link OpenDoorAction}.
+	 * @param arguments The arguments provided to the {@link OpenDoorAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link OpenDoorAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		try {
 			getDoor().open();
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(character, this);
+			responses.onOpenDoorAction(character, this);
 		}
 	}
 }

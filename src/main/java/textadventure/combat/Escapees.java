@@ -8,6 +8,10 @@ import textadventure.rooms.Room;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The {@link Escapees} must attempt to escape the {@link Game}. They must escape the {@link Game} without being
+ * killed by the {@link SecretPolice}.
+ */
 public class Escapees extends AbstractFaction
 {
 

@@ -1,7 +1,8 @@
 package textadventure.items;
 
 /**
- * Thrown when an {@link Item} cannot fit int the {@link Inventory} on insertion.
+ * Thrown when an {@link Item} cannot fit int the {@link Inventory} on insertion using the
+ * {@link Inventory#addItem(Item)} and {@link Inventory#addItem(Item, int)} methods.
  */
 public class InventoryFullException extends InventoryException
 {

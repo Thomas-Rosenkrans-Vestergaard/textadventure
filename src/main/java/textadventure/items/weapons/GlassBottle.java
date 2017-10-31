@@ -1,6 +1,5 @@
 package textadventure.items.weapons;
 
-import textadventure.characters.Character;
 import textadventure.items.Item;
 
 public class GlassBottle extends AbstractBluntWeapon implements BluntWeapon, Item
@@ -32,5 +31,4 @@ public class GlassBottle extends AbstractBluntWeapon implements BluntWeapon, Ite
 	{
 		return "Very fragile, but lies around everywhere.";
 	}
-
 }

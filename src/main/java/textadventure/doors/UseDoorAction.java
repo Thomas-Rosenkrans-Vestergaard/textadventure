@@ -1,9 +1,8 @@
 package textadventure.doors;
 
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
 import textadventure.rooms.Room;
-import textadventure.ui.GameInterface;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to use a {@link Door} to move to another
@@ -13,39 +12,34 @@ public class UseDoorAction extends DoorAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link UseDoorAction}.
-	 */
-	private ActionPerformCallback<UseDoorAction> callback;
-
-	/**
 	 * Creates a new {@link UseDoorAction}.
 	 *
-	 * @param door     The {@link Door} to be used.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link UseDoorAction}.
+	 * @param door The {@link Door} to be used.
 	 */
-	public UseDoorAction(Door door, ActionPerformCallback<UseDoorAction> callback)
+	public UseDoorAction(Door door)
 	{
 		super(door);
-
-		this.callback = callback;
 	}
 
 	/**
 	 * Performs the {@link UseDoorAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link UseDoorAction}.
-	 * @param arguments     The arguments provided to the {@link UseDoorAction}.
+	 * @param character The {@link Character} performing the {@link UseDoorAction}.
+	 * @param arguments The arguments provided to the {@link UseDoorAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link UseDoorAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		Door       door        = getDoor();
 		Room       currentRoom = character.getCurrentLocation();
 		Room       targetRoom  = door.getInverseRoom(currentRoom);
 		Door.State state       = door.getState();
 
+		if (!currentRoom.hasCharacter(character))
+			throw new IllegalStateException();
+
 		if (targetRoom == null) {
-			throw new IllegalStateException("Target room is null.");
+			throw new IllegalStateException();
 		}
 
 		if (state == Door.State.CLOSED) {
@@ -53,13 +47,11 @@ public class UseDoorAction extends DoorAction
 		}
 
 		if (state == Door.State.OPEN) {
-			if (!currentRoom.hasCharacter(character))
-				throw new IllegalStateException();
 			currentRoom.removeCharacter(character);
 			character.setCurrentLocation(targetRoom);
 			targetRoom.addCharacter(character);
 		}
 
-		callback.send(character, this);
+		responses.onUseDoorAction(character, this);
 	}
 }

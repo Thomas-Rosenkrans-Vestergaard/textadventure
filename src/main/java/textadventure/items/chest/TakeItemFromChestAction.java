@@ -2,14 +2,14 @@ package textadventure.items.chest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.BaseSelect;
-import textadventure.ui.GameInterface;
 import textadventure.ui.Option;
 import textadventure.ui.Select;
+import textadventure.ui.SelectResponseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +22,6 @@ public class TakeItemFromChestAction extends ChestAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
-	 */
-	private ActionPerformCallback<TakeItemFromChestAction> callback;
-
-	/**
 	 * The {@link Item}s being taken from the {@link Chest}.
 	 */
 	private List<Item> items = new ArrayList<>();
@@ -34,31 +29,38 @@ public class TakeItemFromChestAction extends ChestAction
 	/**
 	 * Creates a new {@link OpenChestAction}.
 	 *
-	 * @param chest    The {@link Chest} where the {@link Item} is taken from.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
+	 * @param chest The {@link Chest} where the {@link Item} is taken from.
 	 */
-	public TakeItemFromChestAction(Chest chest, ActionPerformCallback<TakeItemFromChestAction> callback)
+	public TakeItemFromChestAction(Chest chest)
 	{
 		super(chest);
+	}
 
-		this.callback = callback;
+	/**
+	 * Resets the {@link TakeItemFromChestAction} to its default state.
+	 */
+	@Override public void reset()
+	{
+		this.exception = null;
+		this.chest = null;
+		this.items = null;
 	}
 
 	/**
 	 * Performs the {@link TakeItemFromChestAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link TakeItemFromChestAction}.
-	 * @param arguments     The arguments provided to the {@link TakeItemFromChestAction}.
+	 * @param character The {@link Character} performing the {@link TakeItemFromChestAction}.
+	 * @param arguments The arguments provided to the {@link TakeItemFromChestAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link TakeItemFromChestAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		Chest.State state    = chest.getState();
 		Backpack    backpack = character.getBackpack();
 
 		if (state == Chest.State.CLOSED) {
 			setException(new ChestClosedException(chest));
-			callback.send(character, this);
+			responses.onTakeItemFromChestAction(character, this);
 			return;
 		}
 
@@ -66,18 +68,11 @@ public class TakeItemFromChestAction extends ChestAction
 
 			ImmutableSet<Option<Item>> options = chest.asOptions(Item.class);
 			Select<Item> select = new BaseSelect<>(options, selection -> {
-
-				try {
-					Item currentItem;
-					for (Option option : selection) {
-						currentItem = chest.getItem(option.getOptionIndex());
-						backpack.addItem(currentItem);
-						this.items.add(currentItem);
-						chest.takeItem(option.getOptionIndex());
-					}
-
-				} catch (Exception e) {
-					setException(e);
+				for (Option option : selection) {
+					Item currentItem = chest.getItem(option.getOptionIndex());
+					backpack.addItem(currentItem);
+					this.items.add(currentItem);
+					chest.takeItem(option.getOptionIndex());
 				}
 			});
 
@@ -88,12 +83,14 @@ public class TakeItemFromChestAction extends ChestAction
 				return;
 			}
 
-			gameInterface.select(character, select);
+			character.getFaction().getLeader().select(select);
 
+		} catch (SelectResponseException e) {
+			setException(e.getCause());
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(character, this);
+			responses.onTakeItemFromChestAction(character, this);
 		}
 	}
 

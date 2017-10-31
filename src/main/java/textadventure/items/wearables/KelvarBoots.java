@@ -1,7 +1,5 @@
 package textadventure.items.wearables;
 
-import java.awt.*;
-
 public class KelvarBoots extends AbstractWearable implements Boots
 {
 	/**

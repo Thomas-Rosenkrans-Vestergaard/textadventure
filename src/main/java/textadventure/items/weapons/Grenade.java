@@ -2,14 +2,14 @@ package textadventure.items.weapons;
 
 import textadventure.items.Item;
 
-public class Grenade extends AbstractSplashWeapon implements SplashWeapon , Item
+public class Grenade extends AbstractSplashWeapon implements SplashWeapon, Item
 {
 	/**
 	 * Creates a new {@link Grenade}.
 	 */
-	public Grenade(int damage)
+	public Grenade()
 	{
-		super(30);
+		super(20, 3);
 	}
 
 	/**

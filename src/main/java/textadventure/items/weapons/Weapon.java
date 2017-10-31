@@ -1,13 +1,18 @@
 package textadventure.items.weapons;
 
-import textadventure.Equipable;
 import textadventure.combat.DamageSource;
+import textadventure.items.EquipableItem;
 
 /**
  * Represents a type of {@link Weapon} damage
  */
-public interface Weapon extends DamageSource, Equipable
+public interface Weapon extends DamageSource, EquipableItem
 {
 
-
+	/**
+	 * Returns the number of {@link textadventure.characters.Character}s the {@link Weapon} can be used on at once.
+	 *
+	 * @return The number of {@link textadventure.characters.Character}s the {@link Weapon} can be used on at once.
+	 */
+	int getNumberOfTargets();
 }

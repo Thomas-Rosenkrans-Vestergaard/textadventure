@@ -1,7 +1,7 @@
 package textadventure.combat;
 
-import textadventure.characters.Character;
 import textadventure.GameException;
+import textadventure.characters.Character;
 
 /**
  * Thrown when {@link AttackAction} is called on a member of ones own {@link Faction}.

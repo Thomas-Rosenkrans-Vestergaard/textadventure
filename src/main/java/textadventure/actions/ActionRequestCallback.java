@@ -2,6 +2,11 @@ package textadventure.actions;
 
 import textadventure.characters.Character;
 
+/**
+ * Used to request the next {@link Action} for some {@link Character} by their {@link textadventure.Player} leader.
+ * The {@link Action} chosen is returned asynchronous using the
+ * {@link ActionRequestCallback#respond(Action, String[])} method.
+ */
 @FunctionalInterface
 public interface ActionRequestCallback
 {

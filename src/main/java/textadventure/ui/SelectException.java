@@ -3,9 +3,9 @@ package textadventure.ui;
 import textadventure.GameException;
 
 /**
- * Base exception for errors related to {@link Select}s.
+ * Abstract exception for errors related to {@link Select}s.
  */
-public class SelectException extends GameException
+public abstract class SelectException extends GameException
 {
 
 	/**

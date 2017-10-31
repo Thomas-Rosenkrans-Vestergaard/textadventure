@@ -31,5 +31,4 @@ public class SubMachineGun extends AbstractProjectileWeapon implements Projectil
 	{
 		return "High fire rate, may get too hot to the touch.";
 	}
-
 }

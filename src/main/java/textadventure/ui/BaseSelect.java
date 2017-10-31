@@ -41,7 +41,7 @@ public class BaseSelect<T> implements Select<T>
 	 * Creates a new {@link BaseSelect}.
 	 *
 	 * @param options  The {@link Option}s that can be selected.
-	 * @param response The event called when the selected {@link Option}(s) have been validated.
+	 * @param response The event invoked when the selected {@link Option}(s) have been validated.
 	 **/
 	public BaseSelect(Set<? extends Option<T>> options, SelectResponse<T> response) throws NotEnoughOptionsException
 	{
@@ -53,7 +53,7 @@ public class BaseSelect<T> implements Select<T>
 	 *
 	 * @param options      The {@link Option}s that can be selected.
 	 * @param exactOptions The number of {@link Option}s that must be selected.
-	 * @param response     The event called when the selected {@link Option}(s) have been validated.
+	 * @param response     The event invoked when the selected {@link Option}(s) have been validated.
 	 */
 	public BaseSelect(Set<? extends Option<T>> options, int exactOptions, SelectResponse<T> response) throws NotEnoughOptionsException
 	{
@@ -66,7 +66,7 @@ public class BaseSelect<T> implements Select<T>
 	 * @param options       The {@link Option}s that can be selected.
 	 * @param minimumNumber The minimum number of {@link Option}s that must be selected.
 	 * @param maximumNumber The maximum number of {@link Option}s that can be selected.
-	 * @param response      The event called when the selected {@link Option}(s) have been validated.
+	 * @param response      The event invoked when the selected {@link Option}(s) have been validated.
 	 */
 	public BaseSelect(Set<? extends Option<T>> options, int minimumNumber, int maximumNumber, SelectResponse<T>
 			response) throws NotEnoughOptionsException
@@ -93,9 +93,10 @@ public class BaseSelect<T> implements Select<T>
 	 * @param selection The index of the {@link Option} to select.
 	 * @throws SelectionAmountException When too few or too many elements were selected.
 	 * @throws UnknownIndexException    When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link SelectResponse}.
 	 */
 	@Override
-	public void selectIndex(Integer selection) throws SelectionAmountException, UnknownIndexException
+	public void selectIndex(Integer selection) throws SelectionAmountException, UnknownIndexException, SelectResponseException
 	{
 		ArrayList<Integer> indices = new ArrayList<>();
 		indices.add(selection);
@@ -108,9 +109,10 @@ public class BaseSelect<T> implements Select<T>
 	 * @param selection The indices of the  {@link Option}s to select.
 	 * @throws SelectionAmountException When too few or too many elements were selected.
 	 * @throws UnknownIndexException    When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link SelectResponse}.
 	 */
 	@Override
-	public void selectIndices(List<Integer> selection) throws SelectionAmountException, UnknownIndexException
+	public void selectIndices(List<Integer> selection) throws SelectionAmountException, UnknownIndexException, SelectResponseException
 	{
 		int size = selection.size();
 		if (size < minimumNumber || size > maximumNumber)
@@ -120,8 +122,11 @@ public class BaseSelect<T> implements Select<T>
 			if (!optionsMap.containsKey(index))
 				throw new UnknownIndexException(this, ImmutableSet.copyOf(selection), index);
 
-
-		response.response(selection.stream().map(optionsMap::get).collect(Collectors.toList()));
+		try {
+			response.response(selection.stream().map(optionsMap::get).collect(Collectors.toList()));
+		} catch (Exception e) {
+			throw new SelectResponseException(this, e);
+		}
 	}
 
 	/**
@@ -130,9 +135,10 @@ public class BaseSelect<T> implements Select<T>
 	 * @param selection The selected {@link Option}.
 	 * @throws SelectionAmountException When too few or too many elements were selected.
 	 * @throws UnknownOptionException   When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link SelectResponse}.
 	 */
 	@Override
-	public void selectOption(Option<T> selection) throws SelectionAmountException, UnknownOptionException
+	public void selectOption(Option<T> selection) throws SelectionAmountException, UnknownOptionException, SelectResponseException
 	{
 		ArrayList<Option<T>> options = new ArrayList<>();
 		options.add(selection);
@@ -145,9 +151,10 @@ public class BaseSelect<T> implements Select<T>
 	 * @param selection The selected {@link Option}s.
 	 * @throws SelectionAmountException When too few or too many elements were selected.
 	 * @throws UnknownOptionException   When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link SelectResponse}.
 	 */
 	@Override
-	public void selectOptions(List<Option<T>> selection) throws SelectionAmountException, UnknownOptionException
+	public void selectOptions(List<Option<T>> selection) throws SelectionAmountException, UnknownOptionException, SelectResponseException
 	{
 		int size = selection.size();
 		if (size < minimumNumber || size > maximumNumber)
@@ -157,7 +164,11 @@ public class BaseSelect<T> implements Select<T>
 			if (!this.options.contains(option))
 				throw new UnknownOptionException(this, ImmutableSet.copyOf(this.options), option);
 
-		response.response(selection);
+		try {
+			response.response(selection);
+		} catch (Exception e) {
+			throw new SelectResponseException(this, e);
+		}
 	}
 
 	/**

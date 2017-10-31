@@ -1,6 +1,6 @@
 package textadventure.items.wearables;
 
-import textadventure.Equipable;
+import textadventure.items.EquipableItem;
 import textadventure.items.Item;
 
 import java.awt.*;
@@ -8,9 +8,8 @@ import java.awt.*;
 /**
  * Represents an item the {@link Character} can wear.
  */
-public interface Wearable extends Item, Equipable
+public interface Wearable extends Item, EquipableItem
 {
-
 
 	/**
 	 * Return the double representing the protective factor of the {@link Wearable}.

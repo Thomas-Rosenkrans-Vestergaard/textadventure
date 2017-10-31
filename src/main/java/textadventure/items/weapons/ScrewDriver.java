@@ -1,6 +1,5 @@
 package textadventure.items.weapons;
 
-import textadventure.characters.Character;
 import textadventure.items.Item;
 
 public class ScrewDriver extends AbstractStabWeapon implements StabWeapon, Item

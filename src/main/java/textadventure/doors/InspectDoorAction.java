@@ -1,8 +1,7 @@
 package textadventure.doors;
 
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
-import textadventure.ui.GameInterface;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to gather information about a {@link Door}.
@@ -11,32 +10,24 @@ public class InspectDoorAction extends DoorAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectDoorAction}.
-	 */
-	private ActionPerformCallback<InspectDoorAction> callback;
-
-	/**
 	 * Creates a new {@link InspectDoorAction}.
 	 *
-	 * @param door     The {@link Door} to inspect.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link InspectDoorAction}.
+	 * @param door The {@link Door} to inspect.
 	 */
-	public InspectDoorAction(Door door, ActionPerformCallback<InspectDoorAction> callback)
+	public InspectDoorAction(Door door)
 	{
 		super(door);
-
-		this.callback = callback;
 	}
 
 	/**
 	 * Performs the {@link InspectDoorAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link InspectDoorAction}.
-	 * @param arguments     The arguments provided to the {@link InspectDoorAction}.
+	 * @param character The {@link Character} performing the {@link InspectDoorAction}.
+	 * @param arguments The arguments provided to the {@link InspectDoorAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectDoorAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
-		callback.send(character, this);
+		responses.onInspectDoorAction(character, this);
 	}
 }

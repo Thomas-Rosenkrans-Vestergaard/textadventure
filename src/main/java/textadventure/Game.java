@@ -1,22 +1,22 @@
 package textadventure;
 
+import com.google.common.collect.ImmutableList;
 import textadventure.actions.Action;
 import textadventure.characters.BaseCharacter;
 import textadventure.characters.Character;
 import textadventure.combat.Faction;
-import textadventure.rooms.*;
+import textadventure.rooms.Room;
+import textadventure.rooms.RoomController;
 import textadventure.ui.GameInterface;
 import textadventure.ui.characterSelection.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Game
 {
-
-	/**
-	 * The {@link GameInterface} used for input-output.
-	 */
-	private GameInterface gameInterface;
 
 	/**
 	 * The {@link Room}s in the {@link Game}.
@@ -41,21 +41,18 @@ public class Game
 	/**
 	 * The {@link GameInterface} to use for input-output.
 	 *
-	 * @param gameInterface      The {@link GameInterface} to use for input-output.
 	 * @param roomController     The {@link Room}s in the {@link Game}.
 	 * @param numberOfCharacters The number of {@link Character}s controlled by a {@link Player}.
 	 */
-	public Game(GameInterface gameInterface, RoomController roomController, int numberOfCharacters)
+	public Game(RoomController roomController, int numberOfCharacters)
 	{
 		if (numberOfCharacters < 1)
 			throw new IllegalArgumentException("numberOfCharacters must be positive.");
 
-		this.gameInterface = gameInterface;
 		this.roomController = roomController;
 		this.numberOfCharacters = numberOfCharacters;
 		this.factions = new ArrayList<>();
 		this.characterNames = new HashSet<>();
-		gameInterface.onInit(this, roomController, numberOfCharacters);
 	}
 
 	/**
@@ -69,14 +66,13 @@ public class Game
 			throw new FactionAlreadyTakenException(faction);
 
 		factions.add(faction);
-		gameInterface.onFactionJoin(this, faction);
 		List<Character> characters = new ArrayList<>();
 
 		CharacterCreationCallback characterCreationCallback = (characterCreationTemplate) -> {
 			if (characters.size() == numberOfCharacters)
 				throw new TooManyCharactersException(numberOfCharacters);
 			approveCharacterCreationTemplate(characterCreationTemplate);
-			Character character = BaseCharacter.factory(gameInterface, faction, characterCreationTemplate);
+			Character character = BaseCharacter.factory(faction, characterCreationTemplate);
 			faction.addCharacter(character);
 			characters.add(character);
 		};
@@ -84,10 +80,10 @@ public class Game
 		FinishCharacterCreationCallback finishCharacterCreationCallback = () -> {
 			if (characters.size() < numberOfCharacters)
 				throw new TooFewCharactersException(numberOfCharacters, characters.size());
-			characters.forEach(character -> faction.getLeader().onCharacterCreate(character));
+			characters.forEach(character -> faction.getLeader().onCharacterCreation(character));
 		};
 
-		faction.getLeader().createCharacters(gameInterface, numberOfCharacters, characterCreationCallback,
+		faction.getLeader().onCharactersCreate(numberOfCharacters, characterCreationCallback,
 				finishCharacterCreationCallback);
 	}
 
@@ -112,8 +108,10 @@ public class Game
 	 */
 	public void start()
 	{
+		ImmutableList<Faction> factions = ImmutableList.copyOf(this.factions);
 		for (Faction faction : factions)
-			gameInterface.onGameStart(this, faction);
+			faction.getLeader().onGameStart(this, factions, faction);
+
 		handleTurn(factions.get(0));
 	}
 
@@ -124,7 +122,6 @@ public class Game
 	 */
 	private void handleTurn(Faction faction)
 	{
-		gameInterface.onTurnStart(this, faction);
 		handleCharacterTurn(faction, faction.getCharacters().get(0));
 	}
 
@@ -133,7 +130,6 @@ public class Game
 	 */
 	private void handleNext(Faction faction)
 	{
-		gameInterface.onTurnEnd(this, faction);
 		int index = factions.indexOf(faction);
 		if (index + 1 == factions.size()) {
 			handleTurn(factions.get(0));
@@ -148,8 +144,9 @@ public class Game
 	 */
 	private void handleCharacterTurn(Faction faction, Character character)
 	{
-		faction.getLeader().playCharacter(gameInterface, character, ((action, arguments) -> {
-			action.perform(gameInterface, character, arguments);
+		faction.getLeader().onActionRequest(character, ((action, arguments) -> {
+			action.reset();
+			action.perform(character, arguments, faction.getLeader());
 			List<Character> characters   = faction.getCharacters();
 			int             currentIndex = characters.indexOf(character);
 			if (currentIndex == characters.size() - 1)
@@ -157,16 +154,6 @@ public class Game
 			else
 				handleCharacterTurn(faction, characters.get(currentIndex + 1));
 		}));
-	}
-
-	/**
-	 * Returns the {@link GameInterface} used as input-output for the game.
-	 *
-	 * @return The {@link GameInterface} used as input-output for the game.
-	 */
-	public GameInterface getGameInterface()
-	{
-		return this.gameInterface;
 	}
 
 	/**

@@ -1,29 +1,34 @@
 package textadventure.actions;
 
 import textadventure.characters.Character;
-import textadventure.ui.GameInterface;
 
 import java.util.function.Consumer;
 
+/**
+ * Represents some {@link Action} that can be taken by a {@link Character}. The state of the {@link Action} should be
+ * reset on each call from {@link Action#perform(Character, String[], ActionResponses)}.
+ */
 public interface Action
 {
 
 	/**
-	 * Performs the {@link Action} using the provided arguments.
-	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link Action}.
-	 * @param arguments     The arguments provided to the {@link Action}.
+	 * Resets the {@link Action} to its default state.
 	 */
-	void perform(GameInterface gameInterface, Character character, String[] arguments);
+	void reset();
 
 	/**
-	 * Provides some code to call when the {@link Action} succeeded. The {@link Action} was successful when no
-	 * {@link Exception} was thrown.
+	 * Performs the {@link Action} using the provided arguments.
 	 *
-	 * @param callback The code to call if the {@link Action} succeeded.
+	 * @param character The {@link Character} performing the {@link Action}.
+	 * @param arguments The arguments provided to the {@link Action}.
+	 * @param responses The {@link ActionResponses} to report to after performing the {@link Action}.
 	 */
-	void onSuccess(Runnable callback);
+	void perform(Character character, String[] arguments, ActionResponses responses);
+
+	/**
+	 * Invokes the provided {@link Runnable} provided the {@link Action} has no exceptions.
+	 */
+	void onSuccess(Runnable runnable);
 
 	/**
 	 * Provides some code to call when an exception {@link T} has occurred.

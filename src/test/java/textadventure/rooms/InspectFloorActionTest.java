@@ -1,6 +1,10 @@
 package textadventure.rooms;
 
 import org.junit.Test;
+<<<<<<< Updated upstream
+=======
+import textadventure.characters.Character;
+>>>>>>> Stashed changes
 import textadventure.SomeCharacter;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;

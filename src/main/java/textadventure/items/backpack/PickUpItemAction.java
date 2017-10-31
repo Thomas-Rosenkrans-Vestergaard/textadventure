@@ -2,16 +2,15 @@ package textadventure.items.backpack;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import textadventure.characters.Character;
 import textadventure.actions.AbstractAction;
-import textadventure.actions.ActionPerformCallback;
+import textadventure.actions.ActionResponses;
+import textadventure.characters.Character;
 import textadventure.items.Item;
-import textadventure.items.chest.TakeItemFromChestAction;
 import textadventure.rooms.Floor;
 import textadventure.ui.BaseSelect;
-import textadventure.ui.GameInterface;
 import textadventure.ui.Option;
 import textadventure.ui.Select;
+import textadventure.ui.SelectResponseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,31 +23,27 @@ public class PickUpItemAction extends AbstractAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link TakeItemFromChestAction}.
-	 */
-	private ActionPerformCallback<PickUpItemAction> callback;
-
-	/**
 	 * The {@link Item}s that were picked up.
 	 */
-	private ImmutableList.Builder<Item> items = new ImmutableList.Builder<>();
+	private ImmutableList.Builder<Item> items;
 
 	/**
-	 * Creates a new {@link PickUpItemAction}.
+	 * Resets the {@link PickUpItemAction} to its default state.
 	 */
-	public PickUpItemAction(ActionPerformCallback<PickUpItemAction> callback)
+	@Override public void reset()
 	{
-		this.callback = callback;
+		this.exception = null;
+		this.items = new ImmutableList.Builder<>();
 	}
 
 	/**
 	 * Performs the {@link PickUpItemAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link PickUpItemAction}.
-	 * @param arguments     The arguments provided to the {@link PickUpItemAction}.
+	 * @param character The {@link Character} performing the {@link PickUpItemAction}.
+	 * @param arguments The arguments provided to the {@link PickUpItemAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link PickUpItemAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		Floor                      floor    = character.getCurrentLocation().getRoomFloor();
 		Backpack                   backpack = character.getBackpack();
@@ -57,17 +52,11 @@ public class PickUpItemAction extends AbstractAction
 		try {
 
 			Select<Item> select = new BaseSelect<>(options, selection -> {
-				try {
-
-					for (Option option : selection) {
-						Item item = floor.getItem(option.getOptionIndex());
-						backpack.addItem(item);
-						floor.takeItem(option.getOptionIndex());
-						this.items.add(item);
-					}
-
-				} catch (Exception e) {
-					setException(e);
+				for (Option option : selection) {
+					Item item = floor.getItem(option.getOptionIndex());
+					backpack.addItem(item);
+					floor.takeItem(option.getOptionIndex());
+					this.items.add(item);
 				}
 			});
 
@@ -78,11 +67,14 @@ public class PickUpItemAction extends AbstractAction
 				return;
 			}
 
-			gameInterface.select(character, select);
+			character.getFaction().getLeader().select(select);
+
+		} catch (SelectResponseException e) {
+			setException(e.getCause());
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(character, this);
+			responses.onPickUpItemAction(character, this);
 		}
 	}
 

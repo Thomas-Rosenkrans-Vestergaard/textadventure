@@ -60,6 +60,16 @@ public class CharacterInformation
 		return character.getBackpack();
 	}
 
+	/**1
+	 * Return the double representing the protective factor of the {@link Wearable}s on the {@link Character}.
+	 *
+	 * @return The double representing the protective factor of the {@link Wearable}s on the {@link Character}.
+	 */
+	public double getProtectiveFactor()
+	{
+		return character.getProtectiveFactor();
+	}
+
 	/**
 	 * Returns the {@link HeadWear} worn by the {@link Character}.
 	 *

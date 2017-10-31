@@ -6,7 +6,7 @@ package textadventure.items.weapons;
 public abstract class AbstractBluntWeapon extends AbstractWeapon implements BluntWeapon
 {
 	/**
-	 * Integar representing the damage the {@link Weapon} does.
+	 * The amount of damage done by the {@link Weapon}.
 	 */
 	public AbstractBluntWeapon(int damage)
 	{

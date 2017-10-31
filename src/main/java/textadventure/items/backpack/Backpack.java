@@ -6,7 +6,6 @@ import textadventure.actions.Action;
 import textadventure.characters.Character;
 import textadventure.items.BaseInventory;
 import textadventure.items.Inventory;
-import textadventure.ui.GameInterface;
 
 import java.util.HashMap;
 
@@ -42,15 +41,14 @@ public class Backpack extends BaseInventory implements Property
 	/**
 	 * Creates and returns a new {@link Backpack} with the {@link InspectBackpackAction}.
 	 *
-	 * @param gameInterface The {@link GameInterface} instance.
 	 * @param positions     The number of positions in the {@link Backpack}.
 	 * @return The newly created {@link Backpack}.
 	 */
-	public static Backpack factory(GameInterface gameInterface, int positions)
+	public static Backpack factory(int positions)
 	{
 		Backpack backpack = new Backpack(positions);
-		backpack.addAction("inspect", new InspectBackpackAction(backpack, gameInterface::onBackpackInspect));
-		backpack.addAction("expand", new ExpandBackpackAction(backpack, gameInterface::onBackpackExpand));
+		backpack.addAction("inspect", new InspectBackpackAction(backpack));
+		backpack.addAction("expand", new ExpandBackpackAction(backpack));
 
 		return backpack;
 	}

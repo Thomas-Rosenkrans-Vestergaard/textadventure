@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+/**
+ * The default implementation of the {@link Inventory} interface.
+ */
 public class BaseInventory implements Inventory
 {
 

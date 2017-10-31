@@ -4,6 +4,9 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
 
+/**
+ * Stores {@link Room}s using {@link Coordinate}s.
+ */
 public class RoomController
 {
 
@@ -16,7 +19,7 @@ public class RoomController
 	 * Adds a {@link Room} with a {@link Coordinate} to the {@link HashMap} of the {@link RoomController}.
 	 *
 	 * @param coordinate The {@link Coordinate} where the {@link Room} is located.
-	 * @param room The {@link Room} with the given {@link Coordinate}
+	 * @param room       The {@link Room} with the given {@link Coordinate}
 	 */
 	public void add(Coordinate coordinate, Room room)
 	{

@@ -4,6 +4,9 @@ import textadventure.Game;
 import textadventure.Player;
 import textadventure.rooms.Room;
 
+/**
+ * The {@link SecretPolice} must prevent the {@link Escapees} from escaping the {@link Game}.
+ */
 public class SecretPolice extends AbstractFaction
 {
 

@@ -9,13 +9,12 @@ import textadventure.combat.Faction;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.PickUpItemAction;
-import textadventure.items.weapons.Fist;
+import textadventure.items.weapons.Fists;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
 import textadventure.rooms.InspectFloorAction;
 import textadventure.rooms.InspectRoomAction;
 import textadventure.rooms.Room;
-import textadventure.ui.GameInterface;
 import textadventure.ui.characterSelection.CharacterCreationTemplate;
 
 import java.awt.*;
@@ -234,15 +233,14 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	/**
 	 * Creates a new {@link BaseCharacter} from a {@link CharacterCreationTemplate}.
 	 *
-	 * @param gameInterface             The {@link GameInterface}.
 	 * @param faction                   The {@link Faction} The {@link Character} belongs to.
 	 * @param characterCreationTemplate The {@link CharacterCreationTemplate}.
 	 * @return The newly created {@link BaseCharacter}.
 	 */
-	public static BaseCharacter factory(GameInterface gameInterface, Faction faction, CharacterCreationTemplate characterCreationTemplate)
+	public static BaseCharacter factory(Faction faction, CharacterCreationTemplate characterCreationTemplate)
 	{
-		Backpack backpack = Backpack.factory(gameInterface, DEFAULT_BACKPACK_POSITIONS);
-		BaseCharacter baseCharacter = new BaseCharacter(
+		Backpack backpack = Backpack.factory(DEFAULT_BACKPACK_POSITIONS);
+		BaseCharacter character = new BaseCharacter(
 				faction,
 				characterCreationTemplate.getName(),
 				backpack,
@@ -251,7 +249,7 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 				null,
 				new WornDownCargoPants(1.0),
 				new WornDownWorkBoots(1.0),
-				new Fist(),
+				new Fists(),
 				DEFAULT_MAX_HP,
 				DEFAULT_MAX_HP,
 				DEFAULT_LEVEL,
@@ -263,16 +261,16 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 				DEFAULT_MONEY
 		);
 
-		baseCharacter.addProperty("backpack", backpack);
-		baseCharacter.addAction("drop", new DropItemAction(gameInterface::onItemDrop));
-		baseCharacter.addAction("pickup", new PickUpItemAction(gameInterface::onItemPickup));
-		baseCharacter.addAction("inspect-room", new InspectRoomAction(gameInterface::onRoomInspect));
-		baseCharacter.addAction("inspect-floor", new InspectFloorAction(gameInterface::onFloorInspect));
-		baseCharacter.addAction("information", new CharacterInformationAction(gameInterface::onCharacterInformation));
+		character.addProperty("backpack", backpack);
+		character.addAction("drop", new DropItemAction());
+		character.addAction("pickup", new PickUpItemAction());
+		character.addAction("inspect-room", new InspectRoomAction());
+		character.addAction("inspect-floor", new InspectFloorAction());
+		character.addAction("stats", new CharacterInformationAction());
 
-		faction.getStartingRoom().addCharacter(baseCharacter);
+		faction.getStartingRoom().addCharacter(character);
 
-		return baseCharacter;
+		return character;
 	}
 
 	/**
@@ -317,6 +315,20 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	@Override public Backpack getBackpack()
 	{
 		return backpack;
+	}
+
+	/**
+	 * Return the double representing the protective factor of the {@link Wearable}s on the {@link Character}.
+	 *
+	 * @return The double representing the protective factor of the {@link Wearable}s on the {@link Character}.
+	 */
+	@Override public double getProtectiveFactor()
+	{
+		return headWear.getProtectiveFactor() +
+				torsoWear.getProtectiveFactor() +
+				gloves.getProtectiveFactor() +
+				pants.getProtectiveFactor() +
+				boots.getProtectiveFactor();
 	}
 
 	/**

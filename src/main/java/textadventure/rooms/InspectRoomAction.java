@@ -1,10 +1,9 @@
 package textadventure.rooms;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.characters.Character;
 import textadventure.actions.AbstractAction;
-import textadventure.actions.ActionPerformCallback;
-import textadventure.ui.GameInterface;
+import textadventure.actions.ActionResponses;
+import textadventure.characters.Character;
 
 /**
  * {@link textadventure.actions.Action} allowing a {@link Character} to see the other {@link Character}s in the
@@ -20,28 +19,13 @@ public class InspectRoomAction extends AbstractAction
 	private ImmutableSet<Character> characters;
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectRoomAction}.
-	 */
-	private ActionPerformCallback<InspectRoomAction> callback;
-
-	/**
-	 * Creates a new {@link InspectRoomAction}.
-	 *
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link InspectRoomAction}.
-	 */
-	public InspectRoomAction(ActionPerformCallback<InspectRoomAction> callback)
-	{
-		this.callback = callback;
-	}
-
-	/**
 	 * Performs the {@link InspectRoomAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link InspectRoomAction}.
-	 * @param arguments     The arguments provided to the {@link InspectRoomAction}.
+	 * @param character The {@link Character} performing the {@link InspectRoomAction}.
+	 * @param arguments The arguments provided to the {@link InspectRoomAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectRoomAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		Room                            room    = character.getCurrentLocation();
 		ImmutableSet.Builder<Character> builder = new ImmutableSet.Builder<>();
@@ -49,7 +33,7 @@ public class InspectRoomAction extends AbstractAction
 			if (c != character)
 				builder.add(c);
 		this.characters = builder.build();
-		callback.send(character, this);
+		responses.onInspectRoomAction(character, this);
 	}
 
 	/**

@@ -1,7 +1,7 @@
 package textadventure.items.weapons;
 
 /**
- * Represents a type of {@link Weapon} damage
+ * Represents a class of {@link Weapon}.
  */
 public interface EdgedWeapon extends Weapon
 {
@@ -9,9 +9,7 @@ public interface EdgedWeapon extends Weapon
 	 * Increases the damage done by the {@link EdgedWeapon}.
 	 *
 	 * @param whetstone The {@link Whetstone} used to sharpen the {@link EdgedWeapon}.
-	 * @return The damage increase.
-	 * @throws {@link CantSharpenException} when you can sharpen your weapon any more
-	 *
+	 * @throws {@link CantSharpenException} when you can't sharpen your weapon.
 	 */
 	void sharpen(Whetstone whetstone) throws CantSharpenException;
 }

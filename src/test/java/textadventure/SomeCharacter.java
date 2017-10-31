@@ -72,6 +72,11 @@ public class SomeCharacter implements Character
 		this.currentLocation = currentLocation;
 	}
 
+	@Override public double getProtectiveFactor()
+	{
+		return 0;
+	}
+
 	@Override public HeadWear getHeadWear()
 	{
 		return this.headWear;

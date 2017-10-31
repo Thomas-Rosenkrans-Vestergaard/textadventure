@@ -1,123 +1,138 @@
 package textadventure.items;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.characters.Character;
-import textadventure.Equipable;
 import textadventure.actions.AbstractAction;
-import textadventure.actions.ActionPerformCallback;
-import textadventure.items.backpack.Backpack;
+import textadventure.actions.ActionResponses;
+import textadventure.characters.Character;
+import textadventure.items.weapons.Fists;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
 import textadventure.ui.*;
 
-public class UnequipAction extends AbstractAction
+import java.util.ArrayList;
+import java.util.List;
+
+public class UnEquipAction extends AbstractAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link UnequipAction}.
+	 * The {@link EquipableItem}s the were unequipped during the {@link UnEquipAction}.
 	 */
-	private ActionPerformCallback<UnequipAction> callback;
+	private List<EquipableItem> items;
 
 	/**
-	 * Creates a new {@link UnequipAction}.
-	 *
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the
-	 *                 {@link UnequipAction}.
+	 * Resets the {@link EquipAction} to its default state.
 	 */
-	public UnequipAction(ActionPerformCallback<UnequipAction> callback)
+	@Override public void reset()
 	{
-		this.callback = callback;
+		this.exception = null;
+		this.items = new ArrayList<>();
 	}
 
 	/**
-	 * Performs the {@link UnequipAction} using the provided arguments.
+	 * Performs the {@link UnEquipAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link UnequipAction}.
-	 * @param arguments     The arguments provided to the {@link UnequipAction}.
+	 * @param character The {@link Character} performing the {@link UnEquipAction}.
+	 * @param arguments The arguments provided to the {@link UnEquipAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link UnEquipAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
-		Backpack backpack = character.getBackpack();
-
 		try {
 
+			ImmutableSet<Option<EquipableItem>> options = getOptions(character);
+			Select<EquipableItem> select = new BaseSelect<>(options, 1, selection -> {
 
-			ImmutableSet<Option<Equipable>> options = getOptions(character);
-			Select<Equipable> select = new BaseSelect<>(options, 1, selection -> {
-				Option<Equipable>          equipableOption = selection.get(0);
-				Equipable                  equipable       = equipableOption.getT();
-
-				try {
+				for (Option<EquipableItem> equipableOption : selection) {
+					EquipableItem equipable = equipableOption.getT();
 
 					if (equipable instanceof HeadWear) {
-
 						HeadWear current = character.getHeadWear();
 						if (current != null) {
 							character.getBackpack().addItem(current);
 							character.setHeadWear(null);
 						}
-						return;
+						continue;
 					}
+
 					if (equipable instanceof TorsoWear) {
 						TorsoWear current = character.getTorsoWear();
 						if (current != null) {
 							character.getBackpack().addItem(current);
 							character.setTorsoWear(null);
 						}
-						return;
+						continue;
 					}
+
 					if (equipable instanceof Gloves) {
 						Gloves current = character.getGloves();
 						if (current != null) {
 							character.getBackpack().addItem(current);
 							character.setGloves(null);
 						}
-						return;
+						continue;
 					}
+
 					if (equipable instanceof Pants) {
 						Pants current = character.getPants();
 						if (current != null) {
 							character.getBackpack().addItem(current);
 							character.setPants(null);
 						}
-						return;
+						continue;
 					}
+
 					if (equipable instanceof Boots) {
 						Boots current = character.getBoots();
 						if (current != null) {
 							character.getBackpack().addItem(current);
 							character.setBoots(null);
 						}
-						return;
+						continue;
 					}
 					if (equipable instanceof Weapon) {
 						Weapon current = character.getWeapon();
 						if (current != null) {
 							character.getBackpack().addItem(current);
-							character.setWeapon(null);
+							character.setWeapon(new Fists());
 						}
-						return;
+						continue;
 					}
 
-				} catch (Exception e) {
-					setException(e);
+					throw new UnsupportedOperationException();
 				}
 			});
 
-			gameInterface.select(character, select);
+			if (arguments.length > 0) {
+				List<Integer> indices = new ArrayList<>();
+				for (String argument : arguments) indices.add(Integer.parseInt(argument));
+				select.selectIndices(indices);
+				return;
+			}
 
+			character.getFaction().getLeader().select(select);
+
+		} catch (SelectResponseException e) {
+			setException(e.getCause());
 		} catch (NotEnoughOptionsException e) {
 			setException(new NotEquipableException());
+		} catch (Exception e) {
+			setException(e);
 		} finally {
-			callback.send(character, this);
+			responses.onUnEquipAction(character, this);
 		}
 	}
 
-	private ImmutableSet<Option<Equipable>> getOptions(Character character)
+	/**
+	 * Returns the {@link Option}s of {@link Wearable}s that can be unequipped.
+	 *
+	 * @param character The {@link Character} to return {@link Wearable} {@link Option}s from.
+	 * @return The {@link Option}s of {@link Wearable}s that can be unequipped.
+	 */
+	private ImmutableSet<Option<EquipableItem>> getOptions(Character character)
 	{
-		int                                     index   = 0;
-		ImmutableSet.Builder<Option<Equipable>> builder = new ImmutableSet.Builder<>();
+		int                                         index   = 0;
+		ImmutableSet.Builder<Option<EquipableItem>> builder = new ImmutableSet.Builder<>();
 
 		HeadWear headWear = character.getHeadWear();
 		if (headWear != null)
@@ -144,5 +159,15 @@ public class UnequipAction extends AbstractAction
 			builder.add(new BaseOption<>(index++, weapon.getItemTypeName(), weapon.getItemTypeDescription(), weapon));
 
 		return builder.build();
+	}
+
+	/**
+	 * Returns the {@link textadventure.EquipableItem}s the were unequipped during the {@link UnEquipAction}.
+	 *
+	 * @return The {@link textadventure.EquipableItem}s the were unequipped during the {@link UnEquipAction}.
+	 */
+	public List<EquipableItem> getItems()
+	{
+		return this.items;
 	}
 }

@@ -1,5 +1,9 @@
 package textadventure.ui;
 
+<<<<<<< Updated upstream
+=======
+import textadventure.characters.Character;
+>>>>>>> Stashed changes
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.actions.ActionRequestCallback;

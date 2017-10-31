@@ -1,8 +1,6 @@
 package textadventure.ui;
 
 import com.google.common.collect.ImmutableMap;
-import textadventure.items.EmptyPositionException;
-import textadventure.items.PositionRangeException;
 
 import java.util.List;
 
@@ -24,8 +22,9 @@ public interface Select<T>
 		 * Event invoked when the selected {@link Option}(s) have been validated.
 		 *
 		 * @param selection The selected {@link Option}(s).
+		 * @throws Exception When an exception occurs while handling the {@link SelectResponse}.
 		 */
-		void response(List<? extends Option<T>> selection);
+		void response(List<? extends Option<T>> selection) throws Exception;
 	}
 
 	/**
@@ -54,34 +53,38 @@ public interface Select<T>
 	 *
 	 * @param index The index of the {@link Option} to select.
 	 * @throws SelectionAmountException When too few or too many elements were selected.
-	 * @throws UnknownIndexException      When a selected element were not contained is the list of possibilities.
+	 * @throws UnknownIndexException    When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link SelectResponse}.
 	 */
-	void selectIndex(Integer index) throws SelectionAmountException, UnknownIndexException;
+	void selectIndex(Integer index) throws SelectionAmountException, UnknownIndexException, SelectResponseException;
 
 	/**
 	 * Select the {@link Option}s mapped to the provided indices.
 	 *
 	 * @param indices The indices of the  {@link Option}s to select.
 	 * @throws SelectionAmountException When too few or too many elements were selected.
-	 * @throws UnknownIndexException      When a selected element were not contained is the list of possibilities.
+	 * @throws UnknownIndexException    When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link SelectResponse}.
 	 */
-	void selectIndices(List<Integer> indices) throws SelectionAmountException, UnknownIndexException;
+	void selectIndices(List<Integer> indices) throws SelectionAmountException, UnknownIndexException, SelectResponseException;
 
 	/**
 	 * Select the provided {@link Option}.
 	 *
 	 * @param option The selected {@link Option}.
 	 * @throws SelectionAmountException When too few or too many elements were selected.
-	 * @throws UnknownOptionException     When a selected element were not contained is the list of possibilities.
+	 * @throws UnknownOptionException   When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link SelectResponse}.
 	 */
-	void selectOption(Option<T> option) throws SelectionAmountException, UnknownOptionException;
+	void selectOption(Option<T> option) throws SelectionAmountException, UnknownOptionException, SelectResponseException;
 
 	/**
 	 * Select the provided {@link Option}s.
 	 *
 	 * @param selection The selected {@link Option}s.
 	 * @throws SelectionAmountException When too few or too many elements were selected.
-	 * @throws UnknownOptionException     When a selected element were not contained is the list of possibilities.
+	 * @throws UnknownOptionException   When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link SelectResponse}.
 	 */
-	void selectOptions(List<Option<T>> selection) throws SelectionAmountException, UnknownOptionException;
+	void selectOptions(List<Option<T>> selection) throws SelectionAmountException, UnknownOptionException, SelectResponseException;
 }

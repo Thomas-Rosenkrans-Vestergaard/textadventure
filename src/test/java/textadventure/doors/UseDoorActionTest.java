@@ -1,6 +1,11 @@
 package textadventure.doors;
 
 import org.junit.Test;
+<<<<<<< Updated upstream
+=======
+import textadventure.characters.BaseCharacter;
+import textadventure.characters.Character;
+>>>>>>> Stashed changes
 import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
 import textadventure.lock.Lock;

@@ -1,8 +1,7 @@
 package textadventure.items.backpack;
 
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
-import textadventure.ui.GameInterface;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to inspect the
@@ -12,32 +11,24 @@ public class InspectBackpackAction extends BackpackAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectBackpackAction}.
-	 */
-	private ActionPerformCallback<InspectBackpackAction> callback;
-
-	/**
 	 * Creates a new {@link InspectBackpackAction}.
 	 *
-	 * @param door     The {@link Backpack} to be inspected.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link InspectBackpackAction}.
+	 * @param door The {@link Backpack} to be inspected.
 	 */
-	InspectBackpackAction(Backpack door, ActionPerformCallback<InspectBackpackAction> callback)
+	InspectBackpackAction(Backpack door)
 	{
 		super(door);
-
-		this.callback = callback;
 	}
 
 	/**
 	 * Performs the {@link InspectBackpackAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link InspectBackpackAction}.
-	 * @param arguments     The arguments provided to the {@link InspectBackpackAction}.
+	 * @param character The {@link Character} performing the {@link InspectBackpackAction}.
+	 * @param arguments The arguments provided to the {@link InspectBackpackAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectBackpackAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
-		callback.send(character, this);
+		responses.onInspectBackpackAction(character, this);
 	}
 }

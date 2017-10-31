@@ -1,9 +1,8 @@
 package textadventure.items.weapons;
 
-import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class Plunger  extends AbstractBluntWeapon implements BluntWeapon, Item
+public class Plunger extends AbstractBluntWeapon implements BluntWeapon, Item
 {
 	/**
 	 * Creates a new {@link Plunger}.
@@ -32,5 +31,4 @@ public class Plunger  extends AbstractBluntWeapon implements BluntWeapon, Item
 	{
 		return "The smell alone is dangerous.";
 	}
-
 }

@@ -1,10 +1,10 @@
 package textadventure.items.weapons;
 
-
 import textadventure.items.Item;
 
 public class Knife extends AbstractEdgedWeapon implements StabWeapon, EdgedWeapon, Item
 {
+
 	/**
 	 * Creates a new {@link Knife}.
 	 */

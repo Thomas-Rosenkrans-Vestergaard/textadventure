@@ -1,8 +1,7 @@
 package textadventure.items.chest;
 
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
-import textadventure.ui.GameInterface;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to close a {@link Chest}.
@@ -11,38 +10,30 @@ public class CloseChestAction extends ChestAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link CloseChestAction}.
-	 */
-	private ActionPerformCallback<CloseChestAction> callback;
-
-	/**
 	 * Creates a new {@link CloseChestAction}.
 	 *
-	 * @param chest    The {@link Chest} to be closed.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link CloseChestAction}.
+	 * @param chest The {@link Chest} to be closed.
 	 */
-	public CloseChestAction(Chest chest, ActionPerformCallback<CloseChestAction> callback)
+	public CloseChestAction(Chest chest)
 	{
 		super(chest);
-
-		this.callback = callback;
 	}
 
 	/**
 	 * Performs the {@link CloseChestAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link CloseChestAction}.
-	 * @param arguments     The arguments provided to the {@link CloseChestAction}.
+	 * @param character The {@link Character} performing the {@link CloseChestAction}.
+	 * @param arguments The arguments provided to the {@link CloseChestAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link CloseChestAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		Chest       chest = getChest();
 		Chest.State state = chest.getState();
 
 		if (state == Chest.State.CLOSED) {
 			setException(new ChestAlreadyClosedException(chest));
-			callback.send(character, this);
+			responses.onCloseChestAction(character, this);
 			return;
 		}
 
@@ -52,8 +43,11 @@ public class CloseChestAction extends ChestAction
 			} catch (Exception e) {
 				setException(e);
 			} finally {
-				callback.send(character, this);
+				responses.onCloseChestAction(character, this);
+				return;
 			}
 		}
+
+		throw new UnsupportedOperationException();
 	}
 }

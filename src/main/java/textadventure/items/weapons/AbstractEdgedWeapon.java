@@ -12,7 +12,7 @@ public abstract class AbstractEdgedWeapon extends AbstractWeapon implements Edge
 	private int numberOfTimesSharpened;
 
 	/**
-	 * Integar representing the damage the {@link Weapon} does.
+	 * The amount of damage done by the {@link Weapon}.
 	 */
 	public AbstractEdgedWeapon(int damage)
 	{
@@ -33,5 +33,6 @@ public abstract class AbstractEdgedWeapon extends AbstractWeapon implements Edge
 		}
 
 		damage += 5;
+		numberOfTimesSharpened++;
 	}
 }

@@ -1,8 +1,8 @@
 package textadventure.lock;
 
 import com.google.common.collect.ImmutableSet;
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.*;
 
@@ -14,53 +14,40 @@ public class LockLockAction extends LockAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link LockLockAction}.
-	 */
-	private ActionPerformCallback<LockLockAction> callback;
-
-	/**
 	 * Creates a new {@link LockLockAction}.
 	 *
-	 * @param lock     The {@link Lock} to execute the {@link LockLockAction} on.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link LockLockAction}.
+	 * @param lock The {@link Lock} to execute the {@link LockLockAction} on.
 	 */
-	public LockLockAction(Lock lock, ActionPerformCallback<LockLockAction> callback)
+	public LockLockAction(Lock lock)
 	{
 		super(lock);
-
-		this.callback = callback;
 	}
 
 	/**
 	 * Performs the {@link LockLockAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link LockLockAction}.
-	 * @param arguments     The arguments provided to the {@link LockLockAction}.
+	 * @param character The {@link Character} performing the {@link LockLockAction}.
+	 * @param arguments The arguments provided to the {@link LockLockAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link LockLockAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
-		Lock.State state = lock.getState();
+		try {
 
-		if (state == Lock.State.LOCKED) {
-			setException(new LockAlreadyLockedException(lock));
-			callback.send(character, this);
-			return;
-		}
+			Lock.State state = lock.getState();
 
-		if (state == Lock.State.UNLOCKED) {
+			if (state == Lock.State.LOCKED) {
+				setException(new LockAlreadyLockedException(lock));
+				responses.onLockLockAction(character, this);
+				return;
+			}
 
-			try {
+			if (state == Lock.State.UNLOCKED) {
 
 				Backpack                  backpack = character.getBackpack();
 				ImmutableSet<Option<Key>> options  = backpack.asOptions(Key.class);
 				Select<Key> select = new BaseSelect<>(options, 1, selection -> {
-
-					try {
-						lock.lock(selection.get(0).getT());
-					} catch (Exception e) {
-						setException(e);
-					}
+					lock.lock(selection.get(0).getT());
 				});
 
 				if (arguments.length == 1) {
@@ -68,15 +55,18 @@ public class LockLockAction extends LockAction
 					return;
 				}
 
-				gameInterface.select(character, select);
+				character.getFaction().getLeader().select(select);
 
-			} catch (UnknownIndexException e) {
-				setException(new SelectionNotKeyException());
-			} catch (Exception e) {
-				setException(e);
-			} finally {
-				callback.send(character, this);
 			}
+
+		} catch (SelectResponseException e) {
+			setException(e.getCause());
+		} catch (UnknownIndexException e) {
+			setException(new SelectionNotKeyException());
+		} catch (Exception e) {
+			setException(e);
+		} finally {
+			responses.onLockLockAction(character, this);
 		}
 	}
 }

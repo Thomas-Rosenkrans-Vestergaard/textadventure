@@ -1,25 +1,39 @@
 package textadventure.actions;
 
+import textadventure.characters.Character;
+
 import java.util.function.Consumer;
 
+/**
+ * An abstract class implementing the {@link Action} interface. Method besides
+ * {@link Action#perform(Character, String[], ActionResponses)} are all implemented. The state of the {@link Action} should be
+ * reset on each call from {@link Action#perform(Character, String[], ActionResponses)}.
+ */
 public abstract class AbstractAction implements Action
 {
 
 	/**
-	 * The {@link Exception} that was thrown during execution of the {@link Action}.
+	 * Stores the exception thrown while performing the {@link Action}. The field remains null if the {@link Action}
+	 * performs without exception.
 	 */
-	private Exception exception;
+	protected Exception exception;
 
 	/**
-	 * Provides some code to call when the {@link Action} succeeded. The {@link Action} was successful when no
-	 * {@link Exception} was thrown.
-	 *
-	 * @param callback The code to call if the {@link Action} succeeded.
+	 * Resets the {@link Action} to its default state.
 	 */
-	@Override public void onSuccess(Runnable callback)
+	@Override public void reset()
 	{
-		if (exception == null)
-			callback.run();
+		this.exception = null;
+	}
+
+	/**
+	 * Invokes the provided {@link Runnable} provided the {@link Action} has no exceptions.
+	 *
+	 * @param runnable
+	 */
+	@Override public void onSuccess(Runnable runnable)
+	{
+		if (exception == null) runnable.run();
 	}
 
 	/**

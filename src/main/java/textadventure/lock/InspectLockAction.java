@@ -1,8 +1,7 @@
 package textadventure.lock;
 
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
-import textadventure.ui.GameInterface;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to gather information about a {@link Lock}.
@@ -11,32 +10,24 @@ public class InspectLockAction extends LockAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectLockAction}.
-	 */
-	private ActionPerformCallback<InspectLockAction> callback;
-
-	/**
 	 * Creates a new {@link InspectLockAction}.
 	 *
-	 * @param lock     The {@link Lock} to execute the {@link InspectLockAction} on.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link InspectLockAction}.
+	 * @param lock The {@link Lock} to execute the {@link InspectLockAction} on.
 	 */
-	public InspectLockAction(Lock lock, ActionPerformCallback<InspectLockAction> callback)
+	public InspectLockAction(Lock lock)
 	{
 		super(lock);
-
-		this.callback = callback;
 	}
 
 	/**
 	 * Performs the {@link InspectLockAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link InspectLockAction}.
-	 * @param arguments     The arguments provided to the {@link InspectLockAction}.
+	 * @param character The {@link Character} performing the {@link InspectLockAction}.
+	 * @param arguments The arguments provided to the {@link InspectLockAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectLockAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
-		callback.send(character, this);
+		responses.onInspectLockAction(character, this);
 	}
 }

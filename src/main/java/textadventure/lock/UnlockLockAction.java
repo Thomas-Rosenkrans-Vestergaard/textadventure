@@ -1,8 +1,8 @@
 package textadventure.lock;
 
 import com.google.common.collect.ImmutableSet;
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.*;
 
@@ -10,36 +10,28 @@ public class UnlockLockAction extends LockAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link UnlockLockAction}.
-	 */
-	private ActionPerformCallback<UnlockLockAction> callback;
-
-	/**
 	 * Creates a new {@link UnlockLockAction}.
 	 *
-	 * @param lock     The {@link Lock} to execute the {@link UnlockLockAction} on.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link UnlockLockAction}.
+	 * @param lock The {@link Lock} to execute the {@link UnlockLockAction} on.
 	 */
-	public UnlockLockAction(Lock lock, ActionPerformCallback<UnlockLockAction> callback)
+	public UnlockLockAction(Lock lock)
 	{
 		super(lock);
-
-		this.callback = callback;
 	}
 
 	/**
 	 * Performs the {@link UnlockLockAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link UnlockLockAction}.
-	 * @param arguments     The arguments provided to the {@link UnlockLockAction}.
+	 * @param character The {@link Character} performing the {@link UnlockLockAction}.
+	 * @param arguments The arguments provided to the {@link UnlockLockAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link UnlockLockAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		Lock.State state = lock.getState();
 		if (state == Lock.State.UNLOCKED) {
 			setException(new LockAlreadyUnlockedException(lock));
-			callback.send(character, this);
+			responses.onUnlockLockAction(character, this);
 			return;
 		}
 
@@ -51,12 +43,7 @@ public class UnlockLockAction extends LockAction
 			try {
 
 				Select<Key> select = new BaseSelect<>(options, 1, selection -> {
-
-					try {
-						lock.unlock(selection.get(0).getT());
-					} catch (Exception e) {
-						setException(e);
-					}
+					lock.unlock(selection.get(0).getT());
 				});
 
 				if (arguments.length == 1) {
@@ -64,14 +51,16 @@ public class UnlockLockAction extends LockAction
 					return;
 				}
 
-				gameInterface.select(character, select);
+				character.getFaction().getLeader().select(select);
 
+			} catch (SelectResponseException e) {
+				setException(e.getCause());
 			} catch (UnknownIndexException e) {
 				setException(new SelectionNotKeyException());
 			} catch (Exception e) {
 				setException(e);
 			} finally {
-				callback.send(character, this);
+				responses.onUnlockLockAction(character, this);
 			}
 		}
 	}

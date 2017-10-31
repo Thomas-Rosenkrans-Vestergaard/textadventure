@@ -1,23 +1,18 @@
 package textadventure.combat;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.characters.Character;
 import textadventure.actions.AbstractAction;
-import textadventure.actions.ActionPerformCallback;
-import textadventure.lock.LockLockAction;
+import textadventure.actions.ActionResponses;
+import textadventure.characters.Character;
 import textadventure.rooms.Room;
-import textadventure.ui.*;
+import textadventure.ui.BaseOption;
+import textadventure.ui.Option;
 
 /**
  * Allows one {@link Character} to attack another.
  */
 public class AttackAction extends AbstractAction
 {
-
-	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link LockLockAction}.
-	 */
-	private ActionPerformCallback<AttackAction> callback;
 
 	/**
 	 * The target of the {@link AttackAction}.
@@ -30,45 +25,36 @@ public class AttackAction extends AbstractAction
 	private int damageDone;
 
 	/**
-	 * Creates a new {@link AttackAction}.
-	 *
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link LockLockAction}.
+	 * Resets the {@link AttackAction} to its default state.
 	 */
-	public AttackAction(ActionPerformCallback<AttackAction> callback)
+	@Override public void reset()
 	{
-		this.callback = callback;
+		this.exception = null;
+		this.target = null;
+		this.damageDone = 0;
 	}
 
 	/**
 	 * Performs the {@link AttackAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link AttackAction}.
-	 * @param arguments     The arguments provided to the {@link AttackAction}.
+	 * @param character The {@link Character} performing the {@link AttackAction}.
+	 * @param arguments The arguments provided to the {@link AttackAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link AttackAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
-		try {
-			Room                            currentLocation = character.getCurrentLocation();
-			ImmutableSet<Option<Character>> attackable      = getOptions(currentLocation, character.getFaction());
-			Select<Character> select = new BaseSelect<>(attackable, selection -> {
-				Character target = selection.get(0).getT();
-				if (target.getFaction() == character.getFaction()) {
-					setException(new FriendlyTargetException(character, target));
-					return;
-				}
+		Faction faction         = character.getFaction();
+		Room    currentLocation = character.getCurrentLocation();
 
-				this.damageDone = target.takeDamage(character.getWeapon());
-				this.target = target;
-			});
-
-			gameInterface.select(character, select);
-
-		} catch (Exception e) {
-			setException(e);
-		} finally {
-			callback.send(character, this);
+		if (faction == target.getFaction()) {
+			setException(new IncorrectTargetException(character, target));
+			responses.onAttackAction(character, this);
+			return;
 		}
+
+		ImmutableSet<Option<Character>> options = getOptions(currentLocation, faction);
+
 	}
 
 	/**
@@ -95,6 +81,7 @@ public class AttackAction extends AbstractAction
 	 *
 	 * @return The target of the {@link AttackAction}.
 	 */
+
 	public Character getTarget()
 	{
 		return this.target;

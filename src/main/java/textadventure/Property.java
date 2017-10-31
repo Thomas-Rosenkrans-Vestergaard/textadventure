@@ -21,8 +21,8 @@ public interface Property
 	/**
 	 * Returns the {@link Action} with the provided name.
 	 *
-	 * @param name The <code>name</code> of the {@link Action} to return.
-	 * @return The {@link Action} with the provided <code>name</code>. Returns <code>null</code>
+	 * @param name The name of the {@link Action} to return.
+	 * @return The {@link Action} with the provided name.
 	 */
 	Action getAction(String name);
 

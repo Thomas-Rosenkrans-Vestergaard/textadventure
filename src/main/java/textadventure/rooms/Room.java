@@ -1,8 +1,8 @@
 package textadventure.rooms;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.characters.Character;
 import textadventure.PropertyContainer;
+import textadventure.characters.Character;
 
 public interface Room extends PropertyContainer
 {

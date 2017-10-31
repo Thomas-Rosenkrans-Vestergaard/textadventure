@@ -2,14 +2,14 @@ package textadventure.items.chest;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.actions.ActionPerformCallback;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.ui.BaseSelect;
-import textadventure.ui.GameInterface;
 import textadventure.ui.Option;
 import textadventure.ui.Select;
+import textadventure.ui.SelectResponseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +22,6 @@ public class DepositItemsIntoChestAction extends ChestAction
 {
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link DepositItemsIntoChestAction}.
-	 */
-	private ActionPerformCallback<DepositItemsIntoChestAction> callback;
-
-	/**
 	 * The {@link Item}s that were successfully moved.
 	 */
 	private List<Item> items = new ArrayList<>();
@@ -34,31 +29,38 @@ public class DepositItemsIntoChestAction extends ChestAction
 	/**
 	 * Creates a new {@link DepositItemsIntoChestAction}.
 	 *
-	 * @param chest    The {@link Chest} to deposit {@link Item}s into.
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link DepositItemsIntoChestAction}.
+	 * @param chest The {@link Chest} to deposit {@link Item}s into.
 	 */
-	public DepositItemsIntoChestAction(Chest chest, ActionPerformCallback<DepositItemsIntoChestAction> callback)
+	public DepositItemsIntoChestAction(Chest chest)
 	{
 		super(chest);
+	}
 
-		this.callback = callback;
+	/**
+	 * Resets the {@link DepositItemsIntoChestAction} to its default state.
+	 */
+	@Override public void reset()
+	{
+		this.exception = null;
+		this.chest = null;
+		this.items = null;
 	}
 
 	/**
 	 * Performs the {@link DepositItemsIntoChestAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link DepositItemsIntoChestAction}.
-	 * @param arguments     The arguments provided to the {@link DepositItemsIntoChestAction}.
+	 * @param character The {@link Character} performing the {@link DepositItemsIntoChestAction}.
+	 * @param arguments The arguments provided to the {@link DepositItemsIntoChestAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link DepositItemsIntoChestAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		Chest.State state    = chest.getState();
 		Backpack    backpack = character.getBackpack();
 
 		if (state == Chest.State.CLOSED) {
 			setException(new ChestClosedException(chest));
-			callback.send(character, this);
+			responses.onDepositItemsIntoChestAction(character, this);
 			return;
 		}
 
@@ -66,17 +68,11 @@ public class DepositItemsIntoChestAction extends ChestAction
 
 			ImmutableSet<Option<Item>> options = backpack.asOptions(Item.class);
 			Select<Item> select = new BaseSelect<>(options, selection -> {
-
-				try {
-					for (Option option : selection) {
-						Item currentItem = backpack.getItem(option.getOptionIndex());
-						this.items.add(currentItem);
-						chest.addItem(currentItem);
-						backpack.takeItem(option.getOptionIndex());
-					}
-
-				} catch (Exception e) {
-					setException(e);
+				for (Option option : selection) {
+					Item currentItem = backpack.getItem(option.getOptionIndex());
+					this.items.add(currentItem);
+					chest.addItem(currentItem);
+					backpack.takeItem(option.getOptionIndex());
 				}
 			});
 
@@ -87,12 +83,14 @@ public class DepositItemsIntoChestAction extends ChestAction
 				return;
 			}
 
-			gameInterface.select(character, select);
+			character.getFaction().getLeader().select(select);
 
+		} catch (SelectResponseException e) {
+			setException(e.getCause());
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(character, this);
+			responses.onDepositItemsIntoChestAction(character, this);
 		}
 	}
 

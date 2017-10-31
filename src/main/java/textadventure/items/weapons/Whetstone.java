@@ -6,9 +6,9 @@ public class Whetstone implements Item
 {
 
 	/**
-	 * Returns the name of the {@link ItemType}.
+	 * Returns the name of the {@link Whetstone}.
 	 *
-	 * @return The name of the {@link ItemType}.
+	 * @return The name of the {@link Whetstone}.
 	 */
 	@Override public String getItemTypeName()
 	{
@@ -16,12 +16,12 @@ public class Whetstone implements Item
 	}
 
 	/**
-	 * Returns the description of the {@link ItemType}.
+	 * Returns the description of the {@link Whetstone}.
 	 *
-	 * @return The description of the {@link ItemType}.
+	 * @return The description of the {@link Whetstone}.
 	 */
 	@Override public String getItemTypeDescription()
 	{
-		return "Sharpen your edgedweapon";
+		return "Sharpen your edged weapons.";
 	}
 }

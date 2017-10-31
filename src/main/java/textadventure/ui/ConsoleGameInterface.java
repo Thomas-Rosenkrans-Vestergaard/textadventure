@@ -8,10 +8,7 @@ import textadventure.actions.ActionRequestCallback;
 import textadventure.characters.Character;
 import textadventure.characters.CharacterInformation;
 import textadventure.characters.CharacterInformationAction;
-import textadventure.combat.DamageSource;
-import textadventure.combat.Escapees;
-import textadventure.combat.Faction;
-import textadventure.combat.SecretPolice;
+import textadventure.combat.*;
 import textadventure.doors.*;
 import textadventure.items.*;
 import textadventure.items.backpack.DropItemAction;
@@ -48,7 +45,7 @@ public class ConsoleGameInterface implements GameInterface
 			roomController.add(Coordinate.of(2, 1), new BaseRoom("Room (2,1)", "This small chamber seems divided into three parts. The first has several hooks on the walls from which hang dusty robes. An open curtain separates that space from the next, which has a dry basin set in the floor. In the northern part of the room is a door."));
 
 			roomController.add(Coordinate.of(4, 1), new BaseRoom("Room (4,1)", "A horrendous, overwhelming stench wafts from the room before you. Small cages containing small animals and large insects line the walls. Some of the creatures look sickly and alive but most are clearly dead. Their rotting corpses and the unclean cages no doubt result in the zoo's foul odor. A cat mews weakly from its cage, but the other creatures just silently shrink back into their filthy prisons. A dusty military sits in the corner of the room. In the northern part of the room is a door."));
-			Chest chest = chestFactory(10, Chest.State.CLOSED, lockFactory("KLY4SW", LOCKED, gameInterface), gameInterface);
+			Chest chest = chestFactory(10, Chest.State.CLOSED, lockFactory("KLY4SW", LOCKED));
 			chest.addItem(new Key("KZSE6X"));
 			roomController.get(Coordinate.of(4, 1)).addProperty("chest", chest);
 			roomController.get(Coordinate.of(4, 1)).getRoomFloor().addItem(new Key("KLY4SW"));
@@ -95,105 +92,105 @@ public class ConsoleGameInterface implements GameInterface
 			final String WEST_DOOR_NAME  = "west";
 
 			Door door;
-			door = doorFactory(OPEN, lockFactory("K5YUZB", UNLOCKED, gameInterface), roomController.get(Coordinate.of(2, 1)), roomController.get(Coordinate.of(2, 2)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("K5YUZB", UNLOCKED), roomController.get(Coordinate.of(2, 1)), roomController.get(Coordinate.of(2, 2)));
 			roomController.get(Coordinate.of(2, 1)).addProperty(NORTH_DOOR_NAME, door);
 			roomController.get(Coordinate.of(2, 2)).addProperty(SOUTH_DOOR_NAME, door);
 
 
-			door = doorFactory(CLOSED, lockFactory("KZSE6X", LOCKED, gameInterface), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 2)), gameInterface);
+			door = doorFactory(CLOSED, lockFactory("KZSE6X", LOCKED), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 2)));
 			roomController.get(Coordinate.of(4, 1)).addProperty(NORTH_DOOR_NAME, door);
 			roomController.get(Coordinate.of(4, 2)).addProperty(SOUTH_DOOR_NAME, door);
 
 			// Horizontal
 
-			door = doorFactory(OPEN, lockFactory("KN68LL", UNLOCKED, gameInterface), roomController.get(Coordinate.of(2, 2)), roomController.get(Coordinate.of(3, 2)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KN68LL", UNLOCKED), roomController.get(Coordinate.of(2, 2)), roomController.get(Coordinate.of(3, 2)));
 			roomController.get(Coordinate.of(2, 2)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(3, 2)).addProperty(WEST_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("KXICTX", UNLOCKED, gameInterface), roomController.get(Coordinate.of(3, 2)), roomController.get(Coordinate.of(4, 2)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KXICTX", UNLOCKED), roomController.get(Coordinate.of(3, 2)), roomController.get(Coordinate.of(4, 2)));
 			roomController.get(Coordinate.of(3, 2)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(4, 2)).addProperty(WEST_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("KMV3F1", UNLOCKED, gameInterface), roomController.get(Coordinate.of(4, 2)), roomController.get(Coordinate.of(5, 2)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KMV3F1", UNLOCKED), roomController.get(Coordinate.of(4, 2)), roomController.get(Coordinate.of(5, 2)));
 			roomController.get(Coordinate.of(4, 2)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(5, 2)).addProperty(WEST_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("KTJX8C", UNLOCKED, gameInterface), roomController.get(Coordinate.of(5, 2)), roomController.get(Coordinate.of(6, 2)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KTJX8C", UNLOCKED), roomController.get(Coordinate.of(5, 2)), roomController.get(Coordinate.of(6, 2)));
 			roomController.get(Coordinate.of(5, 2)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(6, 2)).addProperty(WEST_DOOR_NAME, door);
 
 			// Vertical
 
-			door = doorFactory(OPEN, lockFactory("K1WIWL", UNLOCKED, gameInterface), roomController.get(Coordinate.of(2, 2)), roomController.get(Coordinate.of(2, 3)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("K1WIWL", UNLOCKED), roomController.get(Coordinate.of(2, 2)), roomController.get(Coordinate.of(2, 3)));
 			roomController.get(Coordinate.of(2, 2)).addProperty(NORTH_DOOR_NAME, door);
 			roomController.get(Coordinate.of(2, 3)).addProperty(SOUTH_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("K8BGK7", UNLOCKED, gameInterface), roomController.get(Coordinate.of(3, 2)), roomController.get(Coordinate.of(3, 3)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("K8BGK7", UNLOCKED), roomController.get(Coordinate.of(3, 2)), roomController.get(Coordinate.of(3, 3)));
 			roomController.get(Coordinate.of(3, 2)).addProperty(NORTH_DOOR_NAME, door);
 			roomController.get(Coordinate.of(3, 3)).addProperty(SOUTH_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("K3DNE6", UNLOCKED, gameInterface), roomController.get(Coordinate.of(5, 2)), roomController.get(Coordinate.of(5, 3)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("K3DNE6", UNLOCKED), roomController.get(Coordinate.of(5, 2)), roomController.get(Coordinate.of(5, 3)));
 			roomController.get(Coordinate.of(5, 2)).addProperty(NORTH_DOOR_NAME, door);
 			roomController.get(Coordinate.of(5, 3)).addProperty(SOUTH_DOOR_NAME, door);
 
 			// Horizontal
 
-			door = doorFactory(OPEN, lockFactory("KT6UH3", UNLOCKED, gameInterface), roomController.get(Coordinate.of(2, 3)), roomController.get(Coordinate.of(3, 3)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KT6UH3", UNLOCKED), roomController.get(Coordinate.of(2, 3)), roomController.get(Coordinate.of(3, 3)));
 			roomController.get(Coordinate.of(2, 3)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(3, 3)).addProperty(WEST_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("KB71RC", UNLOCKED, gameInterface), roomController.get(Coordinate.of(3, 3)), roomController.get(Coordinate.of(4, 3)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KB71RC", UNLOCKED), roomController.get(Coordinate.of(3, 3)), roomController.get(Coordinate.of(4, 3)));
 			roomController.get(Coordinate.of(3, 3)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(4, 3)).addProperty(WEST_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("KJ8O29", UNLOCKED, gameInterface), roomController.get(Coordinate.of(4, 3)), roomController.get(Coordinate.of(5, 3)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KJ8O29", UNLOCKED), roomController.get(Coordinate.of(4, 3)), roomController.get(Coordinate.of(5, 3)));
 			roomController.get(Coordinate.of(4, 3)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(5, 3)).addProperty(WEST_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("KOOKW5", UNLOCKED, gameInterface), roomController.get(Coordinate.of(5, 3)), roomController.get(Coordinate.of(6, 3)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KOOKW5", UNLOCKED), roomController.get(Coordinate.of(5, 3)), roomController.get(Coordinate.of(6, 3)));
 			roomController.get(Coordinate.of(5, 3)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(6, 3)).addProperty(WEST_DOOR_NAME, door);
 
 			// Vertical
 
-			door = doorFactory(OPEN, lockFactory("KAT55Y", UNLOCKED, gameInterface), roomController.get(Coordinate.of(2, 3)), roomController.get(Coordinate.of(2, 4)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KAT55Y", UNLOCKED), roomController.get(Coordinate.of(2, 3)), roomController.get(Coordinate.of(2, 4)));
 			roomController.get(Coordinate.of(2, 3)).addProperty(NORTH_DOOR_NAME, door);
 			roomController.get(Coordinate.of(2, 4)).addProperty(SOUTH_DOOR_NAME, door);
 
 			// Horizontal
 
-			door = doorFactory(OPEN, lockFactory("KDV046", UNLOCKED, gameInterface), roomController.get(Coordinate.of(1, 4)), roomController.get(Coordinate.of(2, 4)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KDV046", UNLOCKED), roomController.get(Coordinate.of(1, 4)), roomController.get(Coordinate.of(2, 4)));
 			roomController.get(Coordinate.of(1, 4)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(2, 4)).addProperty(WEST_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("K08L4C", UNLOCKED, gameInterface), roomController.get(Coordinate.of(2, 4)), roomController.get(Coordinate.of(3, 4)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("K08L4C", UNLOCKED), roomController.get(Coordinate.of(2, 4)), roomController.get(Coordinate.of(3, 4)));
 			roomController.get(Coordinate.of(2, 4)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(3, 4)).addProperty(WEST_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("KOME75", UNLOCKED, gameInterface), roomController.get(Coordinate.of(3, 4)), roomController.get(Coordinate.of(4, 4)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KOME75", UNLOCKED), roomController.get(Coordinate.of(3, 4)), roomController.get(Coordinate.of(4, 4)));
 			roomController.get(Coordinate.of(3, 4)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(4, 4)).addProperty(WEST_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("KPQXPS", UNLOCKED, gameInterface), roomController.get(Coordinate.of(4, 4)), roomController.get(Coordinate.of(5, 4)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KPQXPS", UNLOCKED), roomController.get(Coordinate.of(4, 4)), roomController.get(Coordinate.of(5, 4)));
 			roomController.get(Coordinate.of(4, 4)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(5, 4)).addProperty(WEST_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("K3ZH4R", UNLOCKED, gameInterface), roomController.get(Coordinate.of(5, 4)), roomController.get(Coordinate.of(6, 4)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("K3ZH4R", UNLOCKED), roomController.get(Coordinate.of(5, 4)), roomController.get(Coordinate.of(6, 4)));
 			roomController.get(Coordinate.of(5, 4)).addProperty(EAST_DOOR_NAME, door);
 			roomController.get(Coordinate.of(6, 4)).addProperty(WEST_DOOR_NAME, door);
 
 			// Vertical
 
-			door = doorFactory(OPEN, lockFactory("KEFVH2", UNLOCKED, gameInterface), roomController.get(Coordinate.of(3, 4)), roomController.get(Coordinate.of(3, 5)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KEFVH2", UNLOCKED), roomController.get(Coordinate.of(3, 4)), roomController.get(Coordinate.of(3, 5)));
 			roomController.get(Coordinate.of(3, 4)).addProperty(NORTH_DOOR_NAME, door);
 			roomController.get(Coordinate.of(3, 5)).addProperty(SOUTH_DOOR_NAME, door);
 
-			door = doorFactory(OPEN, lockFactory("KVW42D", UNLOCKED, gameInterface), roomController.get(Coordinate.of(4, 4)), roomController.get(Coordinate.of(4, 5)), gameInterface);
+			door = doorFactory(OPEN, lockFactory("KVW42D", UNLOCKED), roomController.get(Coordinate.of(4, 4)), roomController.get(Coordinate.of(4, 5)));
 			roomController.get(Coordinate.of(4, 4)).addProperty(NORTH_DOOR_NAME, door);
 			roomController.get(Coordinate.of(4, 5)).addProperty(SOUTH_DOOR_NAME, door);
 
-			Game game = new Game(gameInterface, roomController, 1);
-			game.addFaction(new Escapees(new HumanPlayer(), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 5))));
+			Game game = new Game(roomController, 1);
+			game.addFaction(new Escapees(new HumanPlayer(gameInterface), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 5))));
 			game.addFaction(new SecretPolice(new ComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
 			game.start();
 		} catch (UnknownRoomException e) {
@@ -225,40 +222,59 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Called when the {@link Game} is constructed.
+	 * Event for when the {@link Game} starts.
 	 *
-	 * @param game               The newly constructed {@link Game}.
-	 * @param roomController     The {@link RoomController} containing the {@link Room}s in the
-	 *                           {@link Game}.
-	 * @param numberOfCharacters The number {@link java.lang.Character}s in each {@link Faction}.
+	 * @param game     The {@link Game} instance.
+	 * @param factions The list of {@link Faction}s competing in the {@link Game}.
+	 * @param faction  The {@link Faction} the {@link Player} belongs to.
 	 */
-	@Override public void onInit(Game game, RoomController roomController, int numberOfCharacters)
+	@Override public void onGameStart(Game game, ImmutableList<Faction> factions, Faction faction)
 	{
+		printer.println("\n" +
+				" _____                            __                       _   _  _   __  \n" +
+				"|  ___|                          / _|                     | \\ | || | / /  \n" +
+				"| |__ ___  ___ __ _ _ __   ___  | |_ _ __ ___  _ __ ___   |  \\| || |/ /   \n" +
+				"|  __/ __|/ __/ _` | '_ \\ / _ \\ |  _| '__/ _ \\| '_ ` _ \\  | . ` ||    \\   \n" +
+				"| |__\\__ \\ (_| (_| | |_) |  __/ | | | | | (_) | | | | | | | |\\  || |\\  \\_ \n" +
+				"\\____/___/\\___\\__,_| .__/ \\___| |_| |_|  \\___/|_| |_| |_| \\_| \\_/\\_| \\_(_)\n" +
+				"                   | |                                                    \n" +
+				"                   |_|                                                    ");
 
+		showInstructions();
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println();
+		printer.println("       STORY");
+		printer.println();
+		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println();
+		showCommands();
+		showProperties();
+		showActions();
+		printer.println();
+		printer.println(faction.getStartingMessage());
+		printer.println(faction.getStartingRoom().getRoomDescription());
 	}
 
 	/**
-	 * Called when a new {@link Faction} joins the {@link Game}.
+	 * Event for when the {@link Game} ends.
 	 *
-	 * @param game    The {@link Game} instance.
-	 * @param faction The {@link Faction}.
+	 * @param game   The {@link Game} instance.
+	 * @param result The result of the {@link Game}.
 	 */
-	@Override public void onFactionJoin(Game game, Faction faction)
+	@Override public void onGameEnd(Game game, boolean result)
 	{
-		printer.println("Faction " + faction.getLeader());
+		printer.println(String.format("You %s.", result ? "won" : "loss"));
 	}
 
 	/**
-	 * Lets the {@link Player} create the {@link Character} they control.
+	 * Events called when the {@link Player} should create their {@link Character}s.
 	 *
-	 * @param player             The {@link Player} creating the {@link Character}s.
 	 * @param numberOfCharacters The number of {@link Character}s to create.
-	 * @param creationCallback   The callback to use to add a {@link Character} creation.
-	 * @param finishCallback     The callback to use to finish the {@link Character} creation.
+	 * @param creationCallback   The callback to use to create {@link Character}s.
+	 * @param finishCallback     The callback to use when finishing creating {@link Character}s.
 	 */
 	@Override
-	public void onCharacterCreation(Player player, int numberOfCharacters, CharacterCreationCallback creationCallback,
-	                                FinishCharacterCreationCallback finishCallback)
+	public void onCharactersCreate(int numberOfCharacters, CharacterCreationCallback creationCallback, FinishCharacterCreationCallback finishCallback)
 	{
 		printer.println(String.format("You must now create your characters. You must create %d characters.",
 				numberOfCharacters));
@@ -310,79 +326,63 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Called when the {@link Game} starts.
+	 * Event for when a new {@link Character} is created.
 	 *
-	 * @param game The {@link Game} instance.
+	 * @param character The {@link Character} who was created.
 	 */
-	@Override
-	public void onGameStart(Game game, Faction faction)
-	{
-		printer.println("\n" +
-				" _____                            __                       _   _  _   __  \n" +
-				"|  ___|                          / _|                     | \\ | || | / /  \n" +
-				"| |__ ___  ___ __ _ _ __   ___  | |_ _ __ ___  _ __ ___   |  \\| || |/ /   \n" +
-				"|  __/ __|/ __/ _` | '_ \\ / _ \\ |  _| '__/ _ \\| '_ ` _ \\  | . ` ||    \\   \n" +
-				"| |__\\__ \\ (_| (_| | |_) |  __/ | | | | | (_) | | | | | | | |\\  || |\\  \\_ \n" +
-				"\\____/___/\\___\\__,_| .__/ \\___| |_| |_|  \\___/|_| |_| |_| \\_| \\_/\\_| \\_(_)\n" +
-				"                   | |                                                    \n" +
-				"                   |_|                                                    ");
-
-		showInstructions();
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
-		printer.println();
-		printer.println("       STORY");
-		printer.println();
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
-		printer.println();
-		showCommands();
-		showProperties();
-		showActions();
-		printer.println();
-		printer.println(faction.getStartingMessage());
-		printer.println(faction.getStartingRoom().getRoomDescription());
-	}
-
-	/**
-	 * Called when the {@link Game} ends.
-	 *
-	 * @param game    The {@link Game} instance.
-	 * @param faction The {@link Faction}.
-	 * @param result  The result for the {@link Faction}. True for win, false for less.
-	 */
-	@Override public void onGameEnd(Game game, Faction faction, boolean result)
-	{
-		System.out.println("The game ended " + faction.getClass().getSimpleName() + result);
-	}
-
-	@Override public void onCharacterDies(Player player, Character character, DamageSource damageSource)
-	{
-		printer.println(String.format("%s died from %s.", character.getName(), damageSource.getClass().getSimpleName()));
-	}
-
-	/**
-	 * Event when a {@link Player} starts their turn.
-	 *
-	 * @param game    The {@link Game} instance.
-	 * @param faction The {@link Faction} whose turn it is.
-	 */
-	@Override public void onTurnStart(Game game, Faction faction)
+	@Override public void onCharacterCreation(Character character)
 	{
 
 	}
 
 	/**
-	 * Event when a {@link Player} ends their turn.
+	 * Event for when a {@link Character} is attacked using an {@link AttackAction}.
 	 *
-	 * @param game    The {@link Game} instance.
-	 * @param faction The {@link Faction} whose turn ended.
+	 * @param character The {@link Character} who was attacked.
+	 * @param action    The {@link AttackAction} instance.
 	 */
-	@Override public void onTurnEnd(Game game, Faction faction)
+	@Override public void onCharacterAttacked(Character character, AttackAction action)
 	{
 
 	}
 
 	/**
-	 * Called when a {@link Character} requests an {@link Action} from the {@link GameInterface}.
+	 * Event for when a {@link Character} dies.
+	 *
+	 * @param character    The {@link Character} who died.
+	 * @param damageSource The {@link DamageSource} that killed them.
+	 */
+	@Override public void onCharacterDies(Character character, DamageSource damageSource)
+	{
+
+	}
+
+	/**
+	 * Event for when a {@link Character} enter a {@link Room}.
+	 *
+	 * @param character The {@link Character} who entered the {@link Room}.
+	 * @param room      The {@link Room} the {@link Character} entered.
+	 * @param door      The {@link Door} the {@link Character} entered through.
+	 */
+	@Override public void onCharacterEntersRoom(Character character, Room room, Door door)
+	{
+
+	}
+
+	/**
+	 * Event for when a {@link Character} exits a {@link Room}.
+	 *
+	 * @param character The {@link Character} who exited the {@link Room}.
+	 * @param room      The {@link Room} the {@link Character} exited.
+	 * @param door      The {@link Door} the {@link Character} exited through.
+	 */
+	@Override public void onCharacterExistsRoom(Character character, Room room, Door door)
+	{
+
+	}
+
+	/**
+	 * Event for when a {@link Character} requests an {@link Action} from the {@link GameInterface}.
 	 *
 	 * @param character The {@link Character} who requests the {@link Action}.
 	 * @param response  The {@link ActionRequestCallback} to send with.
@@ -457,77 +457,151 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Event when a {@link Character} performs the {@link CharacterInformationAction}.
+	 * Event for when the {@link Character} performs the {@link CharacterInformationAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link CharacterInformationAction}.
+	 * @param character The {@link Character} who performed the {@link CharacterInformationAction}.
 	 * @param action    The {@link CharacterInformationAction} instance.
 	 */
-	@Override public void onCharacterInformation(Character character, CharacterInformationAction action)
+	@Override public void onCharacterInformationAction(Character character, CharacterInformationAction action)
 	{
 		CharacterInformation characterInformation = action.getCharacterInformation();
 
-		printer.println(String.format("Name                %s", characterInformation.getName()));
-		printer.println(String.format("Faction             %s", characterInformation.getFaction().getClass().getSimpleName()));
-		printer.println(String.format("HeadWear            %s", characterInformation.getHeadWear()));
-		printer.println(String.format("TorsoWear           %s", characterInformation.getTorsoWear()));
-		printer.println(String.format("Gloves              %s", characterInformation.getGloves()));
-		printer.println(String.format("Pants               %s", characterInformation.getPants()));
-		printer.println(String.format("Boots               %s", characterInformation.getBoots()));
-		printer.println(String.format("Weapon              %s", characterInformation.getWeapon()));
-		printer.println(String.format("Current location    %s", characterInformation.getCurrentLocation().getRoomName()));
-		printer.println(String.format("Current HP          %d", characterInformation.getCurrentHP()));
-		printer.println(String.format("Max HP              %d", characterInformation.getMaxHP()));
-		printer.println(String.format("Level               %d", characterInformation.getLevel()));
-		printer.println(String.format("Sanity              %d", characterInformation.getSanity()));
-		printer.println(String.format("Strength            %d", characterInformation.getStrength()));
-		printer.println(String.format("Dexterity           %d", characterInformation.getDexterity()));
-		printer.println(String.format("Intelligence        %d", characterInformation.getIntelligence()));
-		printer.println(String.format("Stealth             %d", characterInformation.getStealth()));
-		printer.println(String.format("Money               %d", characterInformation.getMoney()));
+		if (!action.hasException()) {
+			printer.println(String.format("Printing information about %s.", character.getName()));
+			printer.println(String.format("\tName                %s", characterInformation.getName()));
+			printer.println(String.format("\tFaction             %s", characterInformation.getFaction().getClass().getSimpleName()));
+			printer.println(String.format("\tProtective factor   %d", characterInformation.getProtectiveFactor()));
+			printer.println(String.format("\tHeadWear            %s", characterInformation.getHeadWear()));
+			printer.println(String.format("\tTorsoWear           %s", characterInformation.getTorsoWear()));
+			printer.println(String.format("\tGloves              %s", characterInformation.getGloves()));
+			printer.println(String.format("\tPants               %s", characterInformation.getPants()));
+			printer.println(String.format("\tBoots               %s", characterInformation.getBoots()));
+			printer.println(String.format("\tWeapon              %s", characterInformation.getWeapon()));
+			printer.println(String.format("\tCurrent location    %s", characterInformation.getCurrentLocation().getRoomName()));
+			printer.println(String.format("\tCurrent HP          %d", characterInformation.getCurrentHP()));
+			printer.println(String.format("\tMax HP              %d", characterInformation.getMaxHP()));
+			printer.println(String.format("\tLevel               %d", characterInformation.getLevel()));
+			printer.println(String.format("\tSanity              %d", characterInformation.getSanity()));
+			printer.println(String.format("\tStrength            %d", characterInformation.getStrength()));
+			printer.println(String.format("\tDexterity           %d", characterInformation.getDexterity()));
+			printer.println(String.format("\tIntelligence        %d", characterInformation.getIntelligence()));
+			printer.println(String.format("\tStealth             %d", characterInformation.getStealth()));
+			printer.println(String.format("\tMoney               %d", characterInformation.getMoney()));
+			return;
+		}
+	}
+
+	/**
+	 * Event for when the {@link Character} performs the {@link UseItemsAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link UseItemsAction}.
+	 * @param action    The {@link UseItemsAction} instance.
+	 */
+	@Override public void onUseItemAction(Character character, UseItemsAction action)
+	{
+		if (!action.hasException()) {
+			printer.println(String.format("%s used item(s):"));
+			for (UsableItem item : action.getItems()) {
+				printer.println(String.format("\tNumber of uses left:           Item name:"));
+				printer.println(String.format("\t%d                             %s         ", item.getNumberOfUsesLeft(), item.getItemTypeName()));
+			}
+
+			return;
+		}
+	}
+
+	/**
+	 * Event for when the {@link Character} performs the {@link EquipAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link EquipAction}.
+	 * @param action    The {@link EquipAction} instance.
+	 */
+	@Override public void onEquipAction(Character character, EquipAction action)
+	{
+		if (!action.hasException()) {
+			printer.println(String.format("Character %s equipped the following items."));
+			for (EquipableItem item : action.getItems())
+				printer.println(String.format("\t%s", item.getItemTypeName()));
+			return;
+		}
+	}
+
+	/**
+	 * Event for when the {@link Character} performs the {@link UnEquipAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link UnEquipAction}.
+	 * @param action    The {@link UnEquipAction} instance.
+	 */
+	@Override public void onUnEquipAction(Character character, UnEquipAction action)
+	{
+		if (!action.hasException()) {
+			printer.println(String.format("Character %s unequipped the following items."));
+			for (EquipableItem item : action.getItems())
+				printer.println(String.format("\t%s", item.getItemTypeName()));
+			return;
+		}
+	}
+
+	/**
+	 * Event for when the {@link Character} performs the {@link AttackAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link AttackAction}.
+	 * @param action    The {@link AttackAction} instance.
+	 */
+	@Override public void onAttackAction(Character character, AttackAction action)
+	{
+		if (!action.hasException()) {
+			printer.println(String.format("%s attacked %s with %s dealing %d damage.", character.getName(), action
+					.getTarget().getName(), character.getWeapon().getItemTypeName(), action.getDamageDone()));
+			return;
+		}
 	}
 
 	/**
 	 * Event when a {@link Character} performs the {@link InspectRoomAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link InspectRoomAction}.
+	 * @param character The {@link Character} who performed the {@link InspectRoomAction}.
 	 * @param action    The {@link InspectRoomAction} instance.
 	 */
-	@Override public void onRoomInspect(Character character, InspectRoomAction action)
+	@Override public void onInspectRoomAction(Character character, InspectRoomAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You inspect the door.");
 			action.getCharacters().forEach(c -> {
 				printer.println(String.format("In the room with you is %s from faction %s.", c.getName(), c
 						.getFaction().toString()));
 			});
-		});
+			return;
+		}
 	}
 
 	/**
 	 * Event when a {@link Character} performs the {@link InspectFloorAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link InspectFloorAction}.
+	 * @param character The {@link Character} who performed the {@link InspectFloorAction}.
 	 * @param action    The {@link InspectFloorAction} instance.
 	 */
-	@Override public void onFloorInspect(Character character, InspectFloorAction action)
+	@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You inspect the floor.");
 			printInventory(action.getFloor());
-		});
+			return;
+		}
 	}
 
 	/**
 	 * Event when a {@link Character} performs the {@link OpenDoorAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link OpenDoorAction}.
+	 * @param character The {@link Character} who performed the {@link OpenDoorAction}.
 	 * @param action    The {@link OpenDoorAction} instance.
 	 */
-	@Override public void onDoorOpen(Character character, OpenDoorAction action)
+	@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You attempted and succeeded in opening the door.");
-		});
+			return;
+		}
 
 		action.onException(DoorAlreadyOpenException.class, e -> {
 			printer.println("You attempted to open the door, even though the door is already open.");
@@ -537,21 +611,20 @@ public class ConsoleGameInterface implements GameInterface
 		action.onException(DoorLockedException.class, e -> {
 			printer.println("You attempted to open the door, but discover that the door is locked.");
 		});
-
-		System.out.println("Exception " + action.getException());
 	}
 
 	/**
 	 * Event when a {@link Character} performs the {@link CloseDoorAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link CloseDoorAction}.
+	 * @param character The {@link Character} who performed the {@link CloseDoorAction}.
 	 * @param action    The {@link CloseDoorAction} instance.
 	 */
-	@Override public void onDoorClose(Character character, CloseDoorAction action)
+	@Override public void onCloseDoorAction(Character character, CloseDoorAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You attempted and succeeded in closing the door.");
-		});
+			return;
+		}
 
 		action.onException(DoorAlreadyClosedException.class, e -> {
 			printer.println("You attempted to close the door, even though the door is already closed.");
@@ -566,15 +639,15 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link UseDoorAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link UseDoorAction}.
+	 * @param character The {@link Character} who performed the {@link UseDoorAction}.
 	 * @param action    The {@link UseDoorAction} instance.
 	 */
-	@Override public void onDoorUse(Character character, UseDoorAction action)
+	@Override public void onUseDoorAction(Character character, UseDoorAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You successfully entered a new room using the door.");
 			printer.println(character.getCurrentLocation().getRoomDescription());
-		});
+		}
 
 		action.onException(DoorClosedException.class, e -> {
 			printer.println("You attempted the use the door, but discover that the door is closed.");
@@ -584,28 +657,30 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link InspectDoorAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link InspectDoorAction}.
+	 * @param character The {@link Character} who performed the {@link InspectDoorAction}.
 	 * @param action    The {@link InspectDoorAction} instance.
 	 */
-	@Override public void onDoorInspect(Character character, InspectDoorAction action)
+	@Override public void onInspectDoorAction(Character character, InspectDoorAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			String doorState = action.getDoor().getState().name().toLowerCase();
 			printer.println(String.format("You inspect the door, learning that the door is %s.", doorState));
-		});
+			return;
+		}
 	}
 
 	/**
 	 * Event when a {@link Character} performs the {@link LockLockAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link LockLockAction}.
+	 * @param character The {@link Character} who performed the {@link LockLockAction}.
 	 * @param action    The {@link LockLockAction} instance.
 	 */
-	@Override public void onLockLock(Character character, LockLockAction action)
+	@Override public void onLockLockAction(Character character, LockLockAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You successfully lock the lock using the provided key.");
-		});
+			return;
+		}
 
 		action.onException(LockAlreadyLockedException.class, e -> {
 			printer.println("You attempted to lock the lock, even though the lock is already locked.");
@@ -629,14 +704,15 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link UnlockLockAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link UnlockLockAction}.
+	 * @param character The {@link Character} who performed the {@link UnlockLockAction}.
 	 * @param action    The {@link UnlockLockAction} instance.
 	 */
-	@Override public void onLockUnlock(Character character, UnlockLockAction action)
+	@Override public void onUnlockLockAction(Character character, UnlockLockAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You successfully unlocked the lock using the provided key.");
-		});
+			return;
+		}
 
 		action.onException(NumberFormatException.class, e -> {
 			printer.println("The provided argument must be an integer.");
@@ -664,12 +740,12 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link InspectLockAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link InspectLockAction}.
+	 * @param character The {@link Character} who performed the {@link InspectLockAction}.
 	 * @param action    The {@link InspectLockAction} instance.
 	 */
-	@Override public void onLockInspect(Character character, InspectLockAction action)
+	@Override public void onInspectLockAction(Character character, InspectLockAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			Lock lock = action.getLock();
 			printer.println(
 					String.format("You inspect the lock learning that the lock is %s. You notice that '%s' is written on the lock.",
@@ -677,20 +753,23 @@ public class ConsoleGameInterface implements GameInterface
 							lock.getCode()
 					)
 			);
-		});
+
+			return;
+		}
 	}
 
 	/**
 	 * Event when a {@link Character} performs the {@link OpenChestAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link OpenChestAction}.
+	 * @param character The {@link Character} who performed the {@link OpenChestAction}.
 	 * @param action    The {@link OpenChestAction} instance.
 	 */
-	@Override public void onChestOpen(Character character, OpenChestAction action)
+	@Override public void onOpenChestAction(Character character, OpenChestAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You successfully opened the chest.");
-		});
+			return;
+		}
 
 		action.onException(ChestAlreadyOpenException.class, e -> {
 			printer.println("You attempted to open the chest, even though the chest is already open.");
@@ -705,14 +784,15 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link CloseChestAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link CloseChestAction}.
+	 * @param character The {@link Character} who performed the {@link CloseChestAction}.
 	 * @param action    The {@link CloseChestAction} instance.
 	 */
-	@Override public void onChestClose(Character character, CloseChestAction action)
+	@Override public void onCloseChestAction(Character character, CloseChestAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You successfully closed the chest.");
-		});
+			return;
+		}
 
 		action.onException(DoorAlreadyClosedException.class, e -> {
 			printer.println("You attempted to close the chest, even though the chest is already closed.");
@@ -727,15 +807,16 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link InspectChestAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link InspectChestAction}.
+	 * @param character The {@link Character} who performed the {@link InspectChestAction}.
 	 * @param action    The {@link InspectChestAction} instance.
 	 */
-	@Override public void onChestInspect(Character character, InspectChestAction action)
+	@Override public void onInspectChestAction(Character character, InspectChestAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You succeed in inspecting the chest.");
 			printInventory(action.getChest());
-		});
+			return;
+		}
 
 		action.onException(ChestClosedException.class, e -> {
 			printer.println("You attempt to inspect the chest, but discover that the chest is closed.");
@@ -745,14 +826,15 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link TakeItemFromChestAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link TakeItemFromChestAction}.
+	 * @param character The {@link Character} who performed the {@link TakeItemFromChestAction}.
 	 * @param action    The {@link TakeItemFromChestAction} instance.
 	 */
-	@Override public void onChestTake(Character character, TakeItemFromChestAction action)
+	@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You succeeded in taking item " + itemListToString(action.getItems()) + " from the chest.");
-		});
+			return;
+		}
 
 		action.onException(ChestClosedException.class, e -> {
 			printer.println("You cannot take items from a closed chest.");
@@ -766,14 +848,15 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link DropItemAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link DropItemAction}.
+	 * @param character The {@link Character} who performed the {@link DropItemAction}.
 	 * @param action    The {@link DropItemAction} instance.
 	 */
-	@Override public void onChestDeposit(Character character, DepositItemsIntoChestAction action)
+	@Override public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You succeeded in depositing item " + itemListToString(action.getItems()) + " into the chest.");
-		});
+			return;
+		}
 
 		action.onException(ChestClosedException.class, e -> {
 			printer.println("You cannot deposit items into a closed chest.");
@@ -787,28 +870,30 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link InspectBackpackAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link InspectBackpackAction}.
+	 * @param character The {@link Character} who performed the {@link InspectBackpackAction}.
 	 * @param action    The {@link InspectBackpackAction} instance.
 	 */
-	@Override public void onBackpackInspect(Character character, InspectBackpackAction action)
+	@Override public void onInspectBackpackAction(Character character, InspectBackpackAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println("You succeed in inspecting your backpack.");
 			printInventory(action.getBackpack());
-		});
+			return;
+		}
 	}
 
 	/**
 	 * Event when a {@link Character} performs the {@link ExpandBackpackAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link ExpandBackpackAction}.
+	 * @param character The {@link Character} who performed the {@link ExpandBackpackAction}.
 	 * @param action    The {@link ExpandBackpackAction} instance.
 	 */
-	@Override public void onBackpackExpand(Character character, ExpandBackpackAction action)
+	@Override public void onExpandBackpackAction(Character character, ExpandBackpackAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			printer.println(String.format("Your backpack was successfully expanded to %d positions.", action.getBackpack().getNumberOfPositions()));
-		});
+			return;
+		}
 
 		action.onException(NumberFormatException.class, e -> {
 			printer.println("The provided argument must be an integer.");
@@ -826,16 +911,17 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link DropItemAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link DropItemAction}.
+	 * @param character The {@link Character} who performed the {@link DropItemAction}.
 	 * @param action    The {@link DropItemAction} instance.
 	 */
-	@Override public void onItemDrop(Character character, DropItemAction action)
+	@Override public void onDropItemAction(Character character, DropItemAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			ImmutableList<Item> items = action.getItems();
 			printer.println(String.format("You successfully dropped up %d item(s) (%s).", items.size(), itemListToString
 					(items)));
-		});
+			return;
+		}
 
 		action.onException(NumberFormatException.class, e -> {
 			printer.println("The provided argument must be an integer.");
@@ -846,16 +932,17 @@ public class ConsoleGameInterface implements GameInterface
 	/**
 	 * Event when a {@link Character} performs the {@link PickUpItemAction}.
 	 *
-	 * @param character The {@link Character} who attempted to perform the {@link PickUpItemAction}.
+	 * @param character The {@link Character} who performed the {@link PickUpItemAction}.
 	 * @param action    The {@link PickUpItemAction} instance.
 	 */
-	@Override public void onItemPickup(Character character, PickUpItemAction action)
+	@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
 	{
-		action.onSuccess(() -> {
+		if (!action.hasException()) {
 			ImmutableList<Item> items = action.getItems();
 			printer.println(String.format("You successfully picked up %d item(s) (%s).", items.size(), itemListToString
 					(items)));
-		});
+			return;
+		}
 	}
 
 	/**
@@ -876,13 +963,7 @@ public class ConsoleGameInterface implements GameInterface
 				value.getItemTypeDescription())));
 	}
 
-	/**
-	 * Prompts the character to select one or more {@link Option}.
-	 *
-	 * @param character The {@link Character} selecting.
-	 * @param select    The {@link Select} object.
-	 */
-	@Override public void select(Character character, Select select)
+	@Override public void select(Select select)
 	{
 		int                                     minimumOptions = select.getMinimumNumberOfOptions();
 		int                                     maximumOptions = select.getMaximumNumberOfOptions();
@@ -928,7 +1009,7 @@ public class ConsoleGameInterface implements GameInterface
 
 			} catch (NumberFormatException e) {
 				printer.println("Selection must be a number.");
-				select(character, select);
+				select(select);
 			}
 		}
 		try {
@@ -1110,23 +1191,22 @@ public class ConsoleGameInterface implements GameInterface
 	 * Creates a new {@link BaseDoor} with the {@link OpenDoorAction}, {@link CloseDoorAction},
 	 * {@link UseDoorAction}, {@link InspectDoorAction}, {@link LockLockAction}, {@link UnlockLockAction}.
 	 *
-	 * @param state         The {@link textadventure.doors.Door.State} that the {@link Door} is in.
-	 * @param lock          The {@link Lock} placed on the {@link Door}.
-	 * @param roomA         The first room (<code>roomA</code>).
-	 * @param roomB         The second room (<code>roomB</code>).
-	 * @param gameInterface The {@link GameInterface}.
+	 * @param state The {@link textadventure.doors.Door.State} that the {@link Door} is in.
+	 * @param lock  The {@link Lock} placed on the {@link Door}.
+	 * @param roomA The first room (<code>roomA</code>).
+	 * @param roomB The second room (<code>roomB</code>).
 	 * @return The newly created instance of {@link BaseDoor}.
 	 */
-	public static Door doorFactory(Door.State state, Lock lock, Room roomA, Room roomB, GameInterface gameInterface)
+	public static Door doorFactory(Door.State state, Lock lock, Room roomA, Room roomB)
 	{
 		BaseDoor door = new BaseDoor(state, lock, roomA, roomB);
 
-		door.addAction("open", new OpenDoorAction(door, gameInterface::onDoorOpen));
-		door.addAction("close", new CloseDoorAction(door, gameInterface::onDoorClose));
-		door.addAction("use", new UseDoorAction(door, gameInterface::onDoorUse));
-		door.addAction("inspect", new InspectDoorAction(door, gameInterface::onDoorInspect));
-		door.addAction("lock", new LockLockAction(lock, gameInterface::onLockLock));
-		door.addAction("unlock", new UnlockLockAction(lock, gameInterface::onLockUnlock));
+		door.addAction("open", new OpenDoorAction(door));
+		door.addAction("close", new CloseDoorAction(door));
+		door.addAction("use", new UseDoorAction(door));
+		door.addAction("inspect", new InspectDoorAction(door));
+		door.addAction("lock", new LockLockAction(lock));
+		door.addAction("unlock", new UnlockLockAction(lock));
 
 		door.addProperty("lock", lock);
 
@@ -1162,33 +1242,31 @@ public class ConsoleGameInterface implements GameInterface
 	 * Creates a new {@link BaseDoor} with the {@link OpenDoorAction}, {@link CloseDoorAction},
 	 * {@link UseDoorAction}, {@link InspectDoorAction}, {@link LockLockAction}, {@link UnlockLockAction}.
 	 *
-	 * @param state         The {@link textadventure.doors.Door.State} that the {@link Door} is in.
-	 * @param lock          The {@link Lock} placed on the {@link Door}.
-	 * @param gameInterface The {@link GameInterface}.
+	 * @param state The {@link textadventure.doors.Door.State} that the {@link Door} is in.
+	 * @param lock  The {@link Lock} placed on the {@link Door}.
 	 * @return The newly created instance of {@link BaseDoor}.
 	 */
-	public static Door doorFactory(Door.State state, Lock lock, GameInterface gameInterface)
+	public static Door doorFactory(Door.State state, Lock lock)
 	{
-		return doorFactory(state, lock, null, null, gameInterface);
+		return doorFactory(state, lock, null, null);
 	}
 
 	/**
 	 * Creates and returns a {@link Lock} with the {@link LockLockAction}, {@link UnlockLockAction} and
 	 * {@link InspectLockAction}.
 	 *
-	 * @param code          The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with
-	 *                      matching codes.
-	 * @param state         The state of the {@link Lock}.
-	 * @param gameInterface The {@link GameInterface}.
+	 * @param code  The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with
+	 *              matching codes.
+	 * @param state The state of the {@link Lock}.
 	 * @return The newly created {@link Lock}.
 	 */
-	public static Lock lockFactory(String code, Lock.State state, GameInterface gameInterface)
+	public static Lock lockFactory(String code, Lock.State state)
 	{
 		Lock lock = new Lock(code, state);
 
-		lock.addAction("lock", new LockLockAction(lock, gameInterface::onLockLock));
-		lock.addAction("unlock", new UnlockLockAction(lock, gameInterface::onLockUnlock));
-		lock.addAction("inspect", new InspectLockAction(lock, gameInterface::onLockInspect));
+		lock.addAction("lock", new LockLockAction(lock));
+		lock.addAction("unlock", new UnlockLockAction(lock));
+		lock.addAction("inspect", new InspectLockAction(lock));
 
 		return lock;
 	}
@@ -1201,20 +1279,19 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param countPositions The number of positions available in the {@link Chest}.
 	 * @param state          The {@link Chest.State} of the {@link Chest}.
 	 * @param lock           The {@link Lock} on the {@link Chest}.
-	 * @param gameInterface  The {@link GameInterface}.
 	 * @return The newly created {@link Chest}.
 	 */
-	public static Chest chestFactory(int countPositions, Chest.State state, Lock lock, GameInterface gameInterface)
+	public static Chest chestFactory(int countPositions, Chest.State state, Lock lock)
 	{
 		Chest chest = new Chest(countPositions, state, lock);
 
-		chest.addAction("open", new OpenChestAction(chest, gameInterface::onChestOpen));
-		chest.addAction("close", new CloseChestAction(chest, gameInterface::onChestClose));
-		chest.addAction("inspect", new InspectChestAction(chest, gameInterface::onChestInspect));
-		chest.addAction("take", new TakeItemFromChestAction(chest, gameInterface::onChestTake));
-		chest.addAction("deposit", new DepositItemsIntoChestAction(chest, gameInterface::onChestDeposit));
-		chest.addAction("lock", new LockLockAction(lock, gameInterface::onLockLock));
-		chest.addAction("unlock", new UnlockLockAction(lock, gameInterface::onLockUnlock));
+		chest.addAction("open", new OpenChestAction(chest));
+		chest.addAction("close", new CloseChestAction(chest));
+		chest.addAction("inspect", new InspectChestAction(chest));
+		chest.addAction("take", new TakeItemFromChestAction(chest));
+		chest.addAction("deposit", new DepositItemsIntoChestAction(chest));
+		chest.addAction("lock", new LockLockAction(lock));
+		chest.addAction("unlock", new UnlockLockAction(lock));
 
 		chest.addProperty("lock", lock);
 

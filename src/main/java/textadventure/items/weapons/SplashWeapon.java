@@ -5,4 +5,5 @@ package textadventure.items.weapons;
  */
 public interface SplashWeapon extends Weapon
 {
+
 }

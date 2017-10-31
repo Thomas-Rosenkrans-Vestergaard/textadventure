@@ -1,17 +1,13 @@
 package textadventure.items;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.characters.Character;
-import textadventure.Equipable;
 import textadventure.actions.AbstractAction;
-import textadventure.actions.ActionPerformCallback;
+import textadventure.actions.ActionResponses;
+import textadventure.characters.Character;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
-import textadventure.ui.BaseSelect;
-import textadventure.ui.GameInterface;
-import textadventure.ui.Option;
-import textadventure.ui.Select;
+import textadventure.ui.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,108 +17,106 @@ public class EquipAction extends AbstractAction
 {
 
 	/**
-	 * {@link ActionPerformCallback} to invoke after performing the {@link EquipAction}.
+	 * The {@link EquipableItem}s equipped during the {@link EquipAction}.
 	 */
-	private ActionPerformCallback<EquipAction> callback;
+	private ArrayList<EquipableItem> items;
 
 	/**
-	 * Creates a new {@link EquipAction}.
-	 *
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the
-	 *                 {@link EquipAction}.
+	 * Resets the {@link EquipAction} to its default state.
 	 */
-	public EquipAction(ActionPerformCallback<EquipAction> callback)
+	@Override public void reset()
 	{
-		this.callback = callback;
+		this.exception = null;
+		this.items = new ArrayList<>();
 	}
 
 	/**
 	 * Performs the {@link EquipAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link EquipAction}.
-	 * @param arguments     The arguments provided to the {@link EquipAction}.
+	 * @param character The {@link Character} performing the {@link EquipAction}.
+	 * @param arguments The arguments provided to the {@link EquipAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link EquipAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		Backpack backpack = character.getBackpack();
 
 		try {
 
-			ImmutableSet<Option<Equipable>> options = backpack.asOptions(Equipable.class);
-			Select<Equipable> select = new BaseSelect<>(options, selection -> {
+			ImmutableSet<Option<EquipableItem>> options = backpack.asOptions(EquipableItem.class);
+			Select<EquipableItem> select = new BaseSelect<>(options, selection -> {
 
-				for (Option<Equipable> equipableOption : selection) {
-					Equipable equipable = equipableOption.getT();
-					int       index     = equipableOption.getOptionIndex();
+				for (Option<EquipableItem> equipableOption : selection) {
+					EquipableItem equipable = equipableOption.getT();
+					int           index     = equipableOption.getOptionIndex();
 
-					try {
-
-						if (equipable instanceof HeadWear) {
-							HeadWear current = character.getHeadWear();
-							character.setHeadWear((HeadWear) equipable);
-							character.getBackpack().takeItem(index);
-							if (current != null) {
-								character.getBackpack().addItem(current);
-							}
-							continue;
+					if (equipable instanceof HeadWear) {
+						HeadWear current = character.getHeadWear();
+						character.setHeadWear((HeadWear) equipable);
+						this.items.add(equipable);
+						character.getBackpack().takeItem(index);
+						if (current != null) {
+							character.getBackpack().addItem(current);
 						}
-
-						if (equipable instanceof TorsoWear) {
-							TorsoWear current = character.getTorsoWear();
-							character.setTorsoWear((TorsoWear) equipable);
-							character.getBackpack().takeItem(index);
-							if (current != null) {
-								character.getBackpack().addItem(current);
-							}
-							continue;
-						}
-
-						if (equipable instanceof Gloves) {
-							Gloves current = character.getGloves();
-							character.setGloves((Gloves) equipable);
-							character.getBackpack().takeItem(index);
-							if (current != null) {
-								character.getBackpack().addItem(current);
-							}
-							continue;
-						}
-
-						if (equipable instanceof Pants) {
-							Pants current = character.getPants();
-							character.setPants((Pants) equipable);
-							character.getBackpack().takeItem(index);
-							if (current != null) {
-								character.getBackpack().addItem(current);
-							}
-							continue;
-						}
-
-						if (equipable instanceof Boots) {
-							Boots current = character.getBoots();
-							character.setBoots((Boots) equipable);
-							character.getBackpack().takeItem(index);
-							if (current != null) {
-								character.getBackpack().addItem(current);
-							}
-							continue;
-						}
-
-						if (equipable instanceof Weapon) {
-							Weapon current = character.getWeapon();
-							character.setWeapon((Weapon) equipable);
-							character.getBackpack().takeItem(index);
-							if (current != null) {
-								character.getBackpack().addItem(current);
-							}
-							continue;
-						}
-
-
-					} catch (Exception e) {
-						setException(e);
-						break;
+						continue;
 					}
+
+					if (equipable instanceof TorsoWear) {
+						TorsoWear current = character.getTorsoWear();
+						character.setTorsoWear((TorsoWear) equipable);
+						this.items.add(equipable);
+						character.getBackpack().takeItem(index);
+						if (current != null) {
+							character.getBackpack().addItem(current);
+						}
+						continue;
+					}
+
+					if (equipable instanceof Gloves) {
+						Gloves current = character.getGloves();
+						character.setGloves((Gloves) equipable);
+						this.items.add(equipable);
+						character.getBackpack().takeItem(index);
+						if (current != null) {
+							character.getBackpack().addItem(current);
+						}
+						continue;
+					}
+
+					if (equipable instanceof Pants) {
+						Pants current = character.getPants();
+						character.setPants((Pants) equipable);
+						this.items.add(equipable);
+						character.getBackpack().takeItem(index);
+						if (current != null) {
+							character.getBackpack().addItem(current);
+						}
+						continue;
+					}
+
+					if (equipable instanceof Boots) {
+						Boots current = character.getBoots();
+						character.setBoots((Boots) equipable);
+						this.items.add(equipable);
+						character.getBackpack().takeItem(index);
+						if (current != null) {
+							character.getBackpack().addItem(current);
+						}
+						continue;
+					}
+
+					if (equipable instanceof Weapon) {
+						Weapon current = character.getWeapon();
+						character.setWeapon((Weapon) equipable);
+						this.items.add(equipable);
+						character.getBackpack().takeItem(index);
+						if (current != null) {
+							character.getBackpack().addItem(current);
+						}
+						continue;
+					}
+
+					throw new UnsupportedOperationException();
 				}
 			});
 
@@ -133,12 +127,26 @@ public class EquipAction extends AbstractAction
 				return;
 			}
 
-			gameInterface.select(character, select);
+			character.getFaction().getLeader().select(select);
 
+		} catch (SelectResponseException e) {
+			setException(e.getCause());
+		} catch (NotEnoughOptionsException e) {
+			setException(new NotEquipableException());
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			callback.send(character, this);
+			responses.onEquipAction(character, this);
 		}
+	}
+
+	/**
+	 * Returns the {@link EquipableItem}s equipped during the {@link EquipAction}.
+	 *
+	 * @return The {@link EquipableItem}s equipped during the {@link EquipAction}.
+	 */
+	public ArrayList<EquipableItem> getItems()
+	{
+		return this.items;
 	}
 }

@@ -1,9 +1,8 @@
 package textadventure.rooms;
 
-import textadventure.characters.Character;
 import textadventure.actions.AbstractAction;
-import textadventure.actions.ActionPerformCallback;
-import textadventure.ui.GameInterface;
+import textadventure.actions.ActionResponses;
+import textadventure.characters.Character;
 
 /**
  * {@link textadventure.actions.Action} allowing a {@link Character} to inspect the {@link Floor} revealing its
@@ -18,31 +17,16 @@ public class InspectFloorAction extends AbstractAction
 	private Floor floor;
 
 	/**
-	 * The {@link ActionPerformCallback} to invoke after performing the {@link InspectFloorAction}.
-	 */
-	private ActionPerformCallback<InspectFloorAction> callback;
-
-	/**
-	 * Creates a new {@link InspectFloorAction}.
-	 *
-	 * @param callback The {@link ActionPerformCallback} to invoke after performing the {@link InspectFloorAction}.
-	 */
-	public InspectFloorAction(ActionPerformCallback<InspectFloorAction> callback)
-	{
-		this.callback = callback;
-	}
-
-	/**
 	 * Performs the {@link InspectFloorAction} using the provided arguments.
 	 *
-	 * @param gameInterface The {@link GameInterface}.
-	 * @param character     The {@link Character} performing the {@link InspectFloorAction}.
-	 * @param arguments     The arguments provided to the {@link InspectFloorAction}.
+	 * @param character The {@link Character} performing the {@link InspectFloorAction}.
+	 * @param arguments The arguments provided to the {@link InspectFloorAction}.
+	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectFloorAction}.
 	 */
-	@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+	public void perform(Character character, String[] arguments, ActionResponses responses)
 	{
 		this.floor = character.getCurrentLocation().getRoomFloor();
-		callback.send(character, this);
+		responses.onInspectFloorAction(character, this);
 	}
 
 	/**

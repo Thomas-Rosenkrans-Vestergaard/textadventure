@@ -1,7 +1,7 @@
 package textadventure.ui.characterSelection;
 
-import textadventure.characters.Character;
 import textadventure.GameException;
+import textadventure.characters.Character;
 
 /**
  * Thrown when calling {@link CharacterCreationCallback} with an incomplete {@link Character}.

@@ -26,6 +26,9 @@ public abstract class AbstractWearable implements Wearable
 	 */
 	public AbstractWearable(double protectiveFactor)
 	{
+		if(protectiveFactor < 1)
+			throw new IllegalArgumentException("protectiveFactor must be positive.");
+
 		this.protectiveFactor = protectiveFactor;
 
 		Random rn = new Random();
@@ -34,7 +37,7 @@ public abstract class AbstractWearable implements Wearable
 		int g = rn.nextInt(256);
 		int b = rn.nextInt(256);
 
-		this.color = new Color(r,g,b);
+		this.color = new Color(r, g, b);
 	}
 
 	/**
@@ -55,5 +58,10 @@ public abstract class AbstractWearable implements Wearable
 	@Override public Color getColor()
 	{
 		return color;
+	}
+
+	@Override public String toString()
+	{
+		return String.format("%s %s (protection: %d)", color, getItemTypeName(), getProtectiveFactor());
 	}
 }
