@@ -45,15 +45,72 @@ public class UnequipAction extends AbstractAction
 
 			ImmutableSet<Option<Equipable>> options = getOptions(character);
 			Select<Equipable> select = new BaseSelect<>(options, 1, selection -> {
-				Option<Equipable> equipable = selection.get(0);
-				System.out.println(equipable.getT());
+				Option<Equipable>          equipableOption = selection.get(0);
+				Equipable                  equipable       = equipableOption.getT();
 
+				try {
+
+					if (equipable instanceof HeadWear) {
+
+						HeadWear current = character.getHeadWear();
+						if (current != null) {
+							character.getBackpack().addItem(current);
+							character.setHeadWear(null);
+						}
+						return;
+					}
+					if (equipable instanceof TorsoWear) {
+						TorsoWear current = character.getTorsoWear();
+						if (current != null) {
+							character.getBackpack().addItem(current);
+							character.setTorsoWear(null);
+						}
+						return;
+					}
+					if (equipable instanceof Gloves) {
+						Gloves current = character.getGloves();
+						if (current != null) {
+							character.getBackpack().addItem(current);
+							character.setGloves(null);
+						}
+						return;
+					}
+					if (equipable instanceof Pants) {
+						Pants current = character.getPants();
+						if (current != null) {
+							character.getBackpack().addItem(current);
+							character.setPants(null);
+						}
+						return;
+					}
+					if (equipable instanceof Boots) {
+						Boots current = character.getBoots();
+						if (current != null) {
+							character.getBackpack().addItem(current);
+							character.setBoots(null);
+						}
+						return;
+					}
+					if (equipable instanceof Weapon) {
+						Weapon current = character.getWeapon();
+						if (current != null) {
+							character.getBackpack().addItem(current);
+							character.setWeapon(null);
+						}
+						return;
+					}
+
+				} catch (Exception e) {
+					setException(e);
+				}
 			});
 
 			gameInterface.select(character, select);
 
-		} catch (Exception e) {
-			setException(e);
+		} catch (NotEnoughOptionsException e) {
+			setException(new NotEquipableException());
+		} finally {
+			callback.send(character, this);
 		}
 	}
 
