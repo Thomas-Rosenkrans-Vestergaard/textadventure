@@ -14,9 +14,9 @@ public class WornDownSweatshirt extends AbstractWearable implements TorsoWear
 	 * @param protectiveFactor Double representing the protective factor of the {@link WornDownSweatshirt}.
 	 * @param color            The {@link Color} of the {@link Wearable} item.
 	 */
-	public WornDownSweatshirt(double protectiveFactor, Color color)
+	public WornDownSweatshirt(double protectiveFactor)
 	{
-		super(protectiveFactor, color);
+		super(protectiveFactor);
 	}
 
 	/**

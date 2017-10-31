@@ -1,7 +1,7 @@
 package textadventure.items.weapons;
 
 /**
- * Represent a type of {@link Weapon}
+ * Represents a type of {@link Weapon} damage
  */
 public interface BluntWeapon extends Weapon
 {

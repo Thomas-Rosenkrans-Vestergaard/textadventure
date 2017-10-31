@@ -3,8 +3,15 @@ package textadventure.items.weapons;
 import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class Fork implements StabWeapon, Item
+public class Fork extends AbstractStabWeapon implements StabWeapon, Item
 {
+	/**
+	 * Creates a new {@link Fork}.
+	 */
+	public Fork()
+	{
+		super(6);
+	}
 
 	/**
 	 * Returns the name of the {@link Fork}.
@@ -26,13 +33,4 @@ public class Fork implements StabWeapon, Item
 		return "A substitute for chopsticks.";
 	}
 
-	/**
-	 * Returns the amount of damage done by the {@link Fork} to a {@link Character}.
-	 *
-	 * @return The amount of damage done by the {@link Fork} to a {@link Character}.
-	 */
-	@Override public int getDamage()
-	{
-		return 0;
-	}
 }

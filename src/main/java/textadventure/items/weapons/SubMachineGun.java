@@ -1,10 +1,16 @@
 package textadventure.items.weapons;
 
-import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class SubMachineGun implements ProjectileWeapon, Item
+public class SubMachineGun extends AbstractProjectileWeapon implements ProjectileWeapon, Item
 {
+	/**
+	 * Creates a new {@link SubMachineGun}.
+	 */
+	public SubMachineGun()
+	{
+		super(45);
+	}
 
 	/**
 	 * Returns the name of the {@link SubMachineGun}.
@@ -26,13 +32,4 @@ public class SubMachineGun implements ProjectileWeapon, Item
 		return "High fire rate, may get too hot to the touch.";
 	}
 
-	/**
-	 * Returns the amount of damage done by the {@link SubMachineGun} to a {@link Character}.
-	 *
-	 * @return The amount of damage done by the {@link SubMachineGun} to a {@link Character}.
-	 */
-	@Override public int getDamage()
-	{
-		return 0;
-	}
 }

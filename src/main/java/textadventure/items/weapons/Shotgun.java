@@ -1,10 +1,18 @@
 package textadventure.items.weapons;
 
-import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class Shotgun implements ProjectileWeapon, Item
+
+public class Shotgun extends AbstractProjectileWeapon implements ProjectileWeapon, Item
 {
+
+	/**
+	 * Creates a new {@link Shotgun}.
+	 */
+	public Shotgun()
+	{
+		super(40);
+	}
 
 	/**
 	 * Returns the name of the {@link Shotgun}.
@@ -25,14 +33,5 @@ public class Shotgun implements ProjectileWeapon, Item
 	{
 		return "Apparently not used for hunting.";
 	}
-
-	/**
-	 * Returns the amount of damage done by the {@link Shotgun} to a {@link Character}.
-	 *
-	 * @return The amount of damage done by the {@link Shotgun} to a {@link Character}.
-	 */
-	@Override public int getDamage()
-	{
-		return 200;
-	}
 }
+

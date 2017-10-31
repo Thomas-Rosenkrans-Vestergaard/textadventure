@@ -5,6 +5,9 @@ import textadventure.items.Item;
 
 import java.awt.*;
 
+/**
+ * Represents an item the {@link Character} can wear.
+ */
 public interface Wearable extends Item, Equipable
 {
 

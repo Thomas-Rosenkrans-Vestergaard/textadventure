@@ -3,8 +3,16 @@ package textadventure.items.weapons;
 import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class GlassBottle implements StabWeapon, Item
+public class GlassBottle extends AbstractBluntWeapon implements BluntWeapon, Item
 {
+	/**
+	 * Creates a new {@link GlassBottle}.
+	 */
+	public GlassBottle()
+	{
+		super(7);
+	}
+
 	/**
 	 * Returns the name of the {@link GlassBottle}.
 	 *
@@ -25,13 +33,4 @@ public class GlassBottle implements StabWeapon, Item
 		return "Very fragile, but lies around everywhere.";
 	}
 
-	/**
-	 * Returns the amount of damage done by the {@link GlassBottle} to a {@link Character}.
-	 *
-	 * @return The amount of damage done by the {@link GlassBottle} to a {@link Character}.
-	 */
-	@Override public int getDamage()
-	{
-		return 0;
-	}
 }

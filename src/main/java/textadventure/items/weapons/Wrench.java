@@ -2,8 +2,15 @@ package textadventure.items.weapons;
 
 import textadventure.items.Item;
 
-public class Wrench implements BluntWeapon, Item
+public class Wrench extends  AbstractBluntWeapon implements BluntWeapon, Item
 {
+	/**
+	 * Creates a new {@link Wrench}.
+	 */
+	public Wrench()
+	{
+		super(9);
+	}
 
 	/**
 	 * Returns the name of the {@link Wrench}.
@@ -23,16 +30,6 @@ public class Wrench implements BluntWeapon, Item
 	@Override public String getItemTypeDescription()
 	{
 		return "Seems to be made of aluminium.";
-	}
-
-	/**
-	 * Returns the amount of damage done by the {@link Wrench} to a {@link Character}.
-	 *
-	 * @return The amount of damage done by the {@link Wrench} to a {@link Character}.
-	 */
-	@Override public int getDamage()
-	{
-		return 0;
 	}
 
 }

@@ -1,6 +1,7 @@
 package textadventure.items.wearables;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * An abstract base of the {@link Wearable} interface.
@@ -22,12 +23,18 @@ public abstract class AbstractWearable implements Wearable
 	 * Creates a new {@link AbstractWearable}.
 	 *
 	 * @param protectiveFactor Double representing the protective factor of the {@link Wearable}.
-	 * @param color            The {@link Color} of the {@link Wearable} item.
 	 */
-	public AbstractWearable(double protectiveFactor, Color color)
+	public AbstractWearable(double protectiveFactor)
 	{
 		this.protectiveFactor = protectiveFactor;
-		this.color = color;
+
+		Random rn = new Random();
+
+		int r = rn.nextInt(256);
+		int g = rn.nextInt(256);
+		int b = rn.nextInt(256);
+
+		this.color = new Color(r,g,b);
 	}
 
 	/**
