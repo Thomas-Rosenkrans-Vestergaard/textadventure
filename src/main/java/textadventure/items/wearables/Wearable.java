@@ -1,10 +1,11 @@
 package textadventure.items.wearables;
 
+import textadventure.Equipable;
 import textadventure.items.Item;
 
 import java.awt.*;
 
-public interface Wearable extends Item
+public interface Wearable extends Item, Equipable
 {
 
 
