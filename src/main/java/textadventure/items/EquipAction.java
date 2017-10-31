@@ -16,6 +16,7 @@ import textadventure.ui.Select;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class EquipAction extends AbstractAction
 {
 
@@ -51,7 +52,7 @@ public class EquipAction extends AbstractAction
 			ImmutableSet<Option<Equipable>> options = backpack.asOptions(Equipable.class);
 			Select<Equipable> select = new BaseSelect<>(options, selection -> {
 
-				for(Option<Equipable> equipableOption : selection) {
+				for (Option<Equipable> equipableOption : selection) {
 					Equipable equipable = equipableOption.getT();
 					int       index     = equipableOption.getOptionIndex();
 
