@@ -1,26 +1,58 @@
 package textadventure.rooms;
 
+/**
+ * Represents a {@link Coordinate} of a {@link Room}.
+ */
 public class Coordinate
 {
+	/**
+	 * The position on the x-axis of the {@link Coordinate}
+	 */
 	private int x;
+	/**
+	 * The position on the y-axis of the {@link Coordinate}
+	 */
 	private int y;
 
+	/**
+	 * Returns a new {@link Coordinate} with x and y as parameters.
+	 *
+	 * @param x The x-value of the {@link Coordinate}.
+	 * @param y The y-value of the {@link Coordinate}.
+	 * @return A new {@link Coordinate} with x and y as parameters.
+	 */
 	public static Coordinate of(int x, int y)
 	{
 		return new Coordinate(x, y);
 	}
 
+	/**
+	 * Creates a new {@link Coordinate}.
+	 *
+	 * @param x The x-value of the {@link Coordinate}.
+	 * @param y The y-value of the {@link Coordinate}.
+	 */
 	public Coordinate(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	 * Returns the x-value of the {@link Coordinate};
+	 *
+	 * @return the x-value of the {@link Coordinate};
+	 */
 	public int getX()
 	{
 		return this.x;
 	}
 
+	/**
+	 * Returns the y-value of the {@link Coordinate};
+	 *
+	 * @return the y-value of the {@link Coordinate};
+	 */
 	public int getY()
 	{
 		return this.y;
@@ -42,5 +74,15 @@ public class Coordinate
 		int result = x;
 		result = 31 * result + y;
 		return result;
+	}
+
+	/**
+	 * Returns a string representation of the {@link Coordinate}.
+	 *
+	 * @return The string representation of the {@link Coordinate}
+	 */
+	@Override public String toString()
+	{
+		return String.format("(%d,%d)", x, y);
 	}
 }
