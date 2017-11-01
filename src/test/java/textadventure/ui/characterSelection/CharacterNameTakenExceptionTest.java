@@ -1,6 +1,8 @@
 package textadventure.ui.characterSelection;
 
 import org.junit.Test;
+import textadventure.characters.CharacterCreationTemplate;
+import textadventure.characters.CharacterNameTakenException;
 
 import static org.junit.Assert.assertSame;
 

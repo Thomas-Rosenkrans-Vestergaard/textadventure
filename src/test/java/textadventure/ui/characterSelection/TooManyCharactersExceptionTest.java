@@ -1,6 +1,7 @@
 package textadventure.ui.characterSelection;
 
 import org.junit.Test;
+import textadventure.characters.TooManyCharactersException;
 
 import static org.junit.Assert.assertEquals;
 

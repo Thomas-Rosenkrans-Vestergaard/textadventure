@@ -1,7 +1,6 @@
-package textadventure.ui.characterSelection;
+package textadventure.characters;
 
 import textadventure.Player;
-import textadventure.characters.Character;
 
 @FunctionalInterface
 public interface CharacterCreationCallback

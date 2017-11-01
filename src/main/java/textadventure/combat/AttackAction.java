@@ -1,12 +1,16 @@
 package textadventure.combat;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
+import textadventure.items.weapons.Weapon;
 import textadventure.rooms.Room;
-import textadventure.ui.BaseOption;
-import textadventure.ui.Option;
+import textadventure.ui.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Allows one {@link Character} to attack another.
@@ -20,9 +24,9 @@ public class AttackAction extends AbstractAction
 	private Character target;
 
 	/**
-	 * The damage done to the target {@link Character}.
+	 * The damage done to the target {@link Character}(s).
 	 */
-	private int damageDone;
+	private Map<Character, Integer> damageDone;
 
 	/**
 	 * Resets the {@link AttackAction} to its default state.
@@ -31,7 +35,7 @@ public class AttackAction extends AbstractAction
 	{
 		this.exception = null;
 		this.target = null;
-		this.damageDone = 0;
+		this.damageDone = new HashMap<>();
 	}
 
 	/**
@@ -48,13 +52,36 @@ public class AttackAction extends AbstractAction
 		Room    currentLocation = character.getCurrentLocation();
 
 		if (faction == target.getFaction()) {
-			setException(new IncorrectTargetException(character, target));
+			setException(new FriendlyTargetException(character, target));
 			responses.onAttackAction(character, this);
 			return;
 		}
 
-		ImmutableSet<Option<Character>> options = getOptions(currentLocation, faction);
+		try {
 
+			Weapon                          weapon  = character.getWeapon();
+			ImmutableSet<Option<Character>> options = getOptions(currentLocation, faction);
+
+			if (options.size() == 0)
+				throw new NoTargetsException();
+
+			Select<Character> select = new BaseSelect<>(options, 1, weapon.getNumberOfTargets(), selection -> {
+				for (Option<Character> characterOption : selection) {
+					Character characterT = characterOption.getT();
+					this.damageDone.put(characterT, characterT.takeDamage(weapon));
+					characterT.getFaction().getLeader().onCharacterAttacked(characterT, this);
+				}
+			});
+
+			character.getFaction().getLeader().select(select);
+
+		} catch (SelectResponseException e) {
+			setException(e.getCause());
+		} catch (Exception e) {
+			setException(e);
+		} finally {
+			responses.onAttackAction(character, this);
+		}
 	}
 
 	/**
@@ -88,12 +115,12 @@ public class AttackAction extends AbstractAction
 	}
 
 	/**
-	 * Returns the damage done to the target {@link Character}.
+	 * Returns the amount of damage done to the {@link Character}s.
 	 *
-	 * @return The damage done to the target {@link Character}.
+	 * @return The amount of damage done to the {@link Character}s.
 	 */
-	public int getDamageDone()
+	public ImmutableMap<Character, Integer> getDamageDone()
 	{
-		return this.damageDone;
+		return ImmutableMap.copyOf(damageDone);
 	}
 }

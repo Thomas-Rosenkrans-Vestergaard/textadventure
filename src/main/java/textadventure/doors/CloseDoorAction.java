@@ -10,6 +10,12 @@ import textadventure.characters.Character;
 public class CloseDoorAction extends DoorAction
 {
 
+	@FunctionalInterface
+	public interface Response
+	{
+		void respond(Character character, CloseDoorAction action);
+	}
+
 	/**
 	 * Creates a new {@link OpenDoorAction}.
 	 *

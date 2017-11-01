@@ -1,7 +1,6 @@
-package textadventure.ui.characterSelection;
+package textadventure.characters;
 
 import textadventure.GameException;
-import textadventure.characters.Character;
 
 /**
  * Thrown when too many {@link Character}s were provided to the {@link CharacterCreationCallback} before

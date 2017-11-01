@@ -3,8 +3,6 @@ package textadventure.doors;
 import org.junit.Test;
 <<<<<<< Updated upstream
 =======
-import textadventure.characters.BaseCharacter;
-import textadventure.characters.Character;
 >>>>>>> Stashed changes
 import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
@@ -14,7 +12,7 @@ import textadventure.rooms.Room;
 import textadventure.rooms.SomeRoom;
 import textadventure.ui.GameInterface;
 import textadventure.ui.SomeGameInterface;
-import textadventure.ui.characterSelection.CharacterCreationTemplate;
+import textadventure.characters.CharacterCreationTemplate;
 
 import static org.junit.Assert.*;
 

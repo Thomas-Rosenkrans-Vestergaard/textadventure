@@ -23,11 +23,9 @@ import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.InspectFloorAction;
 import textadventure.rooms.InspectRoomAction;
 import textadventure.rooms.Room;
-import textadventure.ui.GameInterface;
-import textadventure.ui.Option;
-import textadventure.ui.Select;
-import textadventure.ui.characterSelection.CharacterCreationCallback;
-import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
+import textadventure.ui.*;
+import textadventure.characters.CharacterCreationCallback;
+import textadventure.characters.FinishCharacterCreationCallback;
 
 /**
  * Human implementation of the {@link Player} interface. The
@@ -101,8 +99,13 @@ public class HumanPlayer implements Player
 	 * {@link Option}s.
 	 *
 	 * @param select The {@link Select}.
+	 * @throws SelectionAmountException When too few or too many elements were selected.
+	 * @throws UnknownIndexException    When a selected element were not contained is the list of possibilities.
+	 * @throws UnknownOptionException   When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link SelectResponseException}.
 	 */
-	@Override public void select(Select select)
+	@Override
+	public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
 	{
 		gameInterface.select(select);
 	}

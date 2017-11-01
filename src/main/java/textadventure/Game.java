@@ -2,13 +2,12 @@ package textadventure;
 
 import com.google.common.collect.ImmutableList;
 import textadventure.actions.Action;
-import textadventure.characters.BaseCharacter;
+import textadventure.characters.*;
 import textadventure.characters.Character;
 import textadventure.combat.Faction;
 import textadventure.rooms.Room;
 import textadventure.rooms.RoomController;
 import textadventure.ui.GameInterface;
-import textadventure.ui.characterSelection.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -83,8 +82,7 @@ public class Game
 			characters.forEach(character -> faction.getLeader().onCharacterCreation(character));
 		};
 
-		faction.getLeader().onCharactersCreate(numberOfCharacters, characterCreationCallback,
-				finishCharacterCreationCallback);
+		faction.getLeader().onCharactersCreate(numberOfCharacters, characterCreationCallback, finishCharacterCreationCallback);
 	}
 
 	/**

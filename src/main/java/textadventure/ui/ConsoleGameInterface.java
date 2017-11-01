@@ -2,12 +2,12 @@ package textadventure.ui;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import textadventure.*;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.characters.*;
 import textadventure.characters.Character;
-import textadventure.characters.CharacterInformation;
-import textadventure.characters.CharacterInformationAction;
 import textadventure.combat.*;
 import textadventure.doors.*;
 import textadventure.items.*;
@@ -18,7 +18,6 @@ import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.chest.*;
 import textadventure.lock.*;
 import textadventure.rooms.*;
-import textadventure.ui.characterSelection.*;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -566,11 +565,15 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onInspectRoomAction(Character character, InspectRoomAction action)
 	{
 		if (!action.hasException()) {
-			printer.println("You inspect the door.");
-			action.getCharacters().forEach(c -> {
-				printer.println(String.format("In the room with you is %s from faction %s.", c.getName(), c
-						.getFaction().toString()));
-			});
+			ImmutableSet<Character> characters = action.getCharacters();
+			printer.println("You inspect the room.");
+			if (characters.size() == 0)
+				printer.println("You are alone in the room.");
+			else
+				action.getCharacters().forEach(c -> {
+					printer.println(String.format("In the room with you is %s from faction %s.", c.getName(), c
+							.getFaction().toString()));
+				});
 			return;
 		}
 	}

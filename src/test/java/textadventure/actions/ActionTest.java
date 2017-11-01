@@ -12,18 +12,6 @@ import static org.mockito.Mockito.*;
 public class ActionTest
 {
 
-	@Test
-	public void testAbstractAction() throws Exception
-	{
-		test(() -> new AbstractAction()
-		{
-			@Override public void perform(Character character, String[] arguments, ActionResponses callback)
-			{
-
-			}
-		});
-	}
-
 	public static void test(Supplier<Action> actionSupplier) throws Exception
 	{
 		onSuccess(actionSupplier.get());

@@ -1,6 +1,7 @@
 package textadventure.doors;
 
 import org.junit.Test;
+import textadventure.Player;
 import textadventure.characters.Character;
 import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
@@ -24,7 +25,6 @@ public class CloseDoorActionTest
 		Room          b             = new SomeRoom();
 		Door          door          = new BaseDoor(Door.State.OPEN, lock, a, b);
 		Character     character     = new SomeCharacter();
-		GameInterface gameInterface = new SomeGameInterface();
 
 		assertEquals(Door.State.OPEN, door.getState());
 		CloseDoorAction action = new CloseDoorAction(door, ((characterResponse, actionResponse) -> {
@@ -34,7 +34,8 @@ public class CloseDoorActionTest
 			assertEquals(Door.State.CLOSED, actionResponse.getDoor().getState());
 		}));
 
-		action.perform(gameInterface, character, new String[0]);
+		action.perform(character, new String[0], () -> {
+		});
 	}
 
 	@Test

@@ -20,7 +20,7 @@ import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.InspectFloorAction;
 import textadventure.rooms.InspectRoomAction;
-import textadventure.ui.Select;
+import textadventure.ui.*;
 
 public interface ActionResponses
 {
@@ -30,8 +30,12 @@ public interface ActionResponses
 	 * {@link textadventure.ui.Option}s.
 	 *
 	 * @param select The {@link Select}.
+	 * @throws SelectionAmountException When too few or too many elements were selected.
+	 * @throws UnknownIndexException    When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link textadventure.ui.Select.SelectResponse}.
+	 * @throws UnknownOptionException   When a selected element were not contained is the list of possibilities.
 	 */
-	void select(Select select);
+	void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException;
 
 	/**
 	 * Event for when the {@link Character} performs the {@link AttackAction}.

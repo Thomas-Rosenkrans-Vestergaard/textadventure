@@ -10,8 +10,8 @@ import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.doors.Door;
 import textadventure.rooms.Room;
-import textadventure.ui.characterSelection.CharacterCreationCallback;
-import textadventure.ui.characterSelection.FinishCharacterCreationCallback;
+import textadventure.characters.CharacterCreationCallback;
+import textadventure.characters.FinishCharacterCreationCallback;
 
 /**
  * Object that can control {@link Character}s and perform {@link Action}s.

@@ -4,8 +4,11 @@ import com.google.common.collect.ImmutableMap;
 import textadventure.AbstractPropertyContainer;
 import textadventure.Property;
 import textadventure.PropertyContainer;
+import textadventure.combat.AttackAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
+import textadventure.items.EquipAction;
+import textadventure.items.UnEquipAction;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.DropItemAction;
 import textadventure.items.backpack.PickUpItemAction;
@@ -15,7 +18,6 @@ import textadventure.items.wearables.*;
 import textadventure.rooms.InspectFloorAction;
 import textadventure.rooms.InspectRoomAction;
 import textadventure.rooms.Room;
-import textadventure.ui.characterSelection.CharacterCreationTemplate;
 
 import java.awt.*;
 
@@ -267,6 +269,9 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 		character.addAction("inspect-room", new InspectRoomAction());
 		character.addAction("inspect-floor", new InspectFloorAction());
 		character.addAction("stats", new CharacterInformationAction());
+		character.addAction("attack", new AttackAction());
+		character.addAction("equip", new EquipAction());
+		character.addAction("unequip", new UnEquipAction());
 
 		faction.getStartingRoom().addCharacter(character);
 

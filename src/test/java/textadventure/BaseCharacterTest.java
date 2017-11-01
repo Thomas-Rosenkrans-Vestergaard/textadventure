@@ -2,17 +2,8 @@ package textadventure;
 
 import org.junit.Test;
 <<<<<<< Updated upstream
-import textadventure.combat.Escapees;
 =======
-import textadventure.characters.BaseCharacter;
-import textadventure.characters.Character;
 >>>>>>> Stashed changes
-import textadventure.combat.Faction;
-import textadventure.rooms.Room;
-import textadventure.rooms.SomeRoom;
-import textadventure.ui.GameInterface;
-import textadventure.ui.SomeGameInterface;
-import textadventure.ui.characterSelection.CharacterCreationTemplate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;

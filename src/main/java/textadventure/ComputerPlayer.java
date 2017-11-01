@@ -3,7 +3,7 @@ package textadventure;
 import com.google.common.collect.ImmutableList;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.characters.Character;
-import textadventure.characters.CharacterInformationAction;
+import textadventure.characters.*;
 import textadventure.combat.AttackAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
@@ -24,7 +24,6 @@ import textadventure.rooms.InspectRoomAction;
 import textadventure.rooms.Room;
 import textadventure.ui.Option;
 import textadventure.ui.Select;
-import textadventure.ui.characterSelection.*;
 
 /**
  * Implementation of the {@link Player} interface, controlled by an AI.
@@ -88,7 +87,7 @@ public class ComputerPlayer implements Player
 	 */
 	@Override public void onCharacterCreation(Character character)
 	{
-
+		this.chara
 	}
 
 	/**

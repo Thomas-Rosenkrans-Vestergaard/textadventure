@@ -1,7 +1,6 @@
-package textadventure.ui.characterSelection;
+package textadventure.characters;
 
 import textadventure.GameException;
-import textadventure.characters.Character;
 
 /**
  * Thrown when a {@link CharacterCreationTemplate} with a take name provided to the {@link CharacterCreationCallback} function.
