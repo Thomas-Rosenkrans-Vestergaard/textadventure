@@ -2,15 +2,14 @@ package textadventure.items;
 
 import org.junit.Test;
 import textadventure.SomeCharacter;
+import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.wearables.HeadWear;
 import textadventure.items.wearables.TorsoWear;
 import textadventure.rooms.BaseRoom;
 import textadventure.rooms.Room;
-import textadventure.ui.GameInterface;
-import textadventure.ui.Select;
-import textadventure.ui.SomeGameInterface;
+import textadventure.ui.*;
 
 import java.awt.*;
 
@@ -78,29 +77,25 @@ public class EquipActionTest
 		character.setBackpack(backpack);
 		character.setCurrentLocation(currentLocation);
 
-		GameInterface gameInterface = new SomeGameInterface()
-		{
-			@Override public void select(Character character, Select select)
-			{
-				try {
-					select.selectIndex(0);
-				} catch (Exception e) {
-					fail();
-				}
-			}
-		};
-
-
 		assertEquals(1, backpack.getNumberOfItems());
 		assertEquals(null, character.getHeadWear());
 
-		EquipAction action = new EquipAction((characterResponse, actionResponse) -> {
-			assertFalse(actionResponse.hasException());
-			assertSame(headWear, character.getHeadWear());
-			assertEquals(0, backpack.getNumberOfItems());
-		});
+		EquipAction action = new EquipAction();
+		action.perform(character, new String[0], new SomeActionResponses()
+		{
+			@Override
+			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
+			{
+				select.selectIndex(0);
+			}
 
-		action.perform(gameInterface, character, new String[0]);
+			@Override public void onEquipAction(Character character, EquipAction action)
+			{
+				assertFalse(action.hasException());
+				assertSame(headWear, character.getHeadWear());
+				assertEquals(0, backpack.getNumberOfItems());
+			}
+		});
 	}
 
 	@Test
@@ -120,13 +115,16 @@ public class EquipActionTest
 		assertEquals(null, character.getHeadWear());
 		assertEquals(null, character.getTorsoWear());
 
-		EquipAction action = new EquipAction((characterResponse, actionResponse) -> {
-			assertFalse(actionResponse.hasException());
-			assertSame(headWear, character.getHeadWear());
-			assertSame(torsoWear, character.getTorsoWear());
-			assertEquals(0, backpack.getNumberOfItems());
+		EquipAction action = new EquipAction();
+		action.perform(character, new String[]{"0", "1"}, new SomeActionResponses()
+		{
+			@Override public void onEquipAction(Character character, EquipAction action)
+			{
+				assertFalse(action.hasException());
+				assertSame(headWear, character.getHeadWear());
+				assertSame(torsoWear, character.getTorsoWear());
+				assertEquals(0, backpack.getNumberOfItems());
+			}
 		});
-
-		action.perform(new SomeGameInterface(), character, new String[]{"0", "1"});
 	}
 }

@@ -26,7 +26,7 @@ public abstract class AbstractWearable implements Wearable
 	 */
 	public AbstractWearable(double protectiveFactor)
 	{
-		if(protectiveFactor < 1)
+		if (protectiveFactor < 1)
 			throw new IllegalArgumentException("protectiveFactor must be positive.");
 
 		this.protectiveFactor = protectiveFactor;

@@ -4,8 +4,8 @@ public class KelvarBoots extends AbstractWearable implements Boots
 {
 	/**
 	 * Creates a new {@link WornDownWorkBoots}.
-	 *
-	 *  protectiveFactor Double representing the protective factor of the {@link WornDownWorkBoots}.
+	 * <p>
+	 * protectiveFactor Double representing the protective factor of the {@link WornDownWorkBoots}.
 	 */
 	public KelvarBoots()
 	{

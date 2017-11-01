@@ -2,14 +2,12 @@ package textadventure.items;
 
 import org.junit.Test;
 import textadventure.SomeCharacter;
+import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.wearables.HeadWear;
 import textadventure.rooms.BaseRoom;
 import textadventure.rooms.Room;
-import textadventure.ui.GameInterface;
-import textadventure.ui.Select;
-import textadventure.ui.SomeGameInterface;
 
 import java.awt.*;
 
@@ -49,28 +47,18 @@ public class UnEquipActionTest
 		};
 		character.setHeadWear(headWear);
 
-		GameInterface gameInterface = new SomeGameInterface()
-		{
-			@Override public void select(Character character, Select select)
-			{
-				try {
-					select.selectIndex(0);
-				} catch (Exception e) {
-					fail();
-				}
-			}
-		};
-
 		assertEquals(0, backpack.getNumberOfItems());
 		assertSame(headWear, character.getHeadWear());
 
-
-		UnEquipAction action = new UnEquipAction((characterResponse, actionResponse) -> {
-			assertFalse(actionResponse.hasException());
-			assertEquals(null, character.getHeadWear());
-			assertEquals(1, backpack.getNumberOfItems());
+		UnEquipAction action = new UnEquipAction();
+		action.perform(character, new String[0], new SomeActionResponses()
+		{
+			@Override public void onUnEquipAction(Character character, UnEquipAction action)
+			{
+				assertFalse(action.hasException());
+				assertEquals(null, character.getHeadWear());
+				assertEquals(1, backpack.getNumberOfItems());
+			}
 		});
-
-		action.perform(gameInterface, character, new String[0]);
 	}
 }

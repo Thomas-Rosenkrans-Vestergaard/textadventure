@@ -1,6 +1,7 @@
 package textadventure.lock;
 
-public class MockLock extends Lock
+public class
+MockLock extends Lock
 {
 
 	public MockLock(State state)

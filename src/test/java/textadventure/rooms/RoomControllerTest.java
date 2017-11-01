@@ -1,15 +1,9 @@
 package textadventure.rooms;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
-import textadventure.Property;
-import textadventure.actions.Action;
-import textadventure.characters.Character;
 
-import java.util.HashMap;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class RoomControllerTest
 {
@@ -33,10 +27,10 @@ public class RoomControllerTest
 	@Test
 	public void get() throws Exception
 	{
-		RoomController rooms = new RoomController();
+		RoomController rooms      = new RoomController();
 		Coordinate     coordinate = new Coordinate(3, 4);
 		Room           room       = new SomeRoom();
-		rooms.add(coordinate,room);
+		rooms.add(coordinate, room);
 		assertSame(room, rooms.get(coordinate));
 	}
 
@@ -47,9 +41,9 @@ public class RoomControllerTest
 
 		assertEquals(0, rooms.getRooms().size());
 
-		Room           a       = new SomeRoom();
-		Room           b       = new SomeRoom();
-		Room           c       = new SomeRoom();
+		Room a = new SomeRoom();
+		Room b = new SomeRoom();
+		Room c = new SomeRoom();
 
 		rooms.add(Coordinate.of(1, 5), a);
 		rooms.add(Coordinate.of(2, 5), b);

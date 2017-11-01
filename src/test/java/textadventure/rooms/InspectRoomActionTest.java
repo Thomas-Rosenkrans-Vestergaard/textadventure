@@ -1,9 +1,9 @@
 package textadventure.rooms;
 
 import org.junit.Test;
-import textadventure.characters.Character;
 import textadventure.SomeCharacter;
-import textadventure.ui.SomeGameInterface;
+import textadventure.actions.SomeActionResponses;
+import textadventure.characters.Character;
 
 import static org.junit.Assert.*;
 
@@ -20,18 +20,19 @@ public class InspectRoomActionTest
 		room.addCharacter(character);
 		room.addCharacter(other);
 
-		InspectRoomAction action = new InspectRoomAction((characterResponse, actionResponse) -> {
-			try {
-				assertSame(character, characterResponse);
-				assertFalse(actionResponse.hasException());
-				assertEquals(1, actionResponse.getCharacters().size());
-				assertTrue(actionResponse.getCharacters().contains(other));
-				assertFalse(actionResponse.getCharacters().contains(character));
-			} catch (Exception e) {
-				fail();
+		InspectRoomAction action = new InspectRoomAction();
+		action.perform(character, new String[0], new SomeActionResponses()
+		{
+			@Override public void onInspectRoomAction(Character character, InspectRoomAction action)
+			{
+				try {
+					assertEquals(1, action.getCharacters().size());
+					assertTrue(action.getCharacters().contains(other));
+					assertFalse(action.getCharacters().contains(character));
+				} catch (Exception e) {
+					fail();
+				}
 			}
 		});
-
-		action.perform(new SomeGameInterface(), character, new String[0]);
 	}
 }

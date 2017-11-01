@@ -3,7 +3,7 @@ package textadventure.items.weapons;
 import textadventure.characters.Character;
 import textadventure.items.Item;
 
-public class Hammer extends  AbstractBluntWeapon implements BluntWeapon, Item
+public class Hammer extends AbstractBluntWeapon implements BluntWeapon, Item
 {
 	/**
 	 * Creates a new {@link Hammer}.

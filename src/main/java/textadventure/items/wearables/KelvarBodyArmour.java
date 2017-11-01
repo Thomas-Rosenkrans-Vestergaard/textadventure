@@ -6,9 +6,9 @@ public class KelvarBodyArmour extends AbstractWearable implements TorsoWear
 {
 	/**
 	 * Creates a new {@link WornDownWorkBoots}.
-	 *
-	 *  protectiveFactor Double representing the protective factor of the {@link WornDownWorkBoots}.
-	 *  color            The {@link Color} of the {@link WornDownWorkBoots}.
+	 * <p>
+	 * protectiveFactor Double representing the protective factor of the {@link WornDownWorkBoots}.
+	 * color            The {@link Color} of the {@link WornDownWorkBoots}.
 	 */
 	public KelvarBodyArmour()
 	{

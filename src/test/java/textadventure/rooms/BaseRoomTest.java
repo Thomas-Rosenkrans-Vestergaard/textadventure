@@ -2,8 +2,8 @@ package textadventure.rooms;
 
 import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
-import textadventure.characters.Character;
 import textadventure.SomeCharacter;
+import textadventure.characters.Character;
 
 import static org.junit.Assert.*;
 

@@ -6,7 +6,7 @@ public class KelvarGloves extends AbstractWearable implements Gloves
 {
 	/**
 	 * Creates a new {@link WornDownWorkBoots}.
-	 *
+	 * <p>
 	 * protectiveFactor Double representing the protective factor of the {@link WornDownWorkBoots}.
 	 * color            The {@link Color} of the {@link WornDownWorkBoots}.
 	 */

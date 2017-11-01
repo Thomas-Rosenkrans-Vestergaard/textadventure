@@ -60,7 +60,8 @@ public class CharacterInformation
 		return character.getBackpack();
 	}
 
-	/**1
+	/**
+	 * 1
 	 * Return the double representing the protective factor of the {@link Wearable}s on the {@link Character}.
 	 *
 	 * @return The double representing the protective factor of the {@link Wearable}s on the {@link Character}.

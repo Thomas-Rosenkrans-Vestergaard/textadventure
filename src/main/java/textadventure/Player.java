@@ -5,13 +5,13 @@ import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
+import textadventure.characters.CharacterCreationCallback;
+import textadventure.characters.FinishCharacterCreationCallback;
 import textadventure.combat.AttackAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.doors.Door;
 import textadventure.rooms.Room;
-import textadventure.characters.CharacterCreationCallback;
-import textadventure.characters.FinishCharacterCreationCallback;
 
 /**
  * Object that can control {@link Character}s and perform {@link Action}s.

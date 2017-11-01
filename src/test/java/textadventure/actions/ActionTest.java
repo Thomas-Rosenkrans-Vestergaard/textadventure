@@ -1,8 +1,5 @@
 package textadventure.actions;
 
-import org.junit.Test;
-import textadventure.characters.Character;
-
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 

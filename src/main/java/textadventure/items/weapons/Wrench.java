@@ -2,7 +2,7 @@ package textadventure.items.weapons;
 
 import textadventure.items.Item;
 
-public class Wrench extends  AbstractBluntWeapon implements BluntWeapon, Item
+public class Wrench extends AbstractBluntWeapon implements BluntWeapon, Item
 {
 	/**
 	 * Creates a new {@link Wrench}.

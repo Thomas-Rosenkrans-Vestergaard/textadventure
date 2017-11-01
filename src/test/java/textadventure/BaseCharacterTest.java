@@ -1,12 +1,6 @@
 package textadventure;
 
 import org.junit.Test;
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
 public class BaseCharacterTest
 {

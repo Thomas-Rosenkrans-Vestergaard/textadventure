@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.characters.Character;
-import textadventure.characters.CharacterInformationAction;
+import textadventure.characters.*;
 import textadventure.combat.AttackAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
@@ -12,10 +12,8 @@ import textadventure.doors.*;
 import textadventure.items.EquipAction;
 import textadventure.items.UnEquipAction;
 import textadventure.items.UseItemsAction;
-import textadventure.characters.DropItemAction;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
-import textadventure.characters.PickUpItemAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
@@ -24,8 +22,6 @@ import textadventure.rooms.InspectFloorAction;
 import textadventure.rooms.InspectRoomAction;
 import textadventure.rooms.Room;
 import textadventure.ui.*;
-import textadventure.characters.CharacterCreationCallback;
-import textadventure.characters.FinishCharacterCreationCallback;
 
 /**
  * Human implementation of the {@link Player} interface. The

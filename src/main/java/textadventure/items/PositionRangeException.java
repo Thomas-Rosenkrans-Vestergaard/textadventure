@@ -14,7 +14,7 @@ public class PositionRangeException extends InventoryException
 	/**
 	 * Creates a new {@link PositionRangeException}.
 	 *
-	 * @param inventory    The {@link Inventory} where the exception occurred.
+	 * @param inventory        The {@link Inventory} where the exception occurred.
 	 * @param providedPosition The provided position number.
 	 */
 	public PositionRangeException(Inventory inventory, int providedPosition)

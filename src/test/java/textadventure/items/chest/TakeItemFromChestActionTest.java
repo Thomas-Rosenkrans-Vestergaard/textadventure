@@ -5,7 +5,6 @@ import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
-import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;
 import textadventure.items.SomeTypedItem;
@@ -63,9 +62,8 @@ public class TakeItemFromChestActionTest
 	@Test
 	public void performThrowsChestClosedException() throws Exception
 	{
-		GameInterface gameInterface = new SomeGameInterface();
-		Backpack      backpack      = new Backpack();
-		SomeCharacter character     = new SomeCharacter();
+		Backpack      backpack  = new Backpack();
+		SomeCharacter character = new SomeCharacter();
 		character.setBackpack(backpack);
 		Chest chest = new Chest(10, Chest.State.CLOSED, null);
 
@@ -90,10 +88,9 @@ public class TakeItemFromChestActionTest
 	@Test
 	public void performArguments() throws Exception
 	{
-		GameInterface gameInterface = new SomeGameInterface();
-		Item          item          = new SomeItem();
-		Backpack      backpack      = new Backpack();
-		SomeCharacter character     = new SomeCharacter();
+		Item          item      = new SomeItem();
+		Backpack      backpack  = new Backpack();
+		SomeCharacter character = new SomeCharacter();
 		character.setBackpack(backpack);
 		Chest chest = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
@@ -102,30 +99,31 @@ public class TakeItemFromChestActionTest
 		assertEquals(0, backpack.getNumberOfItems());
 		assertEquals(1, chest.getNumberOfItems());
 
-		TakeItemFromChestAction action = new TakeItemFromChestAction(chest, ((characterResponse, actionResponse) -> {
-			try {
-				assertSame(character, characterResponse);
-				assertSame(chest, actionResponse.getChest());
-				assertFalse(actionResponse.hasException());
-				assertEquals(0, chest.getNumberOfItems());
-				assertEquals(1, backpack.getNumberOfItems());
-				assertEquals(item, actionResponse.getItems().get(0));
-				assertEquals(item, backpack.getItem(0));
-			} catch (Exception e) {
-				fail();
-			}
-		}));
+		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
+		action.perform(character, new String[]{"0"}, new SomeActionResponses()
+		{
 
-		action.perform(gameInterface, character, new String[]{"0"});
+			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
+			{
+				try {
+					assertFalse(action.hasException());
+					assertEquals(0, chest.getNumberOfItems());
+					assertEquals(1, backpack.getNumberOfItems());
+					assertEquals(item, action.getItems().get(0));
+					assertEquals(item, backpack.getItem(0));
+				} catch (Exception e) {
+					fail();
+				}
+			}
+		});
 	}
 
 	@Test
 	public void performArgumentsThrowsNumberFormatException() throws Exception
 	{
-		GameInterface gameInterface = new SomeGameInterface();
-		Item          item          = new SomeItem();
-		Backpack      backpack      = new Backpack();
-		SomeCharacter character     = new SomeCharacter();
+		Item          item      = new SomeItem();
+		Backpack      backpack  = new Backpack();
+		SomeCharacter character = new SomeCharacter();
 		character.setBackpack(backpack);
 		Chest chest = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
@@ -134,25 +132,25 @@ public class TakeItemFromChestActionTest
 		assertEquals(0, backpack.getNumberOfItems());
 		assertEquals(1, chest.getNumberOfItems());
 
-		TakeItemFromChestAction action = new TakeItemFromChestAction(chest, ((characterResponse, actionResponse) -> {
-			assertSame(character, characterResponse);
-			assertSame(chest, actionResponse.getChest());
-			assertTrue(actionResponse.hasException(NumberFormatException.class));
-			assertEquals(0, actionResponse.getItems().size());
-			assertEquals(1, chest.getNumberOfItems());
-			assertEquals(0, backpack.getNumberOfItems());
-		}));
-
-		action.perform(gameInterface, character, new String[]{"NOT_INTEGER"});
+		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
+		action.perform(character, new String[]{"NOT_INTEGER"}, new SomeActionResponses()
+		{
+			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
+			{
+				assertTrue(action.hasException(NumberFormatException.class));
+				assertEquals(0, action.getItems().size());
+				assertEquals(1, chest.getNumberOfItems());
+				assertEquals(0, backpack.getNumberOfItems());
+			}
+		});
 	}
 
 	@Test
 	public void performArgumentsThrowsInventoryFullException() throws Exception
 	{
-		GameInterface gameInterface = new SomeGameInterface();
-		Item          item          = new SomeItem();
-		Backpack      backpack      = new Backpack(0);
-		SomeCharacter character     = new SomeCharacter();
+		Item          item      = new SomeItem();
+		Backpack      backpack  = new Backpack(0);
+		SomeCharacter character = new SomeCharacter();
 		character.setBackpack(backpack);
 		Chest chest = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
@@ -161,21 +159,22 @@ public class TakeItemFromChestActionTest
 		assertEquals(0, backpack.getNumberOfItems());
 		assertEquals(1, chest.getNumberOfItems());
 
-		TakeItemFromChestAction action = new TakeItemFromChestAction(chest, ((characterResponse, actionResponse) -> {
-			assertSame(character, characterResponse);
-			assertSame(chest, actionResponse.getChest());
-			assertTrue(actionResponse.hasException(InventoryFullException.class));
-			assertEquals(0, actionResponse.getItems().size());
-			assertEquals(1, chest.getNumberOfItems());
-			assertEquals(0, backpack.getNumberOfItems());
-		}));
-
-		action.perform(gameInterface, character, new String[]{"0"});
+		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
+		action.perform(character, new String[]{"0"}, new SomeActionResponses()
+		{
+			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
+			{
+				assertTrue(action.hasException(NumberFormatException.class));
+				assertEquals(0, action.getItems().size());
+				assertEquals(1, chest.getNumberOfItems());
+				assertEquals(0, backpack.getNumberOfItems());
+			}
+		});
 	}
 
 	@Test
 	public void testInheritedMethods() throws Exception
 	{
-		ActionTest.test(() -> new TakeItemFromChestAction(null, null));
+		ActionTest.test(() -> new TakeItemFromChestAction(null));
 	}
 }

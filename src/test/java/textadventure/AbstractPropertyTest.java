@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.Action;
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
-import textadventure.ui.GameInterface;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -20,7 +20,7 @@ public class AbstractPropertyTest
 
 	private class ActionImplementation extends AbstractAction
 	{
-		@Override public void perform(GameInterface gameInterface, Character character, String[] arguments)
+		@Override public void perform(Character character, String[] arguments, ActionResponses responses)
 		{
 
 		}

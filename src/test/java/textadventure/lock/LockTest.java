@@ -25,7 +25,7 @@ public class LockTest
 	public void lock() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.UNLOCKED);
-		Key key = new Key("a");
+		Key  key  = new Key("a");
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		lock.lock(key);
 		assertEquals(Lock.State.LOCKED, lock.getState());
@@ -35,7 +35,7 @@ public class LockTest
 	public void lockAlreadyLockedException() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.LOCKED);
-		Key key = new Key("a");
+		Key  key  = new Key("a");
 		lock.lock(key);
 	}
 
@@ -43,7 +43,7 @@ public class LockTest
 	public void lockIncorrectKeyException() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.UNLOCKED);
-		Key key = new Key("b");
+		Key  key  = new Key("b");
 		lock.lock(key);
 	}
 
@@ -51,7 +51,7 @@ public class LockTest
 	public void unlock() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.LOCKED);
-		Key key = new Key("a");
+		Key  key  = new Key("a");
 		assertEquals(Lock.State.LOCKED, lock.getState());
 		lock.unlock(key);
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
@@ -61,7 +61,7 @@ public class LockTest
 	public void lockAlreadyUnlockedException() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.UNLOCKED);
-		Key key = new Key("a");
+		Key  key  = new Key("a");
 		lock.unlock(key);
 	}
 
@@ -69,7 +69,7 @@ public class LockTest
 	public void unlockIncorrectKeyException2() throws Exception
 	{
 		Lock lock = new Lock("a", Lock.State.LOCKED);
-		Key key = new Key("b");
+		Key  key  = new Key("b");
 		lock.unlock(key);
 	}
 }

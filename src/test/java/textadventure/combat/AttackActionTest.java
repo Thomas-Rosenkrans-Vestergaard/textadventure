@@ -1,7 +1,6 @@
 package textadventure.combat;
 
 import org.junit.Test;
-import textadventure.SomeCharacter;
 
 public class AttackActionTest
 {

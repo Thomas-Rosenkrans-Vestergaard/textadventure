@@ -41,7 +41,7 @@ public class Backpack extends BaseInventory implements Property
 	/**
 	 * Creates and returns a new {@link Backpack} with the {@link InspectBackpackAction}.
 	 *
-	 * @param positions     The number of positions in the {@link Backpack}.
+	 * @param positions The number of positions in the {@link Backpack}.
 	 * @return The newly created {@link Backpack}.
 	 */
 	public static Backpack factory(int positions)
