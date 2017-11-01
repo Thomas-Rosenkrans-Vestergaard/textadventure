@@ -5,6 +5,7 @@ import textadventure.actions.Action;
 import textadventure.characters.Character;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
+import textadventure.combat.HealingSource;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
@@ -228,6 +229,11 @@ public class SomeCharacter implements Character
 	}
 
 	@Override public int takeDamage(DamageSource damageSource)
+	{
+		return 0;
+	}
+
+	@Override public int takeHealing(HealingSource healingSource)
 	{
 		return 0;
 	}

@@ -7,6 +7,7 @@ import textadventure.PropertyContainer;
 import textadventure.combat.AttackAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
+import textadventure.combat.HealingSource;
 import textadventure.items.EquipAction;
 import textadventure.items.UnEquipAction;
 import textadventure.items.backpack.Backpack;
@@ -577,6 +578,25 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 		this.currentHP -= damageSource.getDamage();
 
 		return damageSource.getDamage();
+	}
+
+	/**
+	 * Causes the {@link Character} to receive hp from the provided {@link HealingSource}.
+	 *
+	 * @param healingSource The {@link HealingSource}.
+	 * @return How much the {@link Character} healed.
+	 */
+	@Override public int takeHealing(HealingSource healingSource)
+	{
+		int healingAmount = healingSource.getHealingAmount();
+
+		if (healingAmount + currentHP > maxHP) {
+			currentHP = maxHP;
+			return maxHP - currentHP;
+		}
+
+		this.currentHP += healingAmount;
+		return healingAmount;
 	}
 }
 

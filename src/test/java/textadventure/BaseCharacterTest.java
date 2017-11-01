@@ -1,6 +1,7 @@
 package textadventure;
 
 import org.junit.Test;
+import textadventure.combat.HealingSource;
 
 public class BaseCharacterTest
 {
@@ -144,4 +145,8 @@ public class BaseCharacterTest
 	{
 	}
 
+	@Test
+	public void takeHealing() throws Exception
+	{
+	}
 }
