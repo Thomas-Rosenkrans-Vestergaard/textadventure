@@ -87,7 +87,7 @@ public class ComputerPlayer implements Player
 	 */
 	@Override public void onCharacterCreation(Character character)
 	{
-		this.chara
+
 	}
 
 	/**
