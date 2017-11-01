@@ -1,18 +1,16 @@
 package textadventure.doors;
 
 import org.junit.Test;
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
 import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
+import textadventure.actions.SomeActionResponses;
+import textadventure.characters.Character;
+import textadventure.characters.CharacterCreationTemplate;
 import textadventure.lock.Lock;
 import textadventure.lock.MockLock;
+import textadventure.rooms.InspectFloorAction;
 import textadventure.rooms.Room;
 import textadventure.rooms.SomeRoom;
-import textadventure.ui.GameInterface;
-import textadventure.ui.SomeGameInterface;
-import textadventure.characters.CharacterCreationTemplate;
 
 import static org.junit.Assert.*;
 
@@ -28,23 +26,25 @@ public class UseDoorActionTest
 		Door                      door                      = new BaseDoor(Door.State.OPEN, lock, a, b);
 		CharacterCreationTemplate characterCreationTemplate = new CharacterCreationTemplate();
 		characterCreationTemplate.setName("Name");
-		GameInterface gameInterface = new SomeGameInterface();
-		SomeCharacter character     = new SomeCharacter();
+		SomeCharacter character = new SomeCharacter();
 		character.setCurrentLocation(a);
 		a.addCharacter(character);
 		assertSame(a, character.getCurrentLocation());
 		assertTrue(a.hasCharacter(character));
 		assertFalse(b.hasCharacter(character));
-		UseDoorAction action = new UseDoorAction(door, ((characterResponse, actionResponse) -> {
-			assertSame(character, characterResponse);
-			assertSame(door, actionResponse.getDoor());
-			assertFalse(actionResponse.hasException());
-			assertSame(b, character.getCurrentLocation());
-			assertTrue(b.hasCharacter(character));
-			assertFalse(a.hasCharacter(character));
-		}));
+		UseDoorAction action = new UseDoorAction(door);
 
-		action.perform(gameInterface, character, new String[0]);
+		action.perform(character, new String[0], new SomeActionResponses()
+		{
+
+			@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
+			{
+				assertFalse(action.hasException());
+				assertSame(b, character.getCurrentLocation());
+				assertTrue(b.hasCharacter(character));
+				assertFalse(a.hasCharacter(character));
+			}
+		});
 	}
 
 	@Test
@@ -56,22 +56,22 @@ public class UseDoorActionTest
 		Door          door      = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		SomeCharacter character = new SomeCharacter();
 		character.setCurrentLocation(a);
-		GameInterface gameInterface = new SomeGameInterface();
 
 		assertSame(a, character.getCurrentLocation());
-		UseDoorAction action = new UseDoorAction(door, ((characterResponse, actionResponse) -> {
-			assertSame(character, characterResponse);
-			assertSame(door, actionResponse.getDoor());
-			assertTrue(actionResponse.hasException(DoorClosedException.class));
-			assertSame(a, character.getCurrentLocation());
-		}));
-
-		action.perform(gameInterface, character, new String[0]);
+		UseDoorAction action = new UseDoorAction(door);
+		action.perform(character, new String[0], new SomeActionResponses()
+		{
+			@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
+			{
+				assertTrue(action.hasException(DoorClosedException.class));
+				assertSame(a, character.getCurrentLocation());
+			}
+		});
 	}
 
 	@Test
 	public void testInheritedMethods() throws Exception
 	{
-		ActionTest.test(() -> new UseDoorAction(null, null));
+		ActionTest.test(() -> new UseDoorAction(null));
 	}
 }

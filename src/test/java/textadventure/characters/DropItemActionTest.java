@@ -1,17 +1,16 @@
-package textadventure.items.backpack;
+package textadventure.characters;
 
 import org.junit.Test;
-import textadventure.characters.Character;
 import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
+import textadventure.actions.SomeActionResponses;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;
+import textadventure.items.backpack.Backpack;
 import textadventure.rooms.BaseRoom;
 import textadventure.rooms.Floor;
 import textadventure.rooms.Room;
-import textadventure.ui.GameInterface;
-import textadventure.ui.Select;
-import textadventure.ui.SomeGameInterface;
+import textadventure.ui.*;
 
 import static org.junit.Assert.*;
 
@@ -29,35 +28,33 @@ public class DropItemActionTest
 		character.setBackpack(backpack);
 		character.setCurrentLocation(currentLocation);
 
-		GameInterface gameInterface = new SomeGameInterface()
+		assertEquals(1, backpack.getNumberOfItems());
+		assertEquals(0, floor.getNumberOfItems());
+
+		DropItemAction action = new DropItemAction();
+		action.perform(character, new String[0], new SomeActionResponses()
 		{
-			@Override public void select(Character character, Select select)
+
+			@Override
+			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
 			{
+				select.selectIndex(0);
+			}
+
+			@Override public void onDropItemAction(Character character, DropItemAction action)
+			{
+				assertFalse(action.hasException());
+				assertEquals(0, backpack.getNumberOfItems());
+				assertEquals(1, floor.getNumberOfItems());
+				assertEquals(1, action.getItems().size());
+
 				try {
-					select.selectIndex(0);
+					assertSame(item, floor.getItem(0));
 				} catch (Exception e) {
 					fail();
 				}
 			}
-		};
-
-		assertEquals(1, backpack.getNumberOfItems());
-		assertEquals(0, floor.getNumberOfItems());
-
-		DropItemAction action = new DropItemAction((characterResponse, actionResponse) -> {
-			assertFalse(actionResponse.hasException());
-			assertEquals(0, backpack.getNumberOfItems());
-			assertEquals(1, floor.getNumberOfItems());
-			assertEquals(1, actionResponse.getItems().size());
-
-			try {
-				assertSame(item, floor.getItem(0));
-			} catch (Exception e) {
-				fail();
-			}
 		});
-
-		action.perform(gameInterface, character, new String[0]);
 	}
 
 	@Test
@@ -71,29 +68,30 @@ public class DropItemActionTest
 		SomeCharacter character       = new SomeCharacter();
 		character.setBackpack(backpack);
 		character.setCurrentLocation(currentLocation);
-		GameInterface gameInterface = new SomeGameInterface();
-
 		backpack.addItem(a, 0);
 		backpack.addItem(b, 1);
 
 		assertEquals(2, backpack.getNumberOfItems());
 		assertEquals(0, floor.getNumberOfItems());
 
-		DropItemAction action = new DropItemAction((characterResponse, actionResponse) -> {
-			assertFalse(actionResponse.hasException());
-			assertEquals(0, backpack.getNumberOfItems());
-			assertEquals(2, floor.getNumberOfItems());
-			assertEquals(2, actionResponse.getItems().size());
+		DropItemAction action = new DropItemAction();
+		action.perform(character, new String[]{"0", "1"}, new SomeActionResponses()
+		{
+			@Override public void onDropItemAction(Character character, DropItemAction action)
+			{
+				assertFalse(action.hasException());
+				assertEquals(0, backpack.getNumberOfItems());
+				assertEquals(2, floor.getNumberOfItems());
+				assertEquals(2, action.getItems().size());
 
-			try {
-				assertSame(b, floor.takeItem(0));
-				assertSame(a, floor.takeItem(0));
-			} catch (Exception e) {
-				fail();
+				try {
+					assertSame(b, floor.takeItem(0));
+					assertSame(a, floor.takeItem(0));
+				} catch (Exception e) {
+					fail();
+				}
 			}
 		});
-
-		action.perform(gameInterface, character, new String[]{"0", "1"});
 	}
 
 	@Test
@@ -105,7 +103,6 @@ public class DropItemActionTest
 		SomeCharacter character       = new SomeCharacter();
 		character.setBackpack(backpack);
 		character.setCurrentLocation(currentLocation);
-		GameInterface gameInterface = new SomeGameInterface();
 
 		backpack.addItem(new SomeItem());
 		backpack.addItem(new SomeItem());
@@ -113,19 +110,22 @@ public class DropItemActionTest
 		assertEquals(2, backpack.getNumberOfItems());
 		assertEquals(0, floor.getNumberOfItems());
 
-		DropItemAction action = new DropItemAction((characterResponse, actionResponse) -> {
-			assertTrue(actionResponse.hasException(NumberFormatException.class));
-			assertEquals(2, backpack.getNumberOfItems());
-			assertEquals(0, floor.getNumberOfItems());
-			assertEquals(0, actionResponse.getItems().size());
+		DropItemAction action = new DropItemAction();
+		action.perform(character, new String[]{"NOT AN INTEGER"}, new SomeActionResponses()
+		{
+			@Override public void onDropItemAction(Character character, DropItemAction action)
+			{
+				assertTrue(action.hasException(NumberFormatException.class));
+				assertEquals(2, backpack.getNumberOfItems());
+				assertEquals(0, floor.getNumberOfItems());
+				assertEquals(0, action.getItems().size());
+			}
 		});
-
-		action.perform(gameInterface, character, new String[]{"NOT AN INTEGER"}); // <-----------
 	}
 
 	@Test
 	public void testInheritedMethods() throws Exception
 	{
-		ActionTest.test(() -> new DropItemAction(null));
+		ActionTest.test(DropItemAction::new);
 	}
 }

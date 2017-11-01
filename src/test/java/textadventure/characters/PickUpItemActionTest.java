@@ -1,18 +1,17 @@
-package textadventure.items.backpack;
+package textadventure.characters;
 
 import org.junit.Test;
-import textadventure.characters.Character;
 import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
+import textadventure.actions.SomeActionResponses;
 import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;
+import textadventure.items.backpack.Backpack;
 import textadventure.rooms.BaseRoom;
 import textadventure.rooms.Floor;
 import textadventure.rooms.Room;
-import textadventure.ui.GameInterface;
-import textadventure.ui.Select;
-import textadventure.ui.SomeGameInterface;
+import textadventure.ui.*;
 
 import static org.junit.Assert.*;
 
@@ -31,35 +30,32 @@ public class PickUpItemActionTest
 
 		floor.addItem(item);
 
-		GameInterface gameInterface = new SomeGameInterface()
+		assertEquals(0, backpack.getNumberOfItems());
+		assertEquals(1, floor.getNumberOfItems());
+
+		PickUpItemAction action = new PickUpItemAction();
+		action.perform(character, new String[0], new SomeActionResponses()
 		{
-			@Override public void select(Character character, Select select)
+			@Override
+			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
 			{
+				select.selectIndex(0);
+			}
+
+			@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+			{
+				assertFalse(action.hasException());
+				assertEquals(0, floor.getNumberOfItems());
+				assertEquals(1, backpack.getNumberOfItems());
+				assertEquals(1, action.getItems().size());
+
 				try {
-					select.selectIndex(0);
+					assertSame(item, backpack.getItem(0));
 				} catch (Exception e) {
 					fail();
 				}
 			}
-		};
-
-		assertEquals(0, backpack.getNumberOfItems());
-		assertEquals(1, floor.getNumberOfItems());
-
-		PickUpItemAction action = new PickUpItemAction((characterResponse, actionResponse) -> {
-			assertFalse(actionResponse.hasException());
-			assertEquals(0, floor.getNumberOfItems());
-			assertEquals(1, backpack.getNumberOfItems());
-			assertEquals(1, actionResponse.getItems().size());
-
-			try {
-				assertSame(item, backpack.getItem(0));
-			} catch (Exception e) {
-				fail();
-			}
 		});
-
-		action.perform(gameInterface, character, new String[0]);
 	}
 
 	@Test
@@ -73,7 +69,6 @@ public class PickUpItemActionTest
 		SomeCharacter character       = new SomeCharacter();
 		character.setBackpack(backpack);
 		character.setCurrentLocation(currentLocation);
-		GameInterface gameInterface = new SomeGameInterface();
 
 		floor.addItem(a, 0);
 		floor.addItem(b, 1);
@@ -81,21 +76,25 @@ public class PickUpItemActionTest
 		assertEquals(2, floor.getNumberOfItems());
 		assertEquals(0, backpack.getNumberOfItems());
 
-		PickUpItemAction action = new PickUpItemAction((characterResponse, actionResponse) -> {
-			assertFalse(actionResponse.hasException());
-			assertEquals(0, floor.getNumberOfItems());
-			assertEquals(2, backpack.getNumberOfItems());
-			assertEquals(2, actionResponse.getItems().size());
+		PickUpItemAction action = new PickUpItemAction();
+		action.perform(character, new String[]{"0", "1"}, new SomeActionResponses()
+		{
 
-			try {
-				assertSame(b, backpack.takeItem(0));
-				assertSame(a, backpack.takeItem(0));
-			} catch (Exception e) {
-				fail();
+			@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+			{
+				assertFalse(action.hasException());
+				assertEquals(0, floor.getNumberOfItems());
+				assertEquals(2, backpack.getNumberOfItems());
+				assertEquals(2, action.getItems().size());
+
+				try {
+					assertSame(b, backpack.takeItem(0));
+					assertSame(a, backpack.takeItem(0));
+				} catch (Exception e) {
+					fail();
+				}
 			}
 		});
-
-		action.perform(gameInterface, character, new String[]{"0", "1"});
 	}
 
 	@Test
@@ -107,21 +106,23 @@ public class PickUpItemActionTest
 		SomeCharacter character       = new SomeCharacter();
 		character.setBackpack(backpack);
 		character.setCurrentLocation(currentLocation);
-		GameInterface gameInterface = new SomeGameInterface();
-		Item          item          = new SomeItem();
+		Item item = new SomeItem();
 		floor.addItem(item, 0);
 		floor.addItem(item, 1);
 		assertEquals(0, backpack.getNumberOfItems());
 		assertEquals(2, floor.getNumberOfItems());
 
-		PickUpItemAction action = new PickUpItemAction((characterResponse, actionResponse) -> {
-			assertTrue(actionResponse.hasException(NumberFormatException.class));
-			assertEquals(0, backpack.getNumberOfItems());
-			assertEquals(2, floor.getNumberOfItems());
-			assertEquals(0, actionResponse.getItems().size());
+		PickUpItemAction action = new PickUpItemAction();
+		action.perform(character, new String[]{"NOT AN INTEGER"}, new SomeActionResponses()
+		{
+			@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+			{
+				assertTrue(action.hasException(NumberFormatException.class));
+				assertEquals(0, backpack.getNumberOfItems());
+				assertEquals(2, floor.getNumberOfItems());
+				assertEquals(0, action.getItems().size());
+			}
 		});
-
-		action.perform(gameInterface, character, new String[]{"NOT AN INTEGER"}); // <-----------
 	}
 
 	@Test
@@ -133,7 +134,6 @@ public class PickUpItemActionTest
 		SomeCharacter character       = new SomeCharacter();
 		character.setCurrentLocation(currentLocation);
 		character.setBackpack(backpack);
-		GameInterface gameInterface = new SomeGameInterface();
 
 		floor.addItem(new SomeItem(), 0);
 		floor.addItem(new SomeItem(), 1);
@@ -141,19 +141,22 @@ public class PickUpItemActionTest
 		assertEquals(2, floor.getNumberOfItems());
 		assertEquals(0, backpack.getNumberOfItems());
 
-		PickUpItemAction action = new PickUpItemAction((characterResponse, actionResponse) -> {
-			assertTrue(actionResponse.hasException(InventoryFullException.class));
-			assertEquals(2, floor.getNumberOfItems());
-			assertEquals(0, backpack.getNumberOfItems());
-			assertEquals(0, actionResponse.getItems().size());
+		PickUpItemAction action = new PickUpItemAction();
+		action.perform(character, new String[]{"0", "1"}, new SomeActionResponses()
+		{
+			@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+			{
+				assertTrue(action.hasException(InventoryFullException.class));
+				assertEquals(2, floor.getNumberOfItems());
+				assertEquals(0, character.getBackpack().getNumberOfItems());
+				assertEquals(0, action.getItems().size());
+			}
 		});
-
-		action.perform(gameInterface, character, new String[]{"0", "1"});
 	}
 
 	@Test
 	public void testInheritedMethods() throws Exception
 	{
-		ActionTest.test(() -> new PickUpItemAction(null));
+		ActionTest.test(PickUpItemAction::new);
 	}
 }

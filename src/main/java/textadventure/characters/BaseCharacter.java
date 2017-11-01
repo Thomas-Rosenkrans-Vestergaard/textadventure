@@ -10,8 +10,6 @@ import textadventure.combat.Faction;
 import textadventure.items.EquipAction;
 import textadventure.items.UnEquipAction;
 import textadventure.items.backpack.Backpack;
-import textadventure.items.backpack.DropItemAction;
-import textadventure.items.backpack.PickUpItemAction;
 import textadventure.items.weapons.Fists;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;

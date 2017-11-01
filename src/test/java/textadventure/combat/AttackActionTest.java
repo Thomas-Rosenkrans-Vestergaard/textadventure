@@ -1,15 +1,14 @@
 package textadventure.combat;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
+import textadventure.SomeCharacter;
 
 public class AttackActionTest
 {
 	@Test
 	public void reset() throws Exception
 	{
-		
+
 	}
 
 	@Test

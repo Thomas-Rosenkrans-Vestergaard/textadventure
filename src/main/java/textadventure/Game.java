@@ -153,14 +153,4 @@ public class Game
 				handleCharacterTurn(faction, characters.get(currentIndex + 1));
 		}));
 	}
-
-	/**
-	 * Returns the number of {@link Character} in each {@link Faction}.
-	 *
-	 * @return The number of {@link Character} in each {@link Faction}.
-	 */
-	public int getNumberOfCharacters()
-	{
-		return this.numberOfCharacters;
-	}
 }

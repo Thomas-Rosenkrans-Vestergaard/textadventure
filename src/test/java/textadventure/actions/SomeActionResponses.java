@@ -1,16 +1,12 @@
-package textadventure.ui;
+package textadventure.actions;
 
-import com.google.common.collect.ImmutableList;
-import textadventure.Game;
-import textadventure.actions.ActionRequestCallback;
 import textadventure.characters.Character;
-import textadventure.characters.CharacterCreationCallback;
 import textadventure.characters.CharacterInformationAction;
-import textadventure.characters.FinishCharacterCreationCallback;
 import textadventure.combat.AttackAction;
-import textadventure.combat.DamageSource;
-import textadventure.combat.Faction;
-import textadventure.doors.*;
+import textadventure.doors.CloseDoorAction;
+import textadventure.doors.InspectDoorAction;
+import textadventure.doors.OpenDoorAction;
+import textadventure.doors.UseDoorAction;
 import textadventure.items.EquipAction;
 import textadventure.items.UnEquipAction;
 import textadventure.items.UseItemsAction;
@@ -24,57 +20,10 @@ import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.InspectFloorAction;
 import textadventure.rooms.InspectRoomAction;
-import textadventure.rooms.Room;
+import textadventure.ui.*;
 
-public class SomeGameInterface implements GameInterface
+public class SomeActionResponses implements ActionResponses
 {
-
-	@Override
-	public void onCharactersCreate(int numberOfCharacters, CharacterCreationCallback creationCallback, FinishCharacterCreationCallback finishCallback)
-	{
-
-	}
-
-	@Override public void onCharacterCreation(Character character)
-	{
-
-	}
-
-	@Override public void onGameStart(Game game, ImmutableList<Faction> factions, Faction faction)
-	{
-
-	}
-
-	@Override public void onGameEnd(Game game, boolean result)
-	{
-
-	}
-
-	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
-	{
-
-	}
-
-	@Override public void onCharacterDies(Character character, DamageSource damageSource)
-	{
-
-	}
-
-	@Override public void onCharacterEntersRoom(Character character, Room room, Door door)
-	{
-
-	}
-
-	@Override public void onCharacterExistsRoom(Character character, Room room, Door door)
-	{
-
-	}
-
-	@Override public void onCharacterAttacked(Character character, AttackAction action)
-	{
-
-	}
-
 	@Override
 	public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
 	{

@@ -7,6 +7,9 @@ import textadventure.rooms.Room;
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to use a {@link Door} to move to another
  * {@link Room}.
+ * <p>
+ * The {@link UseDoorAction} can signal the following exceptions:
+ * - {@link DoorClosedException}.
  */
 public class UseDoorAction extends DoorAction
 {

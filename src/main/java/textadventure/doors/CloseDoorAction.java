@@ -6,15 +6,13 @@ import textadventure.characters.Character;
 
 /**
  * {@link Action} that allows a {@link Character} to close a {@link Door}.
+ * <p>
+ * The {@link CloseDoorAction} can signal the following exceptions:
+ * - {@link DoorAlreadyClosedException}.
+ * - {@link DoorLockedException}.
  */
 public class CloseDoorAction extends DoorAction
 {
-
-	@FunctionalInterface
-	public interface Response
-	{
-		void respond(Character character, CloseDoorAction action);
-	}
 
 	/**
 	 * Creates a new {@link OpenDoorAction}.

@@ -5,6 +5,10 @@ import textadventure.characters.Character;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to open a {@link Door}.
+ * <p>
+ * The {@link OpenDoorAction} can signal the following exceptions:
+ * - {@link DoorAlreadyOpenException}.
+ * - {@link DoorLockedException}.
  */
 public class OpenDoorAction extends DoorAction
 {

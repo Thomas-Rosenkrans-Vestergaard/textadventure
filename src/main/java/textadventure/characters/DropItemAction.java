@@ -1,11 +1,11 @@
-package textadventure.items.backpack;
+package textadventure.characters;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
-import textadventure.characters.Character;
 import textadventure.items.Item;
+import textadventure.items.backpack.Backpack;
 import textadventure.rooms.Floor;
 import textadventure.ui.BaseSelect;
 import textadventure.ui.Option;

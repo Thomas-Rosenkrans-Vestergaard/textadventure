@@ -1,12 +1,11 @@
 package textadventure.items.chest;
 
 import org.junit.Test;
-import textadventure.characters.Character;
 import textadventure.SomeCharacter;
 import textadventure.actions.ActionTest;
+import textadventure.actions.SomeActionResponses;
+import textadventure.characters.Character;
 import textadventure.lock.Lock;
-import textadventure.ui.GameInterface;
-import textadventure.ui.SomeGameInterface;
 
 import static org.junit.Assert.*;
 
@@ -15,42 +14,42 @@ public class OpenChestActionTest
 	@Test
 	public void perform() throws Exception
 	{
-		GameInterface gameInterface = new SomeGameInterface();
-		Character     character     = new SomeCharacter();
-		Chest         chest         = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.UNLOCKED));
+		Character character = new SomeCharacter();
+		Chest     chest     = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.UNLOCKED));
 
 		assertEquals(Chest.State.CLOSED, chest.getState());
-		OpenChestAction action = new OpenChestAction(chest, ((characterResponse, actionResponse) -> {
-			assertSame(character, characterResponse);
-			assertSame(chest, actionResponse.getChest());
-			assertFalse(actionResponse.hasException());
-			assertEquals(Chest.State.OPEN, chest.getState());
-		}));
-
-		action.perform(gameInterface, character, new String[0]);
+		OpenChestAction action = new OpenChestAction(chest);
+		action.perform(character, new String[0], new SomeActionResponses()
+		{
+			@Override public void onOpenChestAction(Character character, OpenChestAction action)
+			{
+				assertFalse(action.hasException());
+				assertEquals(Chest.State.OPEN, chest.getState());
+			}
+		});
 	}
 
 	@Test
 	public void performThrowsChestLockedException() throws Exception
 	{
-		GameInterface gameInterface = new SomeGameInterface();
-		Character     character     = new SomeCharacter();
-		Chest         chest         = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.LOCKED));
+		Character character = new SomeCharacter();
+		Chest     chest     = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.LOCKED));
 
 		assertEquals(Chest.State.CLOSED, chest.getState());
-		OpenChestAction action = new OpenChestAction(chest, ((characterResponse, actionResponse) -> {
-			assertSame(character, characterResponse);
-			assertSame(chest, actionResponse.getChest());
-			assertTrue(actionResponse.hasException(ChestLockedException.class));
-			assertEquals(Chest.State.CLOSED, chest.getState());
-		}));
-
-		action.perform(gameInterface, character, new String[0]);
+		OpenChestAction action = new OpenChestAction(chest);
+		action.perform(character, new String[0], new SomeActionResponses()
+		{
+			@Override public void onOpenChestAction(Character character, OpenChestAction action)
+			{
+				assertTrue(action.hasException(ChestLockedException.class));
+				assertEquals(Chest.State.CLOSED, chest.getState());
+			}
+		});
 	}
 
 	@Test
 	public void testInheritedMethods() throws Exception
 	{
-		ActionTest.test(() -> new OpenChestAction(null, null));
+		ActionTest.test(() -> new OpenChestAction(null));
 	}
 }
