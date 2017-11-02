@@ -18,18 +18,17 @@ import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.*;
-import textadventure.rooms.*;
+import textadventure.rooms.Coordinate;
+import textadventure.rooms.Room;
+import textadventure.rooms.RoomController;
+import textadventure.rooms.UnknownRoomException;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
-
-import static textadventure.doors.Door.State.CLOSED;
-import static textadventure.doors.Door.State.OPEN;
-import static textadventure.lock.Lock.State.LOCKED;
-import static textadventure.lock.Lock.State.UNLOCKED;
 
 public class ConsoleGameInterface implements GameInterface
 {
@@ -38,7 +37,7 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		try {
 			GameInterface  gameInterface  = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
-			Game game = new Game(5);
+			Game           game           = new Game(5);
 			RoomController roomController = game.getRoomController();
 			game.addFaction(new Escapees(new HumanPlayer(gameInterface), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 5))));
 			game.addFaction(new SecretPolice(new ComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
@@ -392,13 +391,14 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onAttackAction(Character character, AttackAction action)
 	{
 		if (!action.hasException()) {
-			printer.println(String.format("%s (%s) attacked %s (%s) with %s dealing %d damage.",
-					character.getName(),
-					character.getFaction(),
-					action.getTarget().getName(),
-					action.getTarget().getFaction(),
-					character.getWeapon().getItemTypeName(),
-					action.getDamageDone()));
+			for (Map.Entry<Character, Integer> damageDone : action.getDamageDone().entrySet())
+				printer.println(String.format("%s (%s) attacked %s (%s) with %s dealing %d damage.",
+						character.getName(),
+						character.getFaction(),
+						damageDone.getKey(),
+						damageDone.getValue(),
+						character.getWeapon().getItemTypeName(),
+						action.getDamageDone()));
 			return;
 		}
 	}

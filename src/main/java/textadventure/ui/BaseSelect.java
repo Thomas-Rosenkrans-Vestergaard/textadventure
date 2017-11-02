@@ -42,8 +42,11 @@ public class BaseSelect<T> implements Select<T>
 	 *
 	 * @param options  The {@link Option}s that can be selected.
 	 * @param response The event invoked when the selected {@link Option}(s) have been validated.
-	 **/
-	public BaseSelect(Set<? extends Option<T>> options, SelectResponse<T> response) throws NotEnoughOptionsException
+	 * @throws NoOptionsException        When the {@link Set} of {@link Option}s is empty.
+	 * @throws NotEnoughOptionsException When the number of {@link Option}s provided doesn't fulfill the minimum
+	 *                                   amount of {@link Option}s.
+	 */
+	public BaseSelect(Set<? extends Option<T>> options, SelectResponse<T> response) throws NoOptionsException, NotEnoughOptionsException
 	{
 		this(options, 1, options.size(), response);
 	}
@@ -54,8 +57,11 @@ public class BaseSelect<T> implements Select<T>
 	 * @param options      The {@link Option}s that can be selected.
 	 * @param exactOptions The number of {@link Option}s that must be selected.
 	 * @param response     The event invoked when the selected {@link Option}(s) have been validated.
+	 * @throws NoOptionsException        When the {@link Set} of {@link Option}s is empty.
+	 * @throws NotEnoughOptionsException When the number of {@link Option}s provided doesn't fulfill the minimum
+	 *                                   amount of {@link Option}s.
 	 */
-	public BaseSelect(Set<? extends Option<T>> options, int exactOptions, SelectResponse<T> response) throws NotEnoughOptionsException
+	public BaseSelect(Set<? extends Option<T>> options, int exactOptions, SelectResponse<T> response) throws NoOptionsException, NotEnoughOptionsException
 	{
 		this(options, exactOptions, exactOptions, response);
 	}
@@ -67,10 +73,16 @@ public class BaseSelect<T> implements Select<T>
 	 * @param minimumNumber The minimum number of {@link Option}s that must be selected.
 	 * @param maximumNumber The maximum number of {@link Option}s that can be selected.
 	 * @param response      The event invoked when the selected {@link Option}(s) have been validated.
+	 * @throws NoOptionsException        When the {@link Set} of {@link Option}s is empty.
+	 * @throws NotEnoughOptionsException When the number of {@link Option}s provided doesn't fulfill the minimum
+	 *                                   amount of {@link Option}s.
 	 */
 	public BaseSelect(Set<? extends Option<T>> options, int minimumNumber, int maximumNumber, SelectResponse<T>
-			response) throws NotEnoughOptionsException
+			response) throws NoOptionsException, NotEnoughOptionsException
 	{
+		if (options.size() == 0)
+			throw new NoOptionsException(this);
+
 		if (maximumNumber > options.size())
 			throw new NotEnoughOptionsException(this, minimumNumber, options.size());
 

@@ -1,5 +1,6 @@
 package textadventure.combat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
@@ -7,15 +8,12 @@ import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
 import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
-import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
 import textadventure.rooms.Floor;
 import textadventure.rooms.Room;
 import textadventure.ui.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Allows one {@link Character} to attack another.
@@ -24,9 +22,9 @@ public class AttackAction extends AbstractAction
 {
 
 	/**
-	 * The target of the {@link AttackAction}.
+	 * The target(s) of the {@link AttackAction}.
 	 */
-	private Character target;
+	private List<Character> targets = new ArrayList<>();
 
 	/**
 	 * The damage done to the target {@link Character}(s).
@@ -42,33 +40,46 @@ public class AttackAction extends AbstractAction
 
 	public void perform(Character character, ActionResponses responses)
 	{
-		Faction faction         = character.getFaction();
-		Room    currentLocation = character.getCurrentLocation();
+		Faction                         faction         = character.getFaction();
+		Room                            currentLocation = character.getCurrentLocation();
+		Weapon                          weapon          = character.getWeapon();
+		ImmutableSet<Option<Character>> options         = getOptions(currentLocation, faction);
 
-
-		if (faction == target.getFaction()) {
-			setException(new FriendlyTargetException(character, target));
+		if (options.size() == 0) {
+			setException(new NoTargetsException());
 			responses.onAttackAction(character, this);
 			return;
 		}
 
+		for (Option<Character> characterOption : options) {
+			if (characterOption.getT().getFaction() == faction) {
+				setException(new FriendlyTargetException(character, characterOption.getT()));
+				responses.onAttackAction(character, this);
+				return;
+			}
+		}
+
 		try {
-
-			Weapon                          weapon  = character.getWeapon();
-			ImmutableSet<Option<Character>> options = getOptions(currentLocation, faction);
-
-			if (options.size() == 0)
-				throw new NoTargetsException();
 
 			Select<Character> select = new BaseSelect<>(options, 1, weapon.getNumberOfTargets(), selection -> {
 				for (Option<Character> characterOption : selection) {
 					Character characterT = characterOption.getT();
+					this.targets.add(characterT);
 					this.damageDone.put(characterT, characterT.takeDamage(weapon));
-					characterT.getFaction().getLeader().onCharacterAttacked(characterT, this);
+					responses.onAttackAction(characterT, this);
+
+					if (characterT.getStatus() == Character.Status.DEAD) {
+						Floor       floor = currentLocation.getRoomFloor();
+						Stack<Item> stack = character.getBackpack().takeItems();
+						try {
+							floor.addItems(stack);
+						} catch (InventoryFullException e) {
+						}
+					}
 				}
 			});
 
-			character.getFaction().getLeader().select(select);
+			responses.select(select);
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());
@@ -76,16 +87,6 @@ public class AttackAction extends AbstractAction
 			setException(e);
 		} finally {
 			responses.onAttackAction(character, this);
-			if (target.getStatus() == Character.Status.DEAD) {
-				Floor       floor = currentLocation.getRoomFloor();
-				Stack<Item> stack = character.getBackpack().takeItems();
-				try {
-					floor.addItems(stack);
-				} catch (InventoryFullException e) {
-
-				}
-			}
-
 		}
 	}
 
@@ -114,9 +115,9 @@ public class AttackAction extends AbstractAction
 	 * @return The target of the {@link AttackAction}.
 	 */
 
-	public Character getTarget()
+	public ImmutableList<Character> getTargets()
 	{
-		return this.target;
+		return ImmutableList.copyOf(targets);
 	}
 
 	/**
