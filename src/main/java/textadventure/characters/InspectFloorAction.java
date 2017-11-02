@@ -1,8 +1,8 @@
-package textadventure.rooms;
+package textadventure.characters;
 
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
-import textadventure.characters.Character;
+import textadventure.rooms.Floor;
 
 /**
  * {@link textadventure.actions.Action} allowing a {@link Character} to inspect the {@link Floor} revealing its
@@ -20,10 +20,9 @@ public class InspectFloorAction extends AbstractAction
 	 * Performs the {@link InspectFloorAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link InspectFloorAction}.
-	 * @param arguments The arguments provided to the {@link InspectFloorAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectFloorAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		this.floor = character.getCurrentLocation().getRoomFloor();
 		responses.onInspectFloorAction(character, this);

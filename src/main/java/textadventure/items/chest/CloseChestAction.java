@@ -23,10 +23,9 @@ public class CloseChestAction extends ChestAction
 	 * Performs the {@link CloseChestAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link CloseChestAction}.
-	 * @param arguments The arguments provided to the {@link CloseChestAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link CloseChestAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		Chest       chest = getChest();
 		Chest.State state = chest.getState();

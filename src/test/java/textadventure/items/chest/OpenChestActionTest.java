@@ -19,7 +19,7 @@ public class OpenChestActionTest
 
 		assertEquals(Chest.State.CLOSED, chest.getState());
 		OpenChestAction action = new OpenChestAction(chest);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onOpenChestAction(Character character, OpenChestAction action)
 			{
@@ -37,7 +37,7 @@ public class OpenChestActionTest
 
 		assertEquals(Chest.State.CLOSED, chest.getState());
 		OpenChestAction action = new OpenChestAction(chest);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onOpenChestAction(Character character, OpenChestAction action)
 			{

@@ -23,10 +23,9 @@ public class OpenChestAction extends ChestAction
 	 * Performs the {@link OpenChestAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link OpenChestAction}.
-	 * @param arguments The arguments provided to the {@link OpenChestAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link OpenChestAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		Chest.State state = chest.getState();
 

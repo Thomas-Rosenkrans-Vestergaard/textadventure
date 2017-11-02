@@ -28,10 +28,9 @@ public class UseDoorAction extends DoorAction
 	 * Performs the {@link UseDoorAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link UseDoorAction}.
-	 * @param arguments The arguments provided to the {@link UseDoorAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link UseDoorAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		Door       door        = getDoor();
 		Room       currentRoom = character.getCurrentLocation();

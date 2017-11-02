@@ -1,16 +1,16 @@
-package textadventure.items;
+package textadventure.characters;
 
 import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
-import textadventure.characters.Character;
+import textadventure.items.EquipableItem;
+import textadventure.items.NotEquipableException;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
 import textadventure.ui.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class EquipAction extends AbstractAction
@@ -19,31 +19,19 @@ public class EquipAction extends AbstractAction
 	/**
 	 * The {@link EquipableItem}s equipped during the {@link EquipAction}.
 	 */
-	private ArrayList<EquipableItem> items;
-
-	/**
-	 * Resets the {@link EquipAction} to its default state.
-	 */
-	@Override public void reset()
-	{
-		this.exception = null;
-		this.items = new ArrayList<>();
-	}
+	private ArrayList<EquipableItem> items = new ArrayList<>();
 
 	/**
 	 * Performs the {@link EquipAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link EquipAction}.
-	 * @param arguments The arguments provided to the {@link EquipAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link EquipAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
-		Backpack backpack = character.getBackpack();
-
 		try {
-
-			ImmutableSet<Option<EquipableItem>> options = backpack.asOptions(EquipableItem.class);
+			Backpack                            backpack = character.getBackpack();
+			ImmutableSet<Option<EquipableItem>> options  = backpack.asOptions(EquipableItem.class);
 			Select<EquipableItem> select = new BaseSelect<>(options, selection -> {
 
 				for (Option<EquipableItem> equipableOption : selection) {
@@ -119,13 +107,6 @@ public class EquipAction extends AbstractAction
 					throw new UnsupportedOperationException();
 				}
 			});
-
-			if (arguments.length > 0) {
-				List<Integer> indices = new ArrayList<>();
-				for (String argument : arguments) indices.add(Integer.parseInt(argument));
-				select.selectIndices(indices);
-				return;
-			}
 
 			character.getFaction().getLeader().select(select);
 

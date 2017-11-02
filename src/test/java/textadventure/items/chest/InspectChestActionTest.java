@@ -19,7 +19,7 @@ public class InspectChestActionTest
 		Chest     chest     = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
 
 		InspectChestAction action = new InspectChestAction(chest);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onInspectChestAction(Character character, InspectChestAction action)
 			{
@@ -35,7 +35,7 @@ public class InspectChestActionTest
 		Chest     chest     = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.UNLOCKED));
 
 		InspectChestAction action = new InspectChestAction(chest);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onInspectChestAction(Character character, InspectChestAction action)
 			{

@@ -23,10 +23,9 @@ public class InspectDoorAction extends DoorAction
 	 * Performs the {@link InspectDoorAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link InspectDoorAction}.
-	 * @param arguments The arguments provided to the {@link InspectDoorAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectDoorAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		responses.onInspectDoorAction(character, this);
 	}

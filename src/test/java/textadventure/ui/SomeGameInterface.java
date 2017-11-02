@@ -6,20 +6,14 @@ import textadventure.actions.ActionRequestCallback;
 import textadventure.characters.Character;
 import textadventure.characters.*;
 import textadventure.combat.AttackAction;
-import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.doors.*;
-import textadventure.items.EquipAction;
-import textadventure.items.UnEquipAction;
-import textadventure.items.UseItemsAction;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
-import textadventure.rooms.InspectFloorAction;
-import textadventure.rooms.InspectRoomAction;
 import textadventure.rooms.Room;
 
 public class SomeGameInterface implements GameInterface
@@ -47,11 +41,6 @@ public class SomeGameInterface implements GameInterface
 	}
 
 	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
-	{
-
-	}
-
-	@Override public void onCharacterDies(Character character, DamageSource damageSource)
 	{
 
 	}

@@ -30,7 +30,7 @@ public class InspectDoorActionTest
 		InspectDoorAction   action          = new InspectDoorAction(door);
 		SomeActionResponses actionResponses = new SomeActionResponses();
 		SomeActionResponses mocked          = Mockito.spy(actionResponses);
-		action.perform(character, new String[0], mocked);
+		action.perform(character, mocked);
 		assertFalse(action.hasException());
 		assertSame(door, action.getDoor());
 		Mockito.verify(mocked).onInspectDoorAction(any(Character.class), any(InspectDoorAction.class));

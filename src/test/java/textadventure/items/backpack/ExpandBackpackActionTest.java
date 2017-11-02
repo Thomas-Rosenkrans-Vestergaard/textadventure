@@ -22,7 +22,7 @@ public class ExpandBackpackActionTest
 		assertEquals(5, backpack.getNumberOfPositions());
 		ExpandBackpackAction action = new ExpandBackpackAction(backpack);
 
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
@@ -50,7 +50,7 @@ public class ExpandBackpackActionTest
 		assertEquals(5, backpack.getNumberOfPositions());
 
 		ExpandBackpackAction action = new ExpandBackpackAction(backpack);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
@@ -77,7 +77,7 @@ public class ExpandBackpackActionTest
 		assertEquals(5, backpack.getNumberOfPositions());
 
 		ExpandBackpackAction action = new ExpandBackpackAction(backpack);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException

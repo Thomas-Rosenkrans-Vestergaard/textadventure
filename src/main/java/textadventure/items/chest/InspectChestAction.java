@@ -23,10 +23,9 @@ public class InspectChestAction extends ChestAction
 	 * Performs the {@link InspectChestAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link InspectChestAction}.
-	 * @param arguments The arguments provided to the {@link InspectChestAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectChestAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		Chest.State state = chest.getState();
 

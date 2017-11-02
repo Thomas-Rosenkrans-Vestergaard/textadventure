@@ -15,15 +15,6 @@ public abstract class ChestAction extends AbstractAction
 	protected Chest chest;
 
 	/**
-	 * Resets the {@link Action} to its default state.
-	 */
-	@Override public void reset()
-	{
-		this.exception = null;
-		this.chest = null;
-	}
-
-	/**
 	 * Creates a new {@link ChestAction}.
 	 *
 	 * @param chest The {@link Chest} to execute the {@link ChestAction} on.

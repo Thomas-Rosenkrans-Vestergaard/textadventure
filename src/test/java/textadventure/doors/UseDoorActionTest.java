@@ -8,7 +8,7 @@ import textadventure.characters.Character;
 import textadventure.characters.CharacterCreationTemplate;
 import textadventure.lock.Lock;
 import textadventure.lock.MockLock;
-import textadventure.rooms.InspectFloorAction;
+import textadventure.characters.InspectFloorAction;
 import textadventure.rooms.Room;
 import textadventure.rooms.SomeRoom;
 
@@ -34,7 +34,7 @@ public class UseDoorActionTest
 		assertFalse(b.hasCharacter(character));
 		UseDoorAction action = new UseDoorAction(door);
 
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 
 			@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
@@ -59,7 +59,7 @@ public class UseDoorActionTest
 
 		assertSame(a, character.getCurrentLocation());
 		UseDoorAction action = new UseDoorAction(door);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
 			{

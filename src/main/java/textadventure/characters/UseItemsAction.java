@@ -1,17 +1,16 @@
-package textadventure.items;
+package textadventure.characters;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
-import textadventure.characters.Character;
+import textadventure.items.UsableItem;
 import textadventure.ui.BaseSelect;
 import textadventure.ui.Option;
 import textadventure.ui.Select;
 import textadventure.ui.SelectResponseException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * {@link textadventure.actions.Action} allowing a {@link textadventure.characters.Character} to use an
@@ -23,25 +22,15 @@ public class UseItemsAction extends AbstractAction
 	/**
 	 * The {@link UsableItem}s used during the {@link UseItemsAction}.
 	 */
-	private ArrayList<UsableItem> items;
-
-	/**
-	 * Resets the {@link EquipAction} to its default state.
-	 */
-	@Override public void reset()
-	{
-		this.exception = null;
-		this.items = new ArrayList<>();
-	}
+	private ArrayList<UsableItem> items = new ArrayList<>();
 
 	/**
 	 * Performs the {@link UseItemsAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link UseItemsAction}.
-	 * @param arguments The arguments provided to the {@link UseItemsAction}.
 	 * @param responses The {@link ActionResponses} to report to after performing the {@link UseItemsAction}.
 	 */
-	@Override public void perform(Character character, String[] arguments, ActionResponses responses)
+	@Override public void perform(Character character, ActionResponses responses)
 	{
 		try {
 
@@ -53,13 +42,6 @@ public class UseItemsAction extends AbstractAction
 					this.items.add(item);
 				}
 			});
-
-			if (arguments.length > 0) {
-				List<Integer> indices = new ArrayList<>();
-				for (String argument : arguments) indices.add(Integer.parseInt(argument));
-				select.selectIndices(indices);
-				return;
-			}
 
 			character.getFaction().getLeader().select(select);
 

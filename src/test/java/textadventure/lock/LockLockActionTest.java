@@ -22,7 +22,7 @@ public class LockLockActionTest
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock);
 
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 
 			@Override public void onLockLockAction(Character character, LockLockAction action)
@@ -43,7 +43,7 @@ public class LockLockActionTest
 		character.setBackpack(backpack);
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock);
-		action.perform(character, new String[]{"0"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onLockLockAction(Character character, LockLockAction action)
 			{
@@ -64,7 +64,7 @@ public class LockLockActionTest
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock);
 
-		action.perform(character, new String[]{"NOT_INTEGER"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onLockLockAction(Character character, LockLockAction action)
 			{
@@ -86,7 +86,7 @@ public class LockLockActionTest
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock);
 
-		action.perform(character, new String[]{"0"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onLockLockAction(Character character, LockLockAction action)
 			{

@@ -7,14 +7,10 @@ import textadventure.PropertyContainer;
 import textadventure.combat.AttackAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
-import textadventure.items.EquipAction;
-import textadventure.items.UnEquipAction;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Fists;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
-import textadventure.rooms.InspectFloorAction;
-import textadventure.rooms.InspectRoomAction;
 import textadventure.rooms.Room;
 
 import java.awt.*;

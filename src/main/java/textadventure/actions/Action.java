@@ -5,25 +5,18 @@ import textadventure.characters.Character;
 import java.util.function.Consumer;
 
 /**
- * Represents some {@link Action} that can be taken by a {@link Character}. The state of the {@link Action} should be
- * reset on each call from {@link Action#perform(Character, String[], ActionResponses)}.
+ * Represents some {@link Action} that can be taken by a {@link Character}.
  */
 public interface Action
 {
 
 	/**
-	 * Resets the {@link Action} to its default state.
-	 */
-	void reset();
-
-	/**
 	 * Performs the {@link Action} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link Action}.
-	 * @param arguments The arguments provided to the {@link Action}.
 	 * @param responses The {@link ActionResponses} to report to after performing the {@link Action}.
 	 */
-	void perform(Character character, String[] arguments, ActionResponses responses);
+	void perform(Character character, ActionResponses responses);
 
 	/**
 	 * Invokes the provided {@link Runnable} provided the {@link Action} has no exceptions.

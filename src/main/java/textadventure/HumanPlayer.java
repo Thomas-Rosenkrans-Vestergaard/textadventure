@@ -9,17 +9,17 @@ import textadventure.combat.AttackAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.doors.*;
-import textadventure.items.EquipAction;
-import textadventure.items.UnEquipAction;
-import textadventure.items.UseItemsAction;
+import textadventure.characters.EquipAction;
+import textadventure.characters.UnEquipAction;
+import textadventure.characters.UseItemsAction;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
-import textadventure.rooms.InspectFloorAction;
-import textadventure.rooms.InspectRoomAction;
+import textadventure.characters.InspectFloorAction;
+import textadventure.characters.InspectRoomAction;
 import textadventure.rooms.Room;
 import textadventure.ui.*;
 
@@ -115,17 +115,6 @@ public class HumanPlayer implements Player
 	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
 	{
 		gameInterface.onActionRequest(character, callback);
-	}
-
-	/**
-	 * Event for when a {@link Character} dies.
-	 *
-	 * @param character    The {@link Character} who died.
-	 * @param damageSource The {@link DamageSource} that killed them.
-	 */
-	@Override public void onCharacterDies(Character character, DamageSource damageSource)
-	{
-
 	}
 
 	/**

@@ -36,7 +36,7 @@ public class TakeItemFromChestActionTest
 
 		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
 
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
@@ -73,7 +73,7 @@ public class TakeItemFromChestActionTest
 		assertEquals(1, chest.getNumberOfItems());
 
 		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
 			{
@@ -100,7 +100,7 @@ public class TakeItemFromChestActionTest
 		assertEquals(1, chest.getNumberOfItems());
 
 		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
-		action.perform(character, new String[]{"0"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 
 			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
@@ -133,7 +133,7 @@ public class TakeItemFromChestActionTest
 		assertEquals(1, chest.getNumberOfItems());
 
 		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
-		action.perform(character, new String[]{"NOT_INTEGER"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
 			{
@@ -160,7 +160,7 @@ public class TakeItemFromChestActionTest
 		assertEquals(1, chest.getNumberOfItems());
 
 		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
-		action.perform(character, new String[]{"0"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
 			{

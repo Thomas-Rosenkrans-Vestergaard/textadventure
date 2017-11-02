@@ -4,6 +4,7 @@ import org.junit.Test;
 import textadventure.SomeCharacter;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
+import textadventure.characters.UnEquipAction;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.wearables.HeadWear;
 import textadventure.rooms.BaseRoom;
@@ -51,7 +52,7 @@ public class UnEquipActionTest
 		assertSame(headWear, character.getHeadWear());
 
 		UnEquipAction action = new UnEquipAction();
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onUnEquipAction(Character character, UnEquipAction action)
 			{

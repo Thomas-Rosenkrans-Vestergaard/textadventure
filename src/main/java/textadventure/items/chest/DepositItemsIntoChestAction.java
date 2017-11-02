@@ -37,23 +37,12 @@ public class DepositItemsIntoChestAction extends ChestAction
 	}
 
 	/**
-	 * Resets the {@link DepositItemsIntoChestAction} to its default state.
-	 */
-	@Override public void reset()
-	{
-		this.exception = null;
-		this.chest = null;
-		this.items = null;
-	}
-
-	/**
 	 * Performs the {@link DepositItemsIntoChestAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link DepositItemsIntoChestAction}.
-	 * @param arguments The arguments provided to the {@link DepositItemsIntoChestAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link DepositItemsIntoChestAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		Chest.State state    = chest.getState();
 		Backpack    backpack = character.getBackpack();
@@ -75,13 +64,6 @@ public class DepositItemsIntoChestAction extends ChestAction
 					backpack.takeItem(option.getOptionIndex());
 				}
 			});
-
-			if (arguments.length == 1) {
-				List<Integer> indices = new ArrayList<>();
-				for (String argument : arguments) indices.add(Integer.parseInt(argument));
-				select.selectIndices(indices);
-				return;
-			}
 
 			character.getFaction().getLeader().select(select);
 

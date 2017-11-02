@@ -20,7 +20,13 @@ public class AbstractPropertyTest
 
 	private class ActionImplementation extends AbstractAction
 	{
-		@Override public void perform(Character character, String[] arguments, ActionResponses responses)
+		/**
+		 * Performs the {@link Action} using the provided arguments.
+		 *
+		 * @param character The {@link Character} performing the {@link Action}.
+		 * @param responses The {@link ActionResponses} to report to after performing the {@link Action}.
+		 */
+		@Override public void perform(Character character, ActionResponses responses)
 		{
 
 		}

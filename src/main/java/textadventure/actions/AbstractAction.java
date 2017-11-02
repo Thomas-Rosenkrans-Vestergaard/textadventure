@@ -6,8 +6,7 @@ import java.util.function.Consumer;
 
 /**
  * An abstract class implementing the {@link Action} interface. Method besides
- * {@link Action#perform(Character, String[], ActionResponses)} are all implemented. The state of the {@link Action} should be
- * reset on each call from {@link Action#perform(Character, String[], ActionResponses)}.
+ * {@link Action#perform(Character, ActionResponses)} are all implemented.
  */
 public abstract class AbstractAction implements Action
 {
@@ -17,14 +16,6 @@ public abstract class AbstractAction implements Action
 	 * performs without exception.
 	 */
 	protected Exception exception;
-
-	/**
-	 * Resets the {@link Action} to its default state.
-	 */
-	@Override public void reset()
-	{
-		this.exception = null;
-	}
 
 	/**
 	 * Invokes the provided {@link Runnable} provided the {@link Action} has no exceptions.

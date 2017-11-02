@@ -22,8 +22,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static textadventure.doors.Door.State.CLOSED;
 import static textadventure.doors.Door.State.OPEN;
@@ -344,17 +342,6 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Event for when a {@link Character} dies.
-	 *
-	 * @param character    The {@link Character} who died.
-	 * @param damageSource The {@link DamageSource} that killed them.
-	 */
-	@Override public void onCharacterDies(Character character, DamageSource damageSource)
-	{
-
-	}
-
-	/**
 	 * Event for when a {@link Character} enter a {@link Room}.
 	 *
 	 * @param character The {@link Character} who entered the {@link Room}.
@@ -390,9 +377,8 @@ public class ConsoleGameInterface implements GameInterface
 		while (true) {
 
 			printer.println("Please enter your next action.");
-			String   input     = getInput();
-			String[] arguments = getArgumentsFromCommand(input);
-			String[] sections  = getSectionsFromCommand(input);
+			String   input    = getInput();
+			String[] sections = getSectionsFromCommand(input);
 
 			if (input.equals("quit")) {
 				System.exit(0);
@@ -449,7 +435,7 @@ public class ConsoleGameInterface implements GameInterface
 				continue;
 			}
 
-			response.respond(action, arguments);
+			response.respond(action);
 		}
 	}
 
@@ -1147,28 +1133,10 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		while (true) {
 			String input = scanner.nextLine().trim().toLowerCase();
-			if (input.matches("^[a-zA-Z0-9'\\- ]+$"))
+			if (input.matches("^[a-zA-Z0-9\\- ]+$"))
 				return input;
 			printer.println("Input must only contain letters, numbers, apostrophes and dashes.");
 		}
-	}
-
-	/**
-	 * Returns the arguments passes to a command.
-	 *
-	 * @param command The command.
-	 * @return The array of arguments.
-	 */
-	private String[] getArgumentsFromCommand(String command)
-	{
-		final Matcher      matcher   = Pattern.compile("('([a-zA-Z0-9\\-]*)')").matcher(command);
-		final List<String> arguments = new ArrayList<>();
-		while (matcher.find())
-			arguments.add(matcher.group(2));
-
-		String[] result = new String[arguments.size()];
-		arguments.toArray(result);
-		return result;
 	}
 
 	/**
@@ -1179,12 +1147,6 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private String[] getSectionsFromCommand(String command)
 	{
-		int index = command.indexOf('\'');
-
-		if (index != -1) {
-			command = command.substring(0, index);
-		}
-
 		return command.split("[ ]+");
 	}
 

@@ -12,9 +12,6 @@ import textadventure.ui.Option;
 import textadventure.ui.Select;
 import textadventure.ui.SelectResponseException;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to drop {@link textadventure.items.Item}s
  * from their {@link Backpack}. The {@link Item}s are then added to the {@link Floor} in current
@@ -26,25 +23,15 @@ public class DropItemAction extends AbstractAction
 	/**
 	 * The {@link Item}s that were dropped.
 	 */
-	private ImmutableList.Builder<Item> items;
-
-	/**
-	 * Resets the {@link DropItemAction} to its default state.
-	 */
-	@Override public void reset()
-	{
-		this.exception = null;
-		this.items = new ImmutableList.Builder<>();
-	}
+	private ImmutableList.Builder<Item> items = new ImmutableList.Builder<>();
 
 	/**
 	 * Performs the {@link DropItemAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link DropItemAction}.
-	 * @param arguments The arguments provided to the {@link DropItemAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link DropItemAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		Floor    floor    = character.getCurrentLocation().getRoomFloor();
 		Backpack backpack = character.getBackpack();
@@ -54,19 +41,13 @@ public class DropItemAction extends AbstractAction
 			ImmutableSet<Option<Item>> options = backpack.asOptions();
 			Select<Item> select = new BaseSelect<>(options, selection -> {
 				for (Option option : selection) {
-					Item item = backpack.getItem(option.getOptionIndex());
+					int  position = option.getOptionIndex();
+					Item item     = backpack.getItem(position);
 					floor.addItem(item);
-					backpack.takeItem(option.getOptionIndex());
+					backpack.takeItem(position);
 					this.items.add(item);
 				}
 			});
-
-			if (arguments.length > 0) {
-				List<Integer> indices = new ArrayList<>();
-				for (String argument : arguments) indices.add(Integer.parseInt(argument));
-				select.selectIndices(indices);
-				return;
-			}
 
 			character.getFaction().getLeader().select(select);
 

@@ -23,10 +23,9 @@ public class InspectLockAction extends LockAction
 	 * Performs the {@link InspectLockAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link InspectLockAction}.
-	 * @param arguments The arguments provided to the {@link InspectLockAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectLockAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		responses.onInspectLockAction(character, this);
 	}

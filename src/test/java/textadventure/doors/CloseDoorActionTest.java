@@ -29,7 +29,7 @@ public class CloseDoorActionTest
 
 		assertEquals(Door.State.OPEN, door.getState());
 		CloseDoorAction action = new CloseDoorAction(door);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onCloseDoorAction(Character character, CloseDoorAction action)
 			{
@@ -60,7 +60,7 @@ public class CloseDoorActionTest
 		};
 
 		SomeActionResponses mock = Mockito.spy(actionResponses);
-		action.perform(character, new String[0], mock);
+		action.perform(character, mock);
 		Mockito.verify(mock, Mockito.times(1)).onAttackAction(any(Character.class), any(AttackAction.class));
 	}
 
@@ -75,7 +75,7 @@ public class CloseDoorActionTest
 
 		assertEquals(Door.State.OPEN, door.getState());
 		CloseDoorAction action = new CloseDoorAction(door);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onCloseDoorAction(Character character, CloseDoorAction action)
 			{

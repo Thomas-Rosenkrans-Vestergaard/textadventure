@@ -37,23 +37,12 @@ public class TakeItemFromChestAction extends ChestAction
 	}
 
 	/**
-	 * Resets the {@link TakeItemFromChestAction} to its default state.
-	 */
-	@Override public void reset()
-	{
-		this.exception = null;
-		this.chest = null;
-		this.items = null;
-	}
-
-	/**
 	 * Performs the {@link TakeItemFromChestAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link TakeItemFromChestAction}.
-	 * @param arguments The arguments provided to the {@link TakeItemFromChestAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link TakeItemFromChestAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		Chest.State state    = chest.getState();
 		Backpack    backpack = character.getBackpack();
@@ -75,13 +64,6 @@ public class TakeItemFromChestAction extends ChestAction
 					chest.takeItem(option.getOptionIndex());
 				}
 			});
-
-			if (arguments.length == 1) {
-				List<Integer> indices = new ArrayList<>();
-				for (String argument : arguments) indices.add(Integer.parseInt(argument));
-				select.selectIndices(indices);
-				return;
-			}
 
 			character.getFaction().getLeader().select(select);
 

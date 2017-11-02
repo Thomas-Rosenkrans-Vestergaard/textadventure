@@ -24,10 +24,9 @@ public class InspectBackpackAction extends BackpackAction
 	 * Performs the {@link InspectBackpackAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link InspectBackpackAction}.
-	 * @param arguments The arguments provided to the {@link InspectBackpackAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectBackpackAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		responses.onInspectBackpackAction(character, this);
 	}

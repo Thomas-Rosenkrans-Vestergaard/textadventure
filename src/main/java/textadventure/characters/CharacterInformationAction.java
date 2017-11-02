@@ -19,10 +19,9 @@ public class CharacterInformationAction extends AbstractAction
 	 * Performs the {@link ExpandBackpackAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link ExpandBackpackAction}.
-	 * @param arguments The arguments provided to the {@link ExpandBackpackAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link ExpandBackpackAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		this.characterInformation = new CharacterInformation(character);
 		responses.onCharacterInformationAction(character, this);

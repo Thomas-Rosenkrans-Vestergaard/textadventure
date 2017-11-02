@@ -34,7 +34,7 @@ public class PickUpItemActionTest
 		assertEquals(1, floor.getNumberOfItems());
 
 		PickUpItemAction action = new PickUpItemAction();
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
@@ -77,7 +77,7 @@ public class PickUpItemActionTest
 		assertEquals(0, backpack.getNumberOfItems());
 
 		PickUpItemAction action = new PickUpItemAction();
-		action.perform(character, new String[]{"0", "1"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 
 			@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
@@ -113,7 +113,7 @@ public class PickUpItemActionTest
 		assertEquals(2, floor.getNumberOfItems());
 
 		PickUpItemAction action = new PickUpItemAction();
-		action.perform(character, new String[]{"NOT AN INTEGER"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
 			{
@@ -142,7 +142,7 @@ public class PickUpItemActionTest
 		assertEquals(0, backpack.getNumberOfItems());
 
 		PickUpItemAction action = new PickUpItemAction();
-		action.perform(character, new String[]{"0", "1"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
 			{

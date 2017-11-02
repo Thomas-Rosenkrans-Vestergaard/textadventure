@@ -23,10 +23,9 @@ public class UnlockLockAction extends LockAction
 	 * Performs the {@link UnlockLockAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link UnlockLockAction}.
-	 * @param arguments The arguments provided to the {@link UnlockLockAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link UnlockLockAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		Lock.State state = lock.getState();
 		if (state == Lock.State.UNLOCKED) {
@@ -45,11 +44,6 @@ public class UnlockLockAction extends LockAction
 				Select<Key> select = new BaseSelect<>(options, 1, selection -> {
 					lock.unlock(selection.get(0).getT());
 				});
-
-				if (arguments.length == 1) {
-					select.selectIndex(Integer.parseInt(arguments[0]));
-					return;
-				}
 
 				character.getFaction().getLeader().select(select);
 

@@ -1,9 +1,10 @@
-package textadventure.items;
+package textadventure.characters;
 
 import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
-import textadventure.characters.Character;
+import textadventure.items.EquipableItem;
+import textadventure.items.NotEquipableException;
 import textadventure.items.weapons.Fists;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
@@ -18,25 +19,15 @@ public class UnEquipAction extends AbstractAction
 	/**
 	 * The {@link EquipableItem}s the were unequipped during the {@link UnEquipAction}.
 	 */
-	private List<EquipableItem> items;
-
-	/**
-	 * Resets the {@link EquipAction} to its default state.
-	 */
-	@Override public void reset()
-	{
-		this.exception = null;
-		this.items = new ArrayList<>();
-	}
+	private List<EquipableItem> items = new ArrayList<>();
 
 	/**
 	 * Performs the {@link UnEquipAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link UnEquipAction}.
-	 * @param arguments The arguments provided to the {@link UnEquipAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link UnEquipAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		try {
 
@@ -103,13 +94,6 @@ public class UnEquipAction extends AbstractAction
 				}
 			});
 
-			if (arguments.length > 0) {
-				List<Integer> indices = new ArrayList<>();
-				for (String argument : arguments) indices.add(Integer.parseInt(argument));
-				select.selectIndices(indices);
-				return;
-			}
-
 			character.getFaction().getLeader().select(select);
 
 		} catch (SelectResponseException e) {
@@ -162,9 +146,9 @@ public class UnEquipAction extends AbstractAction
 	}
 
 	/**
-	 * Returns the {@link textadventure.EquipableItem}s the were unequipped during the {@link UnEquipAction}.
+	 * Returns the {@link EquipableItem}s the were unequipped during the {@link UnEquipAction}.
 	 *
-	 * @return The {@link textadventure.EquipableItem}s the were unequipped during the {@link UnEquipAction}.
+	 * @return The {@link EquipableItem}s the were unequipped during the {@link UnEquipAction}.
 	 */
 	public List<EquipableItem> getItems()
 	{

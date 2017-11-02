@@ -8,7 +8,6 @@ import textadventure.characters.Character;
 import textadventure.characters.CharacterCreationCallback;
 import textadventure.characters.FinishCharacterCreationCallback;
 import textadventure.combat.AttackAction;
-import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.doors.Door;
 import textadventure.rooms.Room;
@@ -61,15 +60,7 @@ public interface Player extends ActionResponses
 	void onActionRequest(Character character, ActionRequestCallback callback);
 
 	/**
-	 * Event for when a {@link Character} dies.
-	 *
-	 * @param character    The {@link Character} who died.
-	 * @param damageSource The {@link DamageSource} that killed them.
-	 */
-	void onCharacterDies(Character character, DamageSource damageSource);
-
-	/**
-	 * Event for when a {@link Character} enter a {@link Room}.
+	 * Event for when a {@link Character} from another {@link Faction} enters a {@link Room}.
 	 *
 	 * @param character The {@link Character} who entered the {@link Room}.
 	 * @param room      The {@link Room} the {@link Character} entered.
@@ -78,7 +69,7 @@ public interface Player extends ActionResponses
 	void onCharacterEntersRoom(Character character, Room room, Door door);
 
 	/**
-	 * Event for when a {@link Character} exits a {@link Room}.
+	 * Event for when a {@link Character} from another {@link Faction} exits a {@link Room}.
 	 *
 	 * @param character The {@link Character} who exited the {@link Room}.
 	 * @param room      The {@link Room} the {@link Character} exited.

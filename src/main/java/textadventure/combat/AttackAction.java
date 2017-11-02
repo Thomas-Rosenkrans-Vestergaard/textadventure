@@ -26,27 +26,16 @@ public class AttackAction extends AbstractAction
 	/**
 	 * The damage done to the target {@link Character}(s).
 	 */
-	private Map<Character, Integer> damageDone;
-
-	/**
-	 * Resets the {@link AttackAction} to its default state.
-	 */
-	@Override public void reset()
-	{
-		this.exception = null;
-		this.target = null;
-		this.damageDone = new HashMap<>();
-	}
+	private Map<Character, Integer> damageDone = new HashMap<>();
 
 	/**
 	 * Performs the {@link AttackAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link AttackAction}.
-	 * @param arguments The arguments provided to the {@link AttackAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link AttackAction}.
 	 */
 
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		Faction faction         = character.getFaction();
 		Room    currentLocation = character.getCurrentLocation();

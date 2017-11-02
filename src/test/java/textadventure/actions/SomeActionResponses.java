@@ -9,17 +9,17 @@ import textadventure.doors.CloseDoorAction;
 import textadventure.doors.InspectDoorAction;
 import textadventure.doors.OpenDoorAction;
 import textadventure.doors.UseDoorAction;
-import textadventure.items.EquipAction;
-import textadventure.items.UnEquipAction;
-import textadventure.items.UseItemsAction;
+import textadventure.characters.EquipAction;
+import textadventure.characters.UnEquipAction;
+import textadventure.characters.UseItemsAction;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
-import textadventure.rooms.InspectFloorAction;
-import textadventure.rooms.InspectRoomAction;
+import textadventure.characters.InspectFloorAction;
+import textadventure.characters.InspectRoomAction;
 import textadventure.ui.*;
 
 public class SomeActionResponses implements ActionResponses

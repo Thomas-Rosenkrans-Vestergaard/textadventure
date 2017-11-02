@@ -1,9 +1,9 @@
-package textadventure.rooms;
+package textadventure.characters;
 
 import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
-import textadventure.characters.Character;
+import textadventure.rooms.Room;
 
 /**
  * {@link textadventure.actions.Action} allowing a {@link Character} to see the other {@link Character}s in the
@@ -22,10 +22,9 @@ public class InspectRoomAction extends AbstractAction
 	 * Performs the {@link InspectRoomAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link InspectRoomAction}.
-	 * @param arguments The arguments provided to the {@link InspectRoomAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link InspectRoomAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		Room                            room    = character.getCurrentLocation();
 		ImmutableSet.Builder<Character> builder = new ImmutableSet.Builder<>();

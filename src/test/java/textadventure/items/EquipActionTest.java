@@ -4,6 +4,7 @@ import org.junit.Test;
 import textadventure.SomeCharacter;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
+import textadventure.characters.EquipAction;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.wearables.HeadWear;
 import textadventure.items.wearables.TorsoWear;
@@ -81,7 +82,7 @@ public class EquipActionTest
 		assertEquals(null, character.getHeadWear());
 
 		EquipAction action = new EquipAction();
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
@@ -116,7 +117,7 @@ public class EquipActionTest
 		assertEquals(null, character.getTorsoWear());
 
 		EquipAction action = new EquipAction();
-		action.perform(character, new String[]{"0", "1"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onEquipAction(Character character, EquipAction action)
 			{

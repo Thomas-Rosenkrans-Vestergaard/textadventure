@@ -26,7 +26,7 @@ public class OpenDoorActionTest
 
 		assertEquals(Door.State.CLOSED, door.getState());
 		OpenDoorAction action = new OpenDoorAction(door);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
 			{
@@ -48,7 +48,7 @@ public class OpenDoorActionTest
 		assertEquals(Door.State.OPEN, door.getState());
 		OpenDoorAction action = new OpenDoorAction(door);
 
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
 			{
@@ -70,7 +70,7 @@ public class OpenDoorActionTest
 		assertEquals(Door.State.CLOSED, door.getState());
 		OpenDoorAction action = new OpenDoorAction(door);
 
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
 			{

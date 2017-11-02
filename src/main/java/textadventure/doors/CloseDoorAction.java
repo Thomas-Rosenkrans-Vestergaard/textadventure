@@ -28,10 +28,9 @@ public class CloseDoorAction extends DoorAction
 	 * Performs the {@link CloseDoorAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link CloseDoorAction}.
-	 * @param arguments The arguments provided to the {@link CloseDoorAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link CloseDoorAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		try {
 			getDoor().close();

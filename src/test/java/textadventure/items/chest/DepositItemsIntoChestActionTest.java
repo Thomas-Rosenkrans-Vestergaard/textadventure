@@ -30,7 +30,7 @@ public class DepositItemsIntoChestActionTest
 		assertEquals(0, chest.getNumberOfItems());
 
 		DepositItemsIntoChestAction action = new DepositItemsIntoChestAction(chest);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
@@ -67,7 +67,7 @@ public class DepositItemsIntoChestActionTest
 		assertEquals(0, chest.getNumberOfItems());
 
 		DepositItemsIntoChestAction action = new DepositItemsIntoChestAction(chest);
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
 			{
@@ -94,7 +94,7 @@ public class DepositItemsIntoChestActionTest
 		assertEquals(0, chest.getNumberOfItems());
 
 		DepositItemsIntoChestAction action = new DepositItemsIntoChestAction(chest);
-		action.perform(character, new String[]{"0"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
 			{
@@ -127,7 +127,7 @@ public class DepositItemsIntoChestActionTest
 
 		DepositItemsIntoChestAction action = new DepositItemsIntoChestAction(chest);
 
-		action.perform(character, new String[]{"NOT_INTEGER"}, new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
 			{

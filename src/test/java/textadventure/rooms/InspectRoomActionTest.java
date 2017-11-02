@@ -4,6 +4,7 @@ import org.junit.Test;
 import textadventure.SomeCharacter;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
+import textadventure.characters.InspectRoomAction;
 
 import static org.junit.Assert.*;
 
@@ -21,7 +22,7 @@ public class InspectRoomActionTest
 		room.addCharacter(other);
 
 		InspectRoomAction action = new InspectRoomAction();
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onInspectRoomAction(Character character, InspectRoomAction action)
 			{

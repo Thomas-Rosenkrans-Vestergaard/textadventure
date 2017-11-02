@@ -4,6 +4,7 @@ import org.junit.Test;
 import textadventure.SomeCharacter;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
+import textadventure.characters.InspectFloorAction;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;
 
@@ -24,7 +25,7 @@ public class InspectFloorActionTest
 		SomeCharacter character = new SomeCharacter();
 		character.setCurrentLocation(room);
 		InspectFloorAction action = new InspectFloorAction();
-		action.perform(character, new String[0], new SomeActionResponses()
+		action.perform(character, new SomeActionResponses()
 		{
 			@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
 			{

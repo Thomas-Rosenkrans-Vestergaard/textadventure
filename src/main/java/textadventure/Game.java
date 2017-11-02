@@ -142,9 +142,8 @@ public class Game
 	 */
 	private void handleCharacterTurn(Faction faction, Character character)
 	{
-		faction.getLeader().onActionRequest(character, ((action, arguments) -> {
-			action.reset();
-			action.perform(character, arguments, faction.getLeader());
+		faction.getLeader().onActionRequest(character, (action -> {
+			action.perform(character, faction.getLeader());
 			List<Character> characters   = faction.getCharacters();
 			int             currentIndex = characters.indexOf(character);
 			if (currentIndex == characters.size() - 1)

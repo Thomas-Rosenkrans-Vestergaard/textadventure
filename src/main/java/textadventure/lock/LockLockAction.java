@@ -27,10 +27,9 @@ public class LockLockAction extends LockAction
 	 * Performs the {@link LockLockAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link LockLockAction}.
-	 * @param arguments The arguments provided to the {@link LockLockAction}.
 	 * @param responses The {@link ActionResponses} to invoke after performing the {@link LockLockAction}.
 	 */
-	public void perform(Character character, String[] arguments, ActionResponses responses)
+	public void perform(Character character, ActionResponses responses)
 	{
 		try {
 
@@ -49,11 +48,6 @@ public class LockLockAction extends LockAction
 				Select<Key> select = new BaseSelect<>(options, 1, selection -> {
 					lock.lock(selection.get(0).getT());
 				});
-
-				if (arguments.length == 1) {
-					select.selectIndex(Integer.parseInt(arguments[0]));
-					return;
-				}
 
 				character.getFaction().getLeader().select(select);
 
