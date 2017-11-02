@@ -1,7 +1,9 @@
 package textadventure.combat;
 
 import textadventure.Game;
+import textadventure.GameState;
 import textadventure.Player;
+import textadventure.characters.Character;
 import textadventure.rooms.Room;
 
 /**
@@ -24,25 +26,25 @@ public class SecretPolice extends AbstractFaction
 	/**
 	 * Checks if the {@link Faction} has won the {@link Game}.
 	 *
-	 * @param game The {@link Game} instance.
+	 * @param state The {@link GameState} instance.
 	 * @return The method returns <code>true</code> if the {@link Faction} has won. Returns <code>false</code> if the
 	 * {@link Faction} has not won yet.
 	 */
-	@Override public boolean hasWon(Game game)
+	@Override public boolean hasWon(GameState state)
 	{
-		return false;
+		return state.getFaction(Escapees.class).getCharacters(Character.Status.ALIVE).size() == 0;
 	}
 
 	/**
 	 * Checks if the {@link Faction} has lost the {@link Game}.
 	 *
-	 * @param game The {@link Game} instance.
+	 * @param state The {@link GameState} instance.
 	 * @return The method returns <code>true</code> if the {@link Faction} has lost. Returns <code>false</code> if the
 	 * {@link Faction} has not lost yet.
 	 */
-	@Override public boolean hasLost(Game game)
+	@Override public boolean hasLost(GameState state)
 	{
-		return false;
+		return getCharacters().size() == getCharacters(Character.Status.DEAD).size();
 	}
 
 	/**

@@ -1,22 +1,26 @@
 package textadventure.combat;
 
 import com.google.common.collect.ImmutableList;
-import textadventure.Game;
+import textadventure.GameState;
 import textadventure.Player;
 import textadventure.characters.Character;
 import textadventure.rooms.Room;
 
 public class SomeFaction implements Faction
 {
-
-	@Override public boolean hasWon(Game game)
+	@Override public boolean hasWon(GameState state)
 	{
 		return false;
 	}
 
-	@Override public boolean hasLost(Game game)
+	@Override public boolean hasLost(GameState state)
 	{
 		return false;
+	}
+
+	@Override public ImmutableList<Character> getCharacters(Character.Status status)
+	{
+		return null;
 	}
 
 	@Override public Player getLeader()

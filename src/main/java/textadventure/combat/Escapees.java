@@ -1,6 +1,7 @@
 package textadventure.combat;
 
 import textadventure.Game;
+import textadventure.GameState;
 import textadventure.Player;
 import textadventure.characters.Character;
 import textadventure.rooms.Room;
@@ -41,6 +42,16 @@ public class Escapees extends AbstractFaction
 	}
 
 	/**
+	 * Returns the {@link Room} from where {@link Escapees} can escape the {@link Game}.
+	 *
+	 * @return The {@link Room} from where {@link Escapees} can escape the {@link Game}.
+	 */
+	public Room getEndingRoom()
+	{
+		return this.endingRoom;
+	}
+
+	/**
 	 * Called when a {@link Character} escapes.
 	 *
 	 * @param character The {@link Character} who have escaped the {@link Game}.
@@ -53,35 +64,30 @@ public class Escapees extends AbstractFaction
 	/**
 	 * Checks if the {@link Faction} has won the {@link Game}.
 	 *
-	 * @param game The {@link Game} instance.
+	 * @param state The {@link GameState} instance.
 	 * @return The method returns <code>true</code> if the {@link Faction} has won. Returns <code>false</code> if the
 	 * {@link Faction} has not won yet.
 	 */
-	@Override public boolean hasWon(Game game)
+	@Override public boolean hasWon(GameState state)
 	{
-		return false;
-	}
-
-	/**
-	 * Returns the {@link Room} from where {@link Escapees} can escape the {@link Game}.
-	 *
-	 * @return The {@link Room} from where {@link Escapees} can escape the {@link Game}.
-	 */
-	public Room getEndingRoom()
-	{
-		return this.endingRoom;
+		return characters.size() == escapedCharacters.size();
 	}
 
 	/**
 	 * Checks if the {@link Faction} has lost the {@link Game}.
 	 *
-	 * @param game The {@link Game} instance.
+	 * @param state The {@link GameState} instance.
 	 * @return The method returns <code>true</code> if the {@link Faction} has lost. Returns <code>false</code> if the
 	 * {@link Faction} has not lost yet.
 	 */
-	@Override public boolean hasLost(Game game)
+	@Override public boolean hasLost(GameState state)
 	{
-		return false;
+		int dead = 0;
+		for (Character character : characters)
+			if (character.getStatus() == Character.Status.DEAD)
+				dead++;
+
+		return dead == characters.size();
 	}
 
 	/**

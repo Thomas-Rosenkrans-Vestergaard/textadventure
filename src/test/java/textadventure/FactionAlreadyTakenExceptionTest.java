@@ -16,12 +16,12 @@ public class FactionAlreadyTakenExceptionTest
 			super(null, null);
 		}
 
-		@Override public boolean hasWon(Game game)
+		@Override public boolean hasWon(GameState state)
 		{
 			return false;
 		}
 
-		@Override public boolean hasLost(Game game)
+		@Override public boolean hasLost(GameState state)
 		{
 			return false;
 		}

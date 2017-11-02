@@ -1,25 +1,18 @@
 package textadventure.actions;
 
 import textadventure.characters.Character;
-import textadventure.characters.CharacterInformationAction;
-import textadventure.characters.DropItemAction;
-import textadventure.characters.PickUpItemAction;
+import textadventure.characters.*;
 import textadventure.combat.AttackAction;
 import textadventure.doors.CloseDoorAction;
 import textadventure.doors.InspectDoorAction;
 import textadventure.doors.OpenDoorAction;
 import textadventure.doors.UseDoorAction;
-import textadventure.characters.EquipAction;
-import textadventure.characters.UnEquipAction;
-import textadventure.characters.UseItemsAction;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
-import textadventure.characters.InspectFloorAction;
-import textadventure.characters.InspectRoomAction;
 import textadventure.ui.*;
 
 public interface ActionResponses
@@ -36,6 +29,14 @@ public interface ActionResponses
 	 * @throws UnknownOptionException   When a selected element were not contained is the list of possibilities.
 	 */
 	void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException;
+
+	/**
+	 * Event for when the {@link Character} performs the {@link EscapeAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link EscapeAction}.
+	 * @param action    The {@link EscapeAction} instance.
+	 */
+	void onEscapeAction(Character character, EscapeAction action);
 
 	/**
 	 * Event for when the {@link Character} performs the {@link AttackAction}.

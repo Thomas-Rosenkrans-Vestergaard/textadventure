@@ -1,14 +1,14 @@
 package textadventure.doors;
 
 import org.junit.Test;
-import textadventure.characters.SomeCharacter;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
 import textadventure.characters.CharacterCreationTemplate;
+import textadventure.characters.InspectFloorAction;
+import textadventure.characters.SomeCharacter;
 import textadventure.lock.Lock;
 import textadventure.lock.MockLock;
-import textadventure.characters.InspectFloorAction;
 import textadventure.rooms.Room;
 import textadventure.rooms.SomeRoom;
 
@@ -56,6 +56,7 @@ public class UseDoorActionTest
 		Door          door      = new BaseDoor(Door.State.CLOSED, lock, a, b);
 		SomeCharacter character = new SomeCharacter();
 		character.setCurrentLocation(a);
+		a.addCharacter(character);
 
 		assertSame(a, character.getCurrentLocation());
 		UseDoorAction action = new UseDoorAction(door);

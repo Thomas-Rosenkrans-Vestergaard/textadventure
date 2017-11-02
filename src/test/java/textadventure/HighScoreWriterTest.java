@@ -3,13 +3,17 @@ package textadventure;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import textadventure.highscore.HighScoreReader;
+import textadventure.highscore.HighScoreWriter;
+import textadventure.highscore.Outcome;
+import textadventure.highscore.Score;
 
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class HighScoreWriterTest
 {
@@ -21,9 +25,9 @@ public class HighScoreWriterTest
 	public void setUp() throws Exception
 	{
 		PrintWriter writer = new PrintWriter(input);
-		writer.println("Thomas,10");
-		writer.println("Albert,0");
-		writer.println("Kasper,7");
+		writer.println("Thomas,10,WIN");
+		writer.println("Albert,0,LOSS");
+		writer.println("Kasper,7,WIN");
 		writer.close();
 	}
 
@@ -39,38 +43,29 @@ public class HighScoreWriterTest
 	public void put() throws Exception
 	{
 		HighScoreWriter writer = new HighScoreWriter(path);
-
-		assertTrue(writer.put("Mark", 19, false));
-		assertFalse(writer.put("Mark", 20, false));
-
-		assertTrue(writer.put("Thomas", 100, true));
-		assertTrue(writer.put("Jens", 200, true));
-
-		writer.save();
-
-		HighScoreReader      reader = new HighScoreReader(path);
-		Map<String, Integer> result = reader.read();
-
-		assertEquals(7, (long) result.get("Kasper"));
-		assertEquals(0, (long) result.get("Albert"));
-		assertEquals(0, (long) result.get("Albert"));
-		assertEquals(19, (long) result.get("Mark"));
-		assertEquals(100, (long) result.get("Thomas"));
-		assertEquals(200, (long) result.get("Jens"));
-	}
-
-	@Test
-	public void remove() throws Exception
-	{
-		HighScoreWriter writer = new HighScoreWriter(path);
-
-		assertTrue(writer.remove("Albert"));
-		assertFalse(writer.remove("SOME_STRING"));
-
+		writer.put(new Score("Mark", 9, Outcome.WIN));
 		writer.save();
 
 		HighScoreReader reader = new HighScoreReader(path);
-		assertEquals(2, reader.read().size());
+		List<Score>     scores = reader.read();
+
+		assertEquals(4, scores.size());
+
+		assertEquals("Thomas", scores.get(0).getName());
+		assertEquals(10, scores.get(0).getScore());
+		assertEquals(Outcome.WIN, scores.get(0).getOutcome());
+
+		assertEquals("Mark", scores.get(1).getName());
+		assertEquals(9, scores.get(1).getScore());
+		assertEquals(Outcome.WIN, scores.get(1).getOutcome());
+
+		assertEquals("Kasper", scores.get(2).getName());
+		assertEquals(7, scores.get(2).getScore());
+		assertEquals(Outcome.WIN, scores.get(2).getOutcome());
+
+		assertEquals("Albert", scores.get(3).getName());
+		assertEquals(0, scores.get(3).getScore());
+		assertEquals(Outcome.LOSS, scores.get(3).getOutcome());
 	}
 
 	@Test
@@ -79,17 +74,14 @@ public class HighScoreWriterTest
 		HighScoreReader reader = new HighScoreReader(path);
 		HighScoreWriter writer = new HighScoreWriter(path);
 
-		assertEquals(3, reader.read().size());
-		writer.put("Jens", 32, true);
-		assertEquals(3, reader.read().size());
+		writer.put(new Score("Jens", 100, Outcome.WIN));
 		writer.save();
-		assertEquals(4, reader.read().size());
 
-		Map<String, Integer> saved         = reader.read();
-		int                  index         = 0;
-		String[]             expectedNames = {"Jens", "Thomas", "Kasper", "Albert"};
-		for (Map.Entry<String, Integer> entry : saved.entrySet()) {
-			assertEquals(expectedNames[index], entry.getKey());
+		List<Score> saved         = reader.read();
+		int         index         = 0;
+		String[]    expectedNames = {"Jens", "Thomas", "Kasper", "Albert"};
+		for (Score entry : saved) {
+			assertEquals(expectedNames[index], entry.getName());
 			index++;
 		}
 	}

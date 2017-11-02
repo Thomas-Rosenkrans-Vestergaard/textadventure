@@ -41,6 +41,16 @@ public abstract class AbstractFaction implements Faction
 		this.startingRoom = startingRoom;
 	}
 
+	@Override public ImmutableList<Character> getCharacters(Character.Status status)
+	{
+		ImmutableList.Builder<Character> builder = new ImmutableList.Builder<>();
+		for (Character character : characters)
+			if (character.getStatus() == status)
+				builder.add(character);
+
+		return builder.build();
+	}
+
 	/**
 	 * Returns the {@link Player} leading the {@link Faction}.
 	 * s

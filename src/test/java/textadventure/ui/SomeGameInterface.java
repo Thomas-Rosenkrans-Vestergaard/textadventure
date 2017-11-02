@@ -8,6 +8,8 @@ import textadventure.characters.*;
 import textadventure.combat.AttackAction;
 import textadventure.combat.Faction;
 import textadventure.doors.*;
+import textadventure.highscore.HighScoreResponse;
+import textadventure.highscore.Outcome;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
@@ -40,7 +42,17 @@ public class SomeGameInterface implements GameInterface
 
 	}
 
+	@Override public void onHighScoreRequest(int score, Outcome outcome, HighScoreResponse response)
+	{
+
+	}
+
 	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
+	{
+
+	}
+
+	@Override public void onEscapeAction(Character character, EscapeAction action)
 	{
 
 	}

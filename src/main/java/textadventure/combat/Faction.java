@@ -2,6 +2,7 @@ package textadventure.combat;
 
 import com.google.common.collect.ImmutableList;
 import textadventure.Game;
+import textadventure.GameState;
 import textadventure.Player;
 import textadventure.characters.Character;
 import textadventure.rooms.Room;
@@ -12,20 +13,22 @@ public interface Faction
 	/**
 	 * Checks if the {@link Faction} has won the {@link Game}.
 	 *
-	 * @param game The {@link Game} instance.
+	 * @param state The {@link GameState} instance.
 	 * @return The method returns <code>true</code> if the {@link Faction} has won. Returns <code>false</code> if the
 	 * {@link Faction} has not won yet.
 	 */
-	boolean hasWon(Game game);
+	boolean hasWon(GameState state);
 
 	/**
 	 * Checks if the {@link Faction} has lost the {@link Game}.
 	 *
-	 * @param game The {@link Game} instance.
+	 * @param state The {@link GameState} instance.
 	 * @return The method returns <code>true</code> if the {@link Faction} has lost. Returns <code>false</code> if the
 	 * {@link Faction} has not lost yet.
 	 */
-	boolean hasLost(Game game);
+	boolean hasLost(GameState state);
+
+	ImmutableList<Character> getCharacters(Character.Status status);
 
 	/**
 	 * Returns the {@link Player} leading the {@link Faction}.

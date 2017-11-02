@@ -6,20 +6,16 @@ import textadventure.actions.ActionRequestCallback;
 import textadventure.characters.Character;
 import textadventure.characters.*;
 import textadventure.combat.AttackAction;
-import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.doors.*;
-import textadventure.characters.EquipAction;
-import textadventure.characters.UnEquipAction;
-import textadventure.characters.UseItemsAction;
+import textadventure.highscore.HighScoreResponse;
+import textadventure.highscore.Outcome;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
-import textadventure.characters.InspectFloorAction;
-import textadventure.characters.InspectRoomAction;
 import textadventure.rooms.Room;
 import textadventure.ui.*;
 
@@ -65,6 +61,19 @@ public class HumanPlayer implements Player
 	@Override public void onGameEnd(Game game, boolean result)
 	{
 		gameInterface.onGameEnd(game, result);
+	}
+
+	/**
+	 * Event for when the {@link Player} needs to decide whether or not to save the {@link Player}s score to the
+	 * high-score file.
+	 *
+	 * @param score    The score achieved by the {@link Player}.
+	 * @param outcome  The {@link Outcome} of the {@link Game}.
+	 * @param response The response of the {@link Player}.
+	 */
+	@Override public void onHighScoreRequest(int score, Outcome outcome, HighScoreResponse response)
+	{
+		gameInterface.onHighScoreRequest(score, outcome, response);
 	}
 
 	/**
@@ -148,6 +157,17 @@ public class HumanPlayer implements Player
 	 * @param action    The {@link AttackAction} instance.
 	 */
 	@Override public void onCharacterAttacked(Character character, AttackAction action)
+	{
+
+	}
+
+	/**
+	 * Event for when the {@link Character} performs the {@link EscapeAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link EscapeAction}.
+	 * @param action    The {@link EscapeAction} instance.
+	 */
+	@Override public void onEscapeAction(Character character, EscapeAction action)
 	{
 
 	}

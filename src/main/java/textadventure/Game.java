@@ -6,7 +6,7 @@ import textadventure.characters.*;
 import textadventure.characters.Character;
 import textadventure.combat.Faction;
 import textadventure.doors.*;
-import textadventure.items.Item;
+import textadventure.highscore.HighScoreWriter;
 import textadventure.items.Money;
 import textadventure.items.chest.*;
 import textadventure.items.medical.BandAid;
@@ -17,6 +17,8 @@ import textadventure.lock.*;
 import textadventure.rooms.*;
 import textadventure.ui.GameInterface;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,10 +32,16 @@ import static textadventure.lock.Lock.State.UNLOCKED;
 public class Game
 {
 
-	/**
-	 * The {@link Room}s in the {@link Game}.
-	 */
-	private RoomController roomController;
+	private GameState gameState;
+
+	public RoomController getRoomController()
+	{
+		return gameState.getRoomController();
+	}
+
+	private Path highScoreFile = Paths.get("scores.txt");
+
+	private HighScoreWriter highScoreWriter = new HighScoreWriter(highScoreFile);
 
 	/**
 	 * The minimum amount of {@link Character}s controlled by a {@link Player} in the {@link Game}.
@@ -50,21 +58,10 @@ public class Game
 	 */
 	private final Set<String> characterNames;
 
-	/**
-	 * The {@link GameInterface} to use for input-output.
-	 *
-	 * @param numberOfCharacters The number of {@link Character}s controlled by a {@link Player}.
-	 */
-	public Game(int numberOfCharacters) throws Exception
+	public static Game create(int numberOfCharacters) throws Exception
 	{
-		if (numberOfCharacters < 1)
-			throw new IllegalArgumentException("numberOfCharacters must be positive.");
 
-		this.roomController = new RoomController();
-		this.numberOfCharacters = numberOfCharacters;
-		this.factions = new ArrayList<>();
-		this.characterNames = new HashSet<>();
-
+		RoomController roomController = new RoomController();
 		roomController.add(Coordinate.of(2, 1), new BaseRoom("Room (2,1)", "This small chamber seems divided into three parts. The first has several hooks on the walls from which hang dusty robes. An open curtain separates that space from the next, which has a dry basin set in the floor. In the northern part of the room is a door."));
 		Chest chest3 = chestFactory(10, Chest.State.CLOSED, lockFactory("KLY4SW", LOCKED));
 		roomController.get(Coordinate.of(2, 1)).addProperty("chest", chest3);
@@ -128,7 +125,7 @@ public class Game
 		roomController.get(Coordinate.of(2, 4)).getRoomFloor().addItem(new KelvarCargoPants());
 
 		roomController.add(Coordinate.of(3, 4), new BaseRoom("Room (3,4)", "This room served as a sleeping area for the soldiers stationed here. The room is filled with bunk beds lining the walls. The beds bring back memories of sleeping in the concentration camp. In the western, northern and eastern side of the room is a door."));
-		roomController.get(Coordinate.of(3,4)).getRoomFloor().addItem(new Fork());
+		roomController.get(Coordinate.of(3, 4)).getRoomFloor().addItem(new Fork());
 
 
 		roomController.add(Coordinate.of(4, 4), new BaseRoom("Room (4,4)", "This room served as a sleeping area for the soldiers stationed here. The room is filled with bunk beds lining the walls. The beds bring back memories of sleeping in the concentration camp. In the western, northern and eastern side of the room is a door."));
@@ -253,6 +250,26 @@ public class Game
 		door = doorFactory(OPEN, lockFactory("KVW42D", UNLOCKED), roomController.get(Coordinate.of(4, 4)), roomController.get(Coordinate.of(4, 5)));
 		roomController.get(Coordinate.of(4, 4)).addProperty(NORTH_DOOR_NAME, door);
 		roomController.get(Coordinate.of(4, 5)).addProperty(SOUTH_DOOR_NAME, door);
+
+		GameState gameState = new GameState(roomController);
+
+		return new Game(gameState, numberOfCharacters);
+	}
+
+	/**
+	 * The {@link GameInterface} to use for input-output.
+	 *
+	 * @param numberOfCharacters The number of {@link Character}s controlled by a {@link Player}.
+	 */
+	public Game(GameState gameState, int numberOfCharacters) throws Exception
+	{
+		if (numberOfCharacters < 1)
+			throw new IllegalArgumentException("numberOfCharacters must be positive.");
+
+		this.gameState = gameState;
+		this.numberOfCharacters = numberOfCharacters;
+		this.factions = new ArrayList<>();
+		this.characterNames = new HashSet<>();
 	}
 
 	/**
@@ -262,10 +279,7 @@ public class Game
 	 */
 	public void addFaction(Faction faction) throws FactionAlreadyTakenException
 	{
-		if (factions.contains(faction))
-			throw new FactionAlreadyTakenException(faction);
-
-		factions.add(faction);
+		gameState.addFaction(faction);
 		List<Character> characters = new ArrayList<>();
 
 		CharacterCreationCallback characterCreationCallback = (characterCreationTemplate) -> {
@@ -307,7 +321,7 @@ public class Game
 	 */
 	public void start()
 	{
-		ImmutableList<Faction> factions = ImmutableList.copyOf(this.factions);
+		ImmutableList<Faction> factions = gameState.getFactions();
 		for (Faction faction : factions)
 			faction.getLeader().onGameStart(this, factions, faction);
 
@@ -329,7 +343,8 @@ public class Game
 	 */
 	private void handleNext(Faction faction)
 	{
-		int index = factions.indexOf(faction);
+		ImmutableList<Faction> factions = gameState.getFactions();
+		int                    index    = factions.indexOf(faction);
 		if (index + 1 == factions.size()) {
 			handleTurn(factions.get(0));
 			return;
@@ -343,6 +358,16 @@ public class Game
 	 */
 	private void handleCharacterTurn(Faction faction, Character character)
 	{
+		if (faction.hasLost(gameState)) {
+			faction.getLeader().onGameEnd(this, false);
+			gameState.removeFaction(faction.getClass());
+		}
+
+		if (faction.hasWon(gameState)) {
+			faction.getLeader().onGameEnd(this, true);
+			gameState.removeFaction(faction.getClass());
+		}
+
 		faction.getLeader().onActionRequest(character, (action -> {
 			action.perform(character, faction.getLeader());
 			List<Character> characters   = faction.getCharacters();
@@ -354,9 +379,9 @@ public class Game
 		}));
 	}
 
-	public RoomController getRoomController()
+	public List<Faction> getFactions()
 	{
-		return roomController;
+		return this.factions;
 	}
 
 	/**
@@ -369,7 +394,7 @@ public class Game
 	 * @param roomB The second room (<code>roomB</code>).
 	 * @return The newly created instance of {@link BaseDoor}.
 	 */
-	private Door doorFactory(Door.State state, Lock lock, Room roomA, Room roomB)
+	private static Door doorFactory(Door.State state, Lock lock, Room roomA, Room roomB)
 	{
 		BaseDoor door = new BaseDoor(state, lock, roomA, roomB);
 
@@ -393,7 +418,7 @@ public class Game
 	 * @param floor       The {@link Floor} of the {@link Room}.
 	 * @return The newly created {@link Room}.
 	 */
-	private Room roomFactory(String name, String description, Floor floor)
+	private static Room roomFactory(String name, String description, Floor floor)
 	{
 		return new BaseRoom(name, description, floor);
 	}
@@ -405,7 +430,7 @@ public class Game
 	 * @param description The description of the {@link Room}.
 	 * @return The newly created {@link Room}.
 	 */
-	private Room roomFactory(String name, String description)
+	private static Room roomFactory(String name, String description)
 	{
 		return roomFactory(name, description, new Floor());
 	}
@@ -418,7 +443,7 @@ public class Game
 	 * @param lock  The {@link Lock} placed on the {@link Door}.
 	 * @return The newly created instance of {@link BaseDoor}.
 	 */
-	private Door doorFactory(Door.State state, Lock lock)
+	private static Door doorFactory(Door.State state, Lock lock)
 	{
 		return doorFactory(state, lock, null, null);
 	}
@@ -432,7 +457,7 @@ public class Game
 	 * @param state The state of the {@link Lock}.
 	 * @return The newly created {@link Lock}.
 	 */
-	private Lock lockFactory(String code, Lock.State state)
+	private static Lock lockFactory(String code, Lock.State state)
 	{
 		Lock lock = new Lock(code, state);
 
@@ -453,7 +478,7 @@ public class Game
 	 * @param lock           The {@link Lock} on the {@link Chest}.
 	 * @return The newly created {@link Chest}.
 	 */
-	private Chest chestFactory(int countPositions, Chest.State state, Lock lock)
+	private static Chest chestFactory(int countPositions, Chest.State state, Lock lock)
 	{
 		Chest chest = new Chest(countPositions, state, lock);
 

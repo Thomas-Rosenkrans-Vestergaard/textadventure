@@ -3,14 +3,16 @@ package textadventure;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import textadventure.highscore.HighScoreReader;
+import textadventure.highscore.Outcome;
+import textadventure.highscore.Score;
 
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class HighScoreReaderTest
 {
@@ -22,9 +24,9 @@ public class HighScoreReaderTest
 	public void setUp() throws Exception
 	{
 		PrintWriter writer = new PrintWriter(input);
-		writer.println("Thomas,10");
-		writer.println("Kasper,7");
-		writer.println("Albert,0");
+		writer.println("Thomas,10,WIN");
+		writer.println("Kasper,7,LOSS");
+		writer.println("Albert,0,WIN");
 		writer.close();
 	}
 
@@ -39,17 +41,21 @@ public class HighScoreReaderTest
 	@Test
 	public void read() throws Exception
 	{
-		HighScoreReader      reader = new HighScoreReader(path);
-		Map<String, Integer> result = reader.read();
+		HighScoreReader reader = new HighScoreReader(path);
+		List<Score>     scores = reader.read();
 
-		assertEquals(3, result.size());
+		assertEquals(3, scores.size());
 
-		assertTrue(result.containsKey("Thomas"));
-		assertTrue(result.containsKey("Kasper"));
-		assertTrue(result.containsKey("Albert"));
+		assertTrue(scores.get(0).getName().equals("Thomas"));
+		assertTrue(scores.get(1).getName().equals("Kasper"));
+		assertTrue(scores.get(2).getName().equals("Albert"));
 
-		assertEquals((long) 10, (long) result.get("Thomas"));
-		assertEquals((long) 7, (long) result.get("Kasper"));
-		assertEquals((long) 0, (long) result.get("Albert"));
+		assertEquals((long) 10, scores.get(0).getScore());
+		assertEquals((long) 7, scores.get(1).getScore());
+		assertEquals((long) 0, scores.get(2).getScore());
+
+		assertSame(Outcome.WIN, scores.get(0).getOutcome());
+		assertSame(Outcome.LOSS, scores.get(1).getOutcome());
+		assertSame(Outcome.WIN, scores.get(2).getOutcome());
 	}
 }

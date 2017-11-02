@@ -13,6 +13,8 @@ import textadventure.combat.Escapees;
 import textadventure.combat.Faction;
 import textadventure.combat.SecretPolice;
 import textadventure.doors.*;
+import textadventure.highscore.HighScoreResponse;
+import textadventure.highscore.Outcome;
 import textadventure.items.*;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
@@ -37,7 +39,7 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		try {
 			GameInterface  gameInterface  = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
-			Game           game           = new Game(5);
+			Game           game           = Game.create(1);
 			RoomController roomController = game.getRoomController();
 			game.addFaction(new Escapees(new HumanPlayer(gameInterface), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 5))));
 			game.addFaction(new SecretPolice(new ComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
@@ -113,6 +115,51 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onGameEnd(Game game, boolean result)
 	{
 		printer.println(String.format("You %s.", result ? "won" : "loss"));
+	}
+
+	/**
+	 * Event for when the {@link Player} needs to decide whether or not to save the {@link Player}s score to the
+	 * high-score file.
+	 *
+	 * @param score    The score achieved by the {@link Player}.
+	 * @param outcome  The {@link Outcome} of the {@link Game}.
+	 * @param response The response of the {@link Player}.
+	 */
+	@Override public void onHighScoreRequest(int score, Outcome outcome, HighScoreResponse response)
+	{
+		printer.println(String.format("You achieved a score of %d in a %d.", score, outcome));
+
+		boolean save;
+		while (true) {
+			printer.println("Do you want do save this score to the high-score file? (yes, no)");
+			String input = scanner.nextLine().trim().toLowerCase();
+			if (input.equals("yes")) {
+				save = true;
+				break;
+			}
+
+			if (input.equals("no")) {
+				save = false;
+				break;
+			}
+
+			printer.println("Invalid input");
+		}
+
+
+		String name;
+		while (true) {
+			printer.println("Please enter the name you want to save the score under.");
+			String input = scanner.nextLine().trim();
+			if (input.indexOf(',') == -1) {
+				name = input;
+				break;
+			}
+
+			printer.println("Invalid input");
+		}
+
+		response.respond(save, name);
 	}
 
 	/**
@@ -401,6 +448,17 @@ public class ConsoleGameInterface implements GameInterface
 						action.getDamageDone()));
 			return;
 		}
+	}
+
+	/**
+	 * Event for when the {@link Character} performs the {@link EscapeAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link EscapeAction}.
+	 * @param action    The {@link EscapeAction} instance.
+	 */
+	@Override public void onEscapeAction(Character character, EscapeAction action)
+	{
+		printer.println(String.format("%s (%s) escaped from the tunnel", character.getName(), character.getFaction()));
 	}
 
 	/**

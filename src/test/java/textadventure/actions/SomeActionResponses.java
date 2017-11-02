@@ -1,25 +1,18 @@
 package textadventure.actions;
 
 import textadventure.characters.Character;
-import textadventure.characters.CharacterInformationAction;
-import textadventure.characters.DropItemAction;
-import textadventure.characters.PickUpItemAction;
+import textadventure.characters.*;
 import textadventure.combat.AttackAction;
 import textadventure.doors.CloseDoorAction;
 import textadventure.doors.InspectDoorAction;
 import textadventure.doors.OpenDoorAction;
 import textadventure.doors.UseDoorAction;
-import textadventure.characters.EquipAction;
-import textadventure.characters.UnEquipAction;
-import textadventure.characters.UseItemsAction;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
-import textadventure.characters.InspectFloorAction;
-import textadventure.characters.InspectRoomAction;
 import textadventure.ui.*;
 
 public class SomeActionResponses implements ActionResponses
@@ -31,6 +24,11 @@ public class SomeActionResponses implements ActionResponses
 	}
 
 	@Override public void onAttackAction(Character character, AttackAction action)
+	{
+
+	}
+
+	@Override public void onEscapeAction(Character character, EscapeAction action)
 	{
 
 	}

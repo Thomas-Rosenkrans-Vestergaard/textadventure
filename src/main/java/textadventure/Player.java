@@ -10,6 +10,8 @@ import textadventure.characters.FinishCharacterCreationCallback;
 import textadventure.combat.AttackAction;
 import textadventure.combat.Faction;
 import textadventure.doors.Door;
+import textadventure.highscore.HighScoreResponse;
+import textadventure.highscore.Outcome;
 import textadventure.rooms.Room;
 
 /**
@@ -50,6 +52,16 @@ public interface Player extends ActionResponses
 	 * @param result The result of the {@link Game}.
 	 */
 	void onGameEnd(Game game, boolean result);
+
+	/**
+	 * Event for when the {@link Player} needs to decide whether or not to save the {@link Player}s score to the
+	 * high-score file.
+	 *
+	 * @param score    The score achieved by the {@link Player}.
+	 * @param outcome  The {@link Outcome} of the {@link Game}.
+	 * @param response The response of the {@link Player}.
+	 */
+	void onHighScoreRequest(int score, Outcome outcome, HighScoreResponse response);
 
 	/**
 	 * Event for when an {@link Action}

@@ -2,18 +2,17 @@ package textadventure.doors;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import textadventure.characters.SomeCharacter;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
-import textadventure.combat.AttackAction;
+import textadventure.characters.SomeCharacter;
 import textadventure.lock.Lock;
 import textadventure.lock.MockLock;
 import textadventure.rooms.Room;
 import textadventure.rooms.SomeRoom;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.same;
 
 public class CloseDoorActionTest
 {
@@ -61,7 +60,7 @@ public class CloseDoorActionTest
 
 		SomeActionResponses mock = Mockito.spy(actionResponses);
 		action.perform(character, mock);
-		Mockito.verify(mock, Mockito.times(1)).onAttackAction(any(Character.class), any(AttackAction.class));
+		Mockito.verify(mock, Mockito.times(1)).onCloseDoorAction(same(character), same(action));
 	}
 
 	@Test

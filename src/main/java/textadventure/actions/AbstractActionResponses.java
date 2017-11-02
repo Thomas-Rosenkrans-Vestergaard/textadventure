@@ -39,6 +39,17 @@ public class AbstractActionResponses implements ActionResponses
 	}
 
 	/**
+	 * Event for when the {@link Character} performs the {@link EscapeAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link EscapeAction}.
+	 * @param action    The {@link EscapeAction} instance.
+	 */
+	@Override public void onEscapeAction(Character character, EscapeAction action)
+	{
+
+	}
+
+	/**
 	 * Event for when the {@link Character} performs the {@link AttackAction}.
 	 *
 	 * @param character The {@link Character} who performed the {@link AttackAction}.
