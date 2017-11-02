@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import textadventure.ui.Option;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -21,11 +22,18 @@ public interface Inventory
 	void addItem(Item item) throws InventoryFullException;
 
 	/**
+	 * Adds all items to floor
+	 *
+	 * @throws InventoryFullException
+	 */
+	void addItems(Stack<Item> items) throws InventoryFullException;
+
+	/**
 	 * Adds the provided {@link Item} to the position at the provided position.
 	 *
 	 * @param item     The {@link Item} to add to the {@link Inventory}.
 	 * @param position The position of the position where the {@link Item} should be added.
-	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws PositionRangeException When the provided position is outside the allowed range.
 	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
 	 */
 	void addItem(Item item, int position) throws PositionRangeException, TypeMismatchException;
@@ -36,7 +44,7 @@ public interface Inventory
 	 *
 	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @return The {@link Item}.
-	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws PositionRangeException When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException When the provided position is empty.
 	 */
 	Item takeItem(int position) throws PositionRangeException, EmptyPositionException;
@@ -48,7 +56,7 @@ public interface Inventory
 	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
 	 * @return The {@link Item}.
-	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws PositionRangeException When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException When the provided position is empty.
 	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
 	 */
@@ -61,7 +69,7 @@ public interface Inventory
 	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @param amount   The amount of {@link Item}s to take from the {@link Inventory}.
 	 * @return The {@link Stack} containing the taken {@link Item}s.
-	 * @throws PositionRangeException  When the provided position doesn't exist.
+	 * @throws PositionRangeException  When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException  When the provided position is empty.
 	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve the request.
 	 */
@@ -75,7 +83,7 @@ public interface Inventory
 	 * @param amount   The amount of {@link Item}s to take from the {@link Inventory}.
 	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
 	 * @return The {@link Stack} containing the taken {@link Item}s.
-	 * @throws PositionRangeException  When the provided position doesn't exist.
+	 * @throws PositionRangeException  When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException  When the provided position is empty.
 	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve the request.
 	 * @throws TypeMismatchException   When the types of {@link Item} doesn't match.
@@ -83,11 +91,27 @@ public interface Inventory
 	<T extends Item> Stack<T> takeItems(int position, int amount, Class<T> type) throws PositionRangeException, EmptyPositionException, NotEnoughItemsException, TypeMismatchException;
 
 	/**
+	 * Takes all the {@link Item}s from the provided position.
+	 *
+	 * @param position The position from which to take all items.
+	 * @return
+	 * @throws PositionRangeException When
+	 */
+	Stack<Item> takeItems(int position) throws PositionRangeException;
+
+	/**
+	 * Takes all the {@link Item} from the {@link Inventory}.
+	 *
+	 * @return The {@link Stack} of all the {@link Item}s.
+	 */
+	Stack<Item> takeItems();
+
+	/**
 	 * Returns the last inserted {@link Item} from the position at the provided position.
 	 *
 	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @return The {@link Item}.
-	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws PositionRangeException When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException When the provided position is empty.
 	 */
 	Item getItem(int position) throws PositionRangeException, EmptyPositionException;
@@ -99,7 +123,7 @@ public interface Inventory
 	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
 	 * @return The {@link Item}.
-	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws PositionRangeException When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException When the provided position is empty.
 	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
 	 */

@@ -221,4 +221,17 @@ public interface Character extends PropertyContainer
 	 * @return How much the {@link Character} healed.
 	 */
 	int takeHealing(HealingSource healingSource);
+
+	enum Status
+	{
+		DEAD,
+		ALIVE,
+	}
+
+	/**
+	 * Returns the life status of the character
+	 *
+	 * @return if the character is dead or alive
+	 */
+	 Status getStatus();
 }

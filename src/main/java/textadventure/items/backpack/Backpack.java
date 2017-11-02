@@ -6,8 +6,11 @@ import textadventure.actions.Action;
 import textadventure.characters.Character;
 import textadventure.items.BaseInventory;
 import textadventure.items.Inventory;
+import textadventure.items.InventoryFullException;
+import textadventure.items.Item;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Represents an {@link Inventory} a {@link Character} can carry.
@@ -84,4 +87,5 @@ public class Backpack extends BaseInventory implements Property
 	{
 		return ImmutableMap.copyOf(actions);
 	}
+
 }

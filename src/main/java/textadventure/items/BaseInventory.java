@@ -6,6 +6,7 @@ import textadventure.ui.BaseOption;
 import textadventure.ui.Option;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -126,9 +127,25 @@ public class BaseInventory implements Inventory
 				numberOfEmptyPositions--;
 				return;
 			}
+
 		}
 
 		throw new InventoryFullException(this, item);
+	}
+
+	/**
+	 * Adds all the provided {@link Item}s to the {@link Inventory}. Any {@link Item}s added are removed from the
+	 * provided {@link Stack}.
+	 *
+	 * @param items The {@link Item}s to add to the {@link Inventory}.
+	 * @throws InventoryFullException When one or more {@link Item}s could not fit in the {@link Inventory}.
+	 */
+	@Override public void addItems(Stack<Item> items) throws InventoryFullException
+	{
+		for (Item item : items) {
+			addItem(item);
+			items.remove(item);
+		}
 	}
 
 	/**
@@ -136,7 +153,7 @@ public class BaseInventory implements Inventory
 	 *
 	 * @param item     The {@link Item} to add to the {@link Inventory}.
 	 * @param position The position of the position where the {@link Item} should be added.
-	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws PositionRangeException When the provided position is outside the allowed range.
 	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
 	 */
 	@Override public void addItem(Item item, int position) throws PositionRangeException, TypeMismatchException
@@ -168,7 +185,7 @@ public class BaseInventory implements Inventory
 	 *
 	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @return The {@link Item}.
-	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws PositionRangeException When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException When the provided position is empty.
 	 */
 	@Override
@@ -188,7 +205,7 @@ public class BaseInventory implements Inventory
 	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
 	 * @return The {@link Item}.
-	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws PositionRangeException When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException When the provided position is empty.
 	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
 	 */
@@ -209,7 +226,7 @@ public class BaseInventory implements Inventory
 	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @param amount   The amount of {@link Item}s to take from the {@link Inventory}.
 	 * @return The {@link Stack} containing the taken {@link Item}s.
-	 * @throws PositionRangeException  When the provided position doesn't exist.
+	 * @throws PositionRangeException  When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException  When the provided position is empty.
 	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve the request.
 	 */
@@ -251,7 +268,7 @@ public class BaseInventory implements Inventory
 	 * @param amount   The amount of {@link Item}s to take from the {@link Inventory}.
 	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
 	 * @return The {@link Stack} containing the taken {@link Item}s.
-	 * @throws PositionRangeException  When the provided position doesn't exist.
+	 * @throws PositionRangeException  When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException  When the provided position is empty.
 	 * @throws NotEnoughItemsException When the position doesn't contain enough {@link Item}s to serve the request.
 	 * @throws TypeMismatchException   When the types of {@link Item} doesn't match.
@@ -290,12 +307,42 @@ public class BaseInventory implements Inventory
 		return result;
 	}
 
+	@Override public Stack<Item> takeItems(int position) throws PositionRangeException
+	{
+		validatePosition(position);
+
+		if (!types.containsKey(position))
+			return new Stack<>();
+
+		Stack<Item> result = items.get(position);
+		items.remove(position);
+		types.remove(position);
+		return result;
+	}
+
+	@Override public Stack<Item> takeItems()
+	{
+		Stack<Item> stack = new Stack<>();
+		for (Map.Entry<Integer, ItemType> entry : types.entrySet()) {
+			int position = entry.getKey();
+			if (!types.containsKey(position))
+				throw new IllegalStateException();
+
+
+			stack.addAll(items.get(position));
+			items.remove(position);
+			types.remove(position);
+		}
+
+		return stack;
+	}
+
 	/**
 	 * Returns the last inserted {@link Item} from the position at the provided position.
 	 *
 	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @return The {@link Item}.
-	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws PositionRangeException When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException When the provided position is empty.
 	 */
 	@Override
@@ -315,7 +362,7 @@ public class BaseInventory implements Inventory
 	 * @param position The position of the position from where to take the last {@link Item}.
 	 * @param type     The type of {@link Item} to take from the {@link Inventory} position.
 	 * @return The {@link Item}.
-	 * @throws PositionRangeException When the provided position doesn't exist.
+	 * @throws PositionRangeException When the provided position is outside the allowed range.
 	 * @throws EmptyPositionException When the provided position is empty.
 	 * @throws TypeMismatchException  When the types of {@link Item} doesn't match.
 	 */
