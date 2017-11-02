@@ -2,6 +2,7 @@ package textadventure.doors;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import textadventure.actions.ActionResponses;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
@@ -74,14 +75,18 @@ public class CloseDoorActionTest
 
 		assertEquals(Door.State.OPEN, door.getState());
 		CloseDoorAction action = new CloseDoorAction(door);
-		action.perform(character, new SomeActionResponses()
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override public void onCloseDoorAction(Character character, CloseDoorAction action)
 			{
 				assertTrue(action.hasException(DoorLockedException.class));
 				assertEquals(Door.State.OPEN, action.getDoor().getState());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onCloseDoorAction(same(character), same(action));
 	}
 
 	@Test

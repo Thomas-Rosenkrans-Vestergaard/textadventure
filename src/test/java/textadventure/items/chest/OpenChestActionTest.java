@@ -1,13 +1,16 @@
 package textadventure.items.chest;
 
 import org.junit.Test;
-import textadventure.characters.SomeCharacter;
+import org.mockito.Mockito;
+import textadventure.actions.ActionResponses;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
+import textadventure.characters.SomeCharacter;
 import textadventure.lock.Lock;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.same;
 
 public class OpenChestActionTest
 {
@@ -19,14 +22,19 @@ public class OpenChestActionTest
 
 		assertEquals(Chest.State.CLOSED, chest.getState());
 		OpenChestAction action = new OpenChestAction(chest);
-		action.perform(character, new SomeActionResponses()
+
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override public void onOpenChestAction(Character character, OpenChestAction action)
 			{
 				assertFalse(action.hasException());
 				assertEquals(Chest.State.OPEN, chest.getState());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onOpenChestAction(same(character), same(action));
 	}
 
 	@Test
@@ -37,14 +45,19 @@ public class OpenChestActionTest
 
 		assertEquals(Chest.State.CLOSED, chest.getState());
 		OpenChestAction action = new OpenChestAction(chest);
-		action.perform(character, new SomeActionResponses()
+
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override public void onOpenChestAction(Character character, OpenChestAction action)
 			{
 				assertTrue(action.hasException(ChestLockedException.class));
 				assertEquals(Chest.State.CLOSED, chest.getState());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onOpenChestAction(same(character), same(action));
 	}
 
 	@Test

@@ -4,7 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
 import textadventure.items.backpack.Backpack;
-import textadventure.ui.*;
+import textadventure.ui.BaseSelect;
+import textadventure.ui.Option;
+import textadventure.ui.Select;
+import textadventure.ui.SelectResponseException;
 
 public class UnlockLockAction extends LockAction
 {
@@ -45,12 +48,10 @@ public class UnlockLockAction extends LockAction
 					lock.unlock(selection.get(0).getT());
 				});
 
-				character.getFaction().getLeader().select(select);
+				responses.select(select);
 
 			} catch (SelectResponseException e) {
 				setException(e.getCause());
-			} catch (UnknownIndexException e) {
-				setException(new SelectionNotKeyException());
 			} catch (Exception e) {
 				setException(e);
 			} finally {

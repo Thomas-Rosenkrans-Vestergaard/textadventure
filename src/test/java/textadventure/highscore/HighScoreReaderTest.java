@@ -1,4 +1,4 @@
-package textadventure;
+package textadventure.highscore;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 public class HighScoreReaderTest
 {
 
-	private String input = "src/test/java/textadventure/scores.txt";
+	private String input = "src/test/java/textadventure/highscore/scores.txt";
 	private Path   path  = Paths.get(input);
 
 	@Before

@@ -1,12 +1,8 @@
-package textadventure;
+package textadventure.highscore;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import textadventure.highscore.HighScoreReader;
-import textadventure.highscore.HighScoreWriter;
-import textadventure.highscore.Outcome;
-import textadventure.highscore.Score;
 
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -18,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class HighScoreWriterTest
 {
 
-	private String input = "src/test/java/textadventure/scores.txt";
+	private String input = "src/test/java/textadventure/highscore/scores.txt";
 	private Path   path  = Paths.get(input);
 
 	@Before
