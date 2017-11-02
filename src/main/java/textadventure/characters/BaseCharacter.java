@@ -67,6 +67,8 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	 */
 	static public int DEFAULT_MONEY = 0;
 
+	static public Status DEFAULT_STATUS = Status.ALIVE;
+
 	/**
 	 * The name of the {@link Character}.
 	 */
@@ -163,6 +165,8 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	 */
 	private int money;
 
+	private Status status;
+
 	/**
 	 * Creates a new {@link BaseCharacter}.
 	 *
@@ -204,7 +208,8 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 			int dexterity,
 			int intelligence,
 			int stealth,
-			int money)
+			int money
+	)
 	{
 		this.name = name;
 		this.faction = faction;
@@ -225,6 +230,7 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 		this.intelligence = intelligence;
 		this.stealth = stealth;
 		this.money = money;
+		this.status = currentHP > 0 ? Status.ALIVE : Status.DEAD;
 	}
 
 	/**
@@ -256,6 +262,7 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 				DEFAULT_INTELLIGENCE,
 				DEFAULT_STEALTH,
 				DEFAULT_MONEY
+
 		);
 
 		character.addProperty("backpack", backpack);
@@ -594,5 +601,17 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 		this.currentHP += healingAmount;
 		return healingAmount;
 	}
+
+	/**
+	 * Returns {@link Character} Status.
+	 *
+	 * @return {@link Character} Status.
+	 */
+
+	@Override public Status getStatus()
+	{
+		return status;
+	}
+
 }
 

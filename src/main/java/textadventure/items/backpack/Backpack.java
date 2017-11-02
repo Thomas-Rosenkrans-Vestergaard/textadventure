@@ -84,4 +84,9 @@ public class Backpack extends BaseInventory implements Property
 	{
 		return ImmutableMap.copyOf(actions);
 	}
+
+	@Override public void dropAllItems()
+	{
+
+	}
 }

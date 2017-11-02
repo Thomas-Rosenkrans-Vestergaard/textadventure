@@ -5,7 +5,10 @@ import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
+import textadventure.items.Item;
+import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
+import textadventure.rooms.Floor;
 import textadventure.rooms.Room;
 import textadventure.ui.*;
 
@@ -37,8 +40,10 @@ public class AttackAction extends AbstractAction
 
 	public void perform(Character character, ActionResponses responses)
 	{
-		Faction faction         = character.getFaction();
-		Room    currentLocation = character.getCurrentLocation();
+		Faction  faction         = character.getFaction();
+		Room     currentLocation = character.getCurrentLocation();
+
+
 
 		if (faction == target.getFaction()) {
 			setException(new FriendlyTargetException(character, target));
@@ -70,6 +75,10 @@ public class AttackAction extends AbstractAction
 			setException(e);
 		} finally {
 			responses.onAttackAction(character, this);
+			if (target.getStatus() == Character.Status.DEAD){
+
+			}
+
 		}
 	}
 

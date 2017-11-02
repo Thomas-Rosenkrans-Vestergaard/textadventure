@@ -209,4 +209,6 @@ public interface Inventory
 	 * @return The positions in the {@link Inventory} with the provided {@link Class} type.
 	 */
 	<T extends Item> ImmutableSet<Option<T>> asOptions(Class<T> type);
+
+	void dropAllItems();
 }

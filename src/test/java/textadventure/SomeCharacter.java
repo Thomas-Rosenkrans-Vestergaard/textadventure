@@ -32,6 +32,7 @@ public class SomeCharacter implements Character
 	private int       intelligence;
 	private int       stealth;
 	private int       money;
+	private Status status;
 
 	@Override public String getName()
 	{
@@ -236,6 +237,11 @@ public class SomeCharacter implements Character
 	@Override public int takeHealing(HealingSource healingSource)
 	{
 		return 0;
+	}
+
+	@Override public Status getStatus()
+	{
+		return this.status;
 	}
 
 	@Override public void addProperty(String propertyName, Property property)

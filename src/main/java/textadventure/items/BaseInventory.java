@@ -513,6 +513,11 @@ public class BaseInventory implements Inventory
 		return builder.build();
 	}
 
+	@Override public void dropAllItems()
+	{
+
+	}
+
 	/**
 	 * Validates that the provided position position is within a legal range. The valid position position range is from
 	 * <code>0</code> to <code>numberOfPositions-1</code>.
