@@ -11,22 +11,23 @@ public interface PropertyContainer extends Property
 	/**
 	 * Adds the {@link Property} to the {@link PropertyContainer}.
 	 *
-	 * @param propertyName The name of the {@link Property}.
-	 * @param property     The {@link Property} to add to the {@link PropertyContainer}.
+	 * @param property The {@link Property} to add to the {@link PropertyContainer}.
 	 */
-	void addProperty(String propertyName, Property property);
+	void putProperty(Property property);
 
 	/**
-	 * Returns the {@link Property} with the provided name.
+	 * Returns the {@link Property} of the provided type.
 	 *
-	 * @param name The name of the {@link Property} to return.
+	 * @param type The type of the {@link Property} to return.
 	 */
-	Property getProperty(String name);
+	<T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException;
+
+	<T extends Property> boolean hasProperty(Class<T> type);
 
 	/**
 	 * Returns an {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
 	 *
 	 * @return The {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
 	 */
-	ImmutableMap<String, Property> getProperties();
+	ImmutableMap<Class<? extends Property>, Property> getProperties();
 }

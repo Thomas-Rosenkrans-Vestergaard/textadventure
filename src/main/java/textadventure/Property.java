@@ -13,23 +13,23 @@ public interface Property
 	/**
 	 * Adds a new {@link Action} to the {@link Property}.
 	 *
-	 * @param name   The name of the {@link Action}.
 	 * @param action The {@link Action} to add to the {@link Property}.
 	 */
-	void addAction(String name, Action action);
+	void addAction(Action action);
 
 	/**
 	 * Returns the {@link Action} with the provided name.
 	 *
-	 * @param name The name of the {@link Action} to return.
 	 * @return The {@link Action} with the provided name.
 	 */
-	Action getAction(String name);
+	<T extends Action> T getAction(Class<T> type) throws UnknownActionException;
+
+	<T extends Action> boolean hasAction(Class<T> type);
 
 	/**
 	 * Returns an {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
 	 *
 	 * @return The {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
 	 */
-	ImmutableMap<String, Action> getActions();
+	ImmutableMap<Class<? extends Action>, Action> getActions();
 }

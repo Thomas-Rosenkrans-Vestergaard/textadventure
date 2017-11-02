@@ -3,6 +3,7 @@ package textadventure;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Default implementation of the {@link PropertyContainer} interface.
@@ -13,27 +14,34 @@ public class AbstractPropertyContainer extends AbstractProperty implements Prope
 	/**
 	 * The instances of {@link Property} in the {@link PropertyContainer}.
 	 */
-	private HashMap<String, Property> properties = new HashMap<>();
+	private Map<Class<? extends Property>, Property> properties = new HashMap<>();
 
 	/**
-	 * Adds a new property to the {@link PropertyContainer}.
+	 * Adds the {@link Property} to the {@link PropertyContainer}.
 	 *
-	 * @param name     The name of the {@link Property}.
 	 * @param property The {@link Property} to add to the {@link PropertyContainer}.
 	 */
-	@Override public void addProperty(String name, Property property)
+	@Override public void putProperty(Property property)
 	{
-		properties.put(name, property);
+		properties.put(property.getClass(), property);
 	}
 
 	/**
-	 * Returns the {@link Property} with the provided <code>name</code>.
+	 * Returns the {@link Property} of the provided type.
 	 *
-	 * @param name The <code>name</code> of the {@link Property} to get.
+	 * @param type The type of the {@link Property} to return.
 	 */
-	@Override public Property getProperty(String name)
+	@Override public <T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException
 	{
-		return getProperties().get(name);
+		if (!properties.containsKey(type))
+			throw new UnknownPropertyException();
+
+		return type.cast(properties.get(type));
+	}
+
+	@Override public <T extends Property> boolean hasProperty(Class<T> type)
+	{
+		return properties.containsKey(type);
 	}
 
 	/**
@@ -41,8 +49,8 @@ public class AbstractPropertyContainer extends AbstractProperty implements Prope
 	 *
 	 * @return The {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
 	 */
-	@Override public ImmutableMap<String, Property> getProperties()
+	@Override public ImmutableMap<Class<? extends Property>, Property> getProperties()
 	{
-		return new ImmutableMap.Builder<String, Property>().putAll(properties).build();
+		return ImmutableMap.copyOf(properties);
 	}
 }

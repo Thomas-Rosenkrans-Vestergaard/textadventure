@@ -25,7 +25,7 @@ public class AbstractPropertyContainerTest
 		PropertyContainer container = new PropertyContainerImplementation();
 		Property          property  = new PropertyImplementation();
 		assertNull(container.getProperty("property"));
-		container.addProperty("property", property);
+		container.putProperty("property", property);
 		assertSame(property, container.getProperty("property"));
 	}
 
@@ -35,7 +35,7 @@ public class AbstractPropertyContainerTest
 		PropertyContainer container = new PropertyContainerImplementation();
 		Property          property  = new PropertyImplementation();
 		assertNull(container.getProperty("property"));
-		container.addProperty("property", property);
+		container.putProperty("property", property);
 		assertSame(property, container.getProperty("property"));
 	}
 
@@ -46,9 +46,9 @@ public class AbstractPropertyContainerTest
 		Property          a         = new PropertyImplementation();
 		Property          b         = new PropertyImplementation();
 		Property          c         = new PropertyImplementation();
-		container.addProperty("a", a);
-		container.addProperty("b", b);
-		container.addProperty("c", c);
+		container.putProperty("a", a);
+		container.putProperty("b", b);
+		container.putProperty("c", c);
 		ImmutableMap<String, Property> properties = container.getProperties();
 		assertSame(a, properties.get("a"));
 		assertSame(b, properties.get("b"));
