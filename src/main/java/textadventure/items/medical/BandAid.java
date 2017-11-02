@@ -11,7 +11,7 @@ public class BandAid extends AbstractUsableItem implements HealingSource
 	/**
 	 * Creates a new {@link BandAid}.
 	 */
-	public BandAid(int numberOfUses)
+	public BandAid()
 	{
 		super(1);
 	}
