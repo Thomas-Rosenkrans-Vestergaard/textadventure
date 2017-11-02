@@ -3,6 +3,7 @@ package textadventure.characters;
 import textadventure.PropertyContainer;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
+import textadventure.combat.HealingSource;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
@@ -212,4 +213,12 @@ public interface Character extends PropertyContainer
 	 * @return How much damage was taken.
 	 */
 	int takeDamage(DamageSource damageSource);
+
+	/**
+	 * Causes the {@link Character} to receive hp from the provided {@link HealingSource}.
+	 *
+	 * @param healingSource The {@link HealingSource}.
+	 * @return How much the {@link Character} healed.
+	 */
+	int takeHealing(HealingSource healingSource);
 }

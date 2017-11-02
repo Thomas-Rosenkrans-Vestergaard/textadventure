@@ -3,40 +3,33 @@ package textadventure.items;
 /**
  * Abstract implementation of the {@link UsableItem} interface.
  */
-public abstract class AbstractUsableItem extends AbstractItem implements UsableItem
+public abstract class AbstractUsableItem implements UsableItem
 {
 
 	/**
 	 * The number of uses the {@link UsableItem} have left.
 	 */
-	private int numberOfUsesLeft;
+	protected int numberOfUsesLeft;
 
 	/**
 	 * Creates a new {@link AbstractUsableItem}.
 	 *
-	 * @param name         The name of the {@link UsableItem}.
-	 * @param description  The description of the {@link UsableItem}.
 	 * @param numberOfUses The number of times the {@link UsableItem} can be used.
 	 */
-	public AbstractUsableItem(String name, String description, int numberOfUses)
+	public AbstractUsableItem(int numberOfUses)
 	{
-		super(name, description);
+		this.numberOfUsesLeft = numberOfUses;
 
 		if (numberOfUses < 1)
 			throw new IllegalArgumentException("numberOfUses must be positive.");
-
-		this.numberOfUsesLeft = numberOfUses;
 	}
 
 	/**
 	 * Creates a new {@link AbstractUsableItem}. The {@link UsableItem} can only be used once.
-	 *
-	 * @param name        The name of the {@link UsableItem}.
-	 * @param description The description of the {@link UsableItem}.
 	 */
 	public AbstractUsableItem(String name, String description)
 	{
-		this(name, description, 1);
+		this(1);
 	}
 
 	/**

@@ -184,7 +184,7 @@ public class ConsoleGameInterface implements GameInterface
 			roomController.get(Coordinate.of(4, 4)).addProperty(NORTH_DOOR_NAME, door);
 			roomController.get(Coordinate.of(4, 5)).addProperty(SOUTH_DOOR_NAME, door);
 
-			Game game = new Game(roomController, 1);
+			Game game = new Game(roomController, 5);
 			game.addFaction(new Escapees(new HumanPlayer(gameInterface), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 5))));
 			game.addFaction(new SecretPolice(new ComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
 			game.start();
