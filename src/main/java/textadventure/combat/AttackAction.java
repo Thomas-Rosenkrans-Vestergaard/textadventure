@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
+import textadventure.items.InventoryFullException;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
@@ -14,6 +15,7 @@ import textadventure.ui.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * Allows one {@link Character} to attack another.
@@ -40,9 +42,8 @@ public class AttackAction extends AbstractAction
 
 	public void perform(Character character, ActionResponses responses)
 	{
-		Faction  faction         = character.getFaction();
-		Room     currentLocation = character.getCurrentLocation();
-
+		Faction faction         = character.getFaction();
+		Room    currentLocation = character.getCurrentLocation();
 
 
 		if (faction == target.getFaction()) {
@@ -75,8 +76,14 @@ public class AttackAction extends AbstractAction
 			setException(e);
 		} finally {
 			responses.onAttackAction(character, this);
-			if (target.getStatus() == Character.Status.DEAD){
+			if (target.getStatus() == Character.Status.DEAD) {
+				Floor       floor = currentLocation.getRoomFloor();
+				Stack<Item> stack = character.getBackpack().takeItems();
+				try {
+					floor.addItems(stack);
+				} catch (InventoryFullException e) {
 
+				}
 			}
 
 		}

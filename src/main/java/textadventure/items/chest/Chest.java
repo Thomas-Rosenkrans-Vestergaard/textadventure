@@ -15,11 +15,6 @@ import java.util.HashMap;
 public class Chest extends BaseInventory implements PropertyContainer
 {
 
-	@Override public void dropAllItems()
-	{
-
-	}
-
 	/**
 	 * The {@link State} of the {@link Chest}.
 	 */

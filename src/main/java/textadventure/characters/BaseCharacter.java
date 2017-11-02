@@ -331,11 +331,17 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	 */
 	@Override public double getProtectiveFactor()
 	{
-		return headWear.getProtectiveFactor() +
-				torsoWear.getProtectiveFactor() +
-				gloves.getProtectiveFactor() +
-				pants.getProtectiveFactor() +
-				boots.getProtectiveFactor();
+		double protectiveFactor = 0;
+
+		if (headWear != null) {
+			protectiveFactor += headWear.getProtectiveFactor();
+			protectiveFactor += torsoWear.getProtectiveFactor();
+			protectiveFactor += gloves.getProtectiveFactor();
+			protectiveFactor += pants.getProtectiveFactor();
+			protectiveFactor += boots.getProtectiveFactor();
+		}
+
+		return protectiveFactor;
 	}
 
 	/**
