@@ -6,8 +6,6 @@ import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
 import textadventure.rooms.Room;
 
-import java.util.Objects;
-
 /**
  * Readonly {@link Character}. The {@link Object#hashCode()} and {@link Object#equals(Object)} methods delegate to the
  * internal {@link Character} {@link Object#hashCode()} and {@link Object#equals(Object)} methods.
@@ -233,6 +231,16 @@ public class CharacterInformation
 		return character.getMoney();
 	}
 
+	/**
+	 * Returns the life status of the character
+	 *
+	 * @return if the character is dead or alive
+	 */
+	public Character.Status getStatus()
+	{
+		return character.getStatus();
+	}
+
 	@Override public boolean equals(Object o)
 	{
 		if (o instanceof Character || o instanceof CharacterInformation) {
@@ -244,6 +252,6 @@ public class CharacterInformation
 
 	@Override public int hashCode()
 	{
-		return Objects.hash(character);
+		return character.hashCode();
 	}
 }

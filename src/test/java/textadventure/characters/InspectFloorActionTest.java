@@ -1,12 +1,15 @@
-package textadventure.rooms;
+package textadventure.characters;
 
 import org.junit.Test;
-import textadventure.SomeCharacter;
+import textadventure.characters.SomeCharacter;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
 import textadventure.characters.InspectFloorAction;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;
+import textadventure.rooms.BaseRoom;
+import textadventure.rooms.Floor;
+import textadventure.rooms.Room;
 
 import static org.junit.Assert.*;
 

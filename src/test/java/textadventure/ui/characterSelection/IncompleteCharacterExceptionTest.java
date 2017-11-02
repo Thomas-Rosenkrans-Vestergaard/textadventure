@@ -13,6 +13,6 @@ public class IncompleteCharacterExceptionTest
 	{
 		CharacterCreationTemplate    characterCreationTemplate = new CharacterCreationTemplate();
 		IncompleteCharacterException exception                 = new IncompleteCharacterException(characterCreationTemplate);
-		assertSame(characterCreationTemplate, exception.getCharacter());
+		assertSame(characterCreationTemplate, exception.getCharacterTemplate());
 	}
 }

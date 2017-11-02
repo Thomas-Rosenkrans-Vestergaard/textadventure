@@ -23,6 +23,6 @@ public class CharacterNameTakenExceptionTest
 	{
 		CharacterCreationTemplate   characterCreationTemplate = new CharacterCreationTemplate();
 		CharacterNameTakenException exception                 = new CharacterNameTakenException(characterCreationTemplate);
-		assertSame(characterCreationTemplate, exception.getCharacter());
+		assertSame(characterCreationTemplate, exception.getCharacterTemplate());
 	}
 }

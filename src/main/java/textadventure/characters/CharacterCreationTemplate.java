@@ -1,9 +1,9 @@
 package textadventure.characters;
 
-import textadventure.Player;
-
 /**
- * Used when creating new {@link Character}s using the {@link textadventure.ui.GameInterface#onCharacterCreation(Player, int, int, CharacterCreationCallback, FinishCharacterCreationCallback)} method.
+ * Used when creating new {@link Character}s using the
+ * <p>
+ * {@link textadventure.ui.GameInterface#onCharacterCreation(Character)} method.
  */
 public class CharacterCreationTemplate
 {

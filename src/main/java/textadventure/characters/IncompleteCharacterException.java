@@ -28,7 +28,7 @@ public class IncompleteCharacterException extends GameException
 	 *
 	 * @return The incomplete {@link CharacterCreationTemplate}.
 	 */
-	public CharacterCreationTemplate getCharacter()
+	public CharacterCreationTemplate getCharacterTemplate()
 	{
 		return this.character;
 	}

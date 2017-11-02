@@ -1,8 +1,8 @@
-package textadventure;
+package textadventure.characters;
 
 import com.google.common.collect.ImmutableMap;
+import textadventure.Property;
 import textadventure.actions.Action;
-import textadventure.characters.Character;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.combat.HealingSource;
@@ -32,7 +32,18 @@ public class SomeCharacter implements Character
 	private int       intelligence;
 	private int       stealth;
 	private int       money;
-	private Status status;
+	private double    protectiveFactor;
+	private Status    status;
+
+	public void setProtectiveFactor(double protectiveFactor)
+	{
+		this.protectiveFactor = protectiveFactor;
+	}
+
+	public void setStatus(Status status)
+	{
+		this.status = status;
+	}
 
 	@Override public String getName()
 	{
@@ -76,7 +87,7 @@ public class SomeCharacter implements Character
 
 	@Override public double getProtectiveFactor()
 	{
-		return 0;
+		return protectiveFactor;
 	}
 
 	@Override public HeadWear getHeadWear()

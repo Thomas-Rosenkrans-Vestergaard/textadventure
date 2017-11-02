@@ -1,7 +1,7 @@
 package textadventure.characters;
 
 import org.junit.Test;
-import textadventure.SomeCharacter;
+import org.mockito.Mockito;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.items.Item;
@@ -13,6 +13,7 @@ import textadventure.rooms.Room;
 import textadventure.ui.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.same;
 
 public class DropItemActionTest
 {
@@ -32,7 +33,7 @@ public class DropItemActionTest
 		assertEquals(0, floor.getNumberOfItems());
 
 		DropItemAction action = new DropItemAction();
-		action.perform(character, new SomeActionResponses()
+		SomeActionResponses actionResponses = new SomeActionResponses()
 		{
 
 			@Override
@@ -55,7 +56,11 @@ public class DropItemActionTest
 					fail();
 				}
 			}
-		});
+		};
+
+		SomeActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock).onDropItemAction(same(character), same(action));
 	}
 
 	@Test

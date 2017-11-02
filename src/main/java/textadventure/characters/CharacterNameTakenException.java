@@ -44,7 +44,7 @@ public class CharacterNameTakenException extends GameException
 	 *
 	 * @return The {@link CharacterCreationTemplate} with the taken name.
 	 */
-	public CharacterCreationTemplate getCharacter()
+	public CharacterCreationTemplate getCharacterTemplate()
 	{
 		return this.character;
 	}

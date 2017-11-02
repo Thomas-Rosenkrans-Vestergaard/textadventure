@@ -8,7 +8,10 @@ import textadventure.actions.Action;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.characters.Character;
 import textadventure.characters.*;
-import textadventure.combat.*;
+import textadventure.combat.AttackAction;
+import textadventure.combat.Escapees;
+import textadventure.combat.Faction;
+import textadventure.combat.SecretPolice;
 import textadventure.doors.*;
 import textadventure.items.*;
 import textadventure.items.backpack.ExpandBackpackAction;
@@ -376,7 +379,7 @@ public class ConsoleGameInterface implements GameInterface
 		LOOP:
 		while (true) {
 
-			printer.println("Please enter your next action.");
+			printer.println(String.format("Enter the next action to perform for %s.", character.getName()));
 			String   input    = getInput();
 			String[] sections = getSectionsFromCommand(input);
 
@@ -450,7 +453,7 @@ public class ConsoleGameInterface implements GameInterface
 		CharacterInformation characterInformation = action.getCharacterInformation();
 
 		if (!action.hasException()) {
-			printer.println(String.format("Printing information about %s.", character.getName()));
+			printer.println(String.format("Printing information about %s (%s).", character.getName(), character.getFaction()));
 			printer.println(String.format("\tName                %s", characterInformation.getName()));
 			printer.println(String.format("\tFaction             %s", characterInformation.getFaction().getClass().getSimpleName()));
 			printer.println(String.format("\tProtective factor   %d", characterInformation.getProtectiveFactor()));
@@ -483,11 +486,11 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onUseItemAction(Character character, UseItemsAction action)
 	{
 		if (!action.hasException()) {
-			printer.println(String.format("%s used item(s):"));
-			for (UsableItem item : action.getItems()) {
-				printer.println(String.format("\tNumber of uses left:           Item name:"));
-				printer.println(String.format("\t%d                             %s         ", item.getNumberOfUsesLeft(), item.getItemTypeName()));
-			}
+			printer.println(String.format("%s (%s) used the following item(s).",
+					character.getName(),
+					character.getFaction()));
+			for (UsableItem item : action.getItems())
+				printer.println(String.format("\t%s", item.getItemTypeName()));
 
 			return;
 		}
@@ -502,7 +505,8 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onEquipAction(Character character, EquipAction action)
 	{
 		if (!action.hasException()) {
-			printer.println(String.format("Character %s equipped the following items."));
+			printer.println(String.format("%s (%s) equipped the following items.", character
+					.getName(), character.getFaction()));
 			for (EquipableItem item : action.getItems())
 				printer.println(String.format("\t%s", item.getItemTypeName()));
 			return;
@@ -518,7 +522,9 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onUnEquipAction(Character character, UnEquipAction action)
 	{
 		if (!action.hasException()) {
-			printer.println(String.format("Character %s unequipped the following items."));
+			printer.println(String.format("%s (%s) unequipped the following items.",
+					character.getName(),
+					character.getFaction()));
 			for (EquipableItem item : action.getItems())
 				printer.println(String.format("\t%s", item.getItemTypeName()));
 			return;
@@ -534,8 +540,13 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onAttackAction(Character character, AttackAction action)
 	{
 		if (!action.hasException()) {
-			printer.println(String.format("%s attacked %s with %s dealing %d damage.", character.getName(), action
-					.getTarget().getName(), character.getWeapon().getItemTypeName(), action.getDamageDone()));
+			printer.println(String.format("%s (%s) attacked %s (%s) with %s dealing %d damage.",
+					character.getName(),
+					character.getFaction(),
+					action.getTarget().getName(),
+					action.getTarget().getFaction(),
+					character.getWeapon().getItemTypeName(),
+					action.getDamageDone()));
 			return;
 		}
 	}
@@ -665,7 +676,7 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onLockLockAction(Character character, LockLockAction action)
 	{
 		if (!action.hasException()) {
-			printer.println("You successfully lock the lock using the provided key.");
+			printer.println(String.format("%s (%s) successfully locked the lock.", character.getName(), character.getFaction()));
 			return;
 		}
 

@@ -1,7 +1,7 @@
-package textadventure.items;
+package textadventure.characters;
 
 import org.junit.Test;
-import textadventure.SomeCharacter;
+import textadventure.characters.SomeCharacter;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
 import textadventure.characters.EquipAction;

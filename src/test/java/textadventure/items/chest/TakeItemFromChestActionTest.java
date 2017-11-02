@@ -1,7 +1,7 @@
 package textadventure.items.chest;
 
 import org.junit.Test;
-import textadventure.SomeCharacter;
+import textadventure.characters.SomeCharacter;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
