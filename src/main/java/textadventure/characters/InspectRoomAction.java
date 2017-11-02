@@ -5,6 +5,9 @@ import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
 import textadventure.rooms.Room;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * {@link textadventure.actions.Action} allowing a {@link Character} to see the other {@link Character}s in the
  * {@link Room}.
@@ -14,9 +17,9 @@ public class InspectRoomAction extends AbstractAction
 
 	/**
 	 * The {@link Character}s in the {@link Room}. The {@link Character} passed to
-	 * {@link InspectRoomAction::perform()} is not included in the {@link ImmutableSet}.
+	 * {@link InspectRoomAction#perform(Character, ActionResponses)} is not included in the {@link Set}.
 	 */
-	private ImmutableSet<Character> characters;
+	private Set<Character> characters = new HashSet<>();
 
 	/**
 	 * Performs the {@link InspectRoomAction} using the provided arguments.
@@ -26,24 +29,22 @@ public class InspectRoomAction extends AbstractAction
 	 */
 	public void perform(Character character, ActionResponses responses)
 	{
-		Room                            room    = character.getCurrentLocation();
-		ImmutableSet.Builder<Character> builder = new ImmutableSet.Builder<>();
-		for (Character c : room.getCharacters())
+		for (Character c : character.getCurrentLocation().getCharacters())
 			if (c != character)
-				builder.add(c);
-		this.characters = builder.build();
+				characters.add(c);
+
 		responses.onInspectRoomAction(character, this);
 	}
 
 	/**
-	 * Returns an {@link ImmutableSet} {@link Character}s in the {@link Room}. The {@link Character} passed to
-	 * {@link InspectRoomAction::perform()} is not included in the {@link ImmutableSet}.
+	 * Returns an {@link ImmutableSet} of the {@link Character}s in the {@link Room}. The {@link Character} passed to
+	 * {@link InspectRoomAction#perform(Character, ActionResponses)} is not included in the {@link ImmutableSet}.
 	 *
-	 * @return The {@link ImmutableSet} {@link Character}s in the {@link Room}. The {@link Character} passed to
-	 * {@link InspectRoomAction::perform()} is not included in the {@link ImmutableSet}.
+	 * @return The {@link ImmutableSet} of the {@link Character}s in the {@link Room}. The {@link Character} passed to
+	 * {@link InspectRoomAction#perform(Character, ActionResponses)} is not included in the {@link ImmutableSet}.
 	 */
 	public ImmutableSet<Character> getCharacters()
 	{
-		return characters;
+		return ImmutableSet.copyOf(characters);
 	}
 }

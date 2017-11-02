@@ -11,6 +11,7 @@ import textadventure.ui.Select;
 import textadventure.ui.SelectResponseException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@link textadventure.actions.Action} allowing a {@link textadventure.characters.Character} to use an
@@ -22,7 +23,7 @@ public class UseItemsAction extends AbstractAction
 	/**
 	 * The {@link UsableItem}s used during the {@link UseItemsAction}.
 	 */
-	private ArrayList<UsableItem> items = new ArrayList<>();
+	private List<UsableItem> items = new ArrayList<>();
 
 	/**
 	 * Performs the {@link UseItemsAction} using the provided arguments.
@@ -43,7 +44,7 @@ public class UseItemsAction extends AbstractAction
 				}
 			});
 
-			character.getFaction().getLeader().select(select);
+			responses.select(select);
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());

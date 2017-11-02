@@ -1,10 +1,9 @@
 package textadventure.characters;
 
 import org.junit.Test;
-import textadventure.characters.SomeCharacter;
+import org.mockito.Mockito;
+import textadventure.actions.ActionResponses;
 import textadventure.actions.SomeActionResponses;
-import textadventure.characters.Character;
-import textadventure.characters.InspectFloorAction;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;
 import textadventure.rooms.BaseRoom;
@@ -12,6 +11,7 @@ import textadventure.rooms.Floor;
 import textadventure.rooms.Room;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.same;
 
 public class InspectFloorActionTest
 {
@@ -28,7 +28,8 @@ public class InspectFloorActionTest
 		SomeCharacter character = new SomeCharacter();
 		character.setCurrentLocation(room);
 		InspectFloorAction action = new InspectFloorAction();
-		action.perform(character, new SomeActionResponses()
+
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
 			{
@@ -41,6 +42,11 @@ public class InspectFloorActionTest
 					fail();
 				}
 			}
-		});
+		};
+
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock).onInspectFloorAction(same(character), same(action));
 	}
 }

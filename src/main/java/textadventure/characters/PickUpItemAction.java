@@ -12,6 +12,9 @@ import textadventure.ui.Option;
 import textadventure.ui.Select;
 import textadventure.ui.SelectResponseException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to pick up {@link Item}s from the
  * {@link Floor}, placing the {@link Item}s in their {@link Backpack}.
@@ -22,7 +25,7 @@ public class PickUpItemAction extends AbstractAction
 	/**
 	 * The {@link Item}s that were dropped.
 	 */
-	private ImmutableList.Builder<Item> items = new ImmutableList.Builder<>();
+	private List<Item> items = new ArrayList<>();
 
 	/**
 	 * Performs the {@link PickUpItemAction} using the provided arguments.
@@ -47,7 +50,7 @@ public class PickUpItemAction extends AbstractAction
 				}
 			});
 
-			character.getFaction().getLeader().select(select);
+			responses.select(select);
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());
@@ -65,6 +68,6 @@ public class PickUpItemAction extends AbstractAction
 	 */
 	public ImmutableList<Item> getItems()
 	{
-		return items.build();
+		return ImmutableList.copyOf(items);
 	}
 }

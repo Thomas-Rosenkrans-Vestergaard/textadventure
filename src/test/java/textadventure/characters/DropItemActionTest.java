@@ -44,7 +44,6 @@ public class DropItemActionTest
 
 			@Override public void onDropItemAction(Character character, DropItemAction action)
 			{
-				System.out.println(action.getException());
 				assertFalse(action.hasException());
 				assertEquals(0, backpack.getNumberOfItems());
 				assertEquals(1, floor.getNumberOfItems());

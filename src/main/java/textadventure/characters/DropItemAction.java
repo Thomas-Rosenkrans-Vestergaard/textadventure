@@ -3,6 +3,7 @@ package textadventure.characters;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
+import textadventure.actions.Action;
 import textadventure.actions.ActionResponses;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
@@ -11,6 +12,9 @@ import textadventure.ui.BaseSelect;
 import textadventure.ui.Option;
 import textadventure.ui.Select;
 import textadventure.ui.SelectResponseException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to drop {@link textadventure.items.Item}s
@@ -21,9 +25,9 @@ public class DropItemAction extends AbstractAction
 {
 
 	/**
-	 * The {@link Item}s that were dropped.
+	 * The {@link Item}s that were correctly dropped.
 	 */
-	private ImmutableList.Builder<Item> items = new ImmutableList.Builder<>();
+	private List<Item> items = new ArrayList<>();
 
 	/**
 	 * Performs the {@link DropItemAction} using the provided arguments.
@@ -49,7 +53,7 @@ public class DropItemAction extends AbstractAction
 				}
 			});
 
-			character.getFaction().getLeader().select(select);
+			responses.select(select);
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());
@@ -67,6 +71,6 @@ public class DropItemAction extends AbstractAction
 	 */
 	public ImmutableList<Item> getItems()
 	{
-		return items.build();
+		return ImmutableList.copyOf(items);
 	}
 }

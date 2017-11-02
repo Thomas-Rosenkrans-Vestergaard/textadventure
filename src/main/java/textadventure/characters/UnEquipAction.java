@@ -32,7 +32,7 @@ public class UnEquipAction extends AbstractAction
 		try {
 
 			ImmutableSet<Option<EquipableItem>> options = getOptions(character);
-			Select<EquipableItem> select = new BaseSelect<>(options, 1, selection -> {
+			Select<EquipableItem> select = new BaseSelect<>(options, selection -> {
 
 				for (Option<EquipableItem> equipableOption : selection) {
 					EquipableItem equipable = equipableOption.getT();
@@ -94,7 +94,7 @@ public class UnEquipAction extends AbstractAction
 				}
 			});
 
-			character.getFaction().getLeader().select(select);
+			responses.select(select);
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());

@@ -1,5 +1,6 @@
 package textadventure.characters;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
@@ -11,6 +12,7 @@ import textadventure.items.wearables.*;
 import textadventure.ui.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class EquipAction extends AbstractAction
@@ -19,7 +21,7 @@ public class EquipAction extends AbstractAction
 	/**
 	 * The {@link EquipableItem}s equipped during the {@link EquipAction}.
 	 */
-	private ArrayList<EquipableItem> items = new ArrayList<>();
+	private List<EquipableItem> items = new ArrayList<>();
 
 	/**
 	 * Performs the {@link EquipAction} using the provided arguments.
@@ -108,7 +110,7 @@ public class EquipAction extends AbstractAction
 				}
 			});
 
-			character.getFaction().getLeader().select(select);
+			responses.select(select);
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());
@@ -126,8 +128,8 @@ public class EquipAction extends AbstractAction
 	 *
 	 * @return The {@link EquipableItem}s equipped during the {@link EquipAction}.
 	 */
-	public ArrayList<EquipableItem> getItems()
+	public ImmutableList<EquipableItem> getItems()
 	{
-		return this.items;
+		return ImmutableList.copyOf(items);
 	}
 }

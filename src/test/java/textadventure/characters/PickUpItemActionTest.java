@@ -94,12 +94,7 @@ public class PickUpItemActionTest
 				assertEquals(1, floor.getNumberOfItems());
 				assertEquals(0, backpack.getNumberOfItems());
 				assertEquals(0, action.getItems().size());
-
-				try {
-					assertSame(item, backpack.getItem(0));
-				} catch (Exception e) {
-					fail();
-				}
+				assertEquals(0, backpack.getNumberOfItems());
 			}
 		};
 
