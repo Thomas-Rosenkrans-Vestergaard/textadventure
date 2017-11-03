@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/textadventure.iml" filepath="$PROJECT_DIR$/textadventure.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/textadventure_main.iml" filepath="$PROJECT_DIR$/.idea/modules/textadventure_main.iml" group="textadventure" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/textadventure_test.iml" filepath="$PROJECT_DIR$/.idea/modules/textadventure_test.iml" group="textadventure" />
+    </modules>
+  </component>
+</project>
