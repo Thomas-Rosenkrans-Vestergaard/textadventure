@@ -5,6 +5,7 @@ import textadventure.actions.ActionRequestCallback;
 import textadventure.characters.Character;
 import textadventure.characters.*;
 import textadventure.combat.AttackAction;
+import textadventure.combat.Escapees;
 import textadventure.combat.Faction;
 import textadventure.doors.*;
 import textadventure.highscore.HighScoreResponse;
@@ -22,11 +23,11 @@ import textadventure.ui.Select;
 /**
  * Implementation of the {@link Player} interface, controlled by an AI.
  */
-public class ComputerPlayer implements Player
+public class SecretPoliceComputerPlayer implements Player
 {
 
 	/**
-	 * The names given to {@link Character}s of the {@link ComputerPlayer}.
+	 * The names given to {@link Character}s of the {@link SecretPoliceComputerPlayer}.
 	 */
 	private static String[] names = new String[]{
 			"Hyeon-Ju Sung-Soo",
@@ -93,6 +94,10 @@ public class ComputerPlayer implements Player
 	 */
 	@Override public void onGameStart(Game game, ImmutableList<Faction> factions, Faction faction)
 	{
+		if (faction instanceof Escapees)
+			throw new UnsupportedOperationException("SecretPoliceComputerPlayer can only play for the SecretPolice " +
+					"faction.");
+
 
 	}
 

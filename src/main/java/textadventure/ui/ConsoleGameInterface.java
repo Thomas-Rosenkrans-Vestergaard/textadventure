@@ -42,7 +42,7 @@ public class ConsoleGameInterface implements GameInterface
 			Game           game           = Game.create(3);
 			RoomController roomController = game.getRoomController();
 			game.addFaction(new Escapees(new HumanPlayer(gameInterface), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 5))));
-			game.addFaction(new SecretPolice(new ComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
+			game.addFaction(new SecretPolice(new SecretPoliceComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
 			game.start();
 		} catch (UnknownRoomException e) {
 			System.out.println(e.getCoordinate().getX());
