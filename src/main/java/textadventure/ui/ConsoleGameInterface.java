@@ -483,7 +483,7 @@ public class ConsoleGameInterface implements GameInterface
 						character.getFaction(),
 						damageDone.getKey(),
 						damageDone.getValue(),
-						character.getWeapon().getItemTypeName(),
+						character.getWeapon().getWeaponName(),
 						action.getDamageDone()));
 			return;
 		}

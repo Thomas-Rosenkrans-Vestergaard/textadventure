@@ -1,8 +1,9 @@
 package textadventure.items.weapons;
 
+import textadventure.items.EquipableItem;
 import textadventure.items.Item;
 
-public class Fork extends AbstractStabWeapon implements StabWeapon, Item
+public class Fork extends AbstractStabWeapon implements StabWeapon, EquipableItem, WeaponItem
 {
 	/**
 	 * Creates a new {@link Fork}.

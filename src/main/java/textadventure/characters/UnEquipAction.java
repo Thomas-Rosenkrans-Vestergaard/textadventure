@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
 import textadventure.items.EquipableItem;
+import textadventure.items.Item;
 import textadventure.items.NotEquipableException;
 import textadventure.items.weapons.Fists;
 import textadventure.items.weapons.Weapon;
@@ -84,7 +85,8 @@ public class UnEquipAction extends AbstractAction
 					if (equipable instanceof Weapon) {
 						Weapon current = character.getWeapon();
 						if (current != null) {
-							character.getBackpack().addItem(current);
+							if (current instanceof Item)
+								character.getBackpack().addItem((Item) current);
 							character.setWeapon(new Fists());
 						}
 						continue;
@@ -140,8 +142,10 @@ public class UnEquipAction extends AbstractAction
 
 		Weapon weapon = character.getWeapon();
 		if (weapon != null)
-			builder.add(new BaseOption<>(index++, weapon.getItemTypeName(), weapon.getItemTypeDescription(), weapon));
-
+			if (weapon instanceof EquipableItem) {
+				EquipableItem item = (EquipableItem) weapon;
+				builder.add(new BaseOption<>(index++, item.getItemTypeName(), item.getItemTypeDescription(), item));
+			}
 		return builder.build();
 	}
 

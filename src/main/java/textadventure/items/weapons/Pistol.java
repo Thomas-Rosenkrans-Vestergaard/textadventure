@@ -1,8 +1,9 @@
 package textadventure.items.weapons;
 
+import textadventure.items.EquipableItem;
 import textadventure.items.Item;
 
-public class Pistol extends AbstractProjectileWeapon implements ProjectileWeapon, Item
+public class Pistol extends AbstractProjectileWeapon implements ProjectileWeapon, EquipableItem, WeaponItem
 {
 	/**
 	 * Creates a new {@link Pistol}.
