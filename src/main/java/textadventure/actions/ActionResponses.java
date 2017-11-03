@@ -221,4 +221,6 @@ public interface ActionResponses
 	 * @param action    The {@link PickUpItemAction} instance.
 	 */
 	void onPickUpItemAction(Character character, PickUpItemAction action);
+
+	void onTransferItemAction (Character character, TransferItemAction action);
 }

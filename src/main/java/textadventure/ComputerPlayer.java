@@ -440,4 +440,9 @@ public class ComputerPlayer implements Player
 	{
 
 	}
+
+	@Override public void onTransferItemAction(Character character, TransferItemAction action)
+	{
+
+	}
 }

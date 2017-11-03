@@ -424,4 +424,9 @@ public class HumanPlayer implements Player
 	{
 		gameInterface.onPickUpItemAction(character, action);
 	}
+
+	@Override public void onTransferItemAction(Character character, TransferItemAction action)
+	{
+		gameInterface.onTransferItemAction(character, action);
+	}
 }
