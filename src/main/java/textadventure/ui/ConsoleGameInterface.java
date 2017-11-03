@@ -39,10 +39,10 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		try {
 			GameInterface  gameInterface  = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
-			Game           game           = Game.create(1);
+			Game           game           = Game.create(3);
 			RoomController roomController = game.getRoomController();
 			game.addFaction(new Escapees(new HumanPlayer(gameInterface), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 5))));
-			game.addFaction(new SecretPolice(new ComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
+			game.addFaction(new SecretPolice(new SecretPoliceComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
 			game.start();
 		} catch (UnknownRoomException e) {
 			System.out.println(e.getCoordinate().getX());
@@ -264,6 +264,45 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onCharacterExistsRoom(Character character, Room room, Door door)
 	{
 
+	}
+
+	/**
+	 * Event for when the {@link Player} must chose which {@link Character} to play next.
+	 *
+	 * @param characters The list of possible {@link Character}s left to chose.
+	 * @param callback   The callback allowing the {@link Player} to chose which {@link Character} to play next.
+	 */
+	@Override public void onNextCharacter(ImmutableList<Character> characters, CharacterSelectionCallback callback)
+	{
+		printer.println("What character do you want to play next. Enter 'skip' the skip the rest of your turn.");
+		for (Character character : characters) {
+			printer.println(String.format("\t%s", character.getName()));
+		}
+
+		while (true) {
+
+			String nextCharacter = scanner.nextLine().trim();
+
+			if (nextCharacter.equals("skip")) {
+				printer.println("You skipped the rest of your turn.");
+				callback.skip();
+				return;
+			}
+
+			for (Character character : characters) {
+				if (character.getName().equals(nextCharacter)) {
+					try {
+						printer.println(String.format("You chose to play %s.", character.getName()));
+						callback.next(character);
+						return;
+					} catch (CharacterAlreadyPlayedException e) {
+						throw new IllegalStateException(e);
+					}
+				}
+			}
+
+			printer.println("That character doesn't exist.");
+		}
 	}
 
 	/**

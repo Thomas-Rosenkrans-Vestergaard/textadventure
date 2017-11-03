@@ -6,6 +6,7 @@ import textadventure.actions.ActionRequestCallback;
 import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
 import textadventure.characters.CharacterCreationCallback;
+import textadventure.characters.CharacterSelectionCallback;
 import textadventure.characters.FinishCharacterCreationCallback;
 import textadventure.combat.AttackAction;
 import textadventure.combat.Faction;
@@ -62,6 +63,14 @@ public interface Player extends ActionResponses
 	 * @param response The response of the {@link Player}.
 	 */
 	void onHighScoreRequest(int score, Outcome outcome, HighScoreResponse response);
+
+	/**
+	 * Event for when the {@link Player} must chose which {@link Character} to play next.
+	 *
+	 * @param characters The list of possible {@link Character}s left to chose.
+	 * @param callback   The callback allowing the {@link Player} to chose which {@link Character} to play next.
+	 */
+	void onNextCharacter(ImmutableList<Character> characters, CharacterSelectionCallback callback);
 
 	/**
 	 * Event for when an {@link Action}

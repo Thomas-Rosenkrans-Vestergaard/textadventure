@@ -77,6 +77,17 @@ public class HumanPlayer implements Player
 	}
 
 	/**
+	 * Event for when the {@link Player} must chose which {@link Character} to play next.
+	 *
+	 * @param characters The list of possible {@link Character}s left to chose.
+	 * @param callback   The callback allowing the {@link Player} to chose which {@link Character} to play next.
+	 */
+	@Override public void onNextCharacter(ImmutableList<Character> characters, CharacterSelectionCallback callback)
+	{
+		gameInterface.onNextCharacter(characters, callback);
+	}
+
+	/**
 	 * Events called when the {@link Player} should create their {@link Character}s.
 	 *
 	 * @param numberOfCharacters The  number of {@link Character}s to create.

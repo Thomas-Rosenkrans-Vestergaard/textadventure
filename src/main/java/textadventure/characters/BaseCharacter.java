@@ -262,7 +262,6 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 				DEFAULT_INTELLIGENCE,
 				DEFAULT_STEALTH,
 				DEFAULT_MONEY
-
 		);
 
 		character.addProperty("backpack", backpack);
@@ -274,6 +273,7 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 		character.addAction("attack", new AttackAction());
 		character.addAction("equip", new EquipAction());
 		character.addAction("unequip", new UnEquipAction());
+		character.addAction("nothing", new NothingAction());
 
 		faction.getStartingRoom().addCharacter(character);
 

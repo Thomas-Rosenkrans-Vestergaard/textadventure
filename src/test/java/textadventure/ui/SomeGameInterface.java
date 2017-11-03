@@ -47,6 +47,11 @@ public class SomeGameInterface implements GameInterface
 
 	}
 
+	@Override public void onNextCharacter(ImmutableList<Character> characters, CharacterSelectionCallback callback)
+	{
+
+	}
+
 	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
 	{
 
