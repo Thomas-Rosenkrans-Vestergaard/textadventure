@@ -128,7 +128,22 @@ public class ComputerPlayer implements Player
 	 */
 	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
 	{
+		callback.respond(new NothingAction());
+	}
 
+	/**
+	 * Event for when the {@link Player} must chose which {@link Character} to play next.
+	 *
+	 * @param characters The list of possible {@link Character}s left to chose.
+	 * @param callback   The callback allowing the {@link Player} to chose which {@link Character} to play next.
+	 */
+	@Override public void onNextCharacter(ImmutableList<Character> characters, CharacterSelectionCallback callback)
+	{
+		try {
+			callback.next(characters.get(0));
+		} catch (CharacterAlreadyPlayedException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	/**

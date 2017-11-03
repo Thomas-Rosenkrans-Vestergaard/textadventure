@@ -335,7 +335,7 @@ public class Game
 	 */
 	private void handleTurn(Faction faction)
 	{
-		handleCharacterTurn(faction, faction.getCharacters().get(0));
+		handleCharacterTurn(faction, faction.getCharacters());
 	}
 
 	/**
@@ -356,8 +356,9 @@ public class Game
 	/**
 	 * Requests an {@link Action} from the provided {@link Player}.
 	 */
-	private void handleCharacterTurn(Faction faction, Character character)
+	private void handleCharacterTurn(Faction faction, List<Character> characters)
 	{
+
 		if (faction.hasLost(gameState)) {
 			faction.getLeader().onGameEnd(this, false);
 			gameState.removeFaction(faction.getClass());
@@ -368,15 +369,31 @@ public class Game
 			gameState.removeFaction(faction.getClass());
 		}
 
-		faction.getLeader().onActionRequest(character, (action -> {
-			action.perform(character, faction.getLeader());
-			List<Character> characters   = faction.getCharacters();
-			int             currentIndex = characters.indexOf(character);
-			if (currentIndex == characters.size() - 1)
+		faction.getLeader().onNextCharacter(ImmutableList.copyOf(characters), new CharacterSelectionCallback()
+		{
+
+			@Override public void next(Character character) throws CharacterAlreadyPlayedException
+			{
+				faction.getLeader().onActionRequest(character, (action -> {
+					action.perform(character, faction.getLeader());
+					List<Character> nextCharacters = new ArrayList<>();
+					nextCharacters.addAll(characters);
+					nextCharacters.remove(character);
+
+					if (nextCharacters.size() == 0) {
+						handleNext(faction);
+						return;
+					}
+
+					handleCharacterTurn(faction, nextCharacters);
+				}));
+			}
+
+			@Override public void skip()
+			{
 				handleNext(faction);
-			else
-				handleCharacterTurn(faction, characters.get(currentIndex + 1));
-		}));
+			}
+		});
 	}
 
 	public List<Faction> getFactions()
