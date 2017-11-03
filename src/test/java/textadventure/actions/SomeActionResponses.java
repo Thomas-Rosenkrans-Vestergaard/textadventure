@@ -142,4 +142,9 @@ public class SomeActionResponses implements ActionResponses
 	{
 
 	}
+
+	@Override public void onTransferItemAction(Character character, TransferItemAction action)
+	{
+
+	}
 }
