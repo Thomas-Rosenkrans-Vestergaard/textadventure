@@ -77,4 +77,36 @@ public class LockLockActionTest
 		action.perform(character, mock);
 		Mockito.verify(mock, Mockito.times(1)).onLockLockAction(same(character), same(action));
 	}
+
+	@Test
+	public void performThrowsIncorrectKeyException() throws Exception
+	{
+		Lock     lock     = new Lock("Code", Lock.State.UNLOCKED);
+		Backpack backpack = new Backpack();
+		backpack.addItem(new Key("NotCode"));
+		SomeCharacter character = new SomeCharacter();
+		character.setBackpack(backpack);
+		assertEquals(Lock.State.UNLOCKED, lock.getState());
+		LockLockAction action = new LockLockAction(lock);
+
+		ActionResponses actionResponses = new SomeActionResponses()
+		{
+
+			@Override
+			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
+			{
+				select.selectIndex(0);
+			}
+
+			@Override public void onLockLockAction(Character character, LockLockAction action)
+			{
+				assertTrue(action.hasException(IncorrectKeyException.class));
+				assertEquals(Lock.State.UNLOCKED, lock.getState());
+			}
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onLockLockAction(same(character), same(action));
+	}
 }
