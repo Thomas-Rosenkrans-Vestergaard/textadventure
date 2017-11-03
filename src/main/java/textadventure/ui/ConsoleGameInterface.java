@@ -892,6 +892,11 @@ public class ConsoleGameInterface implements GameInterface
 		}
 	}
 
+	@Override public void onTransferItemAction(Character character, TransferItemAction action)
+	{
+
+	}
+
 	/**
 	 * @param inventory
 	 */

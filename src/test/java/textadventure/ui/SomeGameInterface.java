@@ -197,4 +197,9 @@ public class SomeGameInterface implements GameInterface
 	{
 
 	}
+
+	@Override public void onTransferItemAction(Character character, TransferItemAction action)
+	{
+
+	}
 }
