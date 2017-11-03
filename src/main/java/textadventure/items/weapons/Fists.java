@@ -16,22 +16,22 @@ public class Fists extends AbstractBluntWeapon implements BluntWeapon
 	}
 
 	/**
-	 * Returns the name of the {@link Fists}.
+	 * Returns the name of the {@link Weapon}.
 	 *
-	 * @return The name of the {@link Fists}.
+	 * @return The name of the {@link Weapon}.
 	 */
-	@Override public String getItemTypeName()
+	@Override public String getWeaponName()
 	{
-		return null;
+		return "Fists";
 	}
 
 	/**
-	 * Returns the description of the {@link Fists}.
+	 * Returns the description of the {@link Weapon}.
 	 *
-	 * @return The description of the {@link Fists}.
+	 * @return The description of the {@link Weapon}.
 	 */
-	@Override public String getItemTypeDescription()
+	@Override public String getWeaponDescription()
 	{
-		return null;
+		return "The first weapon.";
 	}
 }

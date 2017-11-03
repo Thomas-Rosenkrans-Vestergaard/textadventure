@@ -1,8 +1,9 @@
 package textadventure.items.weapons;
 
+import textadventure.items.EquipableItem;
 import textadventure.items.Item;
 
-public class LegendaryRock extends AbstractProjectileWeapon implements Weapon, Item
+public class LegendaryRock extends AbstractProjectileWeapon implements Weapon, EquipableItem, WeaponItem
 {
 	/**
 	 * Creates a new {@link LegendaryRock}.

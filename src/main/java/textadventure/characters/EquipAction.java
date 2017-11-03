@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
 import textadventure.items.EquipableItem;
+import textadventure.items.Item;
 import textadventure.items.NotEquipableException;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
@@ -100,9 +101,9 @@ public class EquipAction extends AbstractAction
 						character.setWeapon((Weapon) equipable);
 						this.items.add(equipable);
 						character.getBackpack().takeItem(index);
-						if (current != null) {
-							character.getBackpack().addItem(current);
-						}
+						if (current != null)
+							if (current instanceof Item)
+								character.getBackpack().addItem((Item) current);
 						continue;
 					}
 
