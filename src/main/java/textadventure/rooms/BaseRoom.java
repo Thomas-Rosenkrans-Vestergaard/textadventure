@@ -46,6 +46,8 @@ public class BaseRoom extends AbstractPropertyContainer implements Room
 		this.name = name;
 		this.description = description;
 		this.floor = floor;
+
+		putProperty(floor);
 	}
 
 	/**

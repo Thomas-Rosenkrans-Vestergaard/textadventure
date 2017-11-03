@@ -38,7 +38,7 @@ public class SomeActionResponses implements ActionResponses
 
 	}
 
-	@Override public void onUseItemAction(Character character, UseItemsAction action)
+	@Override public void onUseItemsAction(Character character, UseItemsAction action)
 	{
 
 	}
@@ -139,6 +139,11 @@ public class SomeActionResponses implements ActionResponses
 	}
 
 	@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+	{
+
+	}
+
+	@Override public void onTransferItemAction(Character character, TransferItemsAction action)
 	{
 
 	}

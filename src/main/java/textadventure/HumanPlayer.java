@@ -77,6 +77,17 @@ public class HumanPlayer implements Player
 	}
 
 	/**
+	 * Event for when the {@link Player} must chose which {@link Character} to play next.
+	 *
+	 * @param characters The list of possible {@link Character}s left to chose.
+	 * @param callback   The callback allowing the {@link Player} to chose which {@link Character} to play next.
+	 */
+	@Override public void onNextCharacter(ImmutableList<Character> characters, CharacterSelectionCallback callback)
+	{
+		gameInterface.onNextCharacter(characters, callback);
+	}
+
+	/**
 	 * Events called when the {@link Player} should create their {@link Character}s.
 	 *
 	 * @param numberOfCharacters The  number of {@link Character}s to create.
@@ -200,9 +211,20 @@ public class HumanPlayer implements Player
 	 * @param character The {@link Character} who performed the {@link UseItemsAction}.
 	 * @param action    The {@link UseItemsAction} instance.
 	 */
-	@Override public void onUseItemAction(Character character, UseItemsAction action)
+	@Override public void onUseItemsAction(Character character, UseItemsAction action)
 	{
-		gameInterface.onUseItemAction(character, action);
+		gameInterface.onUseItemsAction(character, action);
+	}
+
+	/**
+	 * Event for when the {@link Character} performs the {@link UseItemsOnAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link UseItemsOnAction}.
+	 * @param action    The {@link UseItemsOnAction} instance.
+	 */
+	@Override public void onUseItemsOnAction(Character character, UseItemsOnAction action)
+	{
+		gameInterface.onUseItemsOnAction(character, action);
 	}
 
 	/**
@@ -423,5 +445,10 @@ public class HumanPlayer implements Player
 	@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
 	{
 		gameInterface.onPickUpItemAction(character, action);
+	}
+
+	@Override public void onTransferItemAction(Character character, TransferItemsAction action)
+	{
+		gameInterface.onTransferItemAction(character, action);
 	}
 }

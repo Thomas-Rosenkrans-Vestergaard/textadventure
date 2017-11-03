@@ -2,26 +2,20 @@ package textadventure.items.backpack;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.Property;
+import textadventure.UnknownActionException;
 import textadventure.actions.Action;
 import textadventure.characters.Character;
 import textadventure.items.BaseInventory;
 import textadventure.items.Inventory;
-import textadventure.items.InventoryFullException;
-import textadventure.items.Item;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Represents an {@link Inventory} a {@link Character} can carry.
  */
 public class Backpack extends BaseInventory implements Property
 {
-
-	/**
-	 * The {@link Action}s available on the {@link Backpack}.
-	 */
-	private HashMap<String, Action> actions = new HashMap<>();
 
 	/**
 	 * Creates a new {@link Backpack}.
@@ -50,32 +44,45 @@ public class Backpack extends BaseInventory implements Property
 	public static Backpack factory(int positions)
 	{
 		Backpack backpack = new Backpack(positions);
-		backpack.addAction("inspect", new InspectBackpackAction(backpack));
-		backpack.addAction("expand", new ExpandBackpackAction(backpack));
+		backpack.putAction(new InspectBackpackAction(backpack));
+		backpack.putAction(new ExpandBackpackAction(backpack));
 
 		return backpack;
 	}
 
+
+	/**
+	 * The {@link Action}s available on the {@link Property}.
+	 */
+	private Map<Class<? extends Action>, Action> actions = new HashMap<>();
+
 	/**
 	 * Adds a new {@link Action} to the {@link Property}.
 	 *
-	 * @param name   The name of the {@link Action}.
-	 * @param action The {@link Action} to put to the {@link Property}.
+	 * @param action The {@link Action} to add to the {@link Property}.
 	 */
-	@Override public void addAction(String name, Action action)
+	@Override public void putAction(Action action)
 	{
-		actions.put(name, action);
+		actions.put(action.getClass(), action);
 	}
 
 	/**
 	 * Returns the {@link Action} with the provided name.
 	 *
-	 * @param name The <code>name</code> of the {@link Action} to return.
-	 * @return The {@link Action} with the provided <code>name</code>. Returns <code>null</code>
+	 * @param type
+	 * @return The {@link Action} with the provided name.
 	 */
-	@Override public Action getAction(String name)
+	@Override public <T extends Action> T getAction(Class<T> type) throws UnknownActionException
 	{
-		return actions.get(name);
+		if (!actions.containsKey(type))
+			throw new UnknownActionException(this, type);
+
+		return type.cast(actions.get(type));
+	}
+
+	@Override public <T extends Action> boolean hasAction(Class<T> type)
+	{
+		return actions.containsKey(type);
 	}
 
 	/**
@@ -83,9 +90,8 @@ public class Backpack extends BaseInventory implements Property
 	 *
 	 * @return The {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
 	 */
-	@Override public ImmutableMap<String, Action> getActions()
+	@Override public ImmutableMap<Class<? extends Action>, Action> getActions()
 	{
 		return ImmutableMap.copyOf(actions);
 	}
-
 }

@@ -34,7 +34,7 @@ public class AbstractPropertyContainer extends AbstractProperty implements Prope
 	@Override public <T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException
 	{
 		if (!properties.containsKey(type))
-			throw new UnknownPropertyException();
+			throw new UnknownPropertyException(this, type);
 
 		return type.cast(properties.get(type));
 	}

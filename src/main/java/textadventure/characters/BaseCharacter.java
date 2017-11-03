@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import textadventure.AbstractPropertyContainer;
 import textadventure.Property;
 import textadventure.PropertyContainer;
+import textadventure.UnknownPropertyException;
 import textadventure.combat.AttackAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
@@ -66,8 +67,6 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	 * The default amount of money the {@link Character} has at the start of the game.
 	 */
 	static public int DEFAULT_MONEY = 0;
-
-	static public Status DEFAULT_STATUS = Status.ALIVE;
 
 	/**
 	 * The name of the {@link Character}.
@@ -262,18 +261,20 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 				DEFAULT_INTELLIGENCE,
 				DEFAULT_STEALTH,
 				DEFAULT_MONEY
-
 		);
 
-		character.addProperty("backpack", backpack);
-		character.addAction("drop", new DropItemAction());
-		character.addAction("pickup", new PickUpItemAction());
-		character.addAction("inspect-room", new InspectRoomAction());
-		character.addAction("inspect-floor", new InspectFloorAction());
-		character.addAction("stats", new CharacterInformationAction());
-		character.addAction("attack", new AttackAction());
-		character.addAction("equip", new EquipAction());
-		character.addAction("unequip", new UnEquipAction());
+		character.putProperty(backpack);
+
+		character.putAction(new DropItemAction());
+		character.putAction(new PickUpItemAction());
+		character.putAction(new InspectRoomAction());
+		character.putAction(new InspectFloorAction());
+		character.putAction(new CharacterInformationAction());
+		character.putAction(new AttackAction());
+		character.putAction(new EquipAction());
+		character.putAction(new EscapeAction());
+		character.putAction(new UnEquipAction());
+		character.putAction(new UseItemsAction());
 
 		faction.getStartingRoom().addCharacter(character);
 
@@ -281,17 +282,35 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	}
 
 	/**
+	 * Returns the {@link Property} of the provided type.
+	 *
+	 * @param type The type of the {@link Property} to return.
+	 */
+	@Override public <T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException
+	{
+		ImmutableMap<Class<? extends Property>, Property> properties = getProperties();
+		if (!properties.containsKey(type))
+			throw new UnknownPropertyException(this, type);
+
+		return type.cast(properties.get(type));
+	}
+
+	@Override public <T extends Property> boolean hasProperty(Class<T> type)
+	{
+		return getProperties().containsKey(type);
+	}
+
+	/**
 	 * Returns an {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
 	 *
 	 * @return The {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
 	 */
-	@Override public ImmutableMap<String, Property> getProperties()
+	@Override public ImmutableMap<Class<? extends Property>, Property> getProperties()
 	{
-		ImmutableMap<String, Property> properties = super.getProperties();
-
-		return new ImmutableMap.Builder<String, Property>()
+		return new ImmutableMap.Builder<Class<? extends Property>, Property>()
 				.putAll(getCurrentLocation().getProperties())
-				.putAll(properties).build();
+				.putAll(super.getProperties())
+				.build();
 	}
 
 	/**

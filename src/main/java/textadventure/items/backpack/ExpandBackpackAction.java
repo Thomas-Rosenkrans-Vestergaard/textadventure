@@ -52,7 +52,7 @@ public class ExpandBackpackAction extends BackpackAction
 				}
 			});
 
-			character.getFaction().getLeader().select(select);
+			responses.select(select);
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());

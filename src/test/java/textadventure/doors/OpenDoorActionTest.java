@@ -1,16 +1,19 @@
 package textadventure.doors;
 
 import org.junit.Test;
-import textadventure.characters.SomeCharacter;
+import org.mockito.Mockito;
+import textadventure.actions.ActionResponses;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
+import textadventure.characters.SomeCharacter;
 import textadventure.lock.Lock;
 import textadventure.lock.MockLock;
 import textadventure.rooms.Room;
 import textadventure.rooms.SomeRoom;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.same;
 
 public class OpenDoorActionTest
 {
@@ -26,14 +29,19 @@ public class OpenDoorActionTest
 
 		assertEquals(Door.State.CLOSED, door.getState());
 		OpenDoorAction action = new OpenDoorAction(door);
-		action.perform(character, new SomeActionResponses()
+
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
 			{
 				assertFalse(action.hasException());
 				assertEquals(Door.State.OPEN, action.getDoor().getState());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onOpenDoorAction(same(character), same(action));
 	}
 
 	@Test
@@ -48,14 +56,18 @@ public class OpenDoorActionTest
 		assertEquals(Door.State.OPEN, door.getState());
 		OpenDoorAction action = new OpenDoorAction(door);
 
-		action.perform(character, new SomeActionResponses()
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
 			{
 				assertTrue(action.hasException(DoorAlreadyOpenException.class));
 				assertEquals(Door.State.OPEN, action.getDoor().getState());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onOpenDoorAction(same(character), same(action));
 	}
 
 	@Test
@@ -70,14 +82,18 @@ public class OpenDoorActionTest
 		assertEquals(Door.State.CLOSED, door.getState());
 		OpenDoorAction action = new OpenDoorAction(door);
 
-		action.perform(character, new SomeActionResponses()
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
 			{
 				assertTrue(action.hasException(DoorLockedException.class));
 				assertEquals(Door.State.CLOSED, action.getDoor().getState());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onOpenDoorAction(same(character), same(action));
 	}
 
 	@Test

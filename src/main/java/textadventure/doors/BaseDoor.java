@@ -1,13 +1,12 @@
 package textadventure.doors;
 
-import textadventure.AbstractPropertyContainer;
 import textadventure.lock.Lock;
 import textadventure.rooms.Room;
 
 /**
  * Base implementation of the {@link Door} interface.
  */
-public class BaseDoor extends AbstractPropertyContainer implements Door
+public class BaseDoor implements Door
 {
 
 	/**

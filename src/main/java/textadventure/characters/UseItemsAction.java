@@ -51,7 +51,7 @@ public class UseItemsAction extends AbstractAction
 		} catch (Exception e) {
 			setException(e);
 		} finally {
-			responses.onUseItemAction(character, this);
+			responses.onUseItemsAction(character, this);
 		}
 	}
 

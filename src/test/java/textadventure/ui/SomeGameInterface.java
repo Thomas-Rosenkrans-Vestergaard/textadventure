@@ -47,6 +47,11 @@ public class SomeGameInterface implements GameInterface
 
 	}
 
+	@Override public void onNextCharacter(ImmutableList<Character> characters, CharacterSelectionCallback callback)
+	{
+
+	}
+
 	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
 	{
 
@@ -88,7 +93,7 @@ public class SomeGameInterface implements GameInterface
 
 	}
 
-	@Override public void onUseItemAction(Character character, UseItemsAction action)
+	@Override public void onUseItemsAction(Character character, UseItemsAction action)
 	{
 
 	}
@@ -189,6 +194,11 @@ public class SomeGameInterface implements GameInterface
 	}
 
 	@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+	{
+
+	}
+
+	@Override public void onTransferItemAction(Character character, TransferItemsAction action)
 	{
 
 	}

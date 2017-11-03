@@ -16,21 +16,17 @@ import textadventure.doors.*;
 import textadventure.highscore.HighScoreResponse;
 import textadventure.highscore.Outcome;
 import textadventure.items.*;
+import textadventure.items.backpack.Backpack;
 import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.*;
-import textadventure.rooms.Coordinate;
-import textadventure.rooms.Room;
-import textadventure.rooms.RoomController;
-import textadventure.rooms.UnknownRoomException;
+import textadventure.rooms.*;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class ConsoleGameInterface implements GameInterface
 {
@@ -39,10 +35,10 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		try {
 			GameInterface  gameInterface  = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
-			Game           game           = Game.create(1);
+			Game           game           = Game.create(3);
 			RoomController roomController = game.getRoomController();
 			game.addFaction(new Escapees(new HumanPlayer(gameInterface), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 5))));
-			game.addFaction(new SecretPolice(new ComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
+			game.addFaction(new SecretPolice(new SecretPoliceComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
 			game.start();
 		} catch (UnknownRoomException e) {
 			System.out.println(e.getCoordinate().getX());
@@ -60,6 +56,37 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private PrintWriter printer;
 
+	private Map<Class<? extends Action>, String>                                     actionNames       = new HashMap<>();
+	private Map<Class<? extends Property>, String>                                   propertyNames     = new HashMap<>();
+	private Map<Class<? extends Property>, List<Class<? extends Action>>>            actionRelations   = new HashMap<>();
+	private Map<Class<? extends PropertyContainer>, List<Class<? extends Property>>> propertyRelations = new HashMap<>();
+
+	private void addAction(Class<? extends Action> type, String name)
+	{
+		actionNames.put(type, name);
+	}
+
+	private void addProperty(Class<? extends Property> type, String name)
+	{
+		this.propertyNames.put(type, name);
+	}
+
+	private void addActionRelation(Class<? extends Property> property, Class<? extends Action> action)
+	{
+		if (!actionRelations.containsKey(property))
+			this.actionRelations.put(property, new ArrayList<>());
+
+		this.actionRelations.get(property).add(action);
+	}
+
+	private void addPropertyRelation(Class<? extends PropertyContainer> propertyContainer, Class<? extends Property> property)
+	{
+		if (!propertyRelations.containsKey(propertyContainer))
+			this.propertyRelations.put(propertyContainer, new ArrayList<>());
+
+		this.propertyRelations.get(propertyContainer).add(property);
+	}
+
 	/**
 	 * Creates a new {@link ConsoleGameInterface}.
 	 *
@@ -70,6 +97,119 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		this.scanner = scanner;
 		this.printer = printer;
+
+		addProperty(NorthDoor.class, "north");
+		addProperty(SouthDoor.class, "south");
+		addProperty(EastDoor.class, "east");
+		addProperty(WestDoor.class, "west");
+		addProperty(Chest.class, "chest");
+		addProperty(Backpack.class, "backpack");
+		addProperty(Lock.class, "lock");
+
+		addAction(CharacterInformationAction.class, "stats");
+		addAction(DropItemAction.class, "drop");
+		addAction(EquipAction.class, "equip");
+		addAction(EscapeAction.class, "escape");
+		addAction(UnEquipAction.class, "unequip");
+		addAction(NothingAction.class, "nothing");
+		addAction(TransferItemsAction.class, "transfer");
+		addAction(InspectFloorAction.class, "inspect");
+		addAction(InspectRoomAction.class, "inspect");
+		addAction(PickUpItemAction.class, "pickup");
+		addAction(UseItemsAction.class, "use");
+		addAction(AttackAction.class, "attack");
+		addAction(CloseDoorAction.class, "close");
+		addAction(OpenDoorAction.class, "open");
+		addAction(InspectDoorAction.class, "inspect");
+		addAction(UseDoorAction.class, "use");
+		addAction(ExpandBackpackAction.class, "expand");
+		addAction(InspectBackpackAction.class, "inspect");
+		addAction(OpenChestAction.class, "open");
+		addAction(CloseChestAction.class, "close");
+		addAction(DepositItemsIntoChestAction.class, "deposit");
+		addAction(TakeItemFromChestAction.class, "take");
+		addAction(InspectChestAction.class, "inspect");
+		addAction(LockLockAction.class, "lock");
+		addAction(UnlockLockAction.class, "unlock");
+		addAction(InspectLockAction.class, "inspect");
+
+		addActionRelation(Character.class, CharacterInformationAction.class);
+		addActionRelation(Character.class, DropItemAction.class);
+		addActionRelation(Character.class, EquipAction.class);
+		addActionRelation(Character.class, EscapeAction.class);
+		addActionRelation(Character.class, UnEquipAction.class);
+		addActionRelation(Character.class, PickUpItemAction.class);
+		addActionRelation(Character.class, UseItemsAction.class);
+		addActionRelation(Character.class, UseItemsOnAction.class);
+		addActionRelation(Character.class, AttackAction.class);
+
+		addActionRelation(Floor.class, InspectFloorAction.class);
+		addActionRelation(Room.class, InspectRoomAction.class);
+
+		addActionRelation(NorthDoor.class, OpenDoorAction.class);
+		addActionRelation(NorthDoor.class, CloseDoorAction.class);
+		addActionRelation(NorthDoor.class, InspectDoorAction.class);
+		addActionRelation(NorthDoor.class, UseDoorAction.class);
+
+		addActionRelation(SouthDoor.class, OpenDoorAction.class);
+		addActionRelation(SouthDoor.class, CloseDoorAction.class);
+		addActionRelation(SouthDoor.class, InspectDoorAction.class);
+		addActionRelation(SouthDoor.class, UseDoorAction.class);
+
+		addActionRelation(EastDoor.class, OpenDoorAction.class);
+		addActionRelation(EastDoor.class, CloseDoorAction.class);
+		addActionRelation(EastDoor.class, InspectDoorAction.class);
+		addActionRelation(EastDoor.class, UseDoorAction.class);
+
+		addActionRelation(WestDoor.class, OpenDoorAction.class);
+		addActionRelation(WestDoor.class, CloseDoorAction.class);
+		addActionRelation(WestDoor.class, InspectDoorAction.class);
+		addActionRelation(WestDoor.class, UseDoorAction.class);
+
+		addActionRelation(Backpack.class, InspectBackpackAction.class);
+		addActionRelation(Backpack.class, ExpandBackpackAction.class);
+
+		addActionRelation(Chest.class, OpenChestAction.class);
+		addActionRelation(Chest.class, CloseChestAction.class);
+		addActionRelation(Chest.class, DepositItemsIntoChestAction.class);
+		addActionRelation(Chest.class, TakeItemFromChestAction.class);
+		addActionRelation(Chest.class, InspectChestAction.class);
+
+		addActionRelation(Lock.class, LockLockAction.class);
+		addActionRelation(Lock.class, UnlockLockAction.class);
+		addActionRelation(Lock.class, InspectLockAction.class);
+
+		addActionRelation(Chest.class, LockLockAction.class);
+		addActionRelation(Chest.class, UnlockLockAction.class);
+		addActionRelation(Chest.class, InspectLockAction.class);
+
+		addActionRelation(NorthDoor.class, LockLockAction.class);
+		addActionRelation(NorthDoor.class, UnlockLockAction.class);
+		addActionRelation(NorthDoor.class, InspectLockAction.class);
+
+		addActionRelation(SouthDoor.class, LockLockAction.class);
+		addActionRelation(SouthDoor.class, UnlockLockAction.class);
+		addActionRelation(SouthDoor.class, InspectLockAction.class);
+
+		addActionRelation(EastDoor.class, LockLockAction.class);
+		addActionRelation(EastDoor.class, UnlockLockAction.class);
+		addActionRelation(EastDoor.class, InspectLockAction.class);
+
+		addActionRelation(WestDoor.class, LockLockAction.class);
+		addActionRelation(WestDoor.class, UnlockLockAction.class);
+		addActionRelation(WestDoor.class, InspectLockAction.class);
+
+		addPropertyRelation(Room.class, NorthDoor.class);
+		addPropertyRelation(Room.class, SouthDoor.class);
+		addPropertyRelation(Room.class, EastDoor.class);
+		addPropertyRelation(Room.class, WestDoor.class);
+		addPropertyRelation(Room.class, Chest.class);
+		addPropertyRelation(Character.class, Backpack.class);
+		addPropertyRelation(NorthDoor.class, Lock.class);
+		addPropertyRelation(SouthDoor.class, Lock.class);
+		addPropertyRelation(EastDoor.class, Lock.class);
+		addPropertyRelation(WestDoor.class, Lock.class);
+		addPropertyRelation(Chest.class, Lock.class);
 	}
 
 	/**
@@ -79,7 +219,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param factions The list of {@link Faction}s competing in the {@link Game}.
 	 * @param faction  The {@link Faction} the {@link Player} belongs to.
 	 */
-	@Override public void onGameStart(Game game, ImmutableList<Faction> factions, Faction faction)
+	@Override
+	public void onGameStart(Game game, ImmutableList<Faction> factions, Faction faction)
 	{
 		printer.println("\n" +
 				" _____                            __                       _   _  _   __  \n" +
@@ -112,7 +253,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param game   The {@link Game} instance.
 	 * @param result The result of the {@link Game}.
 	 */
-	@Override public void onGameEnd(Game game, boolean result)
+	@Override
+	public void onGameEnd(Game game, boolean result)
 	{
 		printer.println(String.format("You %s.", result ? "won" : "loss"));
 	}
@@ -125,7 +267,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param outcome  The {@link Outcome} of the {@link Game}.
 	 * @param response The response of the {@link Player}.
 	 */
-	@Override public void onHighScoreRequest(int score, Outcome outcome, HighScoreResponse response)
+	@Override
+	public void onHighScoreRequest(int score, Outcome outcome, HighScoreResponse response)
 	{
 		printer.println(String.format("You achieved a score of %d in a %d.", score, outcome));
 
@@ -226,7 +369,8 @@ public class ConsoleGameInterface implements GameInterface
 	 *
 	 * @param character The {@link Character} who was created.
 	 */
-	@Override public void onCharacterCreation(Character character)
+	@Override
+	public void onCharacterCreation(Character character)
 	{
 
 	}
@@ -237,7 +381,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who was attacked.
 	 * @param action    The {@link AttackAction} instance.
 	 */
-	@Override public void onCharacterAttacked(Character character, AttackAction action)
+	@Override
+	public void onCharacterAttacked(Character character, AttackAction action)
 	{
 
 	}
@@ -249,7 +394,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param room      The {@link Room} the {@link Character} entered.
 	 * @param door      The {@link Door} the {@link Character} entered through.
 	 */
-	@Override public void onCharacterEntersRoom(Character character, Room room, Door door)
+	@Override
+	public void onCharacterEntersRoom(Character character, Room room, Door door)
 	{
 
 	}
@@ -261,9 +407,63 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param room      The {@link Room} the {@link Character} exited.
 	 * @param door      The {@link Door} the {@link Character} exited through.
 	 */
-	@Override public void onCharacterExistsRoom(Character character, Room room, Door door)
+	@Override
+	public void onCharacterExistsRoom(Character character, Room room, Door door)
 	{
 
+	}
+
+	/**
+	 * Event for when the {@link Player} must chose which {@link Character} to play next.
+	 *
+	 * @param characters The list of possible {@link Character}s left to chose.
+	 * @param callback   The callback allowing the {@link Player} to chose which {@link Character} to play next.
+	 */
+	@Override public void onNextCharacter(ImmutableList<Character> characters, CharacterSelectionCallback callback)
+	{
+		printer.println("What character do you want to play next. Enter 'skip' to skip the rest of your turn.");
+		for (int x = 0; x < characters.size(); x++) {
+			printer.println(String.format("\t%4d    %s", x, characters.get(x).getName()));
+		}
+
+		try {
+
+			while (true) {
+				String input = scanner.nextLine().trim();
+
+				if (input.equals("skip")) {
+					printer.println("You skipped the rest of your turn.");
+					callback.skip();
+					return;
+				}
+
+				try {
+					int       index         = Integer.parseInt(input);
+					Character nextCharacter = characters.get(index);
+					if (nextCharacter == null) {
+						printer.println("No character with that index.");
+						continue;
+					}
+
+					callback.next(nextCharacter);
+					return;
+
+				} catch (NumberFormatException e) {
+					for (Character character : characters) {
+						if (character.getName().equals(input)) {
+							printer.println(String.format("You chose to play %s.", character.getName()));
+							callback.next(character);
+							return;
+						}
+					}
+
+					System.out.println("No character with that name.");
+					continue;
+				}
+			}
+		} catch (CharacterAlreadyPlayedException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	/**
@@ -272,8 +472,10 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who requests the {@link Action}.
 	 * @param response  The {@link ActionRequestCallback} to send with.
 	 */
-	@Override public void onActionRequest(Character character, ActionRequestCallback response)
+	@Override
+	public void onActionRequest(Character character, ActionRequestCallback response)
 	{
+
 		LOOP:
 		while (true) {
 
@@ -306,38 +508,76 @@ public class ConsoleGameInterface implements GameInterface
 				continue;
 			}
 
-			Property property = character;
-			for (int i = 0; i < sections.length - 1; i++) {
-				if (property instanceof PropertyContainer) {
-					PropertyContainer container = (PropertyContainer) property;
-					property = container.getProperty(sections[i]);
-					if (property == null) {
-						printer.println(
-								String.format("Unknown property '%s'.", sections[i]));
-						continue LOOP;
+			try {
+
+				Property property = character;
+				for (int i = 0; i < sections.length - 1; i++) {
+					if (property instanceof PropertyContainer) {
+						PropertyContainer container = (PropertyContainer) property;
+						property = getProperty(container, sections[i]);
+						if (property == null) {
+							printer.println(
+									String.format("Unknown property '%s'.", sections[i]));
+							continue LOOP;
+						}
+						continue;
 					}
+
+					printer.println(String.format("Property '%s' cannot have sub-properties.", sections[i - 1]));
+					continue LOOP;
+				}
+
+				String actionName = sections[sections.length - 1];
+				Action action     = getAction(property, actionName);
+				if (action == null) {
+					printer.println(
+							String.format(
+									"No action with name '%s' on property '%s'.",
+									actionName,
+									sections.length < 2 ? "character" : sections[sections.length - 2]
+							)
+					);
 					continue;
 				}
 
-				printer.println(String.format("Property '%s' cannot have sub-properties.", sections[i - 1]));
-				continue LOOP;
-			}
+				response.respond(action);
 
-			String actionName = sections[sections.length - 1];
-			Action action     = property.getAction(actionName);
-			if (action == null) {
-				printer.println(
-						String.format(
-								"No action with name '%s' on property '%s'.",
-								actionName,
-								sections.length < 2 ? "character" : sections[sections.length - 2]
-						)
-				);
-				continue;
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-			response.respond(action);
 		}
+	}
+
+	private Property getProperty(PropertyContainer propertyContainer, String search) throws UnknownPropertyException
+	{
+		for (Entry<Class<? extends Property>, String> entry : propertyNames.entrySet()) {
+			Class<? extends Property> type = entry.getKey();
+			String                    name = entry.getValue();
+
+			if (!name.equals(search))
+				continue;
+
+			if (propertyContainer.hasProperty(type))
+				return propertyContainer.getProperty(type);
+		}
+
+		return null;
+	}
+
+	private Action getAction(Property property, String seach) throws UnknownActionException
+	{
+		for (Entry<Class<? extends Action>, String> entry : actionNames.entrySet()) {
+			Class<? extends Action> type = entry.getKey();
+			String                  name = entry.getValue();
+
+			if (!name.equals(seach))
+				continue;
+
+			if (property.hasAction(type))
+				return property.getAction(type);
+		}
+
+		return null;
 	}
 
 	/**
@@ -346,7 +586,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link CharacterInformationAction}.
 	 * @param action    The {@link CharacterInformationAction} instance.
 	 */
-	@Override public void onCharacterInformationAction(Character character, CharacterInformationAction action)
+	@Override
+	public void onCharacterInformationAction(Character character, CharacterInformationAction action)
 	{
 		CharacterInformation characterInformation = action.getCharacterInformation();
 
@@ -381,7 +622,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link UseItemsAction}.
 	 * @param action    The {@link UseItemsAction} instance.
 	 */
-	@Override public void onUseItemAction(Character character, UseItemsAction action)
+	@Override
+	public void onUseItemsAction(Character character, UseItemsAction action)
 	{
 		if (!action.hasException()) {
 			printer.println(String.format("%s (%s) used the following item(s).",
@@ -395,12 +637,24 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
+	 * Event for when the {@link Character} performs the {@link UseItemsOnAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link UseItemsOnAction}.
+	 * @param action    The {@link UseItemsOnAction} instance.
+	 */
+	@Override public void onUseItemsOnAction(Character character, UseItemsOnAction action)
+	{
+
+	}
+
+	/**
 	 * Event for when the {@link Character} performs the {@link EquipAction}.
 	 *
 	 * @param character The {@link Character} who performed the {@link EquipAction}.
 	 * @param action    The {@link EquipAction} instance.
 	 */
-	@Override public void onEquipAction(Character character, EquipAction action)
+	@Override
+	public void onEquipAction(Character character, EquipAction action)
 	{
 		if (!action.hasException()) {
 			printer.println(String.format("%s (%s) equipped the following items.", character
@@ -417,7 +671,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link UnEquipAction}.
 	 * @param action    The {@link UnEquipAction} instance.
 	 */
-	@Override public void onUnEquipAction(Character character, UnEquipAction action)
+	@Override
+	public void onUnEquipAction(Character character, UnEquipAction action)
 	{
 		if (!action.hasException()) {
 			printer.println(String.format("%s (%s) unequipped the following items.",
@@ -435,7 +690,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link AttackAction}.
 	 * @param action    The {@link AttackAction} instance.
 	 */
-	@Override public void onAttackAction(Character character, AttackAction action)
+	@Override
+	public void onAttackAction(Character character, AttackAction action)
 	{
 		if (!action.hasException()) {
 			for (Map.Entry<Character, Integer> damageDone : action.getDamageDone().entrySet())
@@ -444,7 +700,7 @@ public class ConsoleGameInterface implements GameInterface
 						character.getFaction(),
 						damageDone.getKey(),
 						damageDone.getValue(),
-						character.getWeapon().getItemTypeName(),
+						character.getWeapon().getWeaponName(),
 						action.getDamageDone()));
 			return;
 		}
@@ -456,7 +712,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link EscapeAction}.
 	 * @param action    The {@link EscapeAction} instance.
 	 */
-	@Override public void onEscapeAction(Character character, EscapeAction action)
+	@Override
+	public void onEscapeAction(Character character, EscapeAction action)
 	{
 		printer.println(String.format("%s (%s) escaped from the tunnel", character.getName(), character.getFaction()));
 	}
@@ -467,7 +724,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link InspectRoomAction}.
 	 * @param action    The {@link InspectRoomAction} instance.
 	 */
-	@Override public void onInspectRoomAction(Character character, InspectRoomAction action)
+	@Override
+	public void onInspectRoomAction(Character character, InspectRoomAction action)
 	{
 		if (!action.hasException()) {
 			ImmutableSet<Character> characters = action.getCharacters();
@@ -489,7 +747,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link InspectFloorAction}.
 	 * @param action    The {@link InspectFloorAction} instance.
 	 */
-	@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
+	@Override
+	public void onInspectFloorAction(Character character, InspectFloorAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You inspect the floor.");
@@ -504,7 +763,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link OpenDoorAction}.
 	 * @param action    The {@link OpenDoorAction} instance.
 	 */
-	@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
+	@Override
+	public void onOpenDoorAction(Character character, OpenDoorAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You attempted and succeeded in opening the door.");
@@ -527,7 +787,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link CloseDoorAction}.
 	 * @param action    The {@link CloseDoorAction} instance.
 	 */
-	@Override public void onCloseDoorAction(Character character, CloseDoorAction action)
+	@Override
+	public void onCloseDoorAction(Character character, CloseDoorAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You attempted and succeeded in closing the door.");
@@ -550,7 +811,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link UseDoorAction}.
 	 * @param action    The {@link UseDoorAction} instance.
 	 */
-	@Override public void onUseDoorAction(Character character, UseDoorAction action)
+	@Override
+	public void onUseDoorAction(Character character, UseDoorAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You successfully entered a new room using the door.");
@@ -568,7 +830,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link InspectDoorAction}.
 	 * @param action    The {@link InspectDoorAction} instance.
 	 */
-	@Override public void onInspectDoorAction(Character character, InspectDoorAction action)
+	@Override
+	public void onInspectDoorAction(Character character, InspectDoorAction action)
 	{
 		if (!action.hasException()) {
 			String doorState = action.getDoor().getState().name().toLowerCase();
@@ -583,7 +846,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link LockLockAction}.
 	 * @param action    The {@link LockLockAction} instance.
 	 */
-	@Override public void onLockLockAction(Character character, LockLockAction action)
+	@Override
+	public void onLockLockAction(Character character, LockLockAction action)
 	{
 		if (!action.hasException()) {
 			printer.println(String.format("%s (%s) successfully locked the lock.", character.getName(), character.getFaction()));
@@ -615,7 +879,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link UnlockLockAction}.
 	 * @param action    The {@link UnlockLockAction} instance.
 	 */
-	@Override public void onUnlockLockAction(Character character, UnlockLockAction action)
+	@Override
+	public void onUnlockLockAction(Character character, UnlockLockAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You successfully unlocked the lock using the provided key.");
@@ -651,7 +916,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link InspectLockAction}.
 	 * @param action    The {@link InspectLockAction} instance.
 	 */
-	@Override public void onInspectLockAction(Character character, InspectLockAction action)
+	@Override
+	public void onInspectLockAction(Character character, InspectLockAction action)
 	{
 		if (!action.hasException()) {
 			Lock lock = action.getLock();
@@ -672,7 +938,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link OpenChestAction}.
 	 * @param action    The {@link OpenChestAction} instance.
 	 */
-	@Override public void onOpenChestAction(Character character, OpenChestAction action)
+	@Override
+	public void onOpenChestAction(Character character, OpenChestAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You successfully opened the chest.");
@@ -695,7 +962,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link CloseChestAction}.
 	 * @param action    The {@link CloseChestAction} instance.
 	 */
-	@Override public void onCloseChestAction(Character character, CloseChestAction action)
+	@Override
+	public void onCloseChestAction(Character character, CloseChestAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You successfully closed the chest.");
@@ -718,7 +986,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link InspectChestAction}.
 	 * @param action    The {@link InspectChestAction} instance.
 	 */
-	@Override public void onInspectChestAction(Character character, InspectChestAction action)
+	@Override
+	public void onInspectChestAction(Character character, InspectChestAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You succeed in inspecting the chest.");
@@ -737,7 +1006,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link TakeItemFromChestAction}.
 	 * @param action    The {@link TakeItemFromChestAction} instance.
 	 */
-	@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
+	@Override
+	public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You succeeded in taking item " + itemListToString(action.getItems()) + " from the chest.");
@@ -759,7 +1029,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link DropItemAction}.
 	 * @param action    The {@link DropItemAction} instance.
 	 */
-	@Override public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
+	@Override
+	public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You succeeded in depositing item " + itemListToString(action.getItems()) + " into the chest.");
@@ -781,7 +1052,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link InspectBackpackAction}.
 	 * @param action    The {@link InspectBackpackAction} instance.
 	 */
-	@Override public void onInspectBackpackAction(Character character, InspectBackpackAction action)
+	@Override
+	public void onInspectBackpackAction(Character character, InspectBackpackAction action)
 	{
 		if (!action.hasException()) {
 			printer.println("You succeed in inspecting your backpack.");
@@ -796,7 +1068,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link ExpandBackpackAction}.
 	 * @param action    The {@link ExpandBackpackAction} instance.
 	 */
-	@Override public void onExpandBackpackAction(Character character, ExpandBackpackAction action)
+	@Override
+	public void onExpandBackpackAction(Character character, ExpandBackpackAction action)
 	{
 		if (!action.hasException()) {
 			printer.println(String.format("Your backpack was successfully expanded to %d positions.", action.getBackpack().getNumberOfPositions()));
@@ -822,7 +1095,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link DropItemAction}.
 	 * @param action    The {@link DropItemAction} instance.
 	 */
-	@Override public void onDropItemAction(Character character, DropItemAction action)
+	@Override
+	public void onDropItemAction(Character character, DropItemAction action)
 	{
 		if (!action.hasException()) {
 			ImmutableList<Item> items = action.getItems();
@@ -843,7 +1117,8 @@ public class ConsoleGameInterface implements GameInterface
 	 * @param character The {@link Character} who performed the {@link PickUpItemAction}.
 	 * @param action    The {@link PickUpItemAction} instance.
 	 */
-	@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+	@Override
+	public void onPickUpItemAction(Character character, PickUpItemAction action)
 	{
 		if (!action.hasException()) {
 			ImmutableList<Item> items = action.getItems();
@@ -851,6 +1126,11 @@ public class ConsoleGameInterface implements GameInterface
 					(items)));
 			return;
 		}
+	}
+
+	@Override public void onTransferItemAction(Character character, TransferItemsAction action)
+	{
+
 	}
 
 	/**
@@ -871,7 +1151,8 @@ public class ConsoleGameInterface implements GameInterface
 				value.getItemTypeDescription())));
 	}
 
-	@Override public void select(Select select)
+	@Override
+	public void select(Select select)
 	{
 		int                                     minimumOptions = select.getMinimumNumberOfOptions();
 		int                                     maximumOptions = select.getMaximumNumberOfOptions();
@@ -981,30 +1262,36 @@ public class ConsoleGameInterface implements GameInterface
 		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
 
-		printer.println("door");
-		printer.println(String.format("\t%-30s %s", "open", "Open the door"));
-		printer.println(String.format("\t%-30s %s", "close", "Close the door"));
-		printer.println(String.format("\t%-30s %s", "inspect", "Inspect the door to learn new information."));
-		printer.println(String.format("\t%-30s %s", "use", "Move through the door."));
-		printer.println(String.format("\t%-30s %s", "lock", "Lock the lock on the door."));
-		printer.println(String.format("\t%-30s %s", "unlock", "Unlock the lock on the door."));
+		for (Entry<Class<? extends PropertyContainer>, List<Class<? extends Property>>> propertyRelation : propertyRelations.entrySet()) {
+			for ()
+		}
+	}
 
-		printer.println("lock");
-		printer.println(String.format("\t%-30s %s", "lock", "Lock the lock."));
-		printer.println(String.format("\t%-30s %s", "lock", "Lock the lock."));
-		printer.println(String.format("\t%-30s %s", "inspect", "Inspect the lock to learn new information."));
+	private void printPropertyContainer(Class<? extends Property> propertyContainer, String indent)
+	{
+		printer.println(indent + propertyNames.get(propertyContainer));
+		for (Class<? extends Property> property : propertyRelations.get(propertyContainer)) {
+			if (propertyRelations.containsKey(property)) {
+				printPropertyContainer(property, indent + "\t");
+				printActions(property, indent);
+				continue;
+			}
 
-		printer.println("chest");
-		printer.println(String.format("\t%-30s %s", "open", "Open the chest."));
-		printer.println(String.format("\t%-30s %s", "close", "Close the chest."));
-		printer.println(String.format("\t%-30s %s", "inspect", "Inspect the chest to learn new information."));
-		printer.println(String.format("\t%-30s %s", "take", "Take an item from the chest."));
-		printer.println(String.format("\t%-30s %s", "lock", "Lock the lock on the chest."));
-		printer.println(String.format("\t%-30s %s", "unlock", "Unlock the lock on the chest."));
+			printProperty(property, indent);
+		}
+	}
 
-		printer.println("backpack");
-		printer.println(String.format("\t%-30s %s", "inspect", "Inspect the backpack to see the inventory."));
-		printer.println();
+	private void printProperty(Class<? extends Property> property, String indent)
+	{
+		printer.println(indent + propertyNames.get(property));
+		printActions(property, indent);
+	}
+
+	private void printActions(Class<? extends Property> property, String indent)
+	{
+		for (Class<? extends Action> action : actionRelations.get(property)) {
+			printer.println(String.format("%s%s", indent, actionNames.get(action)));
+		}
 	}
 
 	/**

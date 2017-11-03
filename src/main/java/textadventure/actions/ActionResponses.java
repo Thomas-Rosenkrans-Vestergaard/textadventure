@@ -60,7 +60,16 @@ public interface ActionResponses
 	 * @param character The {@link Character} who performed the {@link UseItemsAction}.
 	 * @param action    The {@link UseItemsAction} instance.
 	 */
-	void onUseItemAction(Character character, UseItemsAction action);
+	void onUseItemsAction(Character character, UseItemsAction action);
+
+	/**
+	 * Event for when the {@link Character} performs the {@link UseItemsOnAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link UseItemsOnAction}.
+	 * @param action    The {@link UseItemsOnAction} instance.
+	 */
+
+	void onUseItemsOnAction(Character character, UseItemsOnAction action);
 
 	/**
 	 * Event for when the {@link Character} performs the {@link EquipAction}.
@@ -221,4 +230,6 @@ public interface ActionResponses
 	 * @param action    The {@link PickUpItemAction} instance.
 	 */
 	void onPickUpItemAction(Character character, PickUpItemAction action);
+
+	void onTransferItemAction(Character character, TransferItemsAction action);
 }

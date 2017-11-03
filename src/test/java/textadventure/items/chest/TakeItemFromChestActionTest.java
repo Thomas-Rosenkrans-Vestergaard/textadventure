@@ -1,10 +1,12 @@
 package textadventure.items.chest;
 
 import org.junit.Test;
-import textadventure.characters.SomeCharacter;
+import org.mockito.Mockito;
+import textadventure.actions.ActionResponses;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
+import textadventure.characters.SomeCharacter;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;
 import textadventure.items.SomeTypedItem;
@@ -13,6 +15,7 @@ import textadventure.lock.Lock;
 import textadventure.ui.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.same;
 
 public class TakeItemFromChestActionTest
 {
@@ -36,7 +39,7 @@ public class TakeItemFromChestActionTest
 
 		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
 
-		action.perform(character, new SomeActionResponses()
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
@@ -56,7 +59,11 @@ public class TakeItemFromChestActionTest
 					fail();
 				}
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onTakeItemFromChestAction(same(character), same(action));
 	}
 
 	@Test
@@ -73,7 +80,8 @@ public class TakeItemFromChestActionTest
 		assertEquals(1, chest.getNumberOfItems());
 
 		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
-		action.perform(character, new SomeActionResponses()
+
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
 			{
@@ -82,94 +90,11 @@ public class TakeItemFromChestActionTest
 				assertEquals(1, chest.getNumberOfItems());
 				assertEquals(0, backpack.getNumberOfItems());
 			}
-		});
-	}
+		};
 
-	@Test
-	public void performArguments() throws Exception
-	{
-		Item          item      = new SomeItem();
-		Backpack      backpack  = new Backpack();
-		SomeCharacter character = new SomeCharacter();
-		character.setBackpack(backpack);
-		Chest chest = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
-
-		chest.addItem(item, 0);
-
-		assertEquals(0, backpack.getNumberOfItems());
-		assertEquals(1, chest.getNumberOfItems());
-
-		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
-		action.perform(character, new SomeActionResponses()
-		{
-
-			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
-			{
-				try {
-					assertFalse(action.hasException());
-					assertEquals(0, chest.getNumberOfItems());
-					assertEquals(1, backpack.getNumberOfItems());
-					assertEquals(item, action.getItems().get(0));
-					assertEquals(item, backpack.getItem(0));
-				} catch (Exception e) {
-					fail();
-				}
-			}
-		});
-	}
-
-	@Test
-	public void performArgumentsThrowsNumberFormatException() throws Exception
-	{
-		Item          item      = new SomeItem();
-		Backpack      backpack  = new Backpack();
-		SomeCharacter character = new SomeCharacter();
-		character.setBackpack(backpack);
-		Chest chest = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
-
-		chest.addItem(item, 0);
-
-		assertEquals(0, backpack.getNumberOfItems());
-		assertEquals(1, chest.getNumberOfItems());
-
-		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
-		action.perform(character, new SomeActionResponses()
-		{
-			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
-			{
-				assertTrue(action.hasException(NumberFormatException.class));
-				assertEquals(0, action.getItems().size());
-				assertEquals(1, chest.getNumberOfItems());
-				assertEquals(0, backpack.getNumberOfItems());
-			}
-		});
-	}
-
-	@Test
-	public void performArgumentsThrowsInventoryFullException() throws Exception
-	{
-		Item          item      = new SomeItem();
-		Backpack      backpack  = new Backpack(0);
-		SomeCharacter character = new SomeCharacter();
-		character.setBackpack(backpack);
-		Chest chest = new Chest(10, Chest.State.OPEN, new Lock(null, Lock.State.UNLOCKED));
-
-		chest.addItem(item, 0);
-
-		assertEquals(0, backpack.getNumberOfItems());
-		assertEquals(1, chest.getNumberOfItems());
-
-		TakeItemFromChestAction action = new TakeItemFromChestAction(chest);
-		action.perform(character, new SomeActionResponses()
-		{
-			@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
-			{
-				assertTrue(action.hasException(NumberFormatException.class));
-				assertEquals(0, action.getItems().size());
-				assertEquals(1, chest.getNumberOfItems());
-				assertEquals(0, backpack.getNumberOfItems());
-			}
-		});
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onTakeItemFromChestAction(same(character), same(action));
 	}
 
 	@Test

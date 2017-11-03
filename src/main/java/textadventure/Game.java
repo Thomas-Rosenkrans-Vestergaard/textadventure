@@ -64,19 +64,32 @@ public class Game
 		RoomController roomController = new RoomController();
 		roomController.add(Coordinate.of(2, 1), new BaseRoom("Room (2,1)", "This small chamber seems divided into three parts. The first has several hooks on the walls from which hang dusty robes. An open curtain separates that space from the next, which has a dry basin set in the floor. In the northern part of the room is a door."));
 		Chest chest3 = chestFactory(10, Chest.State.CLOSED, lockFactory("KLY4SW", LOCKED));
-		roomController.get(Coordinate.of(2, 1)).putProperty("chest", chest3);
+		roomController.get(Coordinate.of(2, 1)).putProperty(chest3);
 
 		roomController.add(Coordinate.of(4, 1), new BaseRoom("Room (4,1)", "A horrendous, overwhelming stench wafts from the room before you. Small cages containing small animals and large insects line the walls. Some of the creatures look sickly and alive but most are clearly dead. Their rotting corpses and the unclean cages no doubt result in the zoo's foul odor. A cat mews weakly from its cage, but the other creatures just silently shrink back into their filthy prisons. A dusty military sits in the corner of the room. In the northern part of the room is a door."));
 		Chest chest = chestFactory(10, Chest.State.CLOSED, lockFactory("KLY4SW", LOCKED));
 		chest.addItem(new Key("KZSE6X"));
-		roomController.get(Coordinate.of(4, 1)).putProperty("chest", chest);
+		chest.addItem(new Money());
+		chest.addItem(new Money());
+		chest.addItem(new Money());
+		chest.addItem(new Money());
+		chest.addItem(new Money());
+		chest.addItem(new Money());
+		chest.addItem(new Money());
+		chest.addItem(new Money());
+		chest.addItem(new Money());
+
+		roomController.get(Coordinate.of(4, 1)).putProperty(chest);
 		roomController.get(Coordinate.of(4, 1)).getRoomFloor().addItem(new Key("KLY4SW"));
 
 		roomController.add(Coordinate.of(2, 2), new BaseRoom("Room (2,2)", "Corpses and pieces of corpses hang from hooks that dangle from chains attached to thick iron rings. You don't see any heads, hands, or feet -- all seem to have been chopped or torn off. Neither do you see any guts in the horrible array, but several thick leather sacks hang from hooks in the walls, and they are suspiciously wet and the leather looks extremely taut -- as if it' under great strain. In the northern, eastern and southern side of the room is a door."));
 		roomController.get(Coordinate.of(2, 2)).getRoomFloor().addItem(new Whetstone());
+		roomController.get(Coordinate.of(2, 2)).getRoomFloor().addItem(new Money());
 
 		roomController.add(Coordinate.of(3, 2), new BaseRoom("Room (3,2)", "You've opened the door to a torture chamber. Several devices of degradation, pain, and death stand about the room, all of them showing signs of regular use. The wood of the rack is worn smooth by struggling bodies, and the iron maiden appears to be occupied by a corpse. In the western, northern and eastern side of the room is a door."));
 		roomController.get(Coordinate.of(3, 2)).getRoomFloor().addItem(new Money());
+		roomController.get(Coordinate.of(3, 2)).getRoomFloor().addItem(new Gauze());
+		roomController.get(Coordinate.of(3, 2)).getRoomFloor().addItem(new BandAid());
 
 
 		roomController.add(Coordinate.of(4, 2), new BaseRoom("Room (4,2)", "You catch a whiff of the unmistakable metallic tang of blood as you open the door. The floor is covered with it, and splashes of blood spatter the walls. Some drops even reach the ceiling. It looks fresh, but you don't see any bodies or footprints leaving the chamber. In the eastern, southern and western path of the room is a door."));
@@ -85,21 +98,26 @@ public class Game
 		Chest chest1 = chestFactory(10, Chest.State.CLOSED, lockFactory("DNO56W", UNLOCKED));
 		chest1.addItem(new KelvarBoots());
 		chest1.addItem(new Key("SWDN9d"));
-		roomController.get(Coordinate.of(5, 2)).putProperty("chest", chest1);
+		roomController.get(Coordinate.of(5, 2)).putProperty(chest1);
 
 
 		roomController.add(Coordinate.of(6, 2), new BaseRoom("Room (6,2)", "This tiny room holds a curious array of machinery. Winches and levers project from every wall, and chains with handles dangle from the ceiling. On a nearby wall, you note a pictogram of what looks like a scythe on a chain. In the western side of the room is a door."));
 		roomController.get(Coordinate.of(6, 2)).getRoomFloor().addItem(new Whetstone());
+		roomController.get(Coordinate.of(6, 2)).getRoomFloor().addItem(new Baton());
 
 		roomController.add(Coordinate.of(2, 3), new BaseRoom("Room (2,3)", "Rats inside the room shriek when they hear the door open, then they run in all directions from a putrid corpse lying in the center of the floor. As these creatures crowd around the edges of the room, seeking to crawl through a hole in one corner, they fight one another. In the northern, eastern and southern side of the room is a door."));
+		roomController.get(Coordinate.of(2, 3)).getRoomFloor().addItem(new GlassBottle());
+		roomController.get(Coordinate.of(2, 3)).getRoomFloor().addItem(new Money());
 
 		roomController.add(Coordinate.of(3, 3), new BaseRoom("Room (3,3)", "A flurry of bats suddenly flaps through the doorway, their screeching barely audible as they careen past your heads. They flap past you into the rooms and halls beyond. The room from which they came seems barren at first glance. In the western, eastern and southern side of the room is a door."));
 		Chest chest4 = chestFactory(10, Chest.State.CLOSED, lockFactory("WF5FEW", UNLOCKED));
 		chest4.addItem(new ScrewDriver());
-		roomController.get(Coordinate.of(3, 3)).putProperty("chest", chest4);
+		roomController.get(Coordinate.of(3, 3)).putProperty(chest4);
 
 		roomController.add(Coordinate.of(4, 3), new BaseRoom("Room (4,3)", "A huge iron cage lies on its side in this room, and its gate rests open on the floor. A broken chain lies under the door, and the cage is on a rotting corpse. Another corpse lies a short distance away from the cage. It lacks a head. In the western and eastern side of the room is a door."));
 		roomController.get(Coordinate.of(4, 3)).getRoomFloor().addItem(new KelvarBodyArmour());
+		roomController.get(Coordinate.of(4, 3)).getRoomFloor().addItem(new Hammer());
+		roomController.get(Coordinate.of(4, 3)).getRoomFloor().addItem(new Shotgun());
 
 
 		roomController.add(Coordinate.of(5, 3), new BaseRoom("Room (5,3)", "This chamber served as an armory. Armor and weapon racks line the walls and rusty and broken weapons litter the floor. It hasn't been used in a long time. In the western, southern and eastern side of the room is a door."));
@@ -112,40 +130,52 @@ public class Game
 		chest5.addItem(new BandAid());
 		chest5.addItem(new Gauze());
 		chest5.addItem(new SubMachineGun());
-		roomController.get(Coordinate.of(6, 3)).putProperty("chest", chest5);
+		roomController.get(Coordinate.of(6, 3)).putProperty(chest5);
 
 		roomController.add(Coordinate.of(1, 4), new BaseRoom("Room (1,4)", "You open the door to what must be a combat training room. Rough fighting circles are scratched into the surface of the floor. Wooden fighting dummies stand waiting for someone to attack them. A few punching bags hang from the ceiling. There's something peculiar about it all though. In the eastern side of the room is a door."));
 		Chest chest7 = chestFactory(10, Chest.State.CLOSED, lockFactory("JBI5DW", LOCKED));
 		chest7.addItem(new Whetstone());
 		chest7.addItem(new KelvarGloves());
 		chest7.addItem(new Money());
-		roomController.get(Coordinate.of(1, 4)).putProperty("chest", chest7);
+		roomController.get(Coordinate.of(1, 4)).putProperty(chest7);
 
 		roomController.add(Coordinate.of(2, 4), new BaseRoom("Room (2,4)", "This small room contains several pieces of well-polished wood furniture. Eight ornate, high-backed chairs surround a long oval table, and a side table stands next to the far exit. All bear delicate carvings of various shapes. One bears carvings of skulls and bones, another is carved with shields and magic circles, and a third is carved with shapes like flames and lightning strokes. In the western, southern and western side of the room is a door."));
 		roomController.get(Coordinate.of(2, 4)).getRoomFloor().addItem(new KelvarCargoPants());
+		roomController.get(Coordinate.of(2, 4)).getRoomFloor().addItem(new Money());
 
 		roomController.add(Coordinate.of(3, 4), new BaseRoom("Room (3,4)", "This room served as a sleeping area for the soldiers stationed here. The room is filled with bunk beds lining the walls. The beds bring back memories of sleeping in the concentration camp. In the western, northern and eastern side of the room is a door."));
 		roomController.get(Coordinate.of(3, 4)).getRoomFloor().addItem(new Fork());
+		roomController.get(Coordinate.of(3, 4)).getRoomFloor().addItem(new Money());
 
 
 		roomController.add(Coordinate.of(4, 4), new BaseRoom("Room (4,4)", "This room served as a sleeping area for the soldiers stationed here. The room is filled with bunk beds lining the walls. The beds bring back memories of sleeping in the concentration camp. In the western, northern and eastern side of the room is a door."));
+		roomController.get(Coordinate.of(4, 4)).getRoomFloor().addItem(new Knife());
+		roomController.get(Coordinate.of(4, 4)).getRoomFloor().addItem(new KelvarCargoPants());
+		roomController.get(Coordinate.of(4, 4)).getRoomFloor().addItem(new KelvarBoots());
+		roomController.get(Coordinate.of(4, 4)).getRoomFloor().addItem(new KelvarGloves());
+		roomController.get(Coordinate.of(4, 4)).getRoomFloor().addItem(new KelvarHelmet());
+		roomController.get(Coordinate.of(4, 4)).getRoomFloor().addItem(new KelvarBodyArmour());
 
 		roomController.add(Coordinate.of(5, 4), new BaseRoom("Room (4,3)", "This room served as a sleeping area for the soldiers stationed here. The room is filled with bunk beds lining the walls. The beds bring back memories of sleeping in the concentration camp. In the western and eastern side of the room is a door."));
+		roomController.get(Coordinate.of(5, 4)).getRoomFloor().addItem(new M18MachineGun());
 
 		roomController.add(Coordinate.of(6, 4), new BaseRoom("Room (5,3)", "This room served as a sleeping area for the soldiers stationed here. The room is filled with bunk beds lining the walls. The beds bring back memories of sleeping in the concentration camp."));
 		Chest chest6 = chestFactory(10, Chest.State.CLOSED, lockFactory("SWDN9d", LOCKED));
 		chest6.addItem(new KelvarHelmet());
 		chest6.addItem(new Pistol());
-		roomController.get(Coordinate.of(6, 4)).putProperty("chest", chest6);
+		roomController.get(Coordinate.of(6, 4)).putProperty(chest6);
 
 		roomController.add(Coordinate.of(3, 5), new BaseRoom("Room (3,5)", "This room is of much higher quality that the other rooms. In the room is a desk lined with medals. In the southern side of the room is a door."));
 		roomController.get(Coordinate.of(3, 5)).getRoomFloor().addItem(new LegendaryRock());
+		roomController.get(Coordinate.of(3, 5)).getRoomFloor().addItem(new Pipe());
+		roomController.get(Coordinate.of(3, 5)).getRoomFloor().addItem(new BandAid());
+		roomController.get(Coordinate.of(3, 5)).getRoomFloor().addItem(new Gauze());
 
 		roomController.add(Coordinate.of(4, 5), new BaseRoom("Room (3,4)", "Ending room description. In the southern side of the room is a door."));
 		Chest chest9 = chestFactory(10, Chest.State.CLOSED, lockFactory("SWDN9d", UNLOCKED));
 		chest9.addItem(new AA12Shotgun());
 		chest9.addItem(new Money());
-		roomController.get(Coordinate.of(4, 5)).putProperty("chest", chest9);
+		roomController.get(Coordinate.of(4, 5)).putProperty(chest9);
 
 
 		final String NORTH_DOOR_NAME = "north";
@@ -155,101 +185,101 @@ public class Game
 
 		Door door;
 		door = doorFactory(OPEN, lockFactory("K5YUZB", UNLOCKED), roomController.get(Coordinate.of(2, 1)), roomController.get(Coordinate.of(2, 2)));
-		roomController.get(Coordinate.of(2, 1)).putProperty(NORTH_DOOR_NAME, door);
-		roomController.get(Coordinate.of(2, 2)).putProperty(SOUTH_DOOR_NAME, door);
+		roomController.get(Coordinate.of(2, 1)).putProperty(new NorthDoor(door));
+		roomController.get(Coordinate.of(2, 2)).putProperty(new SouthDoor(door));
 
 
 		door = doorFactory(CLOSED, lockFactory("KZSE6X", LOCKED), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 2)));
-		roomController.get(Coordinate.of(4, 1)).putProperty(NORTH_DOOR_NAME, door);
-		roomController.get(Coordinate.of(4, 2)).putProperty(SOUTH_DOOR_NAME, door);
+		roomController.get(Coordinate.of(4, 1)).putProperty(new NorthDoor(door));
+		roomController.get(Coordinate.of(4, 2)).putProperty(new SouthDoor(door));
 
 		// Horizontal
 
 		door = doorFactory(OPEN, lockFactory("KN68LL", UNLOCKED), roomController.get(Coordinate.of(2, 2)), roomController.get(Coordinate.of(3, 2)));
-		roomController.get(Coordinate.of(2, 2)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(3, 2)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(2, 2)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(3, 2)).putProperty(new WestDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("KXICTX", UNLOCKED), roomController.get(Coordinate.of(3, 2)), roomController.get(Coordinate.of(4, 2)));
-		roomController.get(Coordinate.of(3, 2)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(4, 2)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(3, 2)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(4, 2)).putProperty(new WestDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("KMV3F1", UNLOCKED), roomController.get(Coordinate.of(4, 2)), roomController.get(Coordinate.of(5, 2)));
-		roomController.get(Coordinate.of(4, 2)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(5, 2)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(4, 2)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(5, 2)).putProperty(new WestDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("KTJX8C", UNLOCKED), roomController.get(Coordinate.of(5, 2)), roomController.get(Coordinate.of(6, 2)));
-		roomController.get(Coordinate.of(5, 2)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(6, 2)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(5, 2)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(6, 2)).putProperty(new WestDoor(door));
 
 		// Vertical
 
 		door = doorFactory(OPEN, lockFactory("K1WIWL", UNLOCKED), roomController.get(Coordinate.of(2, 2)), roomController.get(Coordinate.of(2, 3)));
-		roomController.get(Coordinate.of(2, 2)).putProperty(NORTH_DOOR_NAME, door);
-		roomController.get(Coordinate.of(2, 3)).putProperty(SOUTH_DOOR_NAME, door);
+		roomController.get(Coordinate.of(2, 2)).putProperty(new NorthDoor(door));
+		roomController.get(Coordinate.of(2, 3)).putProperty(new SouthDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("K8BGK7", UNLOCKED), roomController.get(Coordinate.of(3, 2)), roomController.get(Coordinate.of(3, 3)));
-		roomController.get(Coordinate.of(3, 2)).putProperty(NORTH_DOOR_NAME, door);
-		roomController.get(Coordinate.of(3, 3)).putProperty(SOUTH_DOOR_NAME, door);
+		roomController.get(Coordinate.of(3, 2)).putProperty(new NorthDoor(door));
+		roomController.get(Coordinate.of(3, 3)).putProperty(new SouthDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("K3DNE6", UNLOCKED), roomController.get(Coordinate.of(5, 2)), roomController.get(Coordinate.of(5, 3)));
-		roomController.get(Coordinate.of(5, 2)).putProperty(NORTH_DOOR_NAME, door);
-		roomController.get(Coordinate.of(5, 3)).putProperty(SOUTH_DOOR_NAME, door);
+		roomController.get(Coordinate.of(5, 2)).putProperty(new NorthDoor(door));
+		roomController.get(Coordinate.of(5, 3)).putProperty(new SouthDoor(door));
 
 		// Horizontal
 
 		door = doorFactory(OPEN, lockFactory("KT6UH3", UNLOCKED), roomController.get(Coordinate.of(2, 3)), roomController.get(Coordinate.of(3, 3)));
-		roomController.get(Coordinate.of(2, 3)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(3, 3)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(2, 3)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(3, 3)).putProperty(new WestDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("KB71RC", UNLOCKED), roomController.get(Coordinate.of(3, 3)), roomController.get(Coordinate.of(4, 3)));
-		roomController.get(Coordinate.of(3, 3)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(4, 3)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(3, 3)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(4, 3)).putProperty(new WestDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("KJ8O29", UNLOCKED), roomController.get(Coordinate.of(4, 3)), roomController.get(Coordinate.of(5, 3)));
-		roomController.get(Coordinate.of(4, 3)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(5, 3)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(4, 3)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(5, 3)).putProperty(new WestDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("KOOKW5", UNLOCKED), roomController.get(Coordinate.of(5, 3)), roomController.get(Coordinate.of(6, 3)));
-		roomController.get(Coordinate.of(5, 3)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(6, 3)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(5, 3)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(6, 3)).putProperty(new WestDoor(door));
 
 		// Vertical
 
 		door = doorFactory(OPEN, lockFactory("KAT55Y", UNLOCKED), roomController.get(Coordinate.of(2, 3)), roomController.get(Coordinate.of(2, 4)));
-		roomController.get(Coordinate.of(2, 3)).putProperty(NORTH_DOOR_NAME, door);
-		roomController.get(Coordinate.of(2, 4)).putProperty(SOUTH_DOOR_NAME, door);
+		roomController.get(Coordinate.of(2, 3)).putProperty(new NorthDoor(door));
+		roomController.get(Coordinate.of(2, 4)).putProperty(new SouthDoor(door));
 
 		// Horizontal
 
 		door = doorFactory(OPEN, lockFactory("KDV046", UNLOCKED), roomController.get(Coordinate.of(1, 4)), roomController.get(Coordinate.of(2, 4)));
-		roomController.get(Coordinate.of(1, 4)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(2, 4)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(1, 4)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(2, 4)).putProperty(new WestDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("K08L4C", UNLOCKED), roomController.get(Coordinate.of(2, 4)), roomController.get(Coordinate.of(3, 4)));
-		roomController.get(Coordinate.of(2, 4)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(3, 4)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(2, 4)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(3, 4)).putProperty(new WestDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("KOME75", UNLOCKED), roomController.get(Coordinate.of(3, 4)), roomController.get(Coordinate.of(4, 4)));
-		roomController.get(Coordinate.of(3, 4)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(4, 4)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(3, 4)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(4, 4)).putProperty(new WestDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("KPQXPS", UNLOCKED), roomController.get(Coordinate.of(4, 4)), roomController.get(Coordinate.of(5, 4)));
-		roomController.get(Coordinate.of(4, 4)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(5, 4)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(4, 4)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(5, 4)).putProperty(new WestDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("K3ZH4R", UNLOCKED), roomController.get(Coordinate.of(5, 4)), roomController.get(Coordinate.of(6, 4)));
-		roomController.get(Coordinate.of(5, 4)).putProperty(EAST_DOOR_NAME, door);
-		roomController.get(Coordinate.of(6, 4)).putProperty(WEST_DOOR_NAME, door);
+		roomController.get(Coordinate.of(5, 4)).putProperty(new EastDoor(door));
+		roomController.get(Coordinate.of(6, 4)).putProperty(new WestDoor(door));
 
 		// Vertical
 
 		door = doorFactory(OPEN, lockFactory("KEFVH2", UNLOCKED), roomController.get(Coordinate.of(3, 4)), roomController.get(Coordinate.of(3, 5)));
-		roomController.get(Coordinate.of(3, 4)).putProperty(NORTH_DOOR_NAME, door);
-		roomController.get(Coordinate.of(3, 5)).putProperty(SOUTH_DOOR_NAME, door);
+		roomController.get(Coordinate.of(3, 4)).putProperty(new NorthDoor(door));
+		roomController.get(Coordinate.of(3, 5)).putProperty(new SouthDoor(door));
 
 		door = doorFactory(OPEN, lockFactory("KVW42D", UNLOCKED), roomController.get(Coordinate.of(4, 4)), roomController.get(Coordinate.of(4, 5)));
-		roomController.get(Coordinate.of(4, 4)).putProperty(NORTH_DOOR_NAME, door);
-		roomController.get(Coordinate.of(4, 5)).putProperty(SOUTH_DOOR_NAME, door);
+		roomController.get(Coordinate.of(4, 4)).putProperty(new NorthDoor(door));
+		roomController.get(Coordinate.of(4, 5)).putProperty(new SouthDoor(door));
 
 		GameState gameState = new GameState(roomController);
 
@@ -335,7 +365,7 @@ public class Game
 	 */
 	private void handleTurn(Faction faction)
 	{
-		handleCharacterTurn(faction, faction.getCharacters().get(0));
+		handleCharacterTurn(faction, faction.getCharacters());
 	}
 
 	/**
@@ -356,8 +386,9 @@ public class Game
 	/**
 	 * Requests an {@link Action} from the provided {@link Player}.
 	 */
-	private void handleCharacterTurn(Faction faction, Character character)
+	private void handleCharacterTurn(Faction faction, List<Character> characters)
 	{
+
 		if (faction.hasLost(gameState)) {
 			faction.getLeader().onGameEnd(this, false);
 			gameState.removeFaction(faction.getClass());
@@ -368,15 +399,31 @@ public class Game
 			gameState.removeFaction(faction.getClass());
 		}
 
-		faction.getLeader().onActionRequest(character, (action -> {
-			action.perform(character, faction.getLeader());
-			List<Character> characters   = faction.getCharacters();
-			int             currentIndex = characters.indexOf(character);
-			if (currentIndex == characters.size() - 1)
+		faction.getLeader().onNextCharacter(ImmutableList.copyOf(characters), new CharacterSelectionCallback()
+		{
+
+			@Override public void next(Character character) throws CharacterAlreadyPlayedException
+			{
+				faction.getLeader().onActionRequest(character, (action -> {
+					action.perform(character, faction.getLeader());
+					List<Character> nextCharacters = new ArrayList<>();
+					nextCharacters.addAll(characters);
+					nextCharacters.remove(character);
+
+					if (nextCharacters.size() == 0) {
+						handleNext(faction);
+						return;
+					}
+
+					handleCharacterTurn(faction, nextCharacters);
+				}));
+			}
+
+			@Override public void skip()
+			{
 				handleNext(faction);
-			else
-				handleCharacterTurn(faction, characters.get(currentIndex + 1));
-		}));
+			}
+		});
 	}
 
 	public List<Faction> getFactions()
@@ -397,15 +444,6 @@ public class Game
 	private static Door doorFactory(Door.State state, Lock lock, Room roomA, Room roomB)
 	{
 		BaseDoor door = new BaseDoor(state, lock, roomA, roomB);
-
-		door.addAction("open", new OpenDoorAction(door));
-		door.addAction("close", new CloseDoorAction(door));
-		door.addAction("use", new UseDoorAction(door));
-		door.addAction("inspect", new InspectDoorAction(door));
-		door.addAction("lock", new LockLockAction(lock));
-		door.addAction("unlock", new UnlockLockAction(lock));
-
-		door.addProperty("lock", lock);
 
 		return door;
 	}
@@ -461,9 +499,9 @@ public class Game
 	{
 		Lock lock = new Lock(code, state);
 
-		lock.addAction("lock", new LockLockAction(lock));
-		lock.addAction("unlock", new UnlockLockAction(lock));
-		lock.addAction("inspect", new InspectLockAction(lock));
+		lock.putAction(new LockLockAction(lock));
+		lock.putAction(new UnlockLockAction(lock));
+		lock.putAction(new InspectLockAction(lock));
 
 		return lock;
 	}
@@ -482,15 +520,15 @@ public class Game
 	{
 		Chest chest = new Chest(countPositions, state, lock);
 
-		chest.addAction("open", new OpenChestAction(chest));
-		chest.addAction("close", new CloseChestAction(chest));
-		chest.addAction("inspect", new InspectChestAction(chest));
-		chest.addAction("take", new TakeItemFromChestAction(chest));
-		chest.addAction("deposit", new DepositItemsIntoChestAction(chest));
-		chest.addAction("lock", new LockLockAction(lock));
-		chest.addAction("unlock", new UnlockLockAction(lock));
+		chest.putAction(new OpenChestAction(chest));
+		chest.putAction(new CloseChestAction(chest));
+		chest.putAction(new InspectChestAction(chest));
+		chest.putAction(new TakeItemFromChestAction(chest));
+		chest.putAction(new DepositItemsIntoChestAction(chest));
+		chest.putAction(new LockLockAction(lock));
+		chest.putAction(new UnlockLockAction(lock));
 
-		chest.addProperty("lock", lock);
+		chest.putProperty(lock);
 
 		return chest;
 	}

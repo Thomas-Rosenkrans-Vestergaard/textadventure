@@ -77,7 +77,7 @@ public class AbstractActionResponses implements ActionResponses
 	 * @param character The {@link Character} who performed the {@link UseItemsAction}.
 	 * @param action    The {@link UseItemsAction} instance.
 	 */
-	@Override public void onUseItemAction(Character character, UseItemsAction action)
+	@Override public void onUseItemsAction(Character character, UseItemsAction action)
 	{
 
 	}
@@ -298,6 +298,11 @@ public class AbstractActionResponses implements ActionResponses
 	 * @param action    The {@link PickUpItemAction} instance.
 	 */
 	@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+	{
+
+	}
+
+	@Override public void onTransferItemAction(Character character, TransferItemsAction action)
 	{
 
 	}

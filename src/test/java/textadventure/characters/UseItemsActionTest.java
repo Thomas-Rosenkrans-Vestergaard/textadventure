@@ -54,7 +54,7 @@ public class UseItemsActionTest
 				select.selectIndex(0);
 			}
 
-			@Override public void onUseItemAction(Character character, UseItemsAction action)
+			@Override public void onUseItemsAction(Character character, UseItemsAction action)
 			{
 
 			}
@@ -62,7 +62,7 @@ public class UseItemsActionTest
 
 		ActionResponses mock = Mockito.spy(actionResponses);
 		action.perform(character, mock);
-		Mockito.verify(mock).onUseItemAction(same(character), same(action));
+		Mockito.verify(mock).onUseItemsAction(same(character), same(action));
 		Mockito.verify(mockUsableItem).use(same(character));
 	}
 

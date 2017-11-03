@@ -1,13 +1,16 @@
 package textadventure.lock;
 
 import org.junit.Test;
-import textadventure.characters.SomeCharacter;
+import org.mockito.Mockito;
+import textadventure.actions.ActionResponses;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
-import textadventure.items.SomeItem;
+import textadventure.characters.SomeCharacter;
 import textadventure.items.backpack.Backpack;
+import textadventure.ui.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.same;
 
 public class LockLockActionTest
 {
@@ -22,77 +25,88 @@ public class LockLockActionTest
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock);
 
-		action.perform(character, new SomeActionResponses()
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
+
+			@Override
+			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
+			{
+				select.selectIndex(0);
+			}
 
 			@Override public void onLockLockAction(Character character, LockLockAction action)
 			{
 				assertFalse(action.hasException());
 				assertEquals(Lock.State.LOCKED, lock.getState());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onLockLockAction(same(character), same(action));
 	}
 
 	@Test
-	public void performArgument() throws Exception
+	public void performThrowsAlreadyLockedException() throws Exception
 	{
-		Lock     lock     = new Lock("Code", Lock.State.UNLOCKED);
+		Lock     lock     = new Lock("Code", Lock.State.LOCKED);
 		Backpack backpack = new Backpack();
 		backpack.addItem(new Key("Code"));
 		SomeCharacter character = new SomeCharacter();
 		character.setBackpack(backpack);
-		assertEquals(Lock.State.UNLOCKED, lock.getState());
+		assertEquals(Lock.State.LOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock);
-		action.perform(character, new SomeActionResponses()
+
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
+
+			@Override
+			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
+			{
+				select.selectIndex(0);
+			}
+
 			@Override public void onLockLockAction(Character character, LockLockAction action)
 			{
+				assertTrue(action.hasException(LockAlreadyLockedException.class));
 				assertEquals(Lock.State.LOCKED, lock.getState());
-				assertFalse(action.hasException());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onLockLockAction(same(character), same(action));
 	}
 
 	@Test
-	public void performArgumentThrowsNumberFormatException() throws Exception
+	public void performThrowsIncorrectKeyException() throws Exception
 	{
 		Lock     lock     = new Lock("Code", Lock.State.UNLOCKED);
 		Backpack backpack = new Backpack();
-		backpack.addItem(new Key("Code"));
+		backpack.addItem(new Key("NotCode"));
 		SomeCharacter character = new SomeCharacter();
 		character.setBackpack(backpack);
 		assertEquals(Lock.State.UNLOCKED, lock.getState());
 		LockLockAction action = new LockLockAction(lock);
 
-		action.perform(character, new SomeActionResponses()
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
+
+			@Override
+			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
+			{
+				select.selectIndex(0);
+			}
+
 			@Override public void onLockLockAction(Character character, LockLockAction action)
 			{
+				assertTrue(action.hasException(IncorrectKeyException.class));
 				assertEquals(Lock.State.UNLOCKED, lock.getState());
-				assertTrue(action.hasException(NumberFormatException.class));
 			}
-		});
-	}
+		};
 
-	@Test
-	public void performArgumentThrowsSelectionNotKey() throws Exception
-	{
-		Lock     lock     = new Lock("Code", Lock.State.UNLOCKED);
-		Backpack backpack = new Backpack();
-		backpack.addItem(new SomeItem()); // <--------
-		backpack.addItem(new Key("Code")); // <-------
-		SomeCharacter character = new SomeCharacter();
-		character.setBackpack(backpack);
-		assertEquals(Lock.State.UNLOCKED, lock.getState());
-		LockLockAction action = new LockLockAction(lock);
-
-		action.perform(character, new SomeActionResponses()
-		{
-			@Override public void onLockLockAction(Character character, LockLockAction action)
-			{
-				assertEquals(Lock.State.UNLOCKED, lock.getState());
-				assertTrue(action.hasException(SelectionNotKeyException.class));
-			}
-		});
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onLockLockAction(same(character), same(action));
 	}
 }

@@ -1,13 +1,16 @@
 package textadventure.items.backpack;
 
 import org.junit.Test;
-import textadventure.characters.SomeCharacter;
+import org.mockito.Mockito;
+import textadventure.actions.ActionResponses;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
+import textadventure.characters.SomeCharacter;
 import textadventure.ui.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.same;
 
 public class ExpandBackpackActionTest
 {
@@ -22,7 +25,7 @@ public class ExpandBackpackActionTest
 		assertEquals(5, backpack.getNumberOfPositions());
 		ExpandBackpackAction action = new ExpandBackpackAction(backpack);
 
-		action.perform(character, new SomeActionResponses()
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
@@ -35,7 +38,11 @@ public class ExpandBackpackActionTest
 				assertFalse(action.hasException());
 				assertEquals(10, backpack.getNumberOfPositions());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onExpandBackpackAction(same(character), same(action));
 	}
 
 	@Test
@@ -50,7 +57,8 @@ public class ExpandBackpackActionTest
 		assertEquals(5, backpack.getNumberOfPositions());
 
 		ExpandBackpackAction action = new ExpandBackpackAction(backpack);
-		action.perform(character, new SomeActionResponses()
+
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
@@ -62,7 +70,11 @@ public class ExpandBackpackActionTest
 			{
 				assertSame(backpackExpansion, action.getBackpackExpansion());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onExpandBackpackAction(same(character), same(action));
 	}
 
 	@Test
@@ -77,7 +89,8 @@ public class ExpandBackpackActionTest
 		assertEquals(5, backpack.getNumberOfPositions());
 
 		ExpandBackpackAction action = new ExpandBackpackAction(backpack);
-		action.perform(character, new SomeActionResponses()
+
+		ActionResponses actionResponses = new SomeActionResponses()
 		{
 			@Override
 			public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
@@ -89,7 +102,11 @@ public class ExpandBackpackActionTest
 			{
 				assertSame(backpack, action.getBackpack());
 			}
-		});
+		};
+
+		ActionResponses mock = Mockito.spy(actionResponses);
+		action.perform(character, mock);
+		Mockito.verify(mock, Mockito.times(1)).onExpandBackpackAction(same(character), same(action));
 	}
 
 	@Test

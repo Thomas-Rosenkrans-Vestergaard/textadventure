@@ -22,7 +22,7 @@ public abstract class AbstractProperty implements Property
 	 *
 	 * @param action The {@link Action} to add to the {@link Property}.
 	 */
-	@Override public void addAction(Action action)
+	@Override public void putAction(Action action)
 	{
 		actions.put(action.getClass(), action);
 	}
@@ -36,7 +36,7 @@ public abstract class AbstractProperty implements Property
 	@Override public <T extends Action> T getAction(Class<T> type) throws UnknownActionException
 	{
 		if (!actions.containsKey(type))
-			throw new UnknownActionException();
+			throw new UnknownActionException(this, type);
 
 		return type.cast(actions.get(type));
 	}

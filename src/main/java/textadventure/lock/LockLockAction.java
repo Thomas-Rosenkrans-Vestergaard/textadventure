@@ -4,7 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
 import textadventure.items.backpack.Backpack;
-import textadventure.ui.*;
+import textadventure.ui.BaseSelect;
+import textadventure.ui.Option;
+import textadventure.ui.Select;
+import textadventure.ui.SelectResponseException;
 
 /**
  * {@link textadventure.actions.Action} that allows a {@link Character} to {@link Lock#lock(Key)} a
@@ -47,19 +50,17 @@ public class LockLockAction extends LockAction
 				ImmutableSet<Option<Key>> options  = backpack.asOptions(Key.class);
 				Select<Key> select = new BaseSelect<>(options, 1, selection -> {
 					lock.lock(selection.get(0).getT());
+					responses.onLockLockAction(character, this);
 				});
 
-				character.getFaction().getLeader().select(select);
-
+				responses.select(select);
 			}
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());
-		} catch (UnknownIndexException e) {
-			setException(new SelectionNotKeyException());
+			responses.onLockLockAction(character, this);
 		} catch (Exception e) {
 			setException(e);
-		} finally {
 			responses.onLockLockAction(character, this);
 		}
 	}

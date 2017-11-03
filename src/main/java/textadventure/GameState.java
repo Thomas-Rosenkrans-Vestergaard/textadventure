@@ -1,12 +1,14 @@
 package textadventure;
 
 import com.google.common.collect.ImmutableList;
+import textadventure.actions.Action;
 import textadventure.characters.Character;
 import textadventure.combat.Faction;
 import textadventure.rooms.Room;
 import textadventure.rooms.RoomController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GameState

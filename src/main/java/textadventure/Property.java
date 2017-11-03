@@ -15,7 +15,7 @@ public interface Property
 	 *
 	 * @param action The {@link Action} to add to the {@link Property}.
 	 */
-	void addAction(Action action);
+	void putAction(Action action);
 
 	/**
 	 * Returns the {@link Action} with the provided name.

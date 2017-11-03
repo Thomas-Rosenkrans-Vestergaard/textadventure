@@ -65,7 +65,7 @@ public class TakeItemFromChestAction extends ChestAction
 				}
 			});
 
-			character.getFaction().getLeader().select(select);
+			responses.select(select);
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());

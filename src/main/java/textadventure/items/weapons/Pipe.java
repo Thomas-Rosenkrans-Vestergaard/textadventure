@@ -1,8 +1,9 @@
 package textadventure.items.weapons;
 
+import textadventure.items.EquipableItem;
 import textadventure.items.Item;
 
-public class Pipe extends AbstractBluntWeapon implements BluntWeapon, Item
+public class Pipe extends AbstractBluntWeapon implements BluntWeapon, EquipableItem, WeaponItem
 {
 	/**
 	 * Creates a new {@link Pipe}.
