@@ -275,33 +275,47 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onNextCharacter(ImmutableList<Character> characters, CharacterSelectionCallback callback)
 	{
 		printer.println("What character do you want to play next. Enter 'skip' the skip the rest of your turn.");
-		for (Character character : characters) {
-			printer.println(String.format("\t%s", character.getName()));
+		for (int x = 0; x < characters.size(); x++) {
+			printer.println(String.format("\t%4d    %s", x, characters.get(x).getName()));
 		}
 
-		while (true) {
+		try {
 
-			String nextCharacter = scanner.nextLine().trim();
+			while (true) {
+				String input = scanner.nextLine().trim();
 
-			if (nextCharacter.equals("skip")) {
-				printer.println("You skipped the rest of your turn.");
-				callback.skip();
-				return;
-			}
+				if (input.equals("skip")) {
+					printer.println("You skipped the rest of your turn.");
+					callback.skip();
+					return;
+				}
 
-			for (Character character : characters) {
-				if (character.getName().equals(nextCharacter)) {
-					try {
-						printer.println(String.format("You chose to play %s.", character.getName()));
-						callback.next(character);
-						return;
-					} catch (CharacterAlreadyPlayedException e) {
-						throw new IllegalStateException(e);
+				try {
+					int       index         = Integer.parseInt(input);
+					Character nextCharacter = characters.get(index);
+					if (nextCharacter == null) {
+						printer.println("No character with that index.");
+						continue;
 					}
+
+					callback.next(nextCharacter);
+					return;
+
+				} catch (NumberFormatException e) {
+					for (Character character : characters) {
+						if (character.getName().equals(input)) {
+							printer.println(String.format("You chose to play %s.", character.getName()));
+							callback.next(character);
+							return;
+						}
+					}
+
+					System.out.println("No character with that name.");
+					continue;
 				}
 			}
-
-			printer.println("That character doesn't exist.");
+		} catch (CharacterAlreadyPlayedException e) {
+			throw new IllegalStateException(e);
 		}
 	}
 
