@@ -1,6 +1,6 @@
 package textadventure.characters;
 
-import textadventure.PropertyContainer;
+import textadventure.Property;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.combat.HealingSource;
@@ -12,7 +12,7 @@ import textadventure.rooms.Room;
 /**
  * Represents a controllable in-game person.
  */
-public interface Character extends PropertyContainer
+public interface Character extends Property
 {
 
 	/**
@@ -233,5 +233,5 @@ public interface Character extends PropertyContainer
 	 *
 	 * @return if the character is dead or alive
 	 */
-	 Status getStatus();
+	Status getStatus();
 }

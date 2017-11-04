@@ -21,12 +21,14 @@ import textadventure.items.backpack.ExpandBackpackAction;
 import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
 import textadventure.lock.*;
-import textadventure.rooms.*;
+import textadventure.rooms.Coordinate;
+import textadventure.rooms.Room;
+import textadventure.rooms.RoomController;
+import textadventure.rooms.UnknownRoomException;
 
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.Map.Entry;
 
 public class ConsoleGameInterface implements GameInterface
 {
@@ -35,8 +37,8 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		try {
 			GameInterface  gameInterface  = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
-			Game           game           = Game.create(3);
-			RoomController roomController = game.getRoomController();
+			Game           game           = new Game(3);
+			RoomController roomController = game.getRooms();
 			game.addFaction(new Escapees(new HumanPlayer(gameInterface), roomController.get(Coordinate.of(4, 1)), roomController.get(Coordinate.of(4, 5))));
 			game.addFaction(new SecretPolice(new SecretPoliceComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
 			game.start();
@@ -56,10 +58,8 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private PrintWriter printer;
 
-	private Map<Class<? extends Action>, String>                                     actionNames       = new HashMap<>();
-	private Map<Class<? extends Property>, String>                                   propertyNames     = new HashMap<>();
-	private Map<Class<? extends Property>, List<Class<? extends Action>>>            actionRelations   = new HashMap<>();
-	private Map<Class<? extends PropertyContainer>, List<Class<? extends Property>>> propertyRelations = new HashMap<>();
+	private Map<Class<? extends Action>, String>   actionNames   = new HashMap<>();
+	private Map<Class<? extends Property>, String> propertyNames = new HashMap<>();
 
 	private void addAction(Class<? extends Action> type, String name)
 	{
@@ -69,22 +69,6 @@ public class ConsoleGameInterface implements GameInterface
 	private void addProperty(Class<? extends Property> type, String name)
 	{
 		this.propertyNames.put(type, name);
-	}
-
-	private void addActionRelation(Class<? extends Property> property, Class<? extends Action> action)
-	{
-		if (!actionRelations.containsKey(property))
-			this.actionRelations.put(property, new ArrayList<>());
-
-		this.actionRelations.get(property).add(action);
-	}
-
-	private void addPropertyRelation(Class<? extends PropertyContainer> propertyContainer, Class<? extends Property> property)
-	{
-		if (!propertyRelations.containsKey(propertyContainer))
-			this.propertyRelations.put(propertyContainer, new ArrayList<>());
-
-		this.propertyRelations.get(propertyContainer).add(property);
 	}
 
 	/**
@@ -98,6 +82,8 @@ public class ConsoleGameInterface implements GameInterface
 		this.scanner = scanner;
 		this.printer = printer;
 
+		addProperty(Character.class, "character");
+		addProperty(Room.class, "room");
 		addProperty(NorthDoor.class, "north");
 		addProperty(SouthDoor.class, "south");
 		addProperty(EastDoor.class, "east");
@@ -132,84 +118,6 @@ public class ConsoleGameInterface implements GameInterface
 		addAction(LockLockAction.class, "lock");
 		addAction(UnlockLockAction.class, "unlock");
 		addAction(InspectLockAction.class, "inspect");
-
-		addActionRelation(Character.class, CharacterInformationAction.class);
-		addActionRelation(Character.class, DropItemAction.class);
-		addActionRelation(Character.class, EquipAction.class);
-		addActionRelation(Character.class, EscapeAction.class);
-		addActionRelation(Character.class, UnEquipAction.class);
-		addActionRelation(Character.class, PickUpItemAction.class);
-		addActionRelation(Character.class, UseItemsAction.class);
-		addActionRelation(Character.class, UseItemsOnAction.class);
-		addActionRelation(Character.class, AttackAction.class);
-
-		addActionRelation(Floor.class, InspectFloorAction.class);
-		addActionRelation(Room.class, InspectRoomAction.class);
-
-		addActionRelation(NorthDoor.class, OpenDoorAction.class);
-		addActionRelation(NorthDoor.class, CloseDoorAction.class);
-		addActionRelation(NorthDoor.class, InspectDoorAction.class);
-		addActionRelation(NorthDoor.class, UseDoorAction.class);
-
-		addActionRelation(SouthDoor.class, OpenDoorAction.class);
-		addActionRelation(SouthDoor.class, CloseDoorAction.class);
-		addActionRelation(SouthDoor.class, InspectDoorAction.class);
-		addActionRelation(SouthDoor.class, UseDoorAction.class);
-
-		addActionRelation(EastDoor.class, OpenDoorAction.class);
-		addActionRelation(EastDoor.class, CloseDoorAction.class);
-		addActionRelation(EastDoor.class, InspectDoorAction.class);
-		addActionRelation(EastDoor.class, UseDoorAction.class);
-
-		addActionRelation(WestDoor.class, OpenDoorAction.class);
-		addActionRelation(WestDoor.class, CloseDoorAction.class);
-		addActionRelation(WestDoor.class, InspectDoorAction.class);
-		addActionRelation(WestDoor.class, UseDoorAction.class);
-
-		addActionRelation(Backpack.class, InspectBackpackAction.class);
-		addActionRelation(Backpack.class, ExpandBackpackAction.class);
-
-		addActionRelation(Chest.class, OpenChestAction.class);
-		addActionRelation(Chest.class, CloseChestAction.class);
-		addActionRelation(Chest.class, DepositItemsIntoChestAction.class);
-		addActionRelation(Chest.class, TakeItemFromChestAction.class);
-		addActionRelation(Chest.class, InspectChestAction.class);
-
-		addActionRelation(Lock.class, LockLockAction.class);
-		addActionRelation(Lock.class, UnlockLockAction.class);
-		addActionRelation(Lock.class, InspectLockAction.class);
-
-		addActionRelation(Chest.class, LockLockAction.class);
-		addActionRelation(Chest.class, UnlockLockAction.class);
-		addActionRelation(Chest.class, InspectLockAction.class);
-
-		addActionRelation(NorthDoor.class, LockLockAction.class);
-		addActionRelation(NorthDoor.class, UnlockLockAction.class);
-		addActionRelation(NorthDoor.class, InspectLockAction.class);
-
-		addActionRelation(SouthDoor.class, LockLockAction.class);
-		addActionRelation(SouthDoor.class, UnlockLockAction.class);
-		addActionRelation(SouthDoor.class, InspectLockAction.class);
-
-		addActionRelation(EastDoor.class, LockLockAction.class);
-		addActionRelation(EastDoor.class, UnlockLockAction.class);
-		addActionRelation(EastDoor.class, InspectLockAction.class);
-
-		addActionRelation(WestDoor.class, LockLockAction.class);
-		addActionRelation(WestDoor.class, UnlockLockAction.class);
-		addActionRelation(WestDoor.class, InspectLockAction.class);
-
-		addPropertyRelation(Room.class, NorthDoor.class);
-		addPropertyRelation(Room.class, SouthDoor.class);
-		addPropertyRelation(Room.class, EastDoor.class);
-		addPropertyRelation(Room.class, WestDoor.class);
-		addPropertyRelation(Room.class, Chest.class);
-		addPropertyRelation(Character.class, Backpack.class);
-		addPropertyRelation(NorthDoor.class, Lock.class);
-		addPropertyRelation(SouthDoor.class, Lock.class);
-		addPropertyRelation(EastDoor.class, Lock.class);
-		addPropertyRelation(WestDoor.class, Lock.class);
-		addPropertyRelation(Chest.class, Lock.class);
 	}
 
 	/**
@@ -467,15 +375,14 @@ public class ConsoleGameInterface implements GameInterface
 	}
 
 	/**
-	 * Event for when a {@link Character} requests an {@link Action} from the {@link GameInterface}.
+	 * Event for when an {@link Action}
 	 *
-	 * @param character The {@link Character} who requests the {@link Action}.
-	 * @param response  The {@link ActionRequestCallback} to send with.
+	 * @param character The {@link Character} that the {@link Player} should chose an {@link Action} for.
+	 * @param relations The relations between {@link Property} instances and {@link Action} instances.
+	 * @param callback  The callback to use for returning an {@link Action}.
 	 */
-	@Override
-	public void onActionRequest(Character character, ActionRequestCallback response)
+	@Override public void onActionRequest(Character character, Relations relations, ActionRequestCallback callback)
 	{
-
 		LOOP:
 		while (true) {
 
@@ -508,76 +415,68 @@ public class ConsoleGameInterface implements GameInterface
 				continue;
 			}
 
+			ImmutableMap<Class<? extends Property>, List<Class<? extends Property>>> propertyRelations = relations.getProperties();
+			List<Class<? extends Property>>                                          properties        = new ArrayList<>();
+
 			try {
 
-				Property property = character;
+				System.out.println(Arrays.toString(sections));
+
+				Class<? extends Property> property = Character.class;
+				SECTIONS:
 				for (int i = 0; i < sections.length - 1; i++) {
-					if (property instanceof PropertyContainer) {
-						PropertyContainer container = (PropertyContainer) property;
-						property = getProperty(container, sections[i]);
-						if (property == null) {
-							printer.println(
-									String.format("Unknown property '%s'.", sections[i]));
-							continue LOOP;
+					System.out.println(property.getSimpleName());
+					System.out.println(i);
+					System.out.println(propertyRelations.get(property).size());
+					PROPERTIES:
+					for (Class<? extends Property> x : propertyRelations.get(property)) {
+						System.out.println("testing");
+						System.out.println(x.getSimpleName());
+						System.out.println(relations.hasPropertyRelation(property, x) && propertyNames.get(x).equals(sections[i]));
+						if (relations.hasPropertyRelation(property, x) && propertyNames.get(x).equals(sections[i])) {
+							property = x;
+							properties.add(x);
+							System.out.println("ending");
+							continue SECTIONS;
 						}
-						continue;
 					}
 
-					printer.println(String.format("Property '%s' cannot have sub-properties.", sections[i - 1]));
+					printer.println(String.format("No property %s on property %s.", sections[i], propertyNames.get(property)));
 					continue LOOP;
 				}
 
-				String actionName = sections[sections.length - 1];
-				Action action     = getAction(property, actionName);
-				if (action == null) {
-					printer.println(
-							String.format(
-									"No action with name '%s' on property '%s'.",
-									actionName,
-									sections.length < 2 ? "character" : sections[sections.length - 2]
-							)
-					);
-					continue;
+				System.out.println(property.getSimpleName());
+
+				Class<? extends Action> action     = null;
+				String                  actionName = sections[sections.length - 1];
+
+				for (Class<? extends Action> actionRelation : relations.getActions().get(property)) {
+					if (actionNames.get(actionRelation).equals(actionName) && relations.hasActionRelation(property, actionRelation)) {
+						action = actionRelation;
+						break;
+					}
 				}
 
-				response.respond(action);
+				if (action == null) {
+					printer.println(String.format("Unknown action with name %s on property %s.", actionName,
+							propertyNames.get(property)));
+					continue LOOP;
+				}
 
+				callback.respond(properties, action);
+
+			} catch (UnknownPropertyException e) {
+				System.out.println("unknown property");
+				System.out.println(e.getPropertyContainer().getSimpleName());
+				System.out.println(e.getPropertyType().getSimpleName());
+			} catch (UnknownActionException e) {
+				System.out.println("unknown action");
+				System.out.println(e.getProperty().getSimpleName());
+				System.out.println(e.getActionType().getSimpleName());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	private Property getProperty(PropertyContainer propertyContainer, String search) throws UnknownPropertyException
-	{
-		for (Entry<Class<? extends Property>, String> entry : propertyNames.entrySet()) {
-			Class<? extends Property> type = entry.getKey();
-			String                    name = entry.getValue();
-
-			if (!name.equals(search))
-				continue;
-
-			if (propertyContainer.hasProperty(type))
-				return propertyContainer.getProperty(type);
-		}
-
-		return null;
-	}
-
-	private Action getAction(Property property, String seach) throws UnknownActionException
-	{
-		for (Entry<Class<? extends Action>, String> entry : actionNames.entrySet()) {
-			Class<? extends Action> type = entry.getKey();
-			String                  name = entry.getValue();
-
-			if (!name.equals(seach))
-				continue;
-
-			if (property.hasAction(type))
-				return property.getAction(type);
-		}
-
-		return null;
 	}
 
 	/**
@@ -1262,36 +1161,7 @@ public class ConsoleGameInterface implements GameInterface
 		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
 
-		for (Entry<Class<? extends PropertyContainer>, List<Class<? extends Property>>> propertyRelation : propertyRelations.entrySet()) {
-			for ()
-		}
-	}
 
-	private void printPropertyContainer(Class<? extends Property> propertyContainer, String indent)
-	{
-		printer.println(indent + propertyNames.get(propertyContainer));
-		for (Class<? extends Property> property : propertyRelations.get(propertyContainer)) {
-			if (propertyRelations.containsKey(property)) {
-				printPropertyContainer(property, indent + "\t");
-				printActions(property, indent);
-				continue;
-			}
-
-			printProperty(property, indent);
-		}
-	}
-
-	private void printProperty(Class<? extends Property> property, String indent)
-	{
-		printer.println(indent + propertyNames.get(property));
-		printActions(property, indent);
-	}
-
-	private void printActions(Class<? extends Property> property, String indent)
-	{
-		for (Class<? extends Action> action : actionRelations.get(property)) {
-			printer.println(String.format("%s%s", indent, actionNames.get(action)));
-		}
 	}
 
 	/**

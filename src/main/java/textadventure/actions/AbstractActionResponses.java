@@ -83,6 +83,17 @@ public class AbstractActionResponses implements ActionResponses
 	}
 
 	/**
+	 * Event for when the {@link Character} performs the {@link UseItemsOnAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link UseItemsOnAction}.
+	 * @param action    The {@link UseItemsOnAction} instance.
+	 */
+	@Override public void onUseItemsOnAction(Character character, UseItemsOnAction action)
+	{
+
+	}
+
+	/**
 	 * Event for when the {@link Character} performs the {@link EquipAction}.
 	 *
 	 * @param character The {@link Character} who performed the {@link EquipAction}.

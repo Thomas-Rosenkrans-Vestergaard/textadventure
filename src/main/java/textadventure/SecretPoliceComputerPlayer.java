@@ -20,6 +20,8 @@ import textadventure.rooms.Room;
 import textadventure.ui.Option;
 import textadventure.ui.Select;
 
+import java.util.ArrayList;
+
 /**
  * Implementation of the {@link Player} interface, controlled by an AI.
  */
@@ -129,11 +131,16 @@ public class SecretPoliceComputerPlayer implements Player
 	 * Event for when an {@link textadventure.actions.Action}
 	 *
 	 * @param character The {@link Character} that the {@link Player} should chose an {@link textadventure.actions.Action} for.
+	 * @param relations The relations between {@link Property} instances and {@link textadventure.actions.Action} instances.
 	 * @param callback  The callback to use for returning an {@link textadventure.actions.Action}.
 	 */
-	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
+	@Override public void onActionRequest(Character character, Relations relations, ActionRequestCallback callback)
 	{
-		callback.respond(new NothingAction());
+		try {
+			callback.respond(new ArrayList<>(), NothingAction.class);
+		} catch (Exception e) {
+			throw new IllegalStateException();
+		}
 	}
 
 	/**

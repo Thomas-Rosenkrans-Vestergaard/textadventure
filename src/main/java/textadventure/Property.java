@@ -1,6 +1,5 @@
 package textadventure;
 
-import com.google.common.collect.ImmutableMap;
 import textadventure.actions.Action;
 import textadventure.characters.Character;
 
@@ -11,25 +10,24 @@ public interface Property
 {
 
 	/**
-	 * Adds a new {@link Action} to the {@link Property}.
+	 * Inserts the provided {@link Property}.
 	 *
-	 * @param action The {@link Action} to add to the {@link Property}.
+	 * @param property The {@link Property}.
 	 */
-	void putAction(Action action);
+	void putProperty(Property property);
 
 	/**
-	 * Returns the {@link Action} with the provided name.
+	 * Returns the {@link Property} of the provided type.
 	 *
-	 * @return The {@link Action} with the provided name.
+	 * @param type The type of the {@link Property} to return.
 	 */
-	<T extends Action> T getAction(Class<T> type) throws UnknownActionException;
-
-	<T extends Action> boolean hasAction(Class<T> type);
+	<T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException;
 
 	/**
-	 * Returns an {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
+	 * Checks if the {@link Property} has a child {@link Property} of the provided type.
 	 *
-	 * @return The {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
+	 * @param type The type of the child property to check for.
+	 * @return True if the child property of the provided type exists. Returns false otherwise.
 	 */
-	ImmutableMap<Class<? extends Action>, Action> getActions();
+	boolean hasProperty(Class<? extends Property> type);
 }

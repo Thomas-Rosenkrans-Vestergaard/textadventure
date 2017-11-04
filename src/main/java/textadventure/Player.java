@@ -76,9 +76,10 @@ public interface Player extends ActionResponses
 	 * Event for when an {@link Action}
 	 *
 	 * @param character The {@link Character} that the {@link Player} should chose an {@link Action} for.
+	 * @param relations The relations between {@link Property} instances and {@link Action} instances.
 	 * @param callback  The callback to use for returning an {@link Action}.
 	 */
-	void onActionRequest(Character character, ActionRequestCallback callback);
+	void onActionRequest(Character character, Relations relations, ActionRequestCallback callback);
 
 	/**
 	 * Event for when a {@link Character} from another {@link Faction} enters a {@link Room}.

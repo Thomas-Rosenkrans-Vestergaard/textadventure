@@ -130,11 +130,12 @@ public class HumanPlayer implements Player
 	 * Event for when an {@link Action}
 	 *
 	 * @param character The {@link Character} that the {@link Player} should chose an {@link Action} for.
+	 * @param relations The relations between {@link Property} instances and {@link Action} instances.
 	 * @param callback  The callback to use for returning an {@link Action}.
 	 */
-	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
+	@Override public void onActionRequest(Character character, Relations relations, ActionRequestCallback callback)
 	{
-		gameInterface.onActionRequest(character, callback);
+		gameInterface.onActionRequest(character, relations, callback);
 	}
 
 	/**

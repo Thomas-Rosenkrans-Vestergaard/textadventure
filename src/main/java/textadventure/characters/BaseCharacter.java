@@ -1,11 +1,6 @@
 package textadventure.characters;
 
-import com.google.common.collect.ImmutableMap;
-import textadventure.AbstractPropertyContainer;
-import textadventure.Property;
-import textadventure.PropertyContainer;
-import textadventure.UnknownPropertyException;
-import textadventure.combat.AttackAction;
+import textadventure.AbstractProperty;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.combat.HealingSource;
@@ -20,7 +15,7 @@ import java.awt.*;
 /**
  * The default implementation of the {@link Character} interface.
  */
-public class BaseCharacter extends AbstractPropertyContainer implements Character
+public class BaseCharacter extends AbstractProperty implements Character
 {
 
 	/**
@@ -236,10 +231,11 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 	 * Creates a new {@link BaseCharacter} from a {@link CharacterCreationTemplate}.
 	 *
 	 * @param faction                   The {@link Faction} The {@link Character} belongs to.
+	 * @param room                      The current location of the {@link BaseCharacter}.
 	 * @param characterCreationTemplate The {@link CharacterCreationTemplate}.
 	 * @return The newly created {@link BaseCharacter}.
 	 */
-	public static BaseCharacter factory(Faction faction, CharacterCreationTemplate characterCreationTemplate)
+	public static BaseCharacter factory(Faction faction, Room room, CharacterCreationTemplate characterCreationTemplate)
 	{
 		Backpack backpack = Backpack.factory(DEFAULT_BACKPACK_POSITIONS);
 		BaseCharacter character = new BaseCharacter(
@@ -264,53 +260,9 @@ public class BaseCharacter extends AbstractPropertyContainer implements Characte
 		);
 
 		character.putProperty(backpack);
-
-		character.putAction(new DropItemAction());
-		character.putAction(new PickUpItemAction());
-		character.putAction(new InspectRoomAction());
-		character.putAction(new InspectFloorAction());
-		character.putAction(new CharacterInformationAction());
-		character.putAction(new AttackAction());
-		character.putAction(new EquipAction());
-		character.putAction(new EscapeAction());
-		character.putAction(new UnEquipAction());
-		character.putAction(new UseItemsAction());
-
-		faction.getStartingRoom().addCharacter(character);
+		character.putProperty(room);
 
 		return character;
-	}
-
-	/**
-	 * Returns the {@link Property} of the provided type.
-	 *
-	 * @param type The type of the {@link Property} to return.
-	 */
-	@Override public <T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException
-	{
-		ImmutableMap<Class<? extends Property>, Property> properties = getProperties();
-		if (!properties.containsKey(type))
-			throw new UnknownPropertyException(this, type);
-
-		return type.cast(properties.get(type));
-	}
-
-	@Override public <T extends Property> boolean hasProperty(Class<T> type)
-	{
-		return getProperties().containsKey(type);
-	}
-
-	/**
-	 * Returns an {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
-	 *
-	 * @return The {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
-	 */
-	@Override public ImmutableMap<Class<? extends Property>, Property> getProperties()
-	{
-		return new ImmutableMap.Builder<Class<? extends Property>, Property>()
-				.putAll(getCurrentLocation().getProperties())
-				.putAll(super.getProperties())
-				.build();
 	}
 
 	/**

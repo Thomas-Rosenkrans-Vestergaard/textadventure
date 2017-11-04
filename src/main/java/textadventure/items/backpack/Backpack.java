@@ -1,9 +1,7 @@
 package textadventure.items.backpack;
 
-import com.google.common.collect.ImmutableMap;
 import textadventure.Property;
-import textadventure.UnknownActionException;
-import textadventure.actions.Action;
+import textadventure.UnknownPropertyException;
 import textadventure.characters.Character;
 import textadventure.items.BaseInventory;
 import textadventure.items.Inventory;
@@ -16,6 +14,8 @@ import java.util.Map;
  */
 public class Backpack extends BaseInventory implements Property
 {
+
+	private Map<Class<? extends Property>, Property> properties = new HashMap<>();
 
 	/**
 	 * Creates a new {@link Backpack}.
@@ -43,55 +43,40 @@ public class Backpack extends BaseInventory implements Property
 	 */
 	public static Backpack factory(int positions)
 	{
-		Backpack backpack = new Backpack(positions);
-		backpack.putAction(new InspectBackpackAction(backpack));
-		backpack.putAction(new ExpandBackpackAction(backpack));
-
-		return backpack;
+		return new Backpack(positions);
 	}
 
-
 	/**
-	 * The {@link Action}s available on the {@link Property}.
-	 */
-	private Map<Class<? extends Action>, Action> actions = new HashMap<>();
-
-	/**
-	 * Adds a new {@link Action} to the {@link Property}.
+	 * Inserts the provided {@link Property}.
 	 *
-	 * @param action The {@link Action} to add to the {@link Property}.
+	 * @param property The {@link Property}.
 	 */
-	@Override public void putAction(Action action)
+	@Override public void putProperty(Property property)
 	{
-		actions.put(action.getClass(), action);
+		properties.put(property.getClass(), property);
 	}
 
 	/**
-	 * Returns the {@link Action} with the provided name.
+	 * Returns the {@link Property} of the provided type.
 	 *
-	 * @param type
-	 * @return The {@link Action} with the provided name.
+	 * @param type The type of the {@link Property} to return.
 	 */
-	@Override public <T extends Action> T getAction(Class<T> type) throws UnknownActionException
+	@Override public <T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException
 	{
-		if (!actions.containsKey(type))
-			throw new UnknownActionException(this, type);
+		if (!properties.containsKey(type))
+			throw new UnknownPropertyException(this.getClass(), type);
 
-		return type.cast(actions.get(type));
-	}
-
-	@Override public <T extends Action> boolean hasAction(Class<T> type)
-	{
-		return actions.containsKey(type);
+		return type.cast(properties.get(type));
 	}
 
 	/**
-	 * Returns an {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
+	 * Checks if the {@link Property} has a child {@link Property} of the provided type.
 	 *
-	 * @return The {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
+	 * @param type The type of the child property to check for.
+	 * @return True if the child property of the provided type exists. Returns false otherwise.
 	 */
-	@Override public ImmutableMap<Class<? extends Action>, Action> getActions()
+	@Override public boolean hasProperty(Class<? extends Property> type)
 	{
-		return ImmutableMap.copyOf(actions);
+		return properties.containsKey(type);
 	}
 }

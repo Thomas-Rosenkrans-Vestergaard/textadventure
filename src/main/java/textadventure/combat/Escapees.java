@@ -1,7 +1,6 @@
 package textadventure.combat;
 
 import textadventure.Game;
-import textadventure.GameState;
 import textadventure.Player;
 import textadventure.characters.Character;
 import textadventure.rooms.Room;
@@ -64,11 +63,11 @@ public class Escapees extends AbstractFaction
 	/**
 	 * Checks if the {@link Faction} has won the {@link Game}.
 	 *
-	 * @param state The {@link GameState} instance.
+	 * @param state The {@link Game} instance.
 	 * @return The method returns <code>true</code> if the {@link Faction} has won. Returns <code>false</code> if the
 	 * {@link Faction} has not won yet.
 	 */
-	@Override public boolean hasWon(GameState state)
+	@Override public boolean hasWon(Game state)
 	{
 		return characters.size() == escapedCharacters.size();
 	}
@@ -76,11 +75,11 @@ public class Escapees extends AbstractFaction
 	/**
 	 * Checks if the {@link Faction} has lost the {@link Game}.
 	 *
-	 * @param state The {@link GameState} instance.
+	 * @param state The {@link Game} instance.
 	 * @return The method returns <code>true</code> if the {@link Faction} has lost. Returns <code>false</code> if the
 	 * {@link Faction} has not lost yet.
 	 */
-	@Override public boolean hasLost(GameState state)
+	@Override public boolean hasLost(Game state)
 	{
 		int dead = 0;
 		for (Character character : characters)

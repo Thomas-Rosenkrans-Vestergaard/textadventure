@@ -13,11 +13,11 @@ public class InspectBackpackAction extends BackpackAction
 	/**
 	 * Creates a new {@link InspectBackpackAction}.
 	 *
-	 * @param door The {@link Backpack} to be inspected.
+	 * @param backpack The {@link Backpack} to be inspected.
 	 */
-	InspectBackpackAction(Backpack door)
+	public InspectBackpackAction(Backpack backpack)
 	{
-		super(door);
+		super(backpack);
 	}
 
 	/**

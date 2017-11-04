@@ -1,7 +1,7 @@
 package textadventure.rooms;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.AbstractPropertyContainer;
+import textadventure.AbstractProperty;
 import textadventure.characters.Character;
 
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * An implementation of the {@link Room} interface.
  */
-public class BaseRoom extends AbstractPropertyContainer implements Room
+public class BaseRoom extends AbstractProperty implements Room
 {
 
 	/**

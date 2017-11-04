@@ -1,25 +1,28 @@
 package textadventure.doors;
 
-import textadventure.AbstractPropertyContainer;
+import textadventure.AbstractProperty;
 import textadventure.lock.Lock;
-import textadventure.lock.LockLockAction;
-import textadventure.lock.UnlockLockAction;
+import textadventure.rooms.Room;
 
-public abstract class PropertyDoor extends AbstractPropertyContainer
+/**
+ * Represents an intersection between a {@link textadventure.Property} and a {@link Door}.
+ */
+public abstract class PropertyDoor extends AbstractProperty implements Door
 {
 
+	/**
+	 * The internal {@link Door} instance.
+	 */
 	private Door door;
 
+	/**
+	 * Creates a new {@link PropertyDoor}.
+	 *
+	 * @param door The internal {@link Door} instance.
+	 */
 	public PropertyDoor(Door door)
 	{
 		this.door = door;
-
-		putAction(new OpenDoorAction(door));
-		putAction(new CloseDoorAction(door));
-		putAction(new UseDoorAction(door));
-		putAction(new InspectDoorAction(door));
-		putAction(new LockLockAction(door.getLock()));
-		putAction(new UnlockLockAction(door.getLock()));
 
 		putProperty(door.getLock());
 	}
@@ -64,5 +67,57 @@ public abstract class PropertyDoor extends AbstractPropertyContainer
 	public Lock getLock()
 	{
 		return door.getLock();
+	}
+
+	/**
+	 * Returns one of the {@link Room}s the {@link Door} connects.
+	 *
+	 * @return One of the {@link Room}s the {@link Door} connects.
+	 */
+	@Override public Room getRoomA()
+	{
+		return door.getRoomA();
+	}
+
+	/**
+	 * Returns the other {@link Room}s the {@link Door} connects.
+	 *
+	 * @return The other {@link Room}s the {@link Door} connects.
+	 */
+	@Override public Room getRoomB()
+	{
+		return door.getRoomB();
+	}
+
+	/**
+	 * Sets one of the {@link Room}s the {@link Door} connects.
+	 *
+	 * @param a One of the {@link Room}s the {@link Door} connects.
+	 */
+	@Override public void setRoomA(Room a)
+	{
+		door.setRoomA(a);
+	}
+
+	/**
+	 * Sets the other {@link Room}s the {@link Door} connects.
+	 *
+	 * @param b The other {@link Room}s the {@link Door} connects.
+	 */
+	@Override public void setRoomB(Room b)
+	{
+		door.setRoomB(b);
+	}
+
+	/**
+	 * Returns the {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}.
+	 *
+	 * @param room The opposite {@link Room}.
+	 * @return The {@link Room} on the other side of {@link Door} in relation to the provided {@link Room}. Returns
+	 * <code>null</code> if the provided room is unknown.
+	 */
+	@Override public Room getInverseRoom(Room room)
+	{
+		return door.getInverseRoom(room);
 	}
 }

@@ -1,13 +1,10 @@
 package textadventure.items.chest;
 
-import com.google.common.collect.ImmutableMap;
 import textadventure.Property;
-import textadventure.PropertyContainer;
-import textadventure.UnknownActionException;
 import textadventure.UnknownPropertyException;
-import textadventure.actions.Action;
 import textadventure.items.BaseInventory;
 import textadventure.lock.Lock;
+import textadventure.rooms.Floor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +12,13 @@ import java.util.Map;
 /**
  * An {@link textadventure.items.Inventory}.
  */
-public class Chest extends BaseInventory implements PropertyContainer
+public class Chest extends BaseInventory implements Property
 {
+
+	/**
+	 * The instances of {@link Property} in the {@link Property}.
+	 */
+	private Map<Class<? extends Property>, Property> properties = new HashMap<>();
 
 	/**
 	 * The {@link State} of the {@link Chest}.
@@ -120,62 +122,24 @@ public class Chest extends BaseInventory implements PropertyContainer
 	}
 
 	/**
-	 * The {@link Action}s available on the {@link Property}.
-	 */
-	private Map<Class<? extends Action>, Action> actions = new HashMap<>();
-
-	/**
-	 * Adds a new {@link Action} to the {@link Property}.
+	 * Inserts the provided {@link Property}.
 	 *
-	 * @param action The {@link Action} to add to the {@link Property}.
-	 */
-	@Override public void putAction(Action action)
-	{
-		actions.put(action.getClass(), action);
-	}
-
-	/**
-	 * Returns the {@link Action} with the provided name.
-	 *
-	 * @param type
-	 * @return The {@link Action} with the provided name.
-	 */
-	@Override public <T extends Action> T getAction(Class<T> type) throws UnknownActionException
-	{
-		if (!actions.containsKey(type))
-			throw new UnknownActionException(this, type);
-
-		return type.cast(actions.get(type));
-	}
-
-	@Override public <T extends Action> boolean hasAction(Class<T> type)
-	{
-		return actions.containsKey(type);
-	}
-
-	/**
-	 * Returns an {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
-	 *
-	 * @return The {@link ImmutableMap} of the {@link Action}s available on the {@link Property} mapped to their name.
-	 */
-	@Override public ImmutableMap<Class<? extends Action>, Action> getActions()
-	{
-		return ImmutableMap.copyOf(actions);
-	}
-
-	/**
-	 * The instances of {@link Property} in the {@link PropertyContainer}.
-	 */
-	private Map<Class<? extends Property>, Property> properties = new HashMap<>();
-
-	/**
-	 * Adds the {@link Property} to the {@link PropertyContainer}.
-	 *
-	 * @param property The {@link Property} to add to the {@link PropertyContainer}.
+	 * @param property The {@link Property}.
 	 */
 	@Override public void putProperty(Property property)
 	{
 		properties.put(property.getClass(), property);
+	}
+
+	/**
+	 * Checks if the {@link Property} has a child {@link Property} of the provided type.
+	 *
+	 * @param type The type of the child property to check for.
+	 * @return True if the child property of the provided type exists. Returns false otherwise.
+	 */
+	@Override public boolean hasProperty(Class<? extends Property> type)
+	{
+		return properties.containsKey(type);
 	}
 
 	/**
@@ -186,23 +150,8 @@ public class Chest extends BaseInventory implements PropertyContainer
 	@Override public <T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException
 	{
 		if (!properties.containsKey(type))
-			throw new UnknownPropertyException(this, type);
+			throw new UnknownPropertyException(Floor.class, type);
 
 		return type.cast(properties.get(type));
-	}
-
-	@Override public <T extends Property> boolean hasProperty(Class<T> type)
-	{
-		return properties.containsKey(type);
-	}
-
-	/**
-	 * Returns an {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
-	 *
-	 * @return The {@link ImmutableMap} map of the instances of {@link Property} in the {@link PropertyContainer}.
-	 */
-	@Override public ImmutableMap<Class<? extends Property>, Property> getProperties()
-	{
-		return ImmutableMap.copyOf(properties);
 	}
 }
