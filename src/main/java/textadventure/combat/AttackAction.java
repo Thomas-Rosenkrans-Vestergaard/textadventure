@@ -45,19 +45,12 @@ public class AttackAction extends AbstractAction
 		Weapon                          weapon          = character.getWeapon();
 		ImmutableSet<Option<Character>> options         = getOptions(currentLocation, faction);
 
-		if (options.size() == 0) {
-			setException(new NoTargetsException());
-			return;
-		}
+		try {
 
-		for (Option<Character> characterOption : options) {
-			if (characterOption.getT().getFaction() == faction) {
-				setException(new FriendlyTargetException(character, characterOption.getT()));
+			if (options.size() == 0) {
+				setException(new NoTargetsException());
 				return;
 			}
-		}
-
-		try {
 
 			Select<Character> select = new BaseSelect<>(options, 1, weapon.getNumberOfTargets(), selection -> {
 				for (Option<Character> characterOption : selection) {

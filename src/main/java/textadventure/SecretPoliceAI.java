@@ -8,10 +8,7 @@ import textadventure.characters.*;
 import textadventure.combat.AttackAction;
 import textadventure.combat.Escapees;
 import textadventure.combat.Faction;
-import textadventure.doors.CloseDoorAction;
-import textadventure.doors.InspectDoorAction;
-import textadventure.doors.OpenDoorAction;
-import textadventure.doors.UseDoorAction;
+import textadventure.doors.*;
 import textadventure.highscore.HighScoreResponse;
 import textadventure.highscore.Outcome;
 import textadventure.items.backpack.ExpandBackpackAction;
@@ -23,8 +20,7 @@ import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.Room;
 import textadventure.select.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static textadventure.highscore.Outcome.WIN;
 
@@ -55,11 +51,17 @@ public class SecretPoliceAI implements Player
 			"Joon Jun",
 			"Su-Bin Il-Seong",
 	};
+
+	/**
+	 * The source of randomness used by the AI.
+	 */
+	private Random random = new Random();
+
 	/**
 	 * The {@link ActionResponses} instance receiving notifications about {@link textadventure.actions.Action}s
 	 * occurring within the sight of any {@link Character}s controlled by the {@link SecretPoliceAI}.
 	 */
-	private final  ActionResponses secondaryActionResponses = new ActionResponses()
+	private final ActionResponses secondaryActionResponses = new ActionResponses()
 	{
 
 		@Override
@@ -211,7 +213,7 @@ public class SecretPoliceAI implements Player
 	/**
 	 * The {@link Character}s controlled by the {@link SecretPoliceAI}.
 	 */
-	private        Set<Character>  characters               = new HashSet<>();
+	private       Set<Character>  characters               = new HashSet<>();
 
 	/**
 	 * Events called when the {@link Player} should create their {@link Character}s.
@@ -299,7 +301,35 @@ public class SecretPoliceAI implements Player
 	 */
 	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
 	{
-		callback.respond(new NothingAction());
+
+		Room currentLocation = character.getCurrentLocation();
+
+		try {
+
+			List<PropertyDoor> doors = new ArrayList<>();
+
+			if (currentLocation.hasProperty(NorthDoor.class))
+				doors.add(currentLocation.getProperty(NorthDoor.class));
+
+			if (currentLocation.hasProperty(SouthDoor.class))
+				doors.add(currentLocation.getProperty(SouthDoor.class));
+
+			if (currentLocation.hasProperty(EastDoor.class))
+				doors.add(currentLocation.getProperty(EastDoor.class));
+
+			if (currentLocation.hasProperty(WestDoor.class))
+				doors.add(currentLocation.getProperty(WestDoor.class));
+
+			if (doors.size() > 0) {
+				int random = this.random.nextInt(doors.size());
+				callback.respond(doors.get(random).getAction(UseDoorAction.class));
+			}
+
+		} catch (UnknownPropertyException e) {
+
+		} catch (UnknownActionException e) {
+
+		}
 	}
 
 	/**

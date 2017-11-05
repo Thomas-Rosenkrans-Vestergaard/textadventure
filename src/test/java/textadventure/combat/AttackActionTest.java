@@ -57,6 +57,8 @@ public class AttackActionTest
 		room.addCharacter(character);
 		room.addCharacter(target);
 		character.setCurrentLocation(room);
+		target.setCurrentLocation(room);
+		target.setStatus(Character.Status.ALIVE);
 
 		AttackAction action = new AttackAction();
 
@@ -77,7 +79,6 @@ public class AttackActionTest
 		};
 
 		ActionResponses mock = Mockito.spy(actionResponses);
-		action.perform(character, mock);
 		Mockito.verify(mock).onAttackAction(same(character), same(action));
 		Mockito.verify(target).takeDamage(same(weapon));
 	}

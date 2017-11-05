@@ -33,6 +33,7 @@ public class TransferItemsActionTest
 		SomeCharacter target = new SomeCharacter();
 		character.setBackpack(backpack);
 		target.setBackpack(targetBackpack);
+		target.setFaction(faction);
 		character.setCurrentLocation(currentLocation);
 		target.setCurrentLocation(currentLocation);
 
@@ -70,7 +71,6 @@ public class TransferItemsActionTest
 		SomeActionResponses mock = Mockito.spy(actionResponses);
 		action.perform(character, mock);
 		Mockito.verify(mock).onTransferItemAction(same(character), same(action));
-
 	}
 
 	@Test
