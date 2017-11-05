@@ -304,6 +304,11 @@ public class SecretPoliceAI implements Player
 
 		Room currentLocation = character.getCurrentLocation();
 
+		if (currentLocation.getCharacters().size() > 1) {
+			callback.respond(new AttackAction());
+			return;
+		}
+
 		try {
 
 			List<PropertyDoor> doors = new ArrayList<>();
@@ -355,7 +360,10 @@ public class SecretPoliceAI implements Player
 	 */
 	@Override public void select(Select select)
 	{
-
+		try {
+			select.selectIndex(0);
+		} catch (SelectException e) {
+		}
 	}
 
 	/**
