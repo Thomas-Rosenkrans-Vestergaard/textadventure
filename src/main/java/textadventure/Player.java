@@ -8,18 +8,28 @@ import textadventure.characters.Character;
 import textadventure.characters.CharacterCreationCallback;
 import textadventure.characters.CharacterSelectionCallback;
 import textadventure.characters.FinishCharacterCreationCallback;
-import textadventure.combat.AttackAction;
 import textadventure.combat.Faction;
-import textadventure.doors.Door;
 import textadventure.highscore.HighScoreResponse;
 import textadventure.highscore.Outcome;
-import textadventure.rooms.Room;
+import textadventure.select.*;
 
 /**
  * Object that can control {@link Character}s and perform {@link Action}s.
  */
 public interface Player extends ActionResponses
 {
+
+	/**
+	 * Event for when a {@link textadventure.Player} is required to {@link Select} between one or more
+	 * {@link textadventure.select.Option}s.
+	 *
+	 * @param select The {@link Select}.
+	 * @throws SelectionAmountException When too few or too many elements were selected.
+	 * @throws UnknownIndexException    When a selected element were not contained is the list of possibilities.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link textadventure.select.Select.SelectResponse}.
+	 * @throws UnknownOptionException   When a selected element were not contained is the list of possibilities.
+	 */
+	void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException;
 
 	/**
 	 * Events called when the {@link Player} should create their {@link Character}s.
@@ -76,34 +86,16 @@ public interface Player extends ActionResponses
 	 * Event for when an {@link Action}
 	 *
 	 * @param character The {@link Character} that the {@link Player} should chose an {@link Action} for.
-	 * @param relations The relations between {@link Property} instances and {@link Action} instances.
 	 * @param callback  The callback to use for returning an {@link Action}.
 	 */
-	void onActionRequest(Character character, Relations relations, ActionRequestCallback callback);
+	void onActionRequest(Character character, ActionRequestCallback callback);
 
 	/**
-	 * Event for when a {@link Character} from another {@link Faction} enters a {@link Room}.
+	 * Returns the {@link ActionResponses} used when notifying {@link Player}s about {@link Action}s occurring within
+	 * sight of the {@link Character}s controlled by the {@link Player}.
 	 *
-	 * @param character The {@link Character} who entered the {@link Room}.
-	 * @param room      The {@link Room} the {@link Character} entered.
-	 * @param door      The {@link Door} the {@link Character} entered through.
+	 * @return The {@link ActionResponses} used when notifying {@link Player}s about {@link Action}s occurring within
+	 * sight of the {@link Character}s controlled by the {@link Player}.
 	 */
-	void onCharacterEntersRoom(Character character, Room room, Door door);
-
-	/**
-	 * Event for when a {@link Character} from another {@link Faction} exits a {@link Room}.
-	 *
-	 * @param character The {@link Character} who exited the {@link Room}.
-	 * @param room      The {@link Room} the {@link Character} exited.
-	 * @param door      The {@link Door} the {@link Character} exited through.
-	 */
-	void onCharacterExistsRoom(Character character, Room room, Door door);
-
-	/**
-	 * Event for when a {@link Character} is attacked using an {@link AttackAction}.
-	 *
-	 * @param character The {@link Character} who was attacked.
-	 * @param action    The {@link AttackAction} instance.
-	 */
-	void onCharacterAttacked(Character character, AttackAction action);
+	ActionResponses getSecondaryActionResponses();
 }

@@ -1,8 +1,9 @@
 package textadventure.rooms;
 
 import com.google.common.collect.ImmutableSet;
-import textadventure.AbstractProperty;
+import textadventure.BaseProperty;
 import textadventure.characters.Character;
+import textadventure.characters.InspectRoomAction;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
 /**
  * An implementation of the {@link Room} interface.
  */
-public class BaseRoom extends AbstractProperty implements Room
+public class BaseRoom extends BaseProperty implements Room
 {
 
 	/**
@@ -48,6 +49,7 @@ public class BaseRoom extends AbstractProperty implements Room
 		this.floor = floor;
 
 		putProperty(floor);
+		putActionFactory(InspectRoomAction.class, InspectRoomAction::new);
 	}
 
 	/**

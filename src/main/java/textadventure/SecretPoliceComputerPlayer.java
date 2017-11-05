@@ -2,12 +2,16 @@ package textadventure;
 
 import com.google.common.collect.ImmutableList;
 import textadventure.actions.ActionRequestCallback;
+import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
 import textadventure.characters.*;
 import textadventure.combat.AttackAction;
 import textadventure.combat.Escapees;
 import textadventure.combat.Faction;
-import textadventure.doors.*;
+import textadventure.doors.CloseDoorAction;
+import textadventure.doors.InspectDoorAction;
+import textadventure.doors.OpenDoorAction;
+import textadventure.doors.UseDoorAction;
 import textadventure.highscore.HighScoreResponse;
 import textadventure.highscore.Outcome;
 import textadventure.items.backpack.ExpandBackpackAction;
@@ -17,13 +21,16 @@ import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.Room;
-import textadventure.ui.Option;
-import textadventure.ui.Select;
+import textadventure.select.*;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+import static textadventure.highscore.Outcome.WIN;
 
 /**
- * Implementation of the {@link Player} interface, controlled by an AI.
+ * An implementation of the {@link Player} interface that can play the side of the
+ * {@link textadventure.combat.SecretPolice} {@link Faction}.
  */
 public class SecretPoliceComputerPlayer implements Player
 {
@@ -48,6 +55,11 @@ public class SecretPoliceComputerPlayer implements Player
 			"Joon Jun",
 			"Su-Bin Il-Seong",
 	};
+
+	/**
+	 * The {@link Character}s controlled by the {@link SecretPoliceComputerPlayer}.
+	 */
+	private Set<Character> characters = new HashSet<>();
 
 	/**
 	 * Events called when the {@link Player} should create their {@link Character}s.
@@ -84,7 +96,7 @@ public class SecretPoliceComputerPlayer implements Player
 	 */
 	@Override public void onCharacterCreation(Character character)
 	{
-
+		characters.add(character);
 	}
 
 	/**
@@ -124,23 +136,18 @@ public class SecretPoliceComputerPlayer implements Player
 	 */
 	@Override public void onHighScoreRequest(int score, Outcome outcome, HighScoreResponse response)
 	{
-		response.respond(true, "Computer");
+		response.respond(outcome == WIN, "Computer");
 	}
 
 	/**
 	 * Event for when an {@link textadventure.actions.Action}
 	 *
 	 * @param character The {@link Character} that the {@link Player} should chose an {@link textadventure.actions.Action} for.
-	 * @param relations The relations between {@link Property} instances and {@link textadventure.actions.Action} instances.
 	 * @param callback  The callback to use for returning an {@link textadventure.actions.Action}.
 	 */
-	@Override public void onActionRequest(Character character, Relations relations, ActionRequestCallback callback)
+	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
 	{
-		try {
-			callback.respond(new ArrayList<>(), NothingAction.class);
-		} catch (Exception e) {
-			throw new IllegalStateException();
-		}
+
 	}
 
 	/**
@@ -156,41 +163,6 @@ public class SecretPoliceComputerPlayer implements Player
 		} catch (CharacterAlreadyPlayedException e) {
 			throw new IllegalStateException(e);
 		}
-	}
-
-	/**
-	 * Event for when a {@link Character} enter a {@link Room}.
-	 *
-	 * @param character The {@link Character} who entered the {@link Room}.
-	 * @param room      The {@link Room} the {@link Character} entered.
-	 * @param door      The {@link Door} the {@link Character} entered through.
-	 */
-	@Override public void onCharacterEntersRoom(Character character, Room room, Door door)
-	{
-
-	}
-
-	/**
-	 * Event for when a {@link Character} exits a {@link Room}.
-	 *
-	 * @param character The {@link Character} who exited the {@link Room}.
-	 * @param room      The {@link Room} the {@link Character} exited.
-	 * @param door      The {@link Door} the {@link Character} exited through.
-	 */
-	@Override public void onCharacterExistsRoom(Character character, Room room, Door door)
-	{
-
-	}
-
-	/**
-	 * Event for when a {@link Character} is attacked using an {@link AttackAction}.
-	 *
-	 * @param character The {@link Character} who was attacked.
-	 * @param action    The {@link AttackAction} instance.
-	 */
-	@Override public void onCharacterAttacked(Character character, AttackAction action)
-	{
-
 	}
 
 	/**
@@ -321,6 +293,28 @@ public class SecretPoliceComputerPlayer implements Player
 	 * @param action    The {@link UseDoorAction} instance.
 	 */
 	@Override public void onUseDoorAction(Character character, UseDoorAction action)
+	{
+
+	}
+
+	/**
+	 * Event when a {@link Character} exists a {@link Room} using the {@link UseDoorAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link UseDoorAction}.
+	 * @param action    The {@link UseDoorAction} instance.
+	 */
+	@Override public void onUseDoorExit(Character character, UseDoorAction action)
+	{
+
+	}
+
+	/**
+	 * Event when a {@link Character} enters a {@link Room} using the {@link UseDoorAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link UseDoorAction}.
+	 * @param action    The {@link UseDoorAction} instance.
+	 */
+	@Override public void onUseDoorEntered(Character character, UseDoorAction action)
 	{
 
 	}
@@ -479,8 +473,180 @@ public class SecretPoliceComputerPlayer implements Player
 
 	}
 
+	/**
+	 * Event when a {@link Character} performs the {@link TransferItemsAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link TransferItemsAction}.
+	 * @param action    The {@link TransferItemsAction} instance.
+	 */
 	@Override public void onTransferItemAction(Character character, TransferItemsAction action)
 	{
 
 	}
+
+	/**
+	 * Returns the {@link ActionResponses} used when notifying {@link Player}s about
+	 * {@link textadventure.actions.Action}s occurring within sight of the {@link Character}s controlled by the {@link Player}.
+	 *
+	 * @return The {@link ActionResponses} used when notifying {@link Player}s about
+	 * {@link textadventure.actions.Action}s occurring within sight of the {@link Character}s controlled by the {@link Player}.
+	 */
+	@Override public ActionResponses getSecondaryActionResponses()
+	{
+		return secondaryActionResponses;
+	}
+
+	/**
+	 * The {@link ActionResponses} instance receiving notifications about {@link textadventure.actions.Action}s
+	 * occurring within the sight of any {@link Character}s controlled by the {@link SecretPoliceComputerPlayer}.
+	 */
+	private final ActionResponses secondaryActionResponses = new ActionResponses()
+	{
+
+		@Override
+		public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
+		{
+
+		}
+
+		@Override public void onEscapeAction(Character character, EscapeAction action)
+		{
+
+		}
+
+		@Override public void onAttackAction(Character character, AttackAction action)
+		{
+
+		}
+
+		@Override public void onCharacterInformationAction(Character character, CharacterInformationAction action)
+		{
+
+		}
+
+		@Override public void onUseItemsAction(Character character, UseItemsAction action)
+		{
+
+		}
+
+		@Override public void onUseItemsOnAction(Character character, UseItemsOnAction action)
+		{
+
+		}
+
+		@Override public void onEquipAction(Character character, EquipAction action)
+		{
+
+		}
+
+		@Override public void onUnEquipAction(Character character, UnEquipAction action)
+		{
+
+		}
+
+		@Override public void onInspectRoomAction(Character character, InspectRoomAction action)
+		{
+
+		}
+
+		@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
+		{
+
+		}
+
+		@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
+		{
+
+		}
+
+		@Override public void onCloseDoorAction(Character character, CloseDoorAction action)
+		{
+
+		}
+
+		@Override public void onUseDoorAction(Character character, UseDoorAction action)
+		{
+
+		}
+
+		@Override public void onUseDoorExit(Character character, UseDoorAction action)
+		{
+
+		}
+
+		@Override public void onUseDoorEntered(Character character, UseDoorAction action)
+		{
+
+		}
+
+		@Override public void onInspectDoorAction(Character character, InspectDoorAction action)
+		{
+
+		}
+
+		@Override public void onLockLockAction(Character character, LockLockAction action)
+		{
+
+		}
+
+		@Override public void onUnlockLockAction(Character character, UnlockLockAction action)
+		{
+
+		}
+
+		@Override public void onInspectLockAction(Character character, InspectLockAction action)
+		{
+
+		}
+
+		@Override public void onOpenChestAction(Character character, OpenChestAction action)
+		{
+
+		}
+
+		@Override public void onCloseChestAction(Character character, CloseChestAction action)
+		{
+
+		}
+
+		@Override public void onInspectChestAction(Character character, InspectChestAction action)
+		{
+
+		}
+
+		@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
+		{
+
+		}
+
+		@Override public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
+		{
+
+		}
+
+		@Override public void onInspectBackpackAction(Character character, InspectBackpackAction action)
+		{
+
+		}
+
+		@Override public void onExpandBackpackAction(Character character, ExpandBackpackAction action)
+		{
+
+		}
+
+		@Override public void onDropItemAction(Character character, DropItemAction action)
+		{
+
+		}
+
+		@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+		{
+
+		}
+
+		@Override public void onTransferItemAction(Character character, TransferItemsAction action)
+		{
+
+		}
+	};
 }

@@ -1,19 +1,19 @@
 package textadventure.combat;
 
 import com.google.common.collect.ImmutableList;
-import textadventure.GameState;
+import textadventure.Game;
 import textadventure.Player;
 import textadventure.characters.Character;
 import textadventure.rooms.Room;
 
 public class SomeFaction implements Faction
 {
-	@Override public boolean hasWon(GameState state)
+	@Override public boolean hasWon(Game state)
 	{
 		return false;
 	}
 
-	@Override public boolean hasLost(GameState state)
+	@Override public boolean hasLost(Game state)
 	{
 		return false;
 	}

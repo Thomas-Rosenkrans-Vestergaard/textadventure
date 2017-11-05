@@ -9,7 +9,7 @@ import textadventure.characters.SomeCharacter;
 import textadventure.items.weapons.Weapon;
 import textadventure.rooms.Room;
 import textadventure.rooms.SomeRoom;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -36,12 +36,12 @@ public class AttackActionTest
 				return 20;
 			}
 
-			@Override public String getItemTypeName()
+			@Override public String getWeaponName()
 			{
 				return null;
 			}
 
-			@Override public String getItemTypeDescription()
+			@Override public String getWeaponDescription()
 			{
 				return null;
 			}

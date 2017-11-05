@@ -7,7 +7,7 @@ import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
 import textadventure.characters.SomeCharacter;
 import textadventure.items.backpack.Backpack;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.same;

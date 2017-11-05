@@ -12,7 +12,7 @@ import textadventure.items.SomeItem;
 import textadventure.items.SomeTypedItem;
 import textadventure.items.backpack.Backpack;
 import textadventure.lock.Lock;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.same;

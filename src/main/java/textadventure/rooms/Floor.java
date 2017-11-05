@@ -1,11 +1,14 @@
 package textadventure.rooms;
 
+import com.google.common.collect.ImmutableMap;
+import textadventure.BaseProperty;
 import textadventure.Property;
+import textadventure.UnknownActionException;
 import textadventure.UnknownPropertyException;
+import textadventure.actions.Action;
+import textadventure.actions.ActionFactory;
+import textadventure.characters.InspectFloorAction;
 import textadventure.items.BaseInventory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Represents an {@link textadventure.items.Inventory} containing {@link textadventure.items.Item}s on the ground.
@@ -13,7 +16,10 @@ import java.util.Map;
 public class Floor extends BaseInventory implements Property
 {
 
-	private Map<Class<? extends Property>, Property> properties = new HashMap<>();
+	/**
+	 * The {@link BaseProperty} instance the {@link Floor} delegates methods to.
+	 */
+	private BaseProperty property = new BaseProperty();
 
 	/**
 	 * Creates a new {@link Floor}.
@@ -21,6 +27,56 @@ public class Floor extends BaseInventory implements Property
 	public Floor()
 	{
 		super();
+
+		putActionFactory(InspectFloorAction.class, InspectFloorAction::new);
+	}
+
+	/**
+	 * Inserts a new {@link ActionFactory} for a provided {@link Action} type.
+	 *
+	 * @param action  The type of {@link Action} to insert the {@link ActionFactory} for.
+	 * @param factory The {@link ActionFactory}.
+	 */
+	@Override public void putActionFactory(Class<? extends Action> action, ActionFactory factory)
+	{
+		property.putActionFactory(action, factory);
+	}
+
+	/**
+	 * Checks whether or not the {@link Property} contains an {@link ActionFactory} that can produce instances of the
+	 * provided type of {@link Action}.
+	 *
+	 * @param action The type of {@link Action} to check for.
+	 * @return True if the {@link Property} has an {@link ActionFactory} that can produce instance of the provided
+	 * type of {@link Action}. Returns false if no such {@link ActionFactory} exists.
+	 */
+	@Override public boolean hasActionFactory(Class<? extends Action> action)
+	{
+		return property.hasActionFactory(action);
+	}
+
+	/**
+	 * Creates a new {@link Action} from the provided type.
+	 *
+	 * @param action The type of {@link Action} to create.
+	 * @return The newly created {@link Action}.
+	 * @throws UnknownActionException When no {@link ActionFactory} exists that can create the {@link Action} of the provided type.
+	 */
+	@Override public Action getAction(Class<? extends Action> action) throws UnknownActionException
+	{
+		return property.getAction(action);
+	}
+
+	/**
+	 * Returns the {@link ActionFactory} instances in the {@link Property} mapped to the type of {@link Action} the
+	 * {@link ActionFactory} produces.
+	 *
+	 * @return The {@link ActionFactory} instances in the {@link Property} mapped to the type of {@link Action} the
+	 * {@link ActionFactory} produces.
+	 */
+	@Override public ImmutableMap<Class<? extends Action>, ActionFactory> getActions()
+	{
+		return property.getActions();
 	}
 
 	/**
@@ -30,7 +86,7 @@ public class Floor extends BaseInventory implements Property
 	 */
 	@Override public void putProperty(Property property)
 	{
-		properties.put(property.getClass(), property);
+		this.property.putProperty(property);
 	}
 
 	/**
@@ -40,10 +96,17 @@ public class Floor extends BaseInventory implements Property
 	 */
 	@Override public <T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException
 	{
-		if (!properties.containsKey(type))
-			throw new UnknownPropertyException(this.getClass(), type);
+		return property.getProperty(type);
+	}
 
-		return type.cast(properties.get(type));
+	/**
+	 * Returns an {@link ImmutableMap} of {@link Property} instances inside the {@link Property}.
+	 *
+	 * @return The {@link ImmutableMap} of {@link Property} instances inside the {@link Property}.
+	 */
+	@Override public ImmutableMap<Class<? extends Property>, Property> getProperties()
+	{
+		return property.getProperties();
 	}
 
 	/**
@@ -54,6 +117,6 @@ public class Floor extends BaseInventory implements Property
 	 */
 	@Override public boolean hasProperty(Class<? extends Property> type)
 	{
-		return properties.containsKey(type);
+		return property.hasProperty(type);
 	}
 }

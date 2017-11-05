@@ -6,7 +6,7 @@ import textadventure.actions.ActionResponses;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
 import textadventure.characters.SomeCharacter;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

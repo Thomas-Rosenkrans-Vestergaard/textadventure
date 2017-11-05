@@ -42,6 +42,8 @@ public class OpenChestAction extends ChestAction
 				setException(e);
 			} finally {
 				responses.onOpenChestAction(character, this);
+				alertOtherPlayers(character.getCurrentLocation(), character.getFaction().getLeader(),
+						secondaryResponses -> responses.onOpenChestAction(character, this));
 				return;
 			}
 		}

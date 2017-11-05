@@ -2,7 +2,7 @@ package textadventure.items;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import textadventure.ui.Option;
+import textadventure.select.Option;
 
 import java.util.Stack;
 

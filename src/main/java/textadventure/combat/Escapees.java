@@ -41,6 +41,16 @@ public class Escapees extends AbstractFaction
 	}
 
 	/**
+	 * Returns the name of the {@link Faction}.
+	 *
+	 * @return The name of the {@link Faction}.
+	 */
+	@Override public String getName()
+	{
+		return "Escapees";
+	}
+
+	/**
 	 * Returns the {@link Room} from where {@link Escapees} can escape the {@link Game}.
 	 *
 	 * @return The {@link Room} from where {@link Escapees} can escape the {@link Game}.

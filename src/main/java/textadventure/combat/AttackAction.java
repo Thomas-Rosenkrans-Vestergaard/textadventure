@@ -11,7 +11,7 @@ import textadventure.items.Item;
 import textadventure.items.weapons.Weapon;
 import textadventure.rooms.Floor;
 import textadventure.rooms.Room;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 import java.util.*;
 
@@ -47,14 +47,12 @@ public class AttackAction extends AbstractAction
 
 		if (options.size() == 0) {
 			setException(new NoTargetsException());
-			responses.onAttackAction(character, this);
 			return;
 		}
 
 		for (Option<Character> characterOption : options) {
 			if (characterOption.getT().getFaction() == faction) {
 				setException(new FriendlyTargetException(character, characterOption.getT()));
-				responses.onAttackAction(character, this);
 				return;
 			}
 		}
@@ -66,7 +64,6 @@ public class AttackAction extends AbstractAction
 					Character characterT = characterOption.getT();
 					this.targets.add(characterT);
 					this.damageDone.put(characterT, characterT.takeDamage(weapon));
-					responses.onAttackAction(characterT, this);
 
 					if (characterT.getStatus() == Character.Status.DEAD) {
 						Floor       floor = currentLocation.getRoomFloor();
@@ -87,6 +84,8 @@ public class AttackAction extends AbstractAction
 			setException(e);
 		} finally {
 			responses.onAttackAction(character, this);
+			alertOtherPlayers(currentLocation, character.getFaction().getLeader(),
+					secondaryResponses -> responses.onAttackAction(character, this));
 		}
 	}
 

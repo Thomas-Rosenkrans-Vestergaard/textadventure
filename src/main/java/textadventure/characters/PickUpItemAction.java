@@ -7,10 +7,10 @@ import textadventure.actions.ActionResponses;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.rooms.Floor;
-import textadventure.ui.BaseSelect;
-import textadventure.ui.Option;
-import textadventure.ui.Select;
-import textadventure.ui.SelectResponseException;
+import textadventure.select.BaseSelect;
+import textadventure.select.Option;
+import textadventure.select.Select;
+import textadventure.select.SelectResponseException;
 
 import java.util.ArrayList;
 import java.util.List;

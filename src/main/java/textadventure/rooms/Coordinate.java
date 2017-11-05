@@ -5,10 +5,12 @@ package textadventure.rooms;
  */
 public class Coordinate
 {
+
 	/**
 	 * The position on the x-axis of the {@link Coordinate}
 	 */
 	private int x;
+
 	/**
 	 * The position on the y-axis of the {@link Coordinate}
 	 */
@@ -58,6 +60,16 @@ public class Coordinate
 		return this.y;
 	}
 
+	/**
+	 * Returns a string representation of the {@link Coordinate}.
+	 *
+	 * @return The string representation of the {@link Coordinate}
+	 */
+	@Override public String toString()
+	{
+		return String.format("(%d,%d)", x, y);
+	}
+
 	@Override public boolean equals(Object o)
 	{
 		if (this == o) return true;
@@ -74,15 +86,5 @@ public class Coordinate
 		int result = x;
 		result = 31 * result + y;
 		return result;
-	}
-
-	/**
-	 * Returns a string representation of the {@link Coordinate}.
-	 *
-	 * @return The string representation of the {@link Coordinate}
-	 */
-	@Override public String toString()
-	{
-		return String.format("(%d,%d)", x, y);
 	}
 }

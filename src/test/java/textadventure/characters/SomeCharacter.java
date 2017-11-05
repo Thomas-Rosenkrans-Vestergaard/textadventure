@@ -2,7 +2,10 @@ package textadventure.characters;
 
 import com.google.common.collect.ImmutableMap;
 import textadventure.Property;
+import textadventure.UnknownActionException;
+import textadventure.UnknownPropertyException;
 import textadventure.actions.Action;
+import textadventure.actions.ActionFactory;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.combat.HealingSource;
@@ -255,33 +258,43 @@ public class SomeCharacter implements Character
 		return this.status;
 	}
 
-	@Override public void addProperty(String propertyName, Property property)
+	@Override public void putActionFactory(Class<? extends Action> action, ActionFactory factory)
 	{
 
 	}
 
-	@Override public Property getProperty(String name)
+	@Override public boolean hasActionFactory(Class<? extends Action> action)
+	{
+		return false;
+	}
+
+	@Override public Action getAction(Class<? extends Action> action) throws UnknownActionException
 	{
 		return null;
 	}
 
-	@Override public ImmutableMap<String, Property> getProperties()
-	{
-		return null;
-	}
-
-	@Override public void addAction(String name, Action action)
+	@Override public void putProperty(Property property)
 	{
 
 	}
 
-	@Override public Action getAction(String name)
+	@Override public ImmutableMap<Class<? extends Action>, ActionFactory> getActions()
 	{
 		return null;
 	}
 
-	@Override public ImmutableMap<String, Action> getActions()
+	@Override public ImmutableMap<Class<? extends Property>, Property> getProperties()
 	{
 		return null;
+	}
+
+	@Override public <T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException
+	{
+		return null;
+	}
+
+	@Override public boolean hasProperty(Class<? extends Property> type)
+	{
+		return false;
 	}
 }

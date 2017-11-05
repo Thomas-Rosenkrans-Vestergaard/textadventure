@@ -13,19 +13,19 @@ import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 public interface ActionResponses
 {
 
 	/**
 	 * Event for when a {@link textadventure.Player} is required to {@link Select} between one or more
-	 * {@link textadventure.ui.Option}s.
+	 * {@link textadventure.select.Option}s.
 	 *
 	 * @param select The {@link Select}.
 	 * @throws SelectionAmountException When too few or too many elements were selected.
 	 * @throws UnknownIndexException    When a selected element were not contained is the list of possibilities.
-	 * @throws SelectResponseException  When an exception occurs from the provided {@link textadventure.ui.Select.SelectResponse}.
+	 * @throws SelectResponseException  When an exception occurs from the provided {@link textadventure.select.Select.SelectResponse}.
 	 * @throws UnknownOptionException   When a selected element were not contained is the list of possibilities.
 	 */
 	void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException;
@@ -126,6 +126,22 @@ public interface ActionResponses
 	 * @param action    The {@link UseDoorAction} instance.
 	 */
 	void onUseDoorAction(Character character, UseDoorAction action);
+
+	/**
+	 * Event when a {@link Character} exists a {@link textadventure.rooms.Room} using the {@link UseDoorAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link UseDoorAction}.
+	 * @param action    The {@link UseDoorAction} instance.
+	 */
+	void onUseDoorExit(Character character, UseDoorAction action);
+
+	/**
+	 * Event when a {@link Character} enters a {@link textadventure.rooms.Room} using the {@link UseDoorAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link UseDoorAction}.
+	 * @param action    The {@link UseDoorAction} instance.
+	 */
+	void onUseDoorEntered(Character character, UseDoorAction action);
 
 	/**
 	 * Event when a {@link Character} performs the {@link InspectDoorAction}.
@@ -231,5 +247,11 @@ public interface ActionResponses
 	 */
 	void onPickUpItemAction(Character character, PickUpItemAction action);
 
+	/**
+	 * Event when a {@link Character} performs the {@link TransferItemsAction}.
+	 *
+	 * @param character The {@link Character} who performed the {@link TransferItemsAction}.
+	 * @param action    The {@link TransferItemsAction} instance.
+	 */
 	void onTransferItemAction(Character character, TransferItemsAction action);
 }

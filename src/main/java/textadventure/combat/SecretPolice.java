@@ -23,6 +23,16 @@ public class SecretPolice extends AbstractFaction
 	}
 
 	/**
+	 * Returns the name of the {@link Faction}.
+	 *
+	 * @return The name of the {@link Faction}.
+	 */
+	@Override public String getName()
+	{
+		return "Secret police";
+	}
+
+	/**
 	 * Checks if the {@link Faction} has won the {@link Game}.
 	 *
 	 * @param state The {@link Game} instance.

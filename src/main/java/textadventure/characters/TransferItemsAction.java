@@ -8,14 +8,28 @@ import textadventure.combat.Faction;
 import textadventure.items.Item;
 import textadventure.items.backpack.Backpack;
 import textadventure.rooms.Room;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransferItemsAction extends AbstractAction
 {
+
+	/**
+	 * The {@link Item}s transferred from the source {@link Character} to the target {@link Character}.
+	 */
 	private List<Item> items = new ArrayList<>();
+
+	/**
+	 * The source of the {@link Item} transfer.
+	 */
+	private Character source;
+
+	/**
+	 * The destination of the {@link Item} transfer.
+	 */
+	private Character destination;
 
 	/**
 	 * Performs the {@link TransferItemsAction} using the provided arguments.
@@ -26,6 +40,7 @@ public class TransferItemsAction extends AbstractAction
 	@Override public void perform(Character character, ActionResponses responses)
 	{
 
+		this.source = character;
 		Backpack                        backpack         = character.getBackpack();
 		Faction                         faction          = character.getFaction();
 		Room                            currentLocation  = character.getCurrentLocation();
@@ -36,17 +51,20 @@ public class TransferItemsAction extends AbstractAction
 			Select<Character> characterSelect = new BaseSelect<>(characterOptions, 1, characterSelection -> {
 				ImmutableSet<Option<Item>> options = backpack.asOptions();
 				Select<Item> itemSelect = new BaseSelect<>(options, selection -> {
-					Backpack target = characterSelection.get(0).getT().getBackpack();
-						for (Option option : selection) {
-							int  position = option.getOptionIndex();
-							Item item     = backpack.getItem(position);
-							target.addItem(item);
-							backpack.takeItem(position);
-							this.items.add(item);
-						}
+					this.destination = characterSelection.get(0).getT();
+					Backpack target = destination.getBackpack();
+					for (Option option : selection) {
+						int  position = option.getOptionIndex();
+						Item item     = backpack.getItem(position);
+						target.addItem(item);
+						backpack.takeItem(position);
+						this.items.add(item);
+					}
 				});
+
 				responses.select(itemSelect);
 			});
+
 			responses.select(characterSelect);
 
 		} catch (SelectResponseException e) {
@@ -79,4 +97,23 @@ public class TransferItemsAction extends AbstractAction
 		return ImmutableList.copyOf(items);
 	}
 
+	/**
+	 * Returns the source of the {@link Item} transfer.
+	 *
+	 * @return The source of the {@link Item} transfer.
+	 */
+	public Character getSource()
+	{
+		return this.source;
+	}
+
+	/**
+	 * Returns the destination of the {@link Item} transfer.
+	 *
+	 * @return The destination of the {@link Item} transfer.
+	 */
+	public Character getDestination()
+	{
+		return this.destination;
+	}
 }

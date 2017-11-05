@@ -10,6 +10,13 @@ public interface Faction
 {
 
 	/**
+	 * Returns the name of the {@link Faction}.
+	 *
+	 * @return The name of the {@link Faction}.
+	 */
+	String getName();
+
+	/**
 	 * Checks if the {@link Faction} has won the {@link Game}.
 	 *
 	 * @param state The {@link Game} instance.

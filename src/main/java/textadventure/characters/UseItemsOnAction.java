@@ -7,7 +7,7 @@ import textadventure.combat.Faction;
 import textadventure.items.EnemyUsableItem;
 import textadventure.items.FriendlyUsableItem;
 import textadventure.items.UsableItem;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +44,14 @@ public class UseItemsOnAction extends AbstractAction
 			Select<UsableItem> itemSelect = new BaseSelect<>(itemOptions, 1, itemSelection -> {
 				this.item = itemSelection.get(0).getT();
 				ImmutableSet<Option<Character>> characterOptions = getOptions(character, item);
-				Select<Character> characterSelect = new BaseSelect<>(characterOptions, characterSelection -> {
-					for (Option<Character> targetOption : characterSelection) {
-						Character target = targetOption.getT();
-						item.use(target);
-						targets.add(target);
-					}
-				});
+				Select<Character> characterSelect = new BaseSelect<>(characterOptions, 1, item.getNumberOfUsesLeft(),
+						characterSelection -> {
+							for (Option<Character> targetOption : characterSelection) {
+								Character target = targetOption.getT();
+								item.use(target);
+								targets.add(target);
+							}
+						});
 
 				responses.select(characterSelect);
 			});

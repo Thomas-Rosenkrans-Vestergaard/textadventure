@@ -6,7 +6,7 @@ import textadventure.actions.ActionResponses;
 import textadventure.actions.SomeActionResponses;
 import textadventure.items.UsableItem;
 import textadventure.items.backpack.Backpack;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 import static org.mockito.Matchers.same;
 

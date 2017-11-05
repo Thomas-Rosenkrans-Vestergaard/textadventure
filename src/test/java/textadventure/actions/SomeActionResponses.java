@@ -13,7 +13,7 @@ import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 public class SomeActionResponses implements ActionResponses
 {
@@ -39,6 +39,11 @@ public class SomeActionResponses implements ActionResponses
 	}
 
 	@Override public void onUseItemsAction(Character character, UseItemsAction action)
+	{
+
+	}
+
+	@Override public void onUseItemsOnAction(Character character, UseItemsOnAction action)
 	{
 
 	}

@@ -1,7 +1,6 @@
 package textadventure.items.weapons;
 
 import textadventure.items.EquipableItem;
-import textadventure.items.Item;
 
 public class Knife extends AbstractEdgedWeapon implements StabWeapon, EdgedWeapon, EquipableItem, WeaponItem
 {

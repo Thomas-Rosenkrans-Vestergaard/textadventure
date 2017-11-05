@@ -4,27 +4,20 @@ import com.google.common.collect.ImmutableList;
 import textadventure.actions.Action;
 import textadventure.characters.*;
 import textadventure.characters.Character;
-import textadventure.combat.AttackAction;
 import textadventure.combat.Faction;
 import textadventure.doors.*;
-import textadventure.highscore.HighScoreReader;
-import textadventure.highscore.Score;
+import textadventure.items.BandAid;
+import textadventure.items.Gauze;
 import textadventure.items.Money;
-import textadventure.items.backpack.Backpack;
-import textadventure.items.backpack.ExpandBackpackAction;
-import textadventure.items.backpack.InspectBackpackAction;
 import textadventure.items.chest.*;
-import textadventure.items.medical.BandAid;
-import textadventure.items.medical.Gauze;
 import textadventure.items.weapons.*;
 import textadventure.items.wearables.*;
 import textadventure.lock.*;
-import textadventure.rooms.*;
-import textadventure.ui.GameInterface;
+import textadventure.rooms.BaseRoom;
+import textadventure.rooms.Coordinate;
+import textadventure.rooms.Room;
+import textadventure.rooms.RoomController;
 
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.nio.file.Paths;
 import java.util.*;
 
 import static textadventure.doors.Door.State.CLOSED;
@@ -56,16 +49,9 @@ public class Game
 	private List<Faction> factions = new ArrayList<>();
 
 	/**
-	 * The current location of the {@link Character}s in the {@link Game}.
-	 */
-	private Map<Character, Room> currentLocation;
-
-	/**
 	 * The {@link Room}s that form the playable area in the {@link Game}.
 	 */
 	private RoomController rooms = new RoomController();
-
-	private Relations relations = new Relations();
 
 	/**
 	 * The {@link GameInterface} to use for input-output.
@@ -78,85 +64,6 @@ public class Game
 			throw new IllegalArgumentException("numberOfCharacters must be positive.");
 
 		this.numberOfCharacters = numberOfCharacters;
-
-		relations.addActionRelation(Character.class, CharacterInformationAction.class);
-		relations.addActionRelation(Character.class, DropItemAction.class);
-		relations.addActionRelation(Character.class, EquipAction.class);
-		relations.addActionRelation(Character.class, EscapeAction.class);
-		relations.addActionRelation(Character.class, UnEquipAction.class);
-		relations.addActionRelation(Character.class, PickUpItemAction.class);
-		relations.addActionRelation(Character.class, UseItemsAction.class);
-		relations.addActionRelation(Character.class, UseItemsOnAction.class);
-		relations.addActionRelation(Character.class, AttackAction.class);
-
-		relations.addActionRelation(Floor.class, InspectFloorAction.class);
-		relations.addActionRelation(Room.class, InspectRoomAction.class);
-
-		relations.addActionRelation(NorthDoor.class, OpenDoorAction.class);
-		relations.addActionRelation(NorthDoor.class, CloseDoorAction.class);
-		relations.addActionRelation(NorthDoor.class, InspectDoorAction.class);
-		relations.addActionRelation(NorthDoor.class, UseDoorAction.class);
-
-		relations.addActionRelation(SouthDoor.class, OpenDoorAction.class);
-		relations.addActionRelation(SouthDoor.class, CloseDoorAction.class);
-		relations.addActionRelation(SouthDoor.class, InspectDoorAction.class);
-		relations.addActionRelation(SouthDoor.class, UseDoorAction.class);
-
-		relations.addActionRelation(EastDoor.class, OpenDoorAction.class);
-		relations.addActionRelation(EastDoor.class, CloseDoorAction.class);
-		relations.addActionRelation(EastDoor.class, InspectDoorAction.class);
-		relations.addActionRelation(EastDoor.class, UseDoorAction.class);
-
-		relations.addActionRelation(WestDoor.class, OpenDoorAction.class);
-		relations.addActionRelation(WestDoor.class, CloseDoorAction.class);
-		relations.addActionRelation(WestDoor.class, InspectDoorAction.class);
-		relations.addActionRelation(WestDoor.class, UseDoorAction.class);
-
-		relations.addActionRelation(Backpack.class, InspectBackpackAction.class);
-		relations.addActionRelation(Backpack.class, ExpandBackpackAction.class);
-
-		relations.addActionRelation(Chest.class, OpenChestAction.class);
-		relations.addActionRelation(Chest.class, CloseChestAction.class);
-		relations.addActionRelation(Chest.class, DepositItemsIntoChestAction.class);
-		relations.addActionRelation(Chest.class, TakeItemFromChestAction.class);
-		relations.addActionRelation(Chest.class, InspectChestAction.class);
-
-		relations.addActionRelation(Lock.class, LockLockAction.class);
-		relations.addActionRelation(Lock.class, UnlockLockAction.class);
-		relations.addActionRelation(Lock.class, InspectLockAction.class);
-
-		relations.addActionRelation(Chest.class, LockLockAction.class);
-		relations.addActionRelation(Chest.class, UnlockLockAction.class);
-		relations.addActionRelation(Chest.class, InspectLockAction.class);
-
-		relations.addActionRelation(NorthDoor.class, LockLockAction.class);
-		relations.addActionRelation(NorthDoor.class, UnlockLockAction.class);
-		relations.addActionRelation(NorthDoor.class, InspectLockAction.class);
-
-		relations.addActionRelation(SouthDoor.class, LockLockAction.class);
-		relations.addActionRelation(SouthDoor.class, UnlockLockAction.class);
-		relations.addActionRelation(SouthDoor.class, InspectLockAction.class);
-
-		relations.addActionRelation(EastDoor.class, LockLockAction.class);
-		relations.addActionRelation(EastDoor.class, UnlockLockAction.class);
-		relations.addActionRelation(EastDoor.class, InspectLockAction.class);
-
-		relations.addActionRelation(WestDoor.class, LockLockAction.class);
-		relations.addActionRelation(WestDoor.class, UnlockLockAction.class);
-		relations.addActionRelation(WestDoor.class, InspectLockAction.class);
-
-		relations.addPropertyRelation(BaseCharacter.class, Room.class);
-		relations.addPropertyRelation(Room.class, NorthDoor.class);
-		relations.addPropertyRelation(Room.class, SouthDoor.class);
-		relations.addPropertyRelation(Room.class, EastDoor.class);
-		relations.addPropertyRelation(Room.class, WestDoor.class);
-		relations.addPropertyRelation(Room.class, Chest.class);
-		relations.addPropertyRelation(BaseCharacter.class, Backpack.class);
-		relations.addPropertyRelation(NorthDoor.class, Lock.class);
-		relations.addPropertyRelation(SouthDoor.class, Lock.class);
-		relations.addPropertyRelation(EastDoor.class, Lock.class);
-		relations.addPropertyRelation(WestDoor.class, Lock.class);
-		relations.addPropertyRelation(Chest.class, Lock.class);
 
 		Room  room;
 		Chest chest;
@@ -403,17 +310,6 @@ public class Game
 	}
 
 	/**
-	 * Returns the current position of the provided {@link Character}.
-	 *
-	 * @param character The current position of the provided {@link Character}.
-	 * @return The current position of the provided {@link Character}.
-	 */
-	public Room getCurrentLocation(Character character)
-	{
-		return this.currentLocation.get(character);
-	}
-
-	/**
 	 * Adds the provided {@link Player} to the {@link Game}.
 	 *
 	 * @param faction The {@link Faction} the {@link Player} plays for.
@@ -461,21 +357,6 @@ public class Game
 	}
 
 	/**
-	 * Returns an {@link ImmutableList]} of the high-scores declared in the high-score file.
-	 *
-	 * @return The {@link ImmutableList]} of the high-scores declared in the high-score file.
-	 */
-	public ImmutableList<Score> getHighscores()
-	{
-		try {
-			HighScoreReader reader = new HighScoreReader(Paths.get("scores.txt"));
-			return ImmutableList.copyOf(reader.read());
-		} catch (IOException e) {
-			return ImmutableList.of();
-		}
-	}
-
-	/**
 	 * Starts the {@link Game}.
 	 */
 	public void start()
@@ -499,7 +380,7 @@ public class Game
 	/**
 	 * Plays out the turn of the next {@link Player}.
 	 */
-	private void handleNext(Faction faction)
+	private void handleNextFaction(Faction faction)
 	{
 		ImmutableList<Faction> factions = this.getFactions();
 		int                    index    = factions.indexOf(faction);
@@ -529,48 +410,19 @@ public class Game
 			factions.remove(faction);
 		}
 
-		faction.getLeader().onNextCharacter(ImmutableList.copyOf(characters), new CharacterSelectionCallback()
+		CharacterSelectionCallback selectionCallback = new CharacterSelectionCallback()
 		{
 
 			@Override public void next(Character character) throws CharacterAlreadyPlayedException
 			{
-				faction.getLeader().onActionRequest(character, relations, (properties, action) -> {
-
-					Class<? extends Property> currentPropertyType = Character.class;
-					Property                  currentProperty     = character;
-					for (Class<? extends Property> propertyType : properties) {
-						if (!relations.hasPropertyRelation(currentPropertyType, propertyType))
-							throw new UnknownPropertyException(currentPropertyType, propertyType);
-						currentPropertyType = propertyType;
-						currentProperty = currentProperty.getProperty(propertyType);
-					}
-
-					if (!relations.hasActionRelation(currentPropertyType, action))
-						throw new UnknownActionException(currentPropertyType, action);
-
-					Constructor<? extends Action> constructor;
-					Action                        instance;
-
-					try {
-						try {
-							constructor = action.getConstructor(currentPropertyType);
-							instance = constructor.newInstance(currentProperty);
-						} catch (NoSuchMethodException e) {
-							constructor = action.getConstructor();
-							instance = constructor.newInstance();
-						}
-
-						instance.perform(character, character.getFaction().getLeader());
-					} catch (Exception e) {
-						throw new IllegalStateException(e);
-					}
-
+				faction.getLeader().onActionRequest(character, action -> {
+					action.perform(character, character.getFaction().getLeader());
 					List<Character> nextCharacters = new ArrayList<>();
 					nextCharacters.addAll(characters);
 					nextCharacters.remove(character);
 
 					if (nextCharacters.size() == 0) {
-						handleNext(faction);
+						handleNextFaction(faction);
 						return;
 					}
 
@@ -580,9 +432,17 @@ public class Game
 
 			@Override public void skip()
 			{
-				handleNext(faction);
+				handleNextFaction(faction);
 			}
-		});
+		};
+		try {
+			if (characters.size() == 1)
+				selectionCallback.next(characters.get(0));
+			else
+				faction.getLeader().onNextCharacter(ImmutableList.copyOf(characters), selectionCallback);
+		} catch (CharacterAlreadyPlayedException e) {
+			faction.getLeader().onNextCharacter(ImmutableList.copyOf(characters), selectionCallback);
+		}
 	}
 
 	/**
@@ -598,44 +458,6 @@ public class Game
 	private static Door doorFactory(Door.State state, Lock lock, Room roomA, Room roomB)
 	{
 		return new BaseDoor(state, lock, roomA, roomB);
-	}
-
-	/**
-	 * Creates a new {@link Room} with a provided {@link Floor}.
-	 *
-	 * @param name        The name of the {@link Room}
-	 * @param description The description of the {@link Room}.
-	 * @param floor       The {@link Floor} of the {@link Room}.
-	 * @return The newly created {@link Room}.
-	 */
-	private static Room roomFactory(String name, String description, Floor floor)
-	{
-		return new BaseRoom(name, description, floor);
-	}
-
-	/**
-	 * Creates a new {@link Room}.
-	 *
-	 * @param name        The name of the {@link Room}
-	 * @param description The description of the {@link Room}.
-	 * @return The newly created {@link Room}.
-	 */
-	private static Room roomFactory(String name, String description)
-	{
-		return roomFactory(name, description, new Floor());
-	}
-
-	/**
-	 * Creates a new {@link BaseDoor} with the {@link OpenDoorAction}, {@link CloseDoorAction},
-	 * {@link UseDoorAction}, {@link InspectDoorAction}, {@link LockLockAction}, {@link UnlockLockAction}.
-	 *
-	 * @param state The {@link textadventure.doors.Door.State} that the {@link Door} is in.
-	 * @param lock  The {@link Lock} placed on the {@link Door}.
-	 * @return The newly created instance of {@link BaseDoor}.
-	 */
-	private static Door doorFactory(Door.State state, Lock lock)
-	{
-		return doorFactory(state, lock, null, null);
 	}
 
 	/**

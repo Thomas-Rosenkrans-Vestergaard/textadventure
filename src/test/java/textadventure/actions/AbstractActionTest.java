@@ -5,6 +5,7 @@ import textadventure.characters.Character;
 
 public class AbstractActionTest
 {
+
 	@Test
 	public void testAbstractAction() throws Exception
 	{

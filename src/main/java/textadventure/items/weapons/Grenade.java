@@ -1,7 +1,6 @@
 package textadventure.items.weapons;
 
 import textadventure.items.EquipableItem;
-import textadventure.items.Item;
 
 public class Grenade extends AbstractSplashWeapon implements SplashWeapon, EquipableItem, WeaponItem
 {

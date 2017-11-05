@@ -229,9 +229,9 @@ public interface Character extends Property
 	}
 
 	/**
-	 * Returns the life status of the character
+	 * Returns the {@link Status} of the {@link Character}.
 	 *
-	 * @return if the character is dead or alive
+	 * @return The {@link Status} of the {@link Character}.
 	 */
 	Status getStatus();
 }

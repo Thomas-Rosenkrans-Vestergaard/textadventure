@@ -225,12 +225,12 @@ public class CharacterInformationTest
 				return 0;
 			}
 
-			@Override public String getItemTypeName()
+			@Override public String getWeaponName()
 			{
 				return null;
 			}
 
-			@Override public String getItemTypeDescription()
+			@Override public String getWeaponDescription()
 			{
 				return null;
 			}

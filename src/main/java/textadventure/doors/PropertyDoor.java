@@ -1,13 +1,15 @@
 package textadventure.doors;
 
-import textadventure.AbstractProperty;
+import textadventure.BaseProperty;
 import textadventure.lock.Lock;
+import textadventure.lock.LockLockAction;
+import textadventure.lock.UnlockLockAction;
 import textadventure.rooms.Room;
 
 /**
  * Represents an intersection between a {@link textadventure.Property} and a {@link Door}.
  */
-public abstract class PropertyDoor extends AbstractProperty implements Door
+public abstract class PropertyDoor extends BaseProperty implements Door
 {
 
 	/**
@@ -24,7 +26,15 @@ public abstract class PropertyDoor extends AbstractProperty implements Door
 	{
 		this.door = door;
 
-		putProperty(door.getLock());
+		Lock lock = getLock();
+
+		putActionFactory(CloseDoorAction.class, () -> new CloseDoorAction(this));
+		putActionFactory(OpenDoorAction.class, () -> new OpenDoorAction(this));
+		putActionFactory(InspectDoorAction.class, () -> new InspectDoorAction(this));
+		putActionFactory(UseDoorAction.class, () -> new UseDoorAction(this));
+
+		putActionFactory(LockLockAction.class, () -> new LockLockAction(lock));
+		putActionFactory(UnlockLockAction.class, () -> new UnlockLockAction(lock));
 	}
 
 	/**

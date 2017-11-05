@@ -1,6 +1,10 @@
 package textadventure.characters;
 
-import textadventure.AbstractProperty;
+import com.google.common.collect.ImmutableMap;
+import textadventure.BaseProperty;
+import textadventure.Property;
+import textadventure.UnknownPropertyException;
+import textadventure.combat.AttackAction;
 import textadventure.combat.DamageSource;
 import textadventure.combat.Faction;
 import textadventure.combat.HealingSource;
@@ -15,7 +19,7 @@ import java.awt.*;
 /**
  * The default implementation of the {@link Character} interface.
  */
-public class BaseCharacter extends AbstractProperty implements Character
+public class BaseCharacter extends BaseProperty implements Character
 {
 
 	/**
@@ -159,6 +163,9 @@ public class BaseCharacter extends AbstractProperty implements Character
 	 */
 	private int money;
 
+	/**
+	 * The {@link textadventure.characters.Character.Status} of the {@link Character}.
+	 */
 	private Status status;
 
 	/**
@@ -259,10 +266,61 @@ public class BaseCharacter extends AbstractProperty implements Character
 				DEFAULT_MONEY
 		);
 
-		character.putProperty(backpack);
-		character.putProperty(room);
+		room.addCharacter(character);
+
+		character.putActionFactory(DropItemAction.class, DropItemAction::new);
+		character.putActionFactory(PickUpItemAction.class, PickUpItemAction::new);
+		character.putActionFactory(CharacterInformationAction.class, CharacterInformationAction::new);
+		character.putActionFactory(AttackAction.class, AttackAction::new);
+		character.putActionFactory(EquipAction.class, EquipAction::new);
+		character.putActionFactory(UnEquipAction.class, UnEquipAction::new);
+		character.putActionFactory(NothingAction.class, NothingAction::new);
+		character.putActionFactory(UseItemsAction.class, UseItemsAction::new);
+		character.putActionFactory(UseItemsOnAction.class, UseItemsOnAction::new);
+		character.putActionFactory(TransferItemsAction.class, TransferItemsAction::new);
+		character.putActionFactory(EscapeAction.class, EscapeAction::new);
 
 		return character;
+	}
+
+	/**
+	 * Returns an {@link ImmutableMap} of {@link Property} instances inside the {@link Property}.
+	 *
+	 * @return The {@link ImmutableMap} of {@link Property} instances inside the {@link Property}.
+	 */
+	@Override public ImmutableMap<Class<? extends Property>, Property> getProperties()
+	{
+		return new ImmutableMap.Builder<Class<? extends Property>, Property>()
+				.putAll(super.getProperties())
+				.put(backpack.getClass(), backpack)
+				.put(currentLocation.getClass(), currentLocation)
+				.build();
+	}
+
+	/**
+	 * Returns the {@link Property} of the provided type.
+	 *
+	 * @param type The type of the {@link Property} to return.
+	 */
+	@Override public <T extends Property> T getProperty(Class<T> type) throws UnknownPropertyException
+	{
+		ImmutableMap<Class<? extends Property>, Property> properties = getProperties();
+
+		if (!properties.containsKey(type))
+			throw new UnknownPropertyException(this, type);
+
+		return type.cast(properties.get(type));
+	}
+
+	/**
+	 * Checks if the {@link Property} has a child {@link Property} of the provided type.
+	 *
+	 * @param type The type of the child property to check for.
+	 * @return True if the child property of the provided type exists. Returns false otherwise.
+	 */
+	@Override public boolean hasProperty(Class<? extends Property> type)
+	{
+		return getProperties().containsKey(type);
 	}
 
 	/**

@@ -38,6 +38,8 @@ public class CloseDoorAction extends DoorAction
 			setException(e);
 		} finally {
 			responses.onCloseDoorAction(character, this);
+			alertOtherPlayers(character.getCurrentLocation(), character.getFaction().getLeader(),
+					secondaryResponses -> responses.onCloseDoorAction(character, this));
 		}
 	}
 }

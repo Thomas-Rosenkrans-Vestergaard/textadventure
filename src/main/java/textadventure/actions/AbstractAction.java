@@ -1,7 +1,11 @@
 package textadventure.actions;
 
+import textadventure.Player;
 import textadventure.characters.Character;
+import textadventure.rooms.Room;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -80,5 +84,25 @@ public abstract class AbstractAction implements Action
 	@Override public boolean hasException()
 	{
 		return hasException(Exception.class);
+	}
+
+	/**
+	 * Allows an {@link Action} to notify the other {@link Player}s in the provided {@link Room}.
+	 *
+	 * @param room     The {@link Room} where the other {@link Player}s should be notified.
+	 * @param player   The {@link Player} controlling the {@link Character} who performed the {@link Action}. The
+	 *                 provided consumer is not called with this {@link Player}.
+	 * @param consumer The {@link Consumer} receiving the {@link ActionResponses} retrieved from the
+	 *                 {@link Player#getSecondaryActionResponses()}.
+	 */
+	public void alertOtherPlayers(Room room, Player player, Consumer<ActionResponses> consumer)
+	{
+		List<Player> alerted = new ArrayList<>();
+		alerted.add(player);
+		for (Character x : room.getCharacters())
+			if (!alerted.contains(player)) {
+				consumer.accept(x.getFaction().getLeader().getSecondaryActionResponses());
+				alerted.add(player);
+			}
 	}
 }

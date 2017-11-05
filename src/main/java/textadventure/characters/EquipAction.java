@@ -10,7 +10,7 @@ import textadventure.items.NotEquipableException;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +121,8 @@ public class EquipAction extends AbstractAction
 			setException(e);
 		} finally {
 			responses.onEquipAction(character, this);
+			alertOtherPlayers(character.getCurrentLocation(), character.getFaction().getLeader(),
+					secondaryResponses -> responses.onEquipAction(character, this));
 		}
 	}
 

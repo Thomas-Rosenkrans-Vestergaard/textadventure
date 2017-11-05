@@ -9,7 +9,7 @@ import textadventure.items.wearables.HeadWear;
 import textadventure.items.wearables.TorsoWear;
 import textadventure.rooms.BaseRoom;
 import textadventure.rooms.Room;
-import textadventure.ui.*;
+import textadventure.select.*;
 
 import java.awt.*;
 import java.util.ArrayList;

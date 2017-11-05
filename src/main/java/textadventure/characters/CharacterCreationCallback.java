@@ -1,5 +1,6 @@
 package textadventure.characters;
 
+import textadventure.GameInterface;
 import textadventure.Player;
 
 @FunctionalInterface
@@ -13,7 +14,7 @@ public interface CharacterCreationCallback
 	 * @throws CharacterNameTakenException  When one of the names of the created {@link Character} was already taken
 	 *                                      by another {@link Player}.
 	 * @throws IncompleteCharacterException When a {@link Character} was not created correctly.
-	 * @throws TooManyCharactersException   When the {@link textadventure.ui.GameInterface} provided one too many
+	 * @throws TooManyCharactersException   When the {@link GameInterface} provided one too many
 	 *                                      {@link Character}s.
 	 */
 	void respond(CharacterCreationTemplate character) throws CharacterNameTakenException, IncompleteCharacterException, TooManyCharactersException;

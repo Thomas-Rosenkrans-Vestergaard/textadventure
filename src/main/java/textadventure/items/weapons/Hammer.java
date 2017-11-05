@@ -2,7 +2,6 @@ package textadventure.items.weapons;
 
 import textadventure.characters.Character;
 import textadventure.items.EquipableItem;
-import textadventure.items.Item;
 
 public class Hammer extends AbstractBluntWeapon implements BluntWeapon, EquipableItem, WeaponItem
 {

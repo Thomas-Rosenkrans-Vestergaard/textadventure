@@ -1,11 +1,13 @@
 package textadventure.characters;
 
 import com.google.common.collect.ImmutableSet;
+import textadventure.Property;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
 import textadventure.rooms.Room;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -22,6 +24,11 @@ public class InspectRoomAction extends AbstractAction
 	private Set<Character> characters = new HashSet<>();
 
 	/**
+	 * The {@link Property} instances inside the {@link Room} the {@link InspectRoomAction} was performed on.
+	 */
+	private Set<Class<? extends Property>> properties = new HashSet<>();
+
+	/**
 	 * Performs the {@link InspectRoomAction} using the provided arguments.
 	 *
 	 * @param character The {@link Character} performing the {@link InspectRoomAction}.
@@ -29,9 +36,14 @@ public class InspectRoomAction extends AbstractAction
 	 */
 	public void perform(Character character, ActionResponses responses)
 	{
+		System.out.println(character.getCurrentLocation().getCharacters().size());
+
 		for (Character c : character.getCurrentLocation().getCharacters())
 			if (c != character)
 				characters.add(c);
+
+		for (Map.Entry<Class<? extends Property>, Property> entry : character.getCurrentLocation().getProperties().entrySet())
+			properties.add(entry.getKey());
 
 		responses.onInspectRoomAction(character, this);
 	}
@@ -46,5 +58,15 @@ public class InspectRoomAction extends AbstractAction
 	public ImmutableSet<Character> getCharacters()
 	{
 		return ImmutableSet.copyOf(characters);
+	}
+
+	/**
+	 * Returns the {@link Property} instances inside the {@link Room} the {@link InspectRoomAction} was performed on.
+	 *
+	 * @return The {@link Property} instances inside the {@link Room} the {@link InspectRoomAction} was performed on.
+	 */
+	public ImmutableSet<Class<? extends Property>> getProperties()
+	{
+		return ImmutableSet.copyOf(properties);
 	}
 }

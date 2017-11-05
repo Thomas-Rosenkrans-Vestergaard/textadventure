@@ -4,11 +4,14 @@ import com.google.common.collect.ImmutableSet;
 import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
 import textadventure.items.backpack.Backpack;
-import textadventure.ui.BaseSelect;
-import textadventure.ui.Option;
-import textadventure.ui.Select;
-import textadventure.ui.SelectResponseException;
+import textadventure.select.BaseSelect;
+import textadventure.select.Option;
+import textadventure.select.Select;
+import textadventure.select.SelectResponseException;
 
+/**
+ * {@link textadventure.actions.Action} allowing a {@link Character} to {@link Lock#unlock(Key)} a {@link Lock}.
+ */
 public class UnlockLockAction extends LockAction
 {
 

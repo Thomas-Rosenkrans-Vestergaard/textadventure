@@ -37,6 +37,8 @@ public class OpenDoorAction extends DoorAction
 			setException(e);
 		} finally {
 			responses.onOpenDoorAction(character, this);
+			alertOtherPlayers(character.getCurrentLocation(), character.getFaction().getLeader(),
+					secondaryResponses -> responses.onOpenDoorAction(character, this));
 		}
 	}
 }

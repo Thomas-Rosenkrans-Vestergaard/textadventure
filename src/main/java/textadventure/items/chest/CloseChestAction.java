@@ -43,6 +43,8 @@ public class CloseChestAction extends ChestAction
 				setException(e);
 			} finally {
 				responses.onCloseChestAction(character, this);
+				alertOtherPlayers(character.getCurrentLocation(), character.getFaction().getLeader(),
+						secondaryResponses -> responses.onCloseChestAction(character, this));
 				return;
 			}
 		}

@@ -1,11 +1,11 @@
 package textadventure.lock;
 
-import textadventure.AbstractProperty;
+import textadventure.BaseProperty;
 
 import static textadventure.lock.Lock.State.LOCKED;
 import static textadventure.lock.Lock.State.UNLOCKED;
 
-public class Lock extends AbstractProperty
+public class Lock extends BaseProperty
 {
 
 	/**
@@ -47,6 +47,10 @@ public class Lock extends AbstractProperty
 	{
 		this.code = code;
 		this.state = state;
+
+		putActionFactory(LockLockAction.class, () -> new LockLockAction(this));
+		putActionFactory(UnlockLockAction.class, () -> new UnlockLockAction(this));
+		putActionFactory(InspectLockAction.class, () -> new InspectLockAction(this));
 	}
 
 	/**

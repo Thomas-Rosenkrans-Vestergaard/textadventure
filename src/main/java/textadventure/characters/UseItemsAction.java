@@ -5,10 +5,10 @@ import com.google.common.collect.ImmutableSet;
 import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
 import textadventure.items.UsableItem;
-import textadventure.ui.BaseSelect;
-import textadventure.ui.Option;
-import textadventure.ui.Select;
-import textadventure.ui.SelectResponseException;
+import textadventure.select.BaseSelect;
+import textadventure.select.Option;
+import textadventure.select.Select;
+import textadventure.select.SelectResponseException;
 
 import java.util.ArrayList;
 import java.util.List;

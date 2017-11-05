@@ -15,6 +15,16 @@ public class UseDoorAction extends DoorAction
 {
 
 	/**
+	 * The {@link Room} the {@link Character} started in.
+	 */
+	private Room initialRoom;
+
+	/**
+	 * The {@link Room} the {@link Character} ended in.
+	 */
+	private Room targetRoom;
+
+	/**
 	 * Creates a new {@link UseDoorAction}.
 	 *
 	 * @param door The {@link Door} to be used.
@@ -37,6 +47,9 @@ public class UseDoorAction extends DoorAction
 		Room       targetRoom  = door.getInverseRoom(currentRoom);
 		Door.State state       = door.getState();
 
+		this.initialRoom = currentRoom;
+		this.targetRoom = targetRoom;
+
 		if (!currentRoom.hasCharacter(character))
 			throw new IllegalStateException();
 
@@ -55,5 +68,25 @@ public class UseDoorAction extends DoorAction
 		}
 
 		responses.onUseDoorAction(character, this);
+	}
+
+	/**
+	 * Returns the {@link Room} the {@link Character} started in.
+	 *
+	 * @return The {@link Room} the {@link Character} started in.
+	 */
+	public Room getInitialRoom()
+	{
+		return this.initialRoom;
+	}
+
+	/**
+	 * Returns the {@link Room} the {@link Character} ended in.
+	 *
+	 * @return The {@link Room} the {@link Character} ended in.
+	 */
+	public Room getTargetRoom()
+	{
+		return this.targetRoom;
 	}
 }

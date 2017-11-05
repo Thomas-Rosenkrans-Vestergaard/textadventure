@@ -1,9 +1,11 @@
 package textadventure.characters;
 
+import textadventure.GameInterface;
+
 /**
  * Used when creating new {@link Character}s using the
  * <p>
- * {@link textadventure.ui.GameInterface#onCharacterCreation(Character)} method.
+ * {@link GameInterface#onCharacterCreation(Character)} method.
  */
 public class CharacterCreationTemplate
 {

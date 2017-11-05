@@ -1,7 +1,6 @@
 package textadventure.items.weapons;
 
 import textadventure.combat.DamageSource;
-import textadventure.items.EquipableItem;
 
 /**
  * Represents a type of {@link Weapon} damage

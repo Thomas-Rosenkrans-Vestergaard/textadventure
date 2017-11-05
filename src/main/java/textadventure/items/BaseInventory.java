@@ -2,8 +2,8 @@ package textadventure.items;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import textadventure.ui.BaseOption;
-import textadventure.ui.Option;
+import textadventure.select.BaseOption;
+import textadventure.select.Option;
 
 import java.util.HashMap;
 import java.util.Map;
