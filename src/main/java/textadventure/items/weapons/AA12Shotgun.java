@@ -4,7 +4,7 @@ package textadventure.items.weapons;
 import textadventure.items.EquipableItem;
 
 
-public class AA12Shotgun extends AbstractProjectileWeapon implements ProjectileWeapon, EquipableItem , WeaponItem
+public class AA12Shotgun extends AbstractProjectileWeapon implements ProjectileWeapon, EquipableItem, WeaponItem
 {
 
 	/**

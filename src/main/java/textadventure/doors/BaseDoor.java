@@ -114,16 +114,6 @@ public class BaseDoor implements Door
 	}
 
 	/**
-	 * Returns the other {@link Room}s the {@link Door} connects.
-	 *
-	 * @return The other {@link Room}s the {@link Door} connects.
-	 */
-	@Override public Room getRoomB()
-	{
-		return roomB;
-	}
-
-	/**
 	 * Sets one of the {@link Room}s the {@link Door} connects.
 	 *
 	 * @param a One of the {@link Room}s the {@link Door} connects.
@@ -131,6 +121,16 @@ public class BaseDoor implements Door
 	@Override public void setRoomA(Room a)
 	{
 		this.roomA = a;
+	}
+
+	/**
+	 * Returns the other {@link Room}s the {@link Door} connects.
+	 *
+	 * @return The other {@link Room}s the {@link Door} connects.
+	 */
+	@Override public Room getRoomB()
+	{
+		return roomB;
 	}
 
 	/**

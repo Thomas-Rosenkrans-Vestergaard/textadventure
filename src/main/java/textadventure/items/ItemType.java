@@ -2,7 +2,7 @@ package textadventure.items;
 
 /**
  * An {@link ItemType} represents a type of {@link Item}. {@link ItemType}s are compared using the
- * {@link ItemType#instanceOf(Item)} method. Implementations of this interface must override the
+ * {@link ItemType#instanceOf(ItemType)} method. Implementations of this interface must override the
  * {@link Object#hashCode()} method.
  */
 public interface ItemType

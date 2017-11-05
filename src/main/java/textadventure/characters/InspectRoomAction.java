@@ -36,8 +36,6 @@ public class InspectRoomAction extends AbstractAction
 	 */
 	public void perform(Character character, ActionResponses responses)
 	{
-		System.out.println(character.getCurrentLocation().getCharacters().size());
-
 		for (Character c : character.getCurrentLocation().getCharacters())
 			if (c != character)
 				characters.add(c);

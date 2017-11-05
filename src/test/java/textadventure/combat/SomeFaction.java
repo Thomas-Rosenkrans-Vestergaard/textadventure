@@ -8,6 +8,11 @@ import textadventure.rooms.Room;
 
 public class SomeFaction implements Faction
 {
+	@Override public String getName()
+	{
+		return null;
+	}
+
 	@Override public boolean hasWon(Game state)
 	{
 		return false;
@@ -20,12 +25,24 @@ public class SomeFaction implements Faction
 
 	@Override public ImmutableList<Character> getCharacters(Character.Status status)
 	{
-		return null;
+		return ImmutableList.of();
 	}
+
+	@Override public ImmutableList<Character> getActiveCharacters()
+	{
+		return ImmutableList.of();
+	}
+
+	private Player player;
 
 	@Override public Player getLeader()
 	{
-		return null;
+		return player;
+	}
+
+	public void setPlayer(Player player)
+	{
+		this.player = player;
 	}
 
 	@Override public Room getStartingRoom()
@@ -55,6 +72,6 @@ public class SomeFaction implements Faction
 
 	@Override public ImmutableList<Character> getCharacters()
 	{
-		return null;
+		return ImmutableList.of();
 	}
 }

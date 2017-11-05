@@ -2,7 +2,9 @@ package textadventure.characters;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import textadventure.SomePlayer;
 import textadventure.actions.SomeActionResponses;
+import textadventure.combat.SomeFaction;
 import textadventure.items.SomeItem;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.wearables.HeadWear;
@@ -75,8 +77,11 @@ public class EquipActionTest
 		Backpack     backpack = new Backpack();
 		SomeHeadWear headWear = new SomeHeadWear();
 		backpack.addItem(headWear);
-		Room          currentLocation = new BaseRoom(null, null);
-		SomeCharacter character       = new SomeCharacter();
+		Room        currentLocation = new BaseRoom(null, null);
+		SomeFaction faction         = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
+		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
 		character.setBackpack(backpack);
 		character.setCurrentLocation(currentLocation);
 
@@ -111,8 +116,11 @@ public class EquipActionTest
 		Backpack backpack = new Backpack();
 		backpack.addItem(new SomeItem());
 		backpack.addItem(new SomeItem());
-		Room          currentLocation = new BaseRoom(null, null);
-		SomeCharacter character       = new SomeCharacter();
+		Room        currentLocation = new BaseRoom(null, null);
+		SomeFaction faction         = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
+		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
 		character.setBackpack(backpack);
 		character.setCurrentLocation(currentLocation);
 

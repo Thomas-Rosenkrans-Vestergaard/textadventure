@@ -51,46 +51,18 @@ public interface Character extends Property
 	HeadWear getHeadWear();
 
 	/**
-	 * Returns the {@link TorsoWear} worn by the {@link Character}.
-	 *
-	 * @return The {@link TorsoWear} worn by the {@link Character}.
-	 */
-	TorsoWear getTorsoWear();
-
-	/**
-	 * Returns the {@link Gloves} worn by the {@link Character}.
-	 *
-	 * @return The {@link Gloves} worn by the {@link Character}.
-	 */
-	Gloves getGloves();
-
-	/**
-	 * Returns the {@link Gloves} worn by the {@link Character}.
-	 *
-	 * @return The {@link Gloves} worn by the {@link Character}.
-	 */
-	Pants getPants();
-
-	/**
-	 * Returns the {@link Boots} worn by the {@link Character}.
-	 *
-	 * @return The {@link Boots} worn by the {@link Character}.
-	 */
-	Boots getBoots();
-
-	/**
-	 * return the {@link Weapon} equipped by the {@link Character}
-	 *
-	 * @return The {@link Weapon} equipped by the {@link Character}
-	 */
-	Weapon getWeapon();
-
-	/**
 	 * Sets the {@link HeadWear} worn by the {@link Character}.
 	 *
 	 * @param headWear The {@link HeadWear} to set.
 	 */
 	void setHeadWear(HeadWear headWear);
+
+	/**
+	 * Returns the {@link TorsoWear} worn by the {@link Character}.
+	 *
+	 * @return The {@link TorsoWear} worn by the {@link Character}.
+	 */
+	TorsoWear getTorsoWear();
 
 	/**
 	 * Sets the {@link TorsoWear} worn by the {@link Character}.
@@ -100,11 +72,25 @@ public interface Character extends Property
 	void setTorsoWear(TorsoWear torsoWear);
 
 	/**
+	 * Returns the {@link Gloves} worn by the {@link Character}.
+	 *
+	 * @return The {@link Gloves} worn by the {@link Character}.
+	 */
+	Gloves getGloves();
+
+	/**
 	 * Sets the {@link Gloves} worn by the {@link Character}.
 	 *
 	 * @param gloves The {@link Gloves} to set.
 	 */
 	void setGloves(Gloves gloves);
+
+	/**
+	 * Returns the {@link Gloves} worn by the {@link Character}.
+	 *
+	 * @return The {@link Gloves} worn by the {@link Character}.
+	 */
+	Pants getPants();
 
 	/**
 	 * Sets the {@link Pants} worn by the {@link Character}.
@@ -114,11 +100,25 @@ public interface Character extends Property
 	void setPants(Pants pants);
 
 	/**
+	 * Returns the {@link Boots} worn by the {@link Character}.
+	 *
+	 * @return The {@link Boots} worn by the {@link Character}.
+	 */
+	Boots getBoots();
+
+	/**
 	 * Sets the {@link Boots} worn by the {@link Character}.
 	 *
 	 * @param boots The {@link Boots} to set.
 	 */
 	void setBoots(Boots boots);
+
+	/**
+	 * return the {@link Weapon} equipped by the {@link Character}
+	 *
+	 * @return The {@link Weapon} equipped by the {@link Character}
+	 */
+	Weapon getWeapon();
 
 	/**
 	 * Sets the {@link Weapon} equipped by the {@link Character}.
@@ -222,16 +222,16 @@ public interface Character extends Property
 	 */
 	int takeHealing(HealingSource healingSource);
 
-	enum Status
-	{
-		DEAD,
-		ALIVE,
-	}
-
 	/**
 	 * Returns the {@link Status} of the {@link Character}.
 	 *
 	 * @return The {@link Status} of the {@link Character}.
 	 */
 	Status getStatus();
+
+	enum Status
+	{
+		DEAD,
+		ALIVE,
+	}
 }

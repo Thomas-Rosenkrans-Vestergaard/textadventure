@@ -9,28 +9,10 @@ public class Lock extends BaseProperty
 {
 
 	/**
-	 * Represents the {@link State} of a {@link Lock}.
-	 */
-	public enum State
-	{
-
-		/**
-		 * The {@link Lock} is locked.
-		 */
-		LOCKED,
-
-		/**
-		 * The {@link Lock} is unlocked.
-		 */
-		UNLOCKED,
-	}
-
-	/**
 	 * The code representing the {@link Lock}. The {@link Lock} can only be opened by {@link Lock}s with a matching
 	 * code.
 	 */
 	private final String code;
-
 	/**
 	 * The {@link State} of the {@link Lock}.
 	 */
@@ -115,5 +97,22 @@ public class Lock extends BaseProperty
 	public State getState()
 	{
 		return this.state;
+	}
+
+	/**
+	 * Represents the {@link State} of a {@link Lock}.
+	 */
+	public enum State
+	{
+
+		/**
+		 * The {@link Lock} is locked.
+		 */
+		LOCKED,
+
+		/**
+		 * The {@link Lock} is unlocked.
+		 */
+		UNLOCKED,
 	}
 }

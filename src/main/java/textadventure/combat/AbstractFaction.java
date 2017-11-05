@@ -15,19 +15,17 @@ public abstract class AbstractFaction implements Faction
 {
 
 	/**
+	 * The {@link Character}s in the {@link Faction}.
+	 */
+	protected List<Character> characters = new ArrayList<>();
+	/**
 	 * The leader of the {@link Faction}.
 	 */
 	private Player leader;
-
 	/**
 	 * The {@link Room} where the {@link Faction} starts.
 	 */
 	private Room startingRoom;
-
-	/**
-	 * The {@link Character}s in the {@link Faction}.
-	 */
-	protected List<Character> characters = new ArrayList<>();
 
 	/**
 	 * Creates a new {@link Faction}.

@@ -1,8 +1,6 @@
-package textadventure.select;
+package textadventure;
 
 import com.google.common.collect.ImmutableList;
-import textadventure.Game;
-import textadventure.GameInterface;
 import textadventure.actions.ActionRequestCallback;
 import textadventure.actions.ActionResponses;
 import textadventure.characters.Character;
@@ -21,9 +19,15 @@ import textadventure.items.chest.*;
 import textadventure.lock.InspectLockAction;
 import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
+import textadventure.select.*;
 
-public class SomeGameInterface implements GameInterface
+public class SomePlayer implements Player
 {
+	@Override
+	public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
+	{
+
+	}
 
 	@Override
 	public void onCharactersCreate(int numberOfCharacters, CharacterCreationCallback creationCallback, FinishCharacterCreationCallback finishCallback)
@@ -61,13 +65,12 @@ public class SomeGameInterface implements GameInterface
 
 	}
 
-	@Override public void onEscapeAction(Character character, EscapeAction action)
+	@Override public ActionResponses getSecondaryActionResponses()
 	{
-
+		return null;
 	}
 
-	@Override
-	public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
+	@Override public void onEscapeAction(Character character, EscapeAction action)
 	{
 
 	}
@@ -205,10 +208,5 @@ public class SomeGameInterface implements GameInterface
 	@Override public void onTransferItemAction(Character character, TransferItemsAction action)
 	{
 
-	}
-
-	@Override public ActionResponses getSecondaryActionResponses()
-	{
-		return null;
 	}
 }

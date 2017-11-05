@@ -17,18 +17,6 @@ public class Coordinate
 	private int y;
 
 	/**
-	 * Returns a new {@link Coordinate} with x and y as parameters.
-	 *
-	 * @param x The x-value of the {@link Coordinate}.
-	 * @param y The y-value of the {@link Coordinate}.
-	 * @return A new {@link Coordinate} with x and y as parameters.
-	 */
-	public static Coordinate of(int x, int y)
-	{
-		return new Coordinate(x, y);
-	}
-
-	/**
 	 * Creates a new {@link Coordinate}.
 	 *
 	 * @param x The x-value of the {@link Coordinate}.
@@ -38,6 +26,18 @@ public class Coordinate
 	{
 		this.x = x;
 		this.y = y;
+	}
+
+	/**
+	 * Returns a new {@link Coordinate} with x and y as parameters.
+	 *
+	 * @param x The x-value of the {@link Coordinate}.
+	 * @param y The y-value of the {@link Coordinate}.
+	 * @return A new {@link Coordinate} with x and y as parameters.
+	 */
+	public static Coordinate of(int x, int y)
+	{
+		return new Coordinate(x, y);
 	}
 
 	/**

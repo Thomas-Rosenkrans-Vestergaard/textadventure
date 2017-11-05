@@ -15,6 +15,9 @@ import textadventure.lock.LockLockAction;
 import textadventure.lock.UnlockLockAction;
 import textadventure.select.*;
 
+/**
+ * The interface containing response methods for {@link Action}s.
+ */
 public interface ActionResponses
 {
 

@@ -21,32 +21,11 @@ public class Chest extends BaseInventory implements Property
 	/**
 	 * The {@link State} of the {@link Chest}.
 	 */
-	public enum State
-	{
-
-		/**
-		 * The {@link Chest} is open. {@link Character}s can therefor perform {@link DepositItemsIntoChestAction},
-		 * {@link TakeItemFromChestAction} and {@link InspectChestAction} on the {@link Chest}.
-		 */
-		OPEN,
-
-		/**
-		 * The {@link Chest} is closed. @link Character}s can therefor not perform {@link DepositItemsIntoChestAction},
-		 * {@link TakeItemFromChestAction} and {@link InspectChestAction} on the {@link Chest}.
-		 */
-		CLOSED
-	}
-
-	/**
-	 * The {@link State} of the {@link Chest}.
-	 */
 	private State state;
-
 	/**
 	 * The {@link Lock} on the {@link Chest}.
 	 */
 	private Lock lock;
-
 	/**
 	 * The {@link Property} the {@link Chest} delegates to.
 	 */
@@ -222,5 +201,24 @@ public class Chest extends BaseInventory implements Property
 	@Override public boolean hasProperty(Class<? extends Property> type)
 	{
 		return property.hasProperty(type);
+	}
+
+	/**
+	 * The {@link State} of the {@link Chest}.
+	 */
+	public enum State
+	{
+
+		/**
+		 * The {@link Chest} is open. {@link Character}s can therefor perform {@link DepositItemsIntoChestAction},
+		 * {@link TakeItemFromChestAction} and {@link InspectChestAction} on the {@link Chest}.
+		 */
+		OPEN,
+
+		/**
+		 * The {@link Chest} is closed. @link Character}s can therefor not perform {@link DepositItemsIntoChestAction},
+		 * {@link TakeItemFromChestAction} and {@link InspectChestAction} on the {@link Chest}.
+		 */
+		CLOSED
 	}
 }

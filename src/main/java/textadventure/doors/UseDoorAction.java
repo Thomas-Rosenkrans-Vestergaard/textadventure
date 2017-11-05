@@ -27,9 +27,9 @@ public class UseDoorAction extends DoorAction
 	/**
 	 * Creates a new {@link UseDoorAction}.
 	 *
-	 * @param door The {@link Door} to be used.
+	 * @param door The {@link PropertyDoor} to be used.
 	 */
-	public UseDoorAction(Door door)
+	public UseDoorAction(PropertyDoor door)
 	{
 		super(door);
 	}
@@ -62,9 +62,13 @@ public class UseDoorAction extends DoorAction
 		}
 
 		if (state == Door.State.OPEN) {
+			alertOtherPlayers(character.getCurrentLocation(), character.getFaction().getLeader(),
+					secondaryResponses -> responses.onUseDoorExit(character, this));
 			currentRoom.removeCharacter(character);
 			character.setCurrentLocation(targetRoom);
 			targetRoom.addCharacter(character);
+			alertOtherPlayers(character.getCurrentLocation(), character.getFaction().getLeader(),
+					secondaryResponses -> responses.onUseDoorExit(character, this));
 		}
 
 		responses.onUseDoorAction(character, this);

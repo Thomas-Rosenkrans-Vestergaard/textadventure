@@ -2,11 +2,13 @@ package textadventure.doors;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import textadventure.SomePlayer;
 import textadventure.actions.ActionResponses;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
 import textadventure.characters.SomeCharacter;
+import textadventure.combat.SomeFaction;
 import textadventure.lock.Lock;
 import textadventure.lock.MockLock;
 import textadventure.rooms.Room;
@@ -21,11 +23,15 @@ public class OpenDoorActionTest
 	@Test
 	public void perform() throws Exception
 	{
-		Lock      lock      = new MockLock(Lock.State.UNLOCKED);
-		Room      a         = new SomeRoom();
-		Room      b         = new SomeRoom();
-		Door      door      = new BaseDoor(Door.State.CLOSED, lock, a, b);
-		Character character = new SomeCharacter();
+		Lock         lock    = new MockLock(Lock.State.UNLOCKED);
+		Room         a       = new SomeRoom();
+		Room         b       = new SomeRoom();
+		PropertyDoor door    = new NorthDoor(new BaseDoor(Door.State.CLOSED, lock, a, b));
+		SomeFaction  faction = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
+		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
+		character.setCurrentLocation(a);
 
 		assertEquals(Door.State.CLOSED, door.getState());
 		OpenDoorAction action = new OpenDoorAction(door);
@@ -47,11 +53,15 @@ public class OpenDoorActionTest
 	@Test
 	public void performDoorAlreadyOpenException() throws Exception
 	{
-		Lock      lock      = new MockLock(Lock.State.UNLOCKED);
-		Room      a         = new SomeRoom();
-		Room      b         = new SomeRoom();
-		Door      door      = new BaseDoor(Door.State.OPEN, lock, a, b);
-		Character character = new SomeCharacter();
+		Lock         lock    = new MockLock(Lock.State.UNLOCKED);
+		Room         a       = new SomeRoom();
+		Room         b       = new SomeRoom();
+		PropertyDoor door    = new NorthDoor(new BaseDoor(Door.State.OPEN, lock, a, b));
+		SomeFaction  faction = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
+		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
+		character.setCurrentLocation(a);
 
 		assertEquals(Door.State.OPEN, door.getState());
 		OpenDoorAction action = new OpenDoorAction(door);
@@ -73,11 +83,15 @@ public class OpenDoorActionTest
 	@Test
 	public void performThrowsDoorLockedException() throws Exception
 	{
-		Lock      lock      = new MockLock(Lock.State.LOCKED);
-		Room      a         = new SomeRoom();
-		Room      b         = new SomeRoom();
-		Door      door      = new BaseDoor(Door.State.CLOSED, lock, a, b);
-		Character character = new SomeCharacter();
+		Lock         lock    = new MockLock(Lock.State.LOCKED);
+		Room         a       = new SomeRoom();
+		Room         b       = new SomeRoom();
+		PropertyDoor door    = new NorthDoor(new BaseDoor(Door.State.CLOSED, lock, a, b));
+		SomeFaction  faction = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
+		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
+		character.setCurrentLocation(a);
 
 		assertEquals(Door.State.CLOSED, door.getState());
 		OpenDoorAction action = new OpenDoorAction(door);

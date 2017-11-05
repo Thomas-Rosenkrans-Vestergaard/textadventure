@@ -34,7 +34,21 @@ public interface Faction
 	 */
 	boolean hasLost(Game state);
 
+	/**
+	 * Returns an {@link ImmutableList} of the {@link Character}s with the provided
+	 * {@link textadventure.characters.Character.Status}.
+	 *
+	 * @param status The {@link textadventure.characters.Character.Status} of the {@link Character}s to return.
+	 * @return The {@link Character}s with the provided {@link textadventure.characters.Character.Status}.
+	 */
 	ImmutableList<Character> getCharacters(Character.Status status);
+
+	/**
+	 * Returns the {@link Character}s that can still be played.
+	 *
+	 * @return The {@link Character}s that can still be played.
+	 */
+	ImmutableList<Character> getActiveCharacters();
 
 	/**
 	 * Returns the {@link Player} leading the {@link Faction}.

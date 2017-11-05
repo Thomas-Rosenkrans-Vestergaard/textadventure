@@ -20,11 +20,11 @@ public class InspectDoorActionTest
 	@Test
 	public void perform() throws Exception
 	{
-		Lock      lock      = new MockLock(Lock.State.UNLOCKED);
-		Room      a         = new SomeRoom();
-		Room      b         = new SomeRoom();
-		Door      door      = new BaseDoor(Door.State.OPEN, lock, a, b);
-		Character character = new SomeCharacter();
+		Lock         lock      = new MockLock(Lock.State.UNLOCKED);
+		Room         a         = new SomeRoom();
+		Room         b         = new SomeRoom();
+		PropertyDoor door      = new NorthDoor(new BaseDoor(Door.State.OPEN, lock, a, b));
+		Character    character = new SomeCharacter();
 
 		assertEquals(Door.State.OPEN, door.getState());
 		InspectDoorAction action = new InspectDoorAction(door);

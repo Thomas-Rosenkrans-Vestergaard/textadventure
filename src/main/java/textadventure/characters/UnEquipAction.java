@@ -5,7 +5,6 @@ import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
 import textadventure.items.EquipableItem;
 import textadventure.items.Item;
-import textadventure.items.NotEquipableException;
 import textadventure.items.weapons.Fists;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
@@ -100,8 +99,6 @@ public class UnEquipAction extends AbstractAction
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());
-		} catch (NotEnoughOptionsException e) {
-			setException(new NotEquipableException());
 		} catch (Exception e) {
 			setException(e);
 		} finally {

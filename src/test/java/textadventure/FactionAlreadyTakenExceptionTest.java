@@ -1,6 +1,8 @@
 package textadventure;
 
+import com.google.common.collect.ImmutableList;
 import org.junit.Test;
+import textadventure.characters.Character;
 import textadventure.combat.AbstractFaction;
 import textadventure.combat.Faction;
 
@@ -37,6 +39,16 @@ public class FactionAlreadyTakenExceptionTest
 		}
 
 		@Override public String getEndingMessageOnLoss()
+		{
+			return null;
+		}
+
+		@Override public String getName()
+		{
+			return null;
+		}
+
+		@Override public ImmutableList<Character> getActiveCharacters()
 		{
 			return null;
 		}

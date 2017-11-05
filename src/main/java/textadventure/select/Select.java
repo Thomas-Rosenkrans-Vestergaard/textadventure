@@ -13,22 +13,6 @@ public interface Select<T>
 {
 
 	/**
-	 * Response event called when the selected {@link Option}(s) have been validated.
-	 */
-	@FunctionalInterface
-	interface SelectResponse<T>
-	{
-
-		/**
-		 * Event invoked when the selected {@link Option}(s) have been validated.
-		 *
-		 * @param selection The selected {@link Option}(s).
-		 * @throws Exception When an exception occurs while handling the {@link SelectResponse}.
-		 */
-		void response(List<? extends Option<T>> selection) throws Exception;
-	}
-
-	/**
 	 * Returns the available {@link Option}s that can be selected.
 	 *
 	 * @return The available {@link Option}s that can be selected.
@@ -88,4 +72,20 @@ public interface Select<T>
 	 * @throws SelectResponseException  When an exception occurs from the provided {@link SelectResponse}.
 	 */
 	void selectOptions(List<Option<T>> selection) throws SelectionAmountException, UnknownOptionException, SelectResponseException;
+
+	/**
+	 * Response event called when the selected {@link Option}(s) have been validated.
+	 */
+	@FunctionalInterface
+	interface SelectResponse<T>
+	{
+
+		/**
+		 * Event invoked when the selected {@link Option}(s) have been validated.
+		 *
+		 * @param selection The selected {@link Option}(s).
+		 * @throws Exception When an exception occurs while handling the {@link SelectResponse}.
+		 */
+		void response(List<? extends Option<T>> selection) throws Exception;
+	}
 }

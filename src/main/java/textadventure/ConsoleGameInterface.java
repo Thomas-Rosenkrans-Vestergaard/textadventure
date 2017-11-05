@@ -31,44 +31,239 @@ import java.util.*;
 public class ConsoleGameInterface implements GameInterface
 {
 
-	public static void main(String[] args) throws Exception
-	{
-		try {
-			GameInterface  gameInterface  = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
-			Game           game           = new Game(1);
-			RoomController roomController = game.getRooms();
-			game.addFaction(new Escapees(new HumanPlayer(gameInterface), roomController.get(Coordinate.of(4, 1)),
-					roomController.get(Coordinate.of(4, 2))));
-			game.addFaction(new SecretPolice(new SecretPoliceComputerPlayer(), roomController.get(Coordinate.of(4, 5))));
-			game.start();
-		} catch (UnknownRoomException e) {
-			System.out.println(e.getCoordinate().getX());
-			System.out.println(e.getCoordinate().getY());
-		}
-	}
-
 	/**
 	 * The {@link Scanner} to use for console input.
 	 */
-	private Scanner scanner;
-
+	private Scanner     scanner;
 	/**
 	 * The {@link OutputStream} to use for console output.
 	 */
 	private PrintWriter printer;
-
-	private Map<Class<? extends Action>, String>   actionNames   = new HashMap<>();
-	private Map<Class<? extends Property>, String> propertyNames = new HashMap<>();
-
-	private void addAction(Class<? extends Action> type, String name)
+	private Map<Class<? extends Action>, String>                            actionNames              = new HashMap<>();
+	private Map<Class<? extends Property>, String>                          propertyNames            = new HashMap<>();
+	private Map<Class<? extends Property>, List<Class<? extends Action>>>   actionRelations          = new HashMap<>();
+	private Map<Class<? extends Property>, List<Class<? extends Property>>> propertyRelations        = new HashMap<>();
+	private ActionResponses                                                 secondaryActionResponses = new ActionResponses()
 	{
-		actionNames.put(type, name);
-	}
+		@Override
+		public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
+		{
+			throw new UnsupportedOperationException();
+		}
 
-	private void addProperty(Class<? extends Property> type, String name)
-	{
-		this.propertyNames.put(type, name);
-	}
+		@Override public void onEscapeAction(Character character, EscapeAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onAttackAction(Character character, AttackAction action)
+		{
+			if (!action.hasException()) {
+				for (Map.Entry<Character, Integer> damageDone : action.getDamageDone().entrySet())
+					printer.println(String.format("%s from faction %s attacked character %s from faction %s with %s " +
+									"dealing %d damage.",
+							character.getName(),
+							character.getFaction().getName(),
+							damageDone.getKey().getName(),
+							damageDone.getKey().getFaction().getName(),
+							character.getWeapon().getWeaponName(),
+							damageDone.getValue()));
+				return;
+			}
+		}
+
+		@Override public void onCharacterInformationAction(Character character, CharacterInformationAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onUseItemsAction(Character character, UseItemsAction action)
+		{
+			if (!action.hasException()) {
+				printer.println(String.format("%s from faction %s used the following item(s).", character.getName(),
+						character.getFaction().getName()));
+				for (UsableItem item : action.getItems())
+					printer.println(String.format("\t%30%s %50%s", item.getItemTypeName(), item.getItemTypeDescription()));
+				return;
+			}
+		}
+
+		@Override public void onUseItemsOnAction(Character character, UseItemsOnAction action)
+		{
+			if (!action.hasException()) {
+				printer.println(String.format("%s from faction %s used item '%s' on the following characters:",
+						character.getName(),
+						character.getFaction().getName(),
+						action.getItem().getItemTypeName()));
+				for (Character target : action.getTargets())
+					printer.println(String.format("\t%20%s %20%s", target.getName(), target.getFaction()));
+				return;
+			}
+		}
+
+		@Override public void onEquipAction(Character character, EquipAction action)
+		{
+			if (!action.hasException()) {
+				printer.println(String.format("%s from faction %s equipped the following items.",
+						character.getName(),
+						character.getFaction().getName()));
+				for (EquipableItem item : action.getItems())
+					printer.println(String.format("\t%s", item.getItemTypeName()));
+				return;
+			}
+		}
+
+		@Override public void onUnEquipAction(Character character, UnEquipAction action)
+		{
+			if (!action.hasException()) {
+				printer.println(String.format("%s from faction %s unequipped the following items:",
+						character.getName(),
+						character.getFaction().getName()));
+				for (EquipableItem item : action.getItems())
+					printer.println(String.format("\t%s", item.getItemTypeName()));
+				return;
+			}
+		}
+
+		@Override public void onInspectRoomAction(Character character, InspectRoomAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
+		{
+			if (!action.hasException()) {
+				printer.println(String.format("%s from faction %s opened %s.",
+						character.getName(),
+						character.getFaction().getName(),
+						action.getDoor().getClass().getSimpleName()));
+				return;
+			}
+		}
+
+		@Override public void onCloseDoorAction(Character character, CloseDoorAction action)
+		{
+			if (!action.hasException()) {
+				printer.println(String.format("%s from faction %s closed %s.",
+						character.getName(),
+						character.getFaction().getName(),
+						action.getDoor().getClass().getName()));
+				return;
+			}
+		}
+
+		@Override public void onUseDoorAction(Character character, UseDoorAction action)
+		{
+
+		}
+
+		@Override public void onUseDoorExit(Character character, UseDoorAction action)
+		{
+			if (!action.hasException()) {
+				printer.println(String.format("%s from faction %s exited %s",
+						character.getName(),
+						character.getFaction().getName(),
+						action.getInitialRoom().getRoomName()));
+			}
+		}
+
+		@Override public void onUseDoorEntered(Character character, UseDoorAction action)
+		{
+			if (!action.hasException()) {
+				printer.println(String.format("%s from faction %s entered %s",
+						character.getName(),
+						character.getFaction().getName(),
+						action.getTargetRoom().getRoomName()));
+
+				printer.println(character.getCurrentLocation().getRoomDescription());
+			}
+		}
+
+		@Override public void onInspectDoorAction(Character character, InspectDoorAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onLockLockAction(Character character, LockLockAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onUnlockLockAction(Character character, UnlockLockAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onInspectLockAction(Character character, InspectLockAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onOpenChestAction(Character character, OpenChestAction action)
+		{
+			if (!action.hasException()) {
+				printer.println(String.format("%s from faction %s opened the chest.",
+						character.getName(),
+						character.getFaction().getName()));
+				return;
+			}
+		}
+
+		@Override public void onCloseChestAction(Character character, CloseChestAction action)
+		{
+			if (!action.hasException()) {
+				printer.println(String.format("%s from faction %s successfully closed the chest.",
+						character.getName(),
+						character.getFaction().getName()));
+				return;
+			}
+		}
+
+		@Override public void onInspectChestAction(Character character, InspectChestAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onInspectBackpackAction(Character character, InspectBackpackAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onExpandBackpackAction(Character character, ExpandBackpackAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onDropItemAction(Character character, DropItemAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override public void onTransferItemAction(Character character, TransferItemsAction action)
+		{
+			throw new UnsupportedOperationException();
+		}
+	};
 
 	/**
 	 * Creates a new {@link ConsoleGameInterface}.
@@ -83,6 +278,7 @@ public class ConsoleGameInterface implements GameInterface
 
 		addProperty(BaseCharacter.class, "character");
 		addProperty(BaseRoom.class, "room");
+		addProperty(Floor.class, "floor");
 		addProperty(NorthDoor.class, "north");
 		addProperty(SouthDoor.class, "south");
 		addProperty(EastDoor.class, "east");
@@ -197,9 +393,31 @@ public class ConsoleGameInterface implements GameInterface
 		addPropertyRelation(Chest.class, Lock.class);
 	}
 
-	private Map<Class<? extends Property>, List<Class<? extends Action>>>   actionRelations   = new HashMap<>();
-	private Map<Class<? extends Property>, List<Class<? extends Property>>> propertyRelations = new HashMap<>();
+	public static void main(String[] args) throws Exception
+	{
+		try {
+			GameInterface  gameInterface = new ConsoleGameInterface(new Scanner(System.in), new PrintWriter(System.out, true));
+			Game           game          = new Game(1);
+			RoomController rooms         = game.getRooms();
+			game.addFaction(new Escapees(new HumanPlayer(gameInterface), rooms.get(Coordinate.of(4, 1)), rooms.get(Coordinate.of(4, 5))));
+			game.addFaction(new SecretPolice(new SecretPoliceAI(), rooms.get(Coordinate.of(4, 5))));
+			game.start();
+		} catch (UnknownRoomException e) {
+			System.out.println("Unknown room.");
+			System.out.println(e.getCoordinate().getX());
+			System.out.println(e.getCoordinate().getY());
+		}
+	}
 
+	private void addAction(Class<? extends Action> type, String name)
+	{
+		actionNames.put(type, name);
+	}
+
+	private void addProperty(Class<? extends Property> type, String name)
+	{
+		this.propertyNames.put(type, name);
+	}
 
 	private void addActionRelation(Class<? extends Property> property, Class<? extends Action> action)
 	{
@@ -237,18 +455,18 @@ public class ConsoleGameInterface implements GameInterface
 				"                   | |                                                    \n" +
 				"                   |_|                                                    ");
 
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println("|");
+		printer.println("|");
+		printer.println("|  STORY");
+		printer.println("|");
+		printer.println("|");
 		printer.println();
-		printer.println("       STORY");
-		printer.println();
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println(faction.getStartingMessage());
 		printer.println(faction.getStartingRoom().getRoomDescription());
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println();
 		showInstructions();
 		showCommands();
-		showProperties();
-		showActions();
+		showMembers();
 	}
 
 	/**
@@ -274,7 +492,7 @@ public class ConsoleGameInterface implements GameInterface
 	@Override
 	public void onHighScoreRequest(int score, Outcome outcome, HighScoreResponse response)
 	{
-		printer.println(String.format("You achieved a score of %d in a %d.", score, outcome));
+		printer.println(String.format("You achieved a score of %d in a %s.", score, outcome));
 
 		boolean save;
 		while (true) {
@@ -462,7 +680,8 @@ public class ConsoleGameInterface implements GameInterface
 						}
 					}
 
-					printer.println(String.format("No property %s on property %s.", sections[i], propertyNames.get(currentProperty)));
+					printer.println(String.format("No property %s on property %s.", sections[i], propertyNames.get
+							(currentProperty.getClass())));
 					continue LOOP;
 				}
 
@@ -699,7 +918,7 @@ public class ConsoleGameInterface implements GameInterface
 
 			printer.println(String.format("There are %d properties in the room.", properties.size()));
 			for (Class<? extends Property> property : properties)
-				printer.println(propertyNames.get(property));
+				printer.println(String.format("\t%s", propertyNames.get(property)));
 
 			if (action.hasException())
 				printer.println("Exception occurred.");
@@ -791,6 +1010,21 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	@Override public void onUseDoorAction(Character character, UseDoorAction action)
 	{
+		if (!action.hasException()) {
+			printer.println(String.format("%s entered %s from direction %s.",
+					character.getName(),
+					action.getTargetRoom().getRoomName(),
+					action.getDoor().getDirection().getInverse()));
+
+			printer.println(action.getTargetRoom().getRoomDescription());
+
+			if (character.getFaction() instanceof Escapees) {
+				Escapees escapees = (Escapees) character.getFaction();
+				if (escapees.getEndingRoom() == character.getCurrentLocation())
+					printer.println("You can escape from this room.");
+			}
+		}
+
 		action.onException(DoorClosedException.class, e -> {
 			printer.println(String.format("%s attempted the use %s, but discovered that it's is closed.",
 					character.getName(),
@@ -807,10 +1041,10 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onUseDoorExit(Character character, UseDoorAction action)
 	{
 		if (!action.hasException()) {
-			printer.println(String.format("%s exited %s through %s.",
+			printer.println(String.format("%s exited %s through direction %s.",
 					character.getName(),
 					action.getInitialRoom().getRoomName(),
-					propertyNames.get(action.getDoor().getClass())));
+					action.getDoor().getDirection()));
 		}
 	}
 
@@ -823,10 +1057,10 @@ public class ConsoleGameInterface implements GameInterface
 	@Override public void onUseDoorEntered(Character character, UseDoorAction action)
 	{
 		if (!action.hasException()) {
-			printer.println(String.format("%s entered %s through %s.",
+			printer.println(String.format("%s entered %s from direction %s.",
 					character.getName(),
 					action.getTargetRoom().getRoomName(),
-					propertyNames.get(action.getDoor().getClass())));
+					action.getDoor().getDirection().getInverse()));
 
 			printer.println(character.getCurrentLocation().getRoomDescription());
 		}
@@ -1294,21 +1528,20 @@ public class ConsoleGameInterface implements GameInterface
 
 	private void showInstructions()
 	{
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
-		printer.println();
-		printer.println("       INSTRUCTIONS");
-		printer.println();
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println("|");
+		printer.println("|");
+		printer.println("|  INSTRUCTIONS");
+		printer.println("|");
+		printer.println("|");
 		printer.println();
 
-		printer.println("You interact with the room around you using 'properties' and 'actions'.");
+		printer.println("You interact with the room around you using 'properties' and 'actions'. An example can be found below.");
 		printer.println();
 		printer.println("\tnorth lock inspect");
 		printer.println();
-		printer.println("The above command executes the action 'inspect' on the property 'lock' on the property 'north'.");
-		printer.println("The 'lock' is a property nested inside the 'north' property.");
+		printer.println("The above command executes the action 'inspect' on the property 'lock' on the property " +
+				"'north'. To see all the 'properties' and 'actions' use the 'members' command.");
 		printer.println();
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
 	}
 
 	/**
@@ -1316,82 +1549,77 @@ public class ConsoleGameInterface implements GameInterface
 	 */
 	private void showCommands()
 	{
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println("|");
+		printer.println("|");
+		printer.println("|  COMMANDS");
+		printer.println("|");
+		printer.println("|");
 		printer.println();
-		printer.println("       COMMANDS");
-		printer.println();
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
-		printer.println("\tquit                          Exit the game without saving your progress.");
-		printer.println("\tproperties                    See all the properties you can access in the rooms.");
-		printer.println("\tactions                       See a global list of actions that can be performed.");
+
+
+		printer.println("\tquit                          Exit the game.");
+		printer.println("\tmembers                       See all the actions and properties you can access.");
 		printer.println("\tcommands                      See a list of possible commands.");
 		printer.println("\tinstructions                  Print the game instructions.");
 		printer.println("\thighscores                    Print the highscores.");
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
-	}
-
-	/**
-	 * Show a list of global commands.
-	 */
-	private void showActions()
-	{
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
 		printer.println();
-		printer.println("       ACTIONS");
-		printer.println();
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
-
-
 	}
 
 	/**
 	 * Show the properties available in game.
 	 */
-	private void showProperties()
+	private void showMembers()
 	{
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println("|");
+		printer.println("|");
+		printer.println("|  Members");
+		printer.println("|");
+		printer.println("|");
 		printer.println();
-		printer.println("       PROPERTIES");
-		printer.println();
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
 
 
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printer.println("All members descend from the character.");
+		printer.println();
+
+		printProperty(BaseCharacter.class);
+		printer.println();
 	}
 
-	private void showHighscores()
+	private void printProperty(Class<? extends Property> property)
 	{
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
-		printer.println("Highscores");
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
+		printProperty(property, "");
+	}
+
+	private void printProperty(Class<? extends Property> property, String indent)
+	{
+		printer.println(indent + "property " + propertyNames.get(property));
+		List<Class<? extends Action>> actions = actionRelations.get(property);
+		if (actions != null)
+			for (Class<? extends Action> action : actions)
+				printer.println(indent + "\taction " + actionNames.get(action));
+		List<Class<? extends Property>> properties = propertyRelations.get(property);
+		if (properties != null)
+			for (Class<? extends Property> x : properties)
+				printProperty(x, indent + "\t");
+	}
+
+	private void showHighScores()
+	{
+		printer.println("|");
+		printer.println("|");
+		printer.println("|  High-scores");
+		printer.println("|");
+		printer.println("|");
 		try {
 			HighScoreReader reader = new HighScoreReader(Paths.get("scores.txt"));
 			List<Score>     scores = reader.read();
 
 			for (Score score : scores)
-				printer.println(String.format("%20s %10d %5s", score.getName(), score.getScore(), score.getOutcome()));
+				printer.println(String.format("%-40s %-5d %-5s", score.getName(), score.getScore(), score.getOutcome
+						()));
 		} catch (Exception e) {
 			printer.println("Could not show highscores.");
 		}
-
-		printer.println("------------------------------------------------------------------------------------------------------------------------");
-	}
-
-	/**
-	 * Returns a comma separated string of the names in the provided list of {@link Item}s.
-	 *
-	 * @param items The {@link Item}s.
-	 */
-	private String itemListToString(ImmutableList<? extends ItemType> items)
-	{
-		StringBuilder builder = new StringBuilder();
-		int           size    = items.size();
-		for (int x = 0; x < size; x++) {
-			builder.append(items.get(x).getItemTypeName());
-			if (x != size - 1) builder.append(", ");
-		}
-
-		return builder.toString();
 	}
 
 	/**
@@ -1415,18 +1643,13 @@ public class ConsoleGameInterface implements GameInterface
 					return getInput(message);
 				}
 
-				if (input.equals("properties")) {
-					showProperties();
-					return getInput(message);
-				}
-
-				if (input.equals("actions")) {
-					showActions();
+				if (input.equals("members")) {
+					showMembers();
 					return getInput(message);
 				}
 
 				if (input.equals("highscores")) {
-					showHighscores();
+					showHighScores();
 					return getInput(message);
 				}
 
@@ -1464,226 +1687,4 @@ public class ConsoleGameInterface implements GameInterface
 	{
 		return secondaryActionResponses;
 	}
-
-	private ActionResponses secondaryActionResponses = new ActionResponses()
-	{
-		@Override
-		public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onEscapeAction(Character character, EscapeAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onAttackAction(Character character, AttackAction action)
-		{
-			if (!action.hasException()) {
-				for (Map.Entry<Character, Integer> damageDone : action.getDamageDone().entrySet())
-					printer.println(String.format("%s from faction %s attacked character %s from faction %s with %s " +
-									"dealing %d damage.",
-							character.getName(),
-							character.getFaction().getName(),
-							damageDone.getKey().getName(),
-							damageDone.getKey().getFaction().getName(),
-							character.getWeapon().getWeaponName(),
-							damageDone.getValue()));
-				return;
-			}
-		}
-
-		@Override public void onCharacterInformationAction(Character character, CharacterInformationAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onUseItemsAction(Character character, UseItemsAction action)
-		{
-			if (!action.hasException()) {
-				printer.println(String.format("%s from faction %s used the following item(s).", character.getName(),
-						character.getFaction().getName()));
-				for (UsableItem item : action.getItems())
-					printer.println(String.format("\t%30%s %50%s", item.getItemTypeName(), item.getItemTypeDescription()));
-				return;
-			}
-		}
-
-		@Override public void onUseItemsOnAction(Character character, UseItemsOnAction action)
-		{
-			if (!action.hasException()) {
-				printer.println(String.format("%s from faction %s used item '%s' on the following characters:",
-						character.getName(),
-						character.getFaction().getName(),
-						action.getItem().getItemTypeName()));
-				for (Character target : action.getTargets())
-					printer.println(String.format("\t%20%s %20%s", target.getName(), target.getFaction()));
-				return;
-			}
-		}
-
-		@Override public void onEquipAction(Character character, EquipAction action)
-		{
-			if (!action.hasException()) {
-				printer.println(String.format("%s from faction %s equipped the following items.",
-						character.getName(),
-						character.getFaction().getName()));
-				for (EquipableItem item : action.getItems())
-					printer.println(String.format("\t%s", item.getItemTypeName()));
-				return;
-			}
-		}
-
-		@Override public void onUnEquipAction(Character character, UnEquipAction action)
-		{
-			if (!action.hasException()) {
-				printer.println(String.format("%s from faction %s unequipped the following items:",
-						character.getName(),
-						character.getFaction().getName()));
-				for (EquipableItem item : action.getItems())
-					printer.println(String.format("\t%s", item.getItemTypeName()));
-				return;
-			}
-		}
-
-		@Override public void onInspectRoomAction(Character character, InspectRoomAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
-		{
-			if (!action.hasException()) {
-				printer.println(String.format("%s from faction %s opened %s.",
-						character.getName(),
-						character.getFaction().getName(),
-						action.getDoor().getClass().getSimpleName()));
-				return;
-			}
-		}
-
-		@Override public void onCloseDoorAction(Character character, CloseDoorAction action)
-		{
-			if (!action.hasException()) {
-				printer.println(String.format("%s from faction %s closed %s.",
-						character.getName(),
-						character.getFaction().getName(),
-						action.getDoor().getClass().getName()));
-				return;
-			}
-		}
-
-		@Override public void onUseDoorAction(Character character, UseDoorAction action)
-		{
-
-		}
-
-		@Override public void onUseDoorExit(Character character, UseDoorAction action)
-		{
-			if (!action.hasException()) {
-				printer.println(String.format("%s from faction %s exited %s",
-						character.getName(),
-						character.getFaction().getName(),
-						action.getInitialRoom().getRoomName()));
-			}
-		}
-
-		@Override public void onUseDoorEntered(Character character, UseDoorAction action)
-		{
-			if (!action.hasException()) {
-				printer.println(String.format("%s from faction %s entered %s",
-						character.getName(),
-						character.getFaction().getName(),
-						action.getTargetRoom().getRoomName()));
-
-				printer.println(character.getCurrentLocation().getRoomDescription());
-			}
-		}
-
-		@Override public void onInspectDoorAction(Character character, InspectDoorAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onLockLockAction(Character character, LockLockAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onUnlockLockAction(Character character, UnlockLockAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onInspectLockAction(Character character, InspectLockAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onOpenChestAction(Character character, OpenChestAction action)
-		{
-			if (!action.hasException()) {
-				printer.println(String.format("%s from faction %s opened the chest.",
-						character.getName(),
-						character.getFaction().getName()));
-				return;
-			}
-		}
-
-		@Override public void onCloseChestAction(Character character, CloseChestAction action)
-		{
-			if (!action.hasException()) {
-				printer.println(String.format("%s from faction %s successfully closed the chest.",
-						character.getName(),
-						character.getFaction().getName()));
-				return;
-			}
-		}
-
-		@Override public void onInspectChestAction(Character character, InspectChestAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onInspectBackpackAction(Character character, InspectBackpackAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onExpandBackpackAction(Character character, ExpandBackpackAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onDropItemAction(Character character, DropItemAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override public void onTransferItemAction(Character character, TransferItemsAction action)
-		{
-			throw new UnsupportedOperationException();
-		}
-	};
 }

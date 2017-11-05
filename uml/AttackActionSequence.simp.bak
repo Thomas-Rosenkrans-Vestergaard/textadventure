@@ -67,7 +67,7 @@
       </counter>
       <counter>
         <item-type type-id="" type="AbstractElementGroup" />
-        <value>445</value>
+        <value>447</value>
       </counter>
       <counter>
         <item-type type-id="frame" type="UmlFrame" />

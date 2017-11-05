@@ -2,8 +2,10 @@ package textadventure.characters;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import textadventure.SomePlayer;
 import textadventure.actions.ActionResponses;
 import textadventure.actions.SomeActionResponses;
+import textadventure.combat.SomeFaction;
 import textadventure.items.InventoryFullException;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.wearables.HeadWear;
@@ -21,9 +23,12 @@ public class UnEquipActionTest
 	@Test
 	public void perform() throws Exception
 	{
-		Backpack      backpack        = new Backpack();
-		Room          currentLocation = new BaseRoom(null, null);
-		SomeCharacter character       = new SomeCharacter();
+		Backpack    backpack        = new Backpack();
+		Room        currentLocation = new BaseRoom(null, null);
+		SomeFaction faction         = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
+		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
 		character.setBackpack(backpack);
 		character.setCurrentLocation(currentLocation);
 		HeadWear headWear = new HeadWear()
@@ -78,9 +83,12 @@ public class UnEquipActionTest
 	@Test
 	public void performThrowsInventoryFullException() throws Exception
 	{
-		Backpack      backpack        = new Backpack(0);
-		Room          currentLocation = new BaseRoom(null, null);
-		SomeCharacter character       = new SomeCharacter();
+		Backpack    backpack        = new Backpack(0);
+		Room        currentLocation = new BaseRoom(null, null);
+		SomeFaction faction         = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
+		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
 		character.setBackpack(backpack);
 		character.setCurrentLocation(currentLocation);
 		HeadWear headWear = new HeadWear()

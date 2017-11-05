@@ -384,56 +384,6 @@ public class BaseCharacter extends BaseProperty implements Character
 	}
 
 	/**
-	 * Returns the {@link TorsoWear} worn by the {@link Character}.
-	 *
-	 * @return The {@link TorsoWear} worn by the {@link Character}.
-	 */
-	@Override public TorsoWear getTorsoWear()
-	{
-		return torsoWear;
-	}
-
-	/**
-	 * Returns the {@link Gloves} worn by the {@link Character}.
-	 *
-	 * @return The {@link Gloves} worn by the {@link Character}.
-	 */
-	@Override public Gloves getGloves()
-	{
-		return gloves;
-	}
-
-	/**
-	 * Returns the {@link Gloves} worn by the {@link Character}.
-	 *
-	 * @return The {@link Gloves} worn by the {@link Character}.
-	 */
-	@Override public Pants getPants()
-	{
-		return pants;
-	}
-
-	/**
-	 * Returns the {@link Boots} worn by the {@link Character}.
-	 *
-	 * @return The {@link Boots} worn by the {@link Character}.
-	 */
-	@Override public Boots getBoots()
-	{
-		return boots;
-	}
-
-	/**
-	 * return the {@link Weapon} equipped by the {@link Character}
-	 *
-	 * @return The {@link Weapon} equipped by the {@link Character}
-	 */
-	@Override public Weapon getWeapon()
-	{
-		return weapon;
-	}
-
-	/**
 	 * Sets the {@link HeadWear} worn by the {@link Character}.
 	 *
 	 * @param headWear The {@link HeadWear} to set.
@@ -441,6 +391,16 @@ public class BaseCharacter extends BaseProperty implements Character
 	@Override public void setHeadWear(HeadWear headWear)
 	{
 		this.headWear = headWear;
+	}
+
+	/**
+	 * Returns the {@link TorsoWear} worn by the {@link Character}.
+	 *
+	 * @return The {@link TorsoWear} worn by the {@link Character}.
+	 */
+	@Override public TorsoWear getTorsoWear()
+	{
+		return torsoWear;
 	}
 
 	/**
@@ -454,6 +414,16 @@ public class BaseCharacter extends BaseProperty implements Character
 	}
 
 	/**
+	 * Returns the {@link Gloves} worn by the {@link Character}.
+	 *
+	 * @return The {@link Gloves} worn by the {@link Character}.
+	 */
+	@Override public Gloves getGloves()
+	{
+		return gloves;
+	}
+
+	/**
 	 * Sets the {@link Gloves} worn by the {@link Character}.
 	 *
 	 * @param gloves The {@link Gloves} to set.
@@ -461,6 +431,16 @@ public class BaseCharacter extends BaseProperty implements Character
 	@Override public void setGloves(Gloves gloves)
 	{
 		this.gloves = gloves;
+	}
+
+	/**
+	 * Returns the {@link Gloves} worn by the {@link Character}.
+	 *
+	 * @return The {@link Gloves} worn by the {@link Character}.
+	 */
+	@Override public Pants getPants()
+	{
+		return pants;
 	}
 
 	/**
@@ -474,6 +454,16 @@ public class BaseCharacter extends BaseProperty implements Character
 	}
 
 	/**
+	 * Returns the {@link Boots} worn by the {@link Character}.
+	 *
+	 * @return The {@link Boots} worn by the {@link Character}.
+	 */
+	@Override public Boots getBoots()
+	{
+		return boots;
+	}
+
+	/**
 	 * Sets the {@link Boots} worn by the {@link Character}.
 	 *
 	 * @param boots The {@link Boots} to set.
@@ -481,6 +471,16 @@ public class BaseCharacter extends BaseProperty implements Character
 	@Override public void setBoots(Boots boots)
 	{
 		this.boots = boots;
+	}
+
+	/**
+	 * return the {@link Weapon} equipped by the {@link Character}
+	 *
+	 * @return The {@link Weapon} equipped by the {@link Character}
+	 */
+	@Override public Weapon getWeapon()
+	{
+		return weapon;
 	}
 
 	/**

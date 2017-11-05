@@ -32,11 +32,11 @@ import static textadventure.highscore.Outcome.WIN;
  * An implementation of the {@link Player} interface that can play the side of the
  * {@link textadventure.combat.SecretPolice} {@link Faction}.
  */
-public class SecretPoliceComputerPlayer implements Player
+public class SecretPoliceAI implements Player
 {
 
 	/**
-	 * The names given to {@link Character}s of the {@link SecretPoliceComputerPlayer}.
+	 * The names given to {@link Character}s of the {@link SecretPoliceAI}.
 	 */
 	private static String[] names = new String[]{
 			"Hyeon-Ju Sung-Soo",
@@ -55,11 +55,163 @@ public class SecretPoliceComputerPlayer implements Player
 			"Joon Jun",
 			"Su-Bin Il-Seong",
 	};
-
 	/**
-	 * The {@link Character}s controlled by the {@link SecretPoliceComputerPlayer}.
+	 * The {@link ActionResponses} instance receiving notifications about {@link textadventure.actions.Action}s
+	 * occurring within the sight of any {@link Character}s controlled by the {@link SecretPoliceAI}.
 	 */
-	private Set<Character> characters = new HashSet<>();
+	private final  ActionResponses secondaryActionResponses = new ActionResponses()
+	{
+
+		@Override
+		public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
+		{
+
+		}
+
+		@Override public void onEscapeAction(Character character, EscapeAction action)
+		{
+
+		}
+
+		@Override public void onAttackAction(Character character, AttackAction action)
+		{
+
+		}
+
+		@Override public void onCharacterInformationAction(Character character, CharacterInformationAction action)
+		{
+
+		}
+
+		@Override public void onUseItemsAction(Character character, UseItemsAction action)
+		{
+
+		}
+
+		@Override public void onUseItemsOnAction(Character character, UseItemsOnAction action)
+		{
+
+		}
+
+		@Override public void onEquipAction(Character character, EquipAction action)
+		{
+
+		}
+
+		@Override public void onUnEquipAction(Character character, UnEquipAction action)
+		{
+
+		}
+
+		@Override public void onInspectRoomAction(Character character, InspectRoomAction action)
+		{
+
+		}
+
+		@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
+		{
+
+		}
+
+		@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
+		{
+
+		}
+
+		@Override public void onCloseDoorAction(Character character, CloseDoorAction action)
+		{
+
+		}
+
+		@Override public void onUseDoorAction(Character character, UseDoorAction action)
+		{
+
+		}
+
+		@Override public void onUseDoorExit(Character character, UseDoorAction action)
+		{
+
+		}
+
+		@Override public void onUseDoorEntered(Character character, UseDoorAction action)
+		{
+
+		}
+
+		@Override public void onInspectDoorAction(Character character, InspectDoorAction action)
+		{
+
+		}
+
+		@Override public void onLockLockAction(Character character, LockLockAction action)
+		{
+
+		}
+
+		@Override public void onUnlockLockAction(Character character, UnlockLockAction action)
+		{
+
+		}
+
+		@Override public void onInspectLockAction(Character character, InspectLockAction action)
+		{
+
+		}
+
+		@Override public void onOpenChestAction(Character character, OpenChestAction action)
+		{
+
+		}
+
+		@Override public void onCloseChestAction(Character character, CloseChestAction action)
+		{
+
+		}
+
+		@Override public void onInspectChestAction(Character character, InspectChestAction action)
+		{
+
+		}
+
+		@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
+		{
+
+		}
+
+		@Override public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
+		{
+
+		}
+
+		@Override public void onInspectBackpackAction(Character character, InspectBackpackAction action)
+		{
+
+		}
+
+		@Override public void onExpandBackpackAction(Character character, ExpandBackpackAction action)
+		{
+
+		}
+
+		@Override public void onDropItemAction(Character character, DropItemAction action)
+		{
+
+		}
+
+		@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
+		{
+
+		}
+
+		@Override public void onTransferItemAction(Character character, TransferItemsAction action)
+		{
+
+		}
+	};
+	/**
+	 * The {@link Character}s controlled by the {@link SecretPoliceAI}.
+	 */
+	private        Set<Character>  characters               = new HashSet<>();
 
 	/**
 	 * Events called when the {@link Player} should create their {@link Character}s.
@@ -147,7 +299,7 @@ public class SecretPoliceComputerPlayer implements Player
 	 */
 	@Override public void onActionRequest(Character character, ActionRequestCallback callback)
 	{
-
+		callback.respond(new NothingAction());
 	}
 
 	/**
@@ -495,158 +647,4 @@ public class SecretPoliceComputerPlayer implements Player
 	{
 		return secondaryActionResponses;
 	}
-
-	/**
-	 * The {@link ActionResponses} instance receiving notifications about {@link textadventure.actions.Action}s
-	 * occurring within the sight of any {@link Character}s controlled by the {@link SecretPoliceComputerPlayer}.
-	 */
-	private final ActionResponses secondaryActionResponses = new ActionResponses()
-	{
-
-		@Override
-		public void select(Select select) throws SelectionAmountException, UnknownIndexException, UnknownOptionException, SelectResponseException
-		{
-
-		}
-
-		@Override public void onEscapeAction(Character character, EscapeAction action)
-		{
-
-		}
-
-		@Override public void onAttackAction(Character character, AttackAction action)
-		{
-
-		}
-
-		@Override public void onCharacterInformationAction(Character character, CharacterInformationAction action)
-		{
-
-		}
-
-		@Override public void onUseItemsAction(Character character, UseItemsAction action)
-		{
-
-		}
-
-		@Override public void onUseItemsOnAction(Character character, UseItemsOnAction action)
-		{
-
-		}
-
-		@Override public void onEquipAction(Character character, EquipAction action)
-		{
-
-		}
-
-		@Override public void onUnEquipAction(Character character, UnEquipAction action)
-		{
-
-		}
-
-		@Override public void onInspectRoomAction(Character character, InspectRoomAction action)
-		{
-
-		}
-
-		@Override public void onInspectFloorAction(Character character, InspectFloorAction action)
-		{
-
-		}
-
-		@Override public void onOpenDoorAction(Character character, OpenDoorAction action)
-		{
-
-		}
-
-		@Override public void onCloseDoorAction(Character character, CloseDoorAction action)
-		{
-
-		}
-
-		@Override public void onUseDoorAction(Character character, UseDoorAction action)
-		{
-
-		}
-
-		@Override public void onUseDoorExit(Character character, UseDoorAction action)
-		{
-
-		}
-
-		@Override public void onUseDoorEntered(Character character, UseDoorAction action)
-		{
-
-		}
-
-		@Override public void onInspectDoorAction(Character character, InspectDoorAction action)
-		{
-
-		}
-
-		@Override public void onLockLockAction(Character character, LockLockAction action)
-		{
-
-		}
-
-		@Override public void onUnlockLockAction(Character character, UnlockLockAction action)
-		{
-
-		}
-
-		@Override public void onInspectLockAction(Character character, InspectLockAction action)
-		{
-
-		}
-
-		@Override public void onOpenChestAction(Character character, OpenChestAction action)
-		{
-
-		}
-
-		@Override public void onCloseChestAction(Character character, CloseChestAction action)
-		{
-
-		}
-
-		@Override public void onInspectChestAction(Character character, InspectChestAction action)
-		{
-
-		}
-
-		@Override public void onTakeItemFromChestAction(Character character, TakeItemFromChestAction action)
-		{
-
-		}
-
-		@Override public void onDepositItemsIntoChestAction(Character character, DepositItemsIntoChestAction action)
-		{
-
-		}
-
-		@Override public void onInspectBackpackAction(Character character, InspectBackpackAction action)
-		{
-
-		}
-
-		@Override public void onExpandBackpackAction(Character character, ExpandBackpackAction action)
-		{
-
-		}
-
-		@Override public void onDropItemAction(Character character, DropItemAction action)
-		{
-
-		}
-
-		@Override public void onPickUpItemAction(Character character, PickUpItemAction action)
-		{
-
-		}
-
-		@Override public void onTransferItemAction(Character character, TransferItemsAction action)
-		{
-
-		}
-	};
 }

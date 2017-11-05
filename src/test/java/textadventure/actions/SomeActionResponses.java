@@ -83,6 +83,16 @@ public class SomeActionResponses implements ActionResponses
 
 	}
 
+	@Override public void onUseDoorExit(Character character, UseDoorAction action)
+	{
+
+	}
+
+	@Override public void onUseDoorEntered(Character character, UseDoorAction action)
+	{
+
+	}
+
 	@Override public void onInspectDoorAction(Character character, InspectDoorAction action)
 	{
 

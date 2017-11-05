@@ -1,5 +1,6 @@
 package textadventure.combat;
 
+import com.google.common.collect.ImmutableList;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.characters.Character;
@@ -97,6 +98,21 @@ public class Escapees extends AbstractFaction
 				dead++;
 
 		return dead == characters.size();
+	}
+
+	/**
+	 * Returns the {@link Character}s that can still be played.
+	 *
+	 * @return The {@link Character}s that can still be played.
+	 */
+	@Override public ImmutableList<Character> getActiveCharacters()
+	{
+		ImmutableList.Builder<Character> active = new ImmutableList.Builder<>();
+		for (Character character : characters)
+			if (!escapedCharacters.contains(character) && character.getStatus() == Character.Status.ALIVE)
+				active.add(character);
+
+		return active.build();
 	}
 
 	/**

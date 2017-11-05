@@ -2,10 +2,15 @@ package textadventure.characters;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import textadventure.SomePlayer;
 import textadventure.actions.ActionResponses;
 import textadventure.actions.SomeActionResponses;
+import textadventure.combat.SomeFaction;
+import textadventure.items.NoUsesLeftException;
 import textadventure.items.UsableItem;
+import textadventure.items.UseTimeException;
 import textadventure.items.backpack.Backpack;
+import textadventure.rooms.SomeRoom;
 import textadventure.select.*;
 
 import static org.mockito.Matchers.same;
@@ -17,7 +22,7 @@ public class UseItemsActionTest
 	{
 		UsableItem usableItem = new UsableItem()
 		{
-			@Override public void use(Character character) throws Exception
+			@Override public void use(Character character) throws NoUsesLeftException, UseTimeException
 			{
 
 			}
@@ -38,9 +43,13 @@ public class UseItemsActionTest
 			}
 		};
 
-		UsableItem    mockUsableItem = Mockito.spy(usableItem);
-		SomeCharacter character      = new SomeCharacter();
-		Backpack      backpack       = new Backpack();
+		UsableItem  mockUsableItem = Mockito.spy(usableItem);
+		SomeFaction faction        = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
+		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
+		Backpack backpack = new Backpack();
+		character.setCurrentLocation(new SomeRoom());
 		backpack.addItem(mockUsableItem);
 		character.setBackpack(backpack);
 

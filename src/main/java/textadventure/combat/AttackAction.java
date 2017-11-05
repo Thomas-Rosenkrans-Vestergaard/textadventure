@@ -102,7 +102,7 @@ public class AttackAction extends AbstractAction
 		int                                     optionIndex = 0;
 		ImmutableSet.Builder<Option<Character>> builder     = new ImmutableSet.Builder<>();
 		for (Character character : room.getCharacters())
-			if (character.getFaction() != faction)
+			if (character.getFaction() != faction && character.getStatus() == Character.Status.ALIVE)
 				builder.add(new BaseOption<>(optionIndex++, character.getName(), "", character));
 
 		return builder.build();

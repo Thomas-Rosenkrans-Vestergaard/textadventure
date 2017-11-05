@@ -2,12 +2,15 @@ package textadventure.items.chest;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import textadventure.SomePlayer;
 import textadventure.actions.ActionResponses;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
 import textadventure.characters.SomeCharacter;
+import textadventure.combat.SomeFaction;
 import textadventure.lock.Lock;
+import textadventure.rooms.SomeRoom;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.same;
@@ -17,8 +20,12 @@ public class OpenChestActionTest
 	@Test
 	public void perform() throws Exception
 	{
-		Character character = new SomeCharacter();
-		Chest     chest     = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.UNLOCKED));
+		SomeFaction faction = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
+		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
+		character.setCurrentLocation(new SomeRoom());
+		Chest chest = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.UNLOCKED));
 
 		assertEquals(Chest.State.CLOSED, chest.getState());
 		OpenChestAction action = new OpenChestAction(chest);
@@ -40,8 +47,12 @@ public class OpenChestActionTest
 	@Test
 	public void performThrowsChestLockedException() throws Exception
 	{
-		Character character = new SomeCharacter();
-		Chest     chest     = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.LOCKED));
+		SomeFaction faction = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
+		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
+		character.setCurrentLocation(new SomeRoom());
+		Chest chest = new Chest(10, Chest.State.CLOSED, new Lock(null, Lock.State.LOCKED));
 
 		assertEquals(Chest.State.CLOSED, chest.getState());
 		OpenChestAction action = new OpenChestAction(chest);

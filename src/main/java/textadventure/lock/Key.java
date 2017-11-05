@@ -20,7 +20,7 @@ public class Key implements Item
 	 * Creates a new {@link Key}.
 	 *
 	 * @param code The code representing the {@link Key}. The {@link Key} can only open {@link Lock}s with matching
-	 *                codes.
+	 *             codes.
 	 */
 	public Key(String code)
 	{

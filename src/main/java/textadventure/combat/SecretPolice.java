@@ -1,5 +1,6 @@
 package textadventure.combat;
 
+import com.google.common.collect.ImmutableList;
 import textadventure.Game;
 import textadventure.Player;
 import textadventure.characters.Character;
@@ -41,7 +42,12 @@ public class SecretPolice extends AbstractFaction
 	 */
 	@Override public boolean hasWon(Game state)
 	{
-		return state.getFaction(Escapees.class).getCharacters(Character.Status.ALIVE).size() == 0;
+		try {
+			Escapees escapees = state.getFaction(Escapees.class);
+			return escapees.getCharacters().size() == escapees.getCharacters(Character.Status.DEAD).size();
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	/**
@@ -53,7 +59,17 @@ public class SecretPolice extends AbstractFaction
 	 */
 	@Override public boolean hasLost(Game state)
 	{
-		return getCharacters().size() == getCharacters(Character.Status.DEAD).size();
+		return state.getNumberOfActiveFactions() == 1;
+	}
+
+	/**
+	 * Returns the {@link Character}s that can still be played.
+	 *
+	 * @return The {@link Character}s that can still be played.
+	 */
+	@Override public ImmutableList<Character> getActiveCharacters()
+	{
+		return getCharacters(Character.Status.ALIVE);
 	}
 
 	/**

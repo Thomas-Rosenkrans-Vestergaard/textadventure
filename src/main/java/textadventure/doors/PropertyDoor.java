@@ -18,13 +18,20 @@ public abstract class PropertyDoor extends BaseProperty implements Door
 	private Door door;
 
 	/**
+	 * The {@link Direction} the {@link PropertyDoor} is facing.
+	 */
+	private Direction direction;
+
+	/**
 	 * Creates a new {@link PropertyDoor}.
 	 *
-	 * @param door The internal {@link Door} instance.
+	 * @param door      The internal {@link Door} instance.
+	 * @param direction The {@link Direction} the {@link PropertyDoor} is facing.
 	 */
-	public PropertyDoor(Door door)
+	public PropertyDoor(Door door, Direction direction)
 	{
 		this.door = door;
+		this.direction = direction;
 
 		Lock lock = getLock();
 
@@ -35,6 +42,8 @@ public abstract class PropertyDoor extends BaseProperty implements Door
 
 		putActionFactory(LockLockAction.class, () -> new LockLockAction(lock));
 		putActionFactory(UnlockLockAction.class, () -> new UnlockLockAction(lock));
+
+		putProperty(lock);
 	}
 
 	/**
@@ -90,16 +99,6 @@ public abstract class PropertyDoor extends BaseProperty implements Door
 	}
 
 	/**
-	 * Returns the other {@link Room}s the {@link Door} connects.
-	 *
-	 * @return The other {@link Room}s the {@link Door} connects.
-	 */
-	@Override public Room getRoomB()
-	{
-		return door.getRoomB();
-	}
-
-	/**
 	 * Sets one of the {@link Room}s the {@link Door} connects.
 	 *
 	 * @param a One of the {@link Room}s the {@link Door} connects.
@@ -107,6 +106,16 @@ public abstract class PropertyDoor extends BaseProperty implements Door
 	@Override public void setRoomA(Room a)
 	{
 		door.setRoomA(a);
+	}
+
+	/**
+	 * Returns the other {@link Room}s the {@link Door} connects.
+	 *
+	 * @return The other {@link Room}s the {@link Door} connects.
+	 */
+	@Override public Room getRoomB()
+	{
+		return door.getRoomB();
 	}
 
 	/**
@@ -129,5 +138,15 @@ public abstract class PropertyDoor extends BaseProperty implements Door
 	@Override public Room getInverseRoom(Room room)
 	{
 		return door.getInverseRoom(room);
+	}
+
+	/**
+	 * Returns the {@link Direction} the {@link PropertyDoor} is facing.
+	 *
+	 * @return The {@link Direction} the {@link PropertyDoor} is facing.
+	 */
+	public Direction getDirection()
+	{
+		return this.direction;
 	}
 }

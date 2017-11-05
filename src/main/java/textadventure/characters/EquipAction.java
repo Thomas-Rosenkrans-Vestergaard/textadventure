@@ -6,11 +6,13 @@ import textadventure.actions.AbstractAction;
 import textadventure.actions.ActionResponses;
 import textadventure.items.EquipableItem;
 import textadventure.items.Item;
-import textadventure.items.NotEquipableException;
 import textadventure.items.backpack.Backpack;
 import textadventure.items.weapons.Weapon;
 import textadventure.items.wearables.*;
-import textadventure.select.*;
+import textadventure.select.BaseSelect;
+import textadventure.select.Option;
+import textadventure.select.Select;
+import textadventure.select.SelectResponseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,8 +117,6 @@ public class EquipAction extends AbstractAction
 
 		} catch (SelectResponseException e) {
 			setException(e.getCause());
-		} catch (NotEnoughOptionsException e) {
-			setException(new NotEquipableException());
 		} catch (Exception e) {
 			setException(e);
 		} finally {

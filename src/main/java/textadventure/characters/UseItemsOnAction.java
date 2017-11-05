@@ -64,6 +64,8 @@ public class UseItemsOnAction extends AbstractAction
 			setException(e);
 		} finally {
 			responses.onUseItemsOnAction(character, this);
+			alertOtherPlayers(character.getCurrentLocation(), character.getFaction().getLeader(),
+					secondaryResponses -> responses.onUseItemsOnAction(character, this));
 		}
 	}
 

@@ -2,15 +2,18 @@ package textadventure.items.chest;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import textadventure.SomePlayer;
 import textadventure.actions.ActionResponses;
 import textadventure.actions.ActionTest;
 import textadventure.actions.SomeActionResponses;
 import textadventure.characters.Character;
 import textadventure.characters.SomeCharacter;
+import textadventure.combat.SomeFaction;
 import textadventure.items.Item;
 import textadventure.items.SomeItem;
 import textadventure.items.backpack.Backpack;
 import textadventure.lock.Lock;
+import textadventure.lock.SomeLock;
 import textadventure.select.*;
 
 import static org.junit.Assert.*;
@@ -64,10 +67,13 @@ public class DepositItemsIntoChestActionTest
 	@Test
 	public void performThrowsChestClosedException() throws Exception
 	{
-		Backpack      backpack  = new Backpack();
+		Backpack    backpack = new Backpack();
+		SomeFaction faction  = new SomeFaction();
+		faction.setPlayer(new SomePlayer());
 		SomeCharacter character = new SomeCharacter();
+		character.setFaction(faction);
 		character.setBackpack(backpack);
-		Chest chest = new Chest(10, Chest.State.CLOSED, null);
+		Chest chest = new Chest(10, Chest.State.CLOSED, new SomeLock());
 
 		backpack.addItem(new SomeItem(), 0);
 
